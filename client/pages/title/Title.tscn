@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhw1mbgjp7dby"]
+
+[ext_resource type="Script" path="res://pages/title/Title.gd" id="1_d2gdb"]
+
+[node name="Title" type="Node2D"]
+script = ExtResource("1_d2gdb")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 94.0
+offset_top = 90.0
+offset_right = 231.0
+offset_bottom = 113.0
+text = "Platform Racing 4"
