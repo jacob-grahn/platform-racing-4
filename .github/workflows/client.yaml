@@ -1,0 +1,32 @@
+name: Platform Racing 4 Client
+run-name: ${{ github.actor }} is building a new version of Platform Racing 4 Client 🚀
+on: [push]
+jobs:
+  export-web:
+    name: Export Web
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.2.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Build Image
+        run: |
+          cd client
+          docker build -t pr4 --file docker/web.dockerfile .
+          if [ "$CI_COMMIT_REF_NAME" = "$CI_DEFAULT_BRANCH" ]; then
+            tag="$(date +%F-%H-%M)-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
+            docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+            docker tag pr4 ghcr.io/platform-racing-4/client/web:latest
+            docker push ghcr.io/platform-racing-4/client/web:latest
+            docker tag pr4 ghcr.io/platform-racing-4/client/web:$tag
+            docker push ghcr.io/platform-racing-4/client/web:$tag
+          fi
