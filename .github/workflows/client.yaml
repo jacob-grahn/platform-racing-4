@@ -20,9 +20,8 @@ jobs:
         run: |
           cd client
           docker build -t pr4 --file docker/web.dockerfile .
-          if [ "$CI_COMMIT_REF_NAME" = "$CI_DEFAULT_BRANCH" ]; then
-            tag="$(date +%F-%H-%M)-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-            docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+          if [ "$GITHUB_REF_NAME" = "main" ]; then
+            tag="$(date +%F-%H-%M)-$GITHUB_REF_NAME-$GITHUB_SHA"
             docker tag pr4 ghcr.io/platform-racing-4/client/web:latest
             docker push ghcr.io/platform-racing-4/client/web:latest
             docker tag pr4 ghcr.io/platform-racing-4/client/web:$tag
