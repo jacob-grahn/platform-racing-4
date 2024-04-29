@@ -22,8 +22,8 @@ jobs:
           docker build -t pr4 --file docker/web.dockerfile .
           if [ "$GITHUB_REF_NAME" = "main" ]; then
             tag="$(date +%F-%H-%M)-$GITHUB_REF_NAME-$GITHUB_SHA"
-            docker tag pr4 ghcr.io/platform-racing-4/client/web:latest
-            docker push ghcr.io/platform-racing-4/client/web:latest
-            docker tag pr4 ghcr.io/platform-racing-4/client/web:$tag
-            docker push ghcr.io/platform-racing-4/client/web:$tag
+            docker tag pr4 ghcr.io/jacob-grahn/platform-racing-4/client/web:latest
+            docker push ghcr.io/jacob-grahn/platform-racing-4/client/web:latest
+            docker tag pr4 ghcr.io/jacob-grahn/platform-racing-4/client/web:$tag
+            docker push ghcr.io/jacob-grahn/platform-racing-4/client/web:$tag
           fi
