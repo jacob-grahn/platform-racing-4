@@ -1,0 +1,1 @@
+docker compose --project-name platform-racing-4 down

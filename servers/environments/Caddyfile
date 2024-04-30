@@ -1,0 +1,24 @@
+platformracing.com {
+    
+    # api
+    route /api/* {
+        uri strip_prefix api
+        reverse_proxy http://prod-api:8080
+    }
+
+    # web
+    reverse_proxy /* http://prod-web:80
+}
+
+
+dev.platformracing.com {
+
+     # api
+    route /api/* {
+        uri strip_prefix api
+        reverse_proxy http://dev-api:8080
+    }
+
+    # web
+    reverse_proxy /* http://dev-web:80
+}
