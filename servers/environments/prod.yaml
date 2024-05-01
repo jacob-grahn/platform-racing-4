@@ -1,5 +1,5 @@
 services:
 
   prod-web:
-    image: ghcr.io/jacob-grahn/platform-racing-4-client-web:2024-04-29-04-59-main-f0a58eaf5f964e62430bdc862cef2bdf665bc2db
+    image: ghcr.io/jacob-grahn/platform-racing-4-client-web:#CLIENT_WEB_TAG
     restart: always
