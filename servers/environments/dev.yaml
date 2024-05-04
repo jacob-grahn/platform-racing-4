@@ -3,3 +3,7 @@ services:
   dev-web:
     image: ghcr.io/jacob-grahn/platform-racing-4-client-web:#CLIENT_WEB_TAG
     restart: always
+  
+  dev-api:
+    image: ghcr.io/jacob-grahn/platform-racing-4-api:#CLIENT_WEB_TAG
+    restart: always
