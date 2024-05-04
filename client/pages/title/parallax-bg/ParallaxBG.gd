@@ -11,7 +11,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_move($Hay4, -delta * 16)
+	_move($Hay4, -delta * 10)
 	_move($Hay3, -delta * 32)
 	_move($Hay2, -delta * 100)
 	_move($Hay1, -delta * 1500)
