@@ -27,20 +27,12 @@ function find_newest_tag {
     echo $newest_tag
 }
 
-# Example usage:
-# inject_tag "dev.yaml" "#CLIENT_WEB_TAG" "tag"
-function inject_tag {
-    local file="$1"
-    local match="$2"
-    local tag="$3"
-    local dir="../environments"
-    cat "$dir/$file" | sed "s/$match/$tag/g" > "$dir/$file.rendered"
-}
-
 # dev env
-inject_tag "dev.yaml" "#CLIENT_WEB_TAG" "$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-client-web" ".*-main-.*")"
-inject_tag "dev.yaml" "#API_TAG" "$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-api" ".*-main-.*")"
+export CLIENT_WEB_TAG=$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-client-web" ".*-main-.*")
+export API_TAG=$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-api" ".*-main-.*")
+cat ../environments/dev.yaml | envsubst > ../environments/dev.yaml.rendered
 
 # prod env
-inject_tag "prod.yaml" "#CLIENT_WEB_TAG" "$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-client-web" ".*-release-.*")"
-inject_tag "prod.yaml" "#API_TAG" "$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-api" ".*-release-.*")"
+export CLIENT_WEB_TAG=$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-client-web" ".*-release-.*")
+export API_TAG=$(find_newest_tag "ghcr.io/jacob-grahn/platform-racing-4-api" ".*-release-.*")
+cat ../environments/prod.yaml | envsubst > ../environments/prod.yaml.rendered
