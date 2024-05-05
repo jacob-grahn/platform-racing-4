@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://d64ctr6phhc6"]
+
+[ext_resource type="Script" path="res://pages/title/voter/Voter.gd" id="1_ar0mc"]
+[ext_resource type="PackedScene" uid="uid://cyk7fowybqedw" path="res://pages/title/voter/Answer.tscn" id="2_ku3th"]
+
+[node name="Voter" type="Node2D"]
+script = ExtResource("1_ar0mc")
+
+[node name="BG" type="Polygon2D" parent="."]
+scale = Vector2(6.62, 2.58)
+color = Color(0.133333, 0.14902, 0.180392, 1)
+polygon = PackedVector2Array(0, 0, 100, 0, 100, 100, 0, 100)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 95.0
+offset_top = 11.0
+offset_right = 570.0
+offset_bottom = 34.0
+text = "What's next? You decide! (You've got 10 votes per ip per hour)"
+horizontal_alignment = 1
+
+[node name="Answer0" parent="." instance=ExtResource("2_ku3th")]
+position = Vector2(15, 43)
+
+[node name="Answer1" parent="." instance=ExtResource("2_ku3th")]
+position = Vector2(230, 43)
+
+[node name="Answer2" parent="." instance=ExtResource("2_ku3th")]
+position = Vector2(446, 43)
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

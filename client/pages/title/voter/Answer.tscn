@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cyk7fowybqedw"]
+
+[node name="Answer" type="Node2D"]
+
+[node name="BG" type="Polygon2D" parent="."]
+scale = Vector2(2, 2)
+color = Color(1, 1, 0.776471, 0.235294)
+polygon = PackedVector2Array(0, 0, 100, 0, 100, 100, 0, 100)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 9.0
+offset_top = 7.0
+offset_right = 191.0
+offset_bottom = 111.0
+text = "Level editor (barely working)"
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="."]
+offset_left = 66.0
+offset_top = 157.0
+offset_right = 132.0
+offset_bottom = 188.0
+text = "Vote +1"
+
+[node name="Votes" type="Label" parent="."]
+offset_left = 23.0
+offset_top = 125.0
+offset_right = 178.0
+offset_bottom = 148.0
+text = "Votes: 42"
