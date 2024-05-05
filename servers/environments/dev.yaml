@@ -7,3 +7,9 @@ services:
   dev-api:
     image: ghcr.io/jacob-grahn/platform-racing-4-api:${API_TAG}
     restart: always
+    volumes:
+      - dev-api-data:/data
+
+volumes:
+  dev-api-data:
+    driver: local

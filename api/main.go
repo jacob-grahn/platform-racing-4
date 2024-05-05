@@ -19,7 +19,7 @@ type PollVote struct {
 }
 
 func setupDatabase() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("polls.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("data/pr4-api.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
