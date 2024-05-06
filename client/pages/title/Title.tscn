@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhw1mbgjp7dby"]
+[gd_scene load_steps=7 format=3 uid="uid://bhw1mbgjp7dby"]
 
 [ext_resource type="Script" path="res://pages/title/Title.gd" id="1_d2gdb"]
 [ext_resource type="FontFile" uid="uid://b8dxmqion7w1k" path="res://fonts/gwibble/GWIBBLE_.TTF" id="2_a4giu"]
@@ -7,7 +7,10 @@
 
 [sub_resource type="Theme" id="Theme_jjqe5"]
 default_font = ExtResource("2_a4giu")
-default_font_size = 64
+default_font_size = 128
+
+[sub_resource type="Theme" id="Theme_84xtq"]
+default_font_size = 32
 
 [node name="Title" type="Node2D"]
 script = ExtResource("1_d2gdb")
@@ -24,4 +27,13 @@ theme = SubResource("Theme_jjqe5")
 text = "Platform Racing 4"
 
 [node name="Voter" parent="." instance=ExtResource("4_kwrnx")]
-position = Vector2(107, 172)
+position = Vector2(107, 198)
+scale = Vector2(1.5, 1.5)
+
+[node name="GameButton" type="Button" parent="."]
+offset_left = 128.0
+offset_top = 624.0
+offset_right = 339.0
+offset_bottom = 655.0
+theme = SubResource("Theme_84xtq")
+text = "Play this awesome game!!!"

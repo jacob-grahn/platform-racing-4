@@ -1,6 +1,7 @@
 extends Node2D
 
 const Title = preload("res://pages/title/Title.tscn")
+const Game = preload("res://pages/game/Game.tscn")
 var current_scene: Node2D
 
 
