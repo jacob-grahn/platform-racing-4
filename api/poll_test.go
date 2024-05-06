@@ -25,7 +25,7 @@ func setupTestEnvironment() (*gin.Engine, *gorm.DB) {
 	// Set up Gin router
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
-	SetupRoutes(router, db)
+	SetupPollRoutes(router, db)
 	return router, db
 }
 
