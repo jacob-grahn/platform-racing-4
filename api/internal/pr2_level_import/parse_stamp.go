@@ -1,8 +1,8 @@
 package pr2_level_import
 
 type StampData struct {
-	ImageHeight float64
-	ImageWidth  float64
+	ImageHeight float64 `json:"imageheight"`
+	ImageWidth  float64 `json:"imagewidth"`
 }
 
 /*

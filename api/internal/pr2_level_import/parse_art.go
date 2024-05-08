@@ -3,35 +3,35 @@ package pr2_level_import
 import "strconv"
 
 type ArtObject struct {
-	X          int
-	Y          int
-	Width      int
-	Height     int
-	GID        int
-	Polyline   []Point
-	Properties LineProperties
+	X          int            `json:"x"`
+	Y          int            `json:"y"`
+	Width      int            `json:"width"`
+	Height     int            `json:"height"`
+	GID        int            `json:"gid"`
+	Polyline   []Point        `json:"polyline"`
+	Properties LineProperties `json:"properties"`
 }
 
 type Point struct {
-	X int
-	Y int
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
 type LineProperties struct {
-	Color     string
-	Thickness int
-	Mode      string
+	Color     string `json:"color"`
+	Thickness int    `json:"thickness"`
+	Mode      string `json:"mode"`
 }
 
 type ObjectGroup struct {
-	DrawOrder string
-	Name      string
-	Objects   []ArtObject
-	OffsetX   int
-	OffsetY   int
-	Opacity   int
-	Type      string
-	Visible   bool
+	DrawOrder string      `json:"draworder"`
+	Name      string      `json:"name"`
+	Objects   []ArtObject `json:"objects"`
+	OffsetX   int         `json:"offsetx"`
+	OffsetY   int         `json:"offsety"`
+	Opacity   int         `json:"opacity"`
+	Type      string      `json:"type"`
+	Visible   bool        `json:"visible"`
 }
 
 func parseArt(artArr []string) ObjectGroup {

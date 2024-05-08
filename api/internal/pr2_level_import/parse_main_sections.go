@@ -3,11 +3,11 @@ package pr2_level_import
 import "strings"
 
 type PR2LevelSections struct {
-	FileVersion string
-	FadeColor   string
-	Blocks      []string
-	ArtLayers   [][]string
-	BG          string
+	FileVersion string     `json:"fileversion"`
+	FadeColor   string     `json:"fadecolor"`
+	Blocks      []string   `json:"blocks"`
+	ArtLayers   [][]string `json:"artlayers"`
+	BG          string     `json:"bg"`
 }
 
 func parseMainSections(str string) PR2LevelSections {

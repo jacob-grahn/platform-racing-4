@@ -7,27 +7,27 @@ import (
 )
 
 type TileLayer struct {
-	Opacity int
-	StartX  int
-	StartY  int
-	Type    string
-	Name    string
-	Visible bool
-	OffsetX int
-	OffsetY int
-	Width   int
-	Height  int
-	X       int
-	Y       int
-	Chunks  []Chunk
+	Opacity int     `json:"opacity"`
+	StartX  int     `json:"startx"`
+	StartY  int     `json:"starty"`
+	Type    string  `json:"type"`
+	Name    string  `json:"name"`
+	Visible bool    `json:"visible"`
+	OffsetX int     `json:"offsetx"`
+	OffsetY int     `json:"offsety"`
+	Width   int     `json:"width"`
+	Height  int     `json:"height"`
+	X       int     `json:"x"`
+	Y       int     `json:"y"`
+	Chunks  []Chunk `json:"chunks"`
 }
 
 type Chunk struct {
-	Data   []int
-	Width  int
-	Height int
-	X      int
-	Y      int
+	Data   []int `json:"data"`
+	Width  int   `json:"width"`
+	Height int   `json:"height"`
+	X      int   `json:"x"`
+	Y      int   `json:"y"`
 }
 
 func parseBlocks(blockArr []string, chunkSize int) TileLayer {

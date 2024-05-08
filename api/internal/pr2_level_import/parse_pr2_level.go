@@ -6,18 +6,18 @@ import (
 )
 
 type PR2Level struct {
-	Items       string
-	Blocks      []string
-	ArtLayers   [][]string
-	Note        string
-	Gravity     string
-	Song        string
-	LevelId     string
-	Data        string
-	FileVersion string
-	FadeColor   string
-	BG          string
-	Title       string
+	Items       string     `json:"items"`
+	Blocks      []string   `json:"blocks"`
+	ArtLayers   [][]string `json:"artlayers"`
+	Note        string     `json:"note"`
+	Gravity     string     `json:"gravity"`
+	Song        string     `json:"song"`
+	LevelId     string     `json:"levelid"`
+	Data        string     `json:"data"`
+	FileVersion string     `json:"fileversion"`
+	FadeColor   string     `json:"fadecolor"`
+	BG          string     `json:"bg"`
+	Title       string     `json:"title"`
 }
 
 func parsePr2Level(pr2LevelStrRaw string) PR2Level {

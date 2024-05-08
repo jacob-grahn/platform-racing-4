@@ -13,23 +13,23 @@ import (
 type Layer interface{}
 
 type PR4Level struct {
-	BackgroundColor string
-	Width           int
-	Height          int
-	Infinite        bool
-	Layers          []Layer
-	Orientation     string
-	TileHeight      int
-	TileWidth       int
-	TiledVersion    string
-	Properties      map[string]interface{}
-	Tilesets        []Tileset
+	BackgroundColor string                 `json:"backgroundcolor"`
+	Width           int                    `json:"width"`
+	Height          int                    `json:"height"`
+	Infinite        bool                   `json:"infinite"`
+	Layers          []Layer                `json:"layers"`
+	Orientation     string                 `json:"orientation"`
+	TileHeight      int                    `json:"tileheight"`
+	TileWidth       int                    `json:"tilewidth"`
+	TiledVersion    string                 `json:"tiledversion"`
+	Properties      map[string]interface{} `json:"properties"`
+	Tilesets        []Tileset              `json:"tilesets"`
 }
 
 type Tileset struct {
-	FirstGid int
-	Name     string
-	Tiles    map[string]StampData
+	FirstGid int                  `json:"firstgid"`
+	Name     string               `json:"name"`
+	Tiles    map[string]StampData `json:"tiles"`
 }
 
 const baseURL = "https://pr2hub.com/levels"
