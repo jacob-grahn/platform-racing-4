@@ -31,9 +31,17 @@ position = Vector2(107, 198)
 scale = Vector2(1.5, 1.5)
 
 [node name="GameButton" type="Button" parent="."]
-offset_left = 128.0
-offset_top = 624.0
-offset_right = 339.0
-offset_bottom = 655.0
+offset_left = 391.0
+offset_top = 620.0
+offset_right = 708.0
+offset_bottom = 673.0
 theme = SubResource("Theme_84xtq")
-text = "Play this awesome game!!!"
+text = "Import & Play Level!"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 138.0
+offset_top = 616.0
+offset_right = 365.0
+offset_bottom = 672.0
+theme_override_font_sizes/font_size = 32
+text = "50815"

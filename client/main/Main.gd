@@ -1,12 +1,12 @@
 extends Node2D
 
-const Title = preload("res://pages/title/Title.tscn")
-const Game = preload("res://pages/game/Game.tscn")
+const TitlePage = preload("res://pages/title/Title.tscn")
+const GamePage = preload("res://pages/game/Game.tscn")
 var current_scene: Node2D
 
 
 func _ready():
-	set_scene("Title")
+	set_scene("TitlePage")
 
 
 func set_scene(scene_name: String):

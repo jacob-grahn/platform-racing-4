@@ -11,7 +11,7 @@ func _ready():
 
 func init(_question: String, answers_array: Array):
 	question = _question
-	var error = $HTTPRequest.request("https://platformracing.com/api/results?question=" + question.uri_encode())
+	var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/results?question=" + question.uri_encode())
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 	else:
@@ -37,6 +37,8 @@ func _http_request_completed(result, response_code, headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
+	if !response:
+		return
 	if response.get("error", ''):
 		return
 	for answer_str in response.answers:
@@ -53,7 +55,7 @@ func _on_voted(answer_str: String):
 	
 	# Send vote
 	var body = JSON.new().stringify({"question": question, "answer": answer_str})
-	var error = $HTTPRequest.request("https://platformracing.com/api/vote", [], HTTPClient.METHOD_POST, body)
+	var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/vote", [], HTTPClient.METHOD_POST, body)
 	if error != OK:
 		push_error("An error occurred sending vote request.")
 	else:
