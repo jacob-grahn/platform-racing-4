@@ -42,7 +42,7 @@ git clone https://github.com/jacob-grahn/platform-racing-4.git ~/platform-racing
 
 # Set up cron job to run sync-from-repo.sh every 10 minutes
 echo "Setting up cron job..."
-(crontab -l 2>/dev/null; echo "*/5 * * * * cd ~/platform-racing-4/servers/scripts && ./sync-from-repo.sh") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * cd ~/platform-racing-4/servers/scripts && bash sync-from-repo.sh &> cron.log") | crontab -
 
 EOF
 
