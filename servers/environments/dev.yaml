@@ -9,6 +9,8 @@ services:
     restart: always
     volumes:
       - dev-api-data:/data
+    environment:
+      DB_PATH: data/pr4-api.db
 
 volumes:
   dev-api-data:

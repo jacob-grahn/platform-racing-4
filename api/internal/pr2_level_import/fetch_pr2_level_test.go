@@ -16,3 +16,10 @@ func TestFetchPr2Level(t *testing.T) {
 		t.Errorf("Fetched content does not contain expected substring '%s'", expectedSubstring)
 	}
 }
+
+func TestFetchPr2Level_Non200StatusCode(t *testing.T) {
+	_, err := fetchPr2Level(123) // Assume 123 is an ID that results in a non-200 response
+	if err == nil {
+		t.Error("Expected an error for non-200 HTTP status code, but got none")
+	}
+}

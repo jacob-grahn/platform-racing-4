@@ -20,6 +20,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test
+        run: |
+          cd api
+          go test ./...
       - name: Build Image
         run: |
           cd api

@@ -46,7 +46,7 @@ func SetupPR2LevelImportRoutes(router *gin.Engine, db *gorm.DB) {
 
 		result, err := importPr2Level(id)
 		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Poll not found"})
+			c.JSON(http.StatusNotFound, gin.H{"error": "Level not found"})
 			return
 		}
 		c.JSON(http.StatusOK, result)
@@ -62,10 +62,10 @@ func importPr2Level(levelId int) (interface{}, error) {
 	pr2Level := parsePr2Level(pr2LevelStr)
 	pr4Level := pr2ToPr4(pr2Level)
 
-	err = saveLevel(levelId, pr4Level)
+	/*err = saveLevel(levelId, pr4Level)
 	if err != nil {
 		return nil, fmt.Errorf("failed to save PR2 level: %w", err)
-	}
+	}*/
 
 	return pr4Level, nil
 }
