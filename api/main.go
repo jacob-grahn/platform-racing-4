@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jacob-grahn/platform-racing-4/api/internal/pr2_level_import"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -19,5 +20,6 @@ func main() {
 	db := setupDatabase()
 	router := gin.Default()
 	SetupPollRoutes(router, db)
+	pr2_level_import.SetupPR2LevelImportRoutes(router, db)
 	router.Run(":8080")
 }
