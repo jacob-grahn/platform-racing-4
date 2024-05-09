@@ -31,8 +31,8 @@ func main() {
 
 	// router config
 	router := gin.Default()
-	router.ForwardedByClientIP = true
-	router.SetTrustedProxies([]string{"127.0.0.1", "10.0.0.0/8"})
+	//router.ForwardedByClientIP = true
+	//router.SetTrustedProxies([]string{"127.0.0.1", "10.0.0.0/8"})
 
 	// setup routes
 	SetupPollRoutes(router, db)
