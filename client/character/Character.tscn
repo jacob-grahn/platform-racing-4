@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4b6khd33tysp"]
+
+[ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3x50x"]
+radius = 6.125
+height = 24.75
+
+[node name="Character" type="CharacterBody2D"]
+script = ExtResource("1_phdif")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(500, -200)
+scale = Vector2(8, 8)
+shape = SubResource("CapsuleShape2D_3x50x")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(503, -185)
+scale = Vector2(0.711628, 0.698413)
+polygon = PackedVector2Array(9, -128, 49, -112, 15, -86, 15, -59, 128, -85, 131, -70, 23, -41, 22, 42, 76, 107, 43, 122, -3, 51, -56, 115, -77, 73, -22, 39, -20, -28, -84, -43, -75, -64, -15, -56, -15, -81, -66, -103, -19, -124, -66, -155, -48, -182, -26, -164, -18, -193, -5, -169, 25, -190, 21, -163, 56, -176, 44, -153)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(500, -200)

@@ -20,6 +20,17 @@ config/icon="res://icon.svg"
 Jukebox="*res://singletons/jukebox/Jukebox.tscn"
 Helpers="*res://singletons/helpers/Helpers.tscn"
 
+[display]
+
+window/size/viewport_width=4096
+window/size/viewport_height=2160
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[physics]
+
+2d/default_gravity=2000.0
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
