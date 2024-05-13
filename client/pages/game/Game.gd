@@ -9,12 +9,16 @@ var tile_behaviors: Tiles = Tiles.new()
 func _ready():
 	tile_behaviors.init_defaults()
 	
-	#$Character.active = true
-	$HTTPRequest.request_completed.connect(self._http_request_completed)
-	if pr2_level_id:
-		var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/pr2/level/" + pr2_level_id)
-		if error != OK:
-			push_error("An error occurred in the HTTP request.")
+	if !pr2_level_id || pr2_level_id == '0':
+		activate()
+	
+	else:
+		$TileMap.clear()
+		$HTTPRequest.request_completed.connect(self._http_request_completed)
+		if pr2_level_id:
+			var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/pr2/level/" + pr2_level_id)
+			if error != OK:
+				push_error("An error occurred in the HTTP request.")
 
 
 func _http_request_completed(result, response_code, headers, body):
@@ -42,5 +46,9 @@ func _http_request_completed(result, response_code, headers, body):
 			if tile_type == 11:
 				$Character.position = Vector2(coords.x * 128, coords.y * 128)
 	
-	
+	activate()
+
+
+func activate():
+	tile_behaviors.activate(self)
 	$Character.active = true

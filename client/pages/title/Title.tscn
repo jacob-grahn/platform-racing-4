@@ -38,6 +38,14 @@ offset_bottom = 673.0
 theme = SubResource("Theme_84xtq")
 text = "Import & Play Level!"
 
+[node name="GearButton" type="Button" parent="."]
+offset_left = 744.0
+offset_top = 619.0
+offset_right = 1061.0
+offset_bottom = 672.0
+theme = SubResource("Theme_84xtq")
+text = "New Block!"
+
 [node name="TextEdit" type="TextEdit" parent="."]
 offset_left = 138.0
 offset_top = 616.0
