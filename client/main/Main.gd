@@ -13,4 +13,5 @@ func set_scene(scene_name: String):
 	if current_scene:
 		current_scene.queue_free()
 	current_scene = self[scene_name].instantiate()
+	current_scene.name = scene_name
 	add_child(current_scene)

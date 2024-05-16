@@ -29,7 +29,7 @@ window/stretch/aspect="expand"
 
 [physics]
 
-2d/default_gravity=2400.0
+2d/default_gravity=2600.0
 
 [rendering]
 

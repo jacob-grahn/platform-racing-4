@@ -23,33 +23,37 @@ offset_left = 117.0
 offset_top = 57.0
 offset_right = 748.0
 offset_bottom = 126.0
+scale = Vector2(3, 3)
 theme = SubResource("Theme_jjqe5")
 text = "Platform Racing 4"
 
 [node name="Voter" parent="." instance=ExtResource("4_kwrnx")]
-position = Vector2(107, 198)
-scale = Vector2(1.5, 1.5)
+position = Vector2(111, 506)
+scale = Vector2(3, 3)
 
 [node name="GameButton" type="Button" parent="."]
-offset_left = 391.0
-offset_top = 620.0
-offset_right = 708.0
-offset_bottom = 673.0
+offset_left = 957.0
+offset_top = 1386.0
+offset_right = 1274.0
+offset_bottom = 1439.0
+scale = Vector2(3, 3)
 theme = SubResource("Theme_84xtq")
 text = "Import & Play Level!"
 
 [node name="GearButton" type="Button" parent="."]
-offset_left = 744.0
-offset_top = 619.0
-offset_right = 1061.0
-offset_bottom = 672.0
+offset_left = 232.0
+offset_top = 1763.0
+offset_right = 784.0
+offset_bottom = 1816.0
+scale = Vector2(3, 3)
 theme = SubResource("Theme_84xtq")
-text = "New Block!"
+text = "You have the power (to spin things)"
 
 [node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 138.0
-offset_top = 616.0
-offset_right = 365.0
-offset_bottom = 672.0
+offset_left = 174.0
+offset_top = 1388.0
+offset_right = 401.0
+offset_bottom = 1444.0
+scale = Vector2(3, 3)
 theme_override_font_sizes/font_size = 32
 text = "50815"

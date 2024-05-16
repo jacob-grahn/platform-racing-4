@@ -2,6 +2,7 @@ extends Node2D
 class_name Game
 
 static var pr2_level_id
+static var game: Game
 
 var tile_behaviors: Tiles = Tiles.new()
 
@@ -19,6 +20,8 @@ func _ready():
 			var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/pr2/level/" + pr2_level_id)
 			if error != OK:
 				push_error("An error occurred in the HTTP request.")
+	
+	Game.game = self
 
 
 func _http_request_completed(result, response_code, headers, body):
@@ -52,3 +55,7 @@ func _http_request_completed(result, response_code, headers, body):
 func activate():
 	tile_behaviors.activate(self)
 	$Character.active = true
+
+
+func _exit_tree():
+	Game.game = null
