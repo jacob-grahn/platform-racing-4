@@ -14,6 +14,9 @@ var active = false
 var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
+# Used to carry the player along with rotating platforms
+var rotating_platform_velocity: Vector2 = Vector2(0, 0)
+
 # list of incopereal tile rids that are overlapping this character's area
 var incoporeal_rids = []
 
@@ -47,9 +50,6 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, delta * TRACTION * 0.8)
 	
-	#
-	move_and_slide()
-	
 	# Add friction
 	velocity = velocity * (1 - (FRICTION * delta))
 	
@@ -57,8 +57,17 @@ func _physics_process(delta):
 	velocity += phantom_velocity
 	phantom_velocity = phantom_velocity * phantom_velocity_decay
 	
+	# interact with tiles
 	interact_with_incoporeal_tiles()
 	interact_with_solid_tiles()
+	
+	#
+	position += rotating_platform_velocity * delta * 1
+	velocity += rotating_platform_velocity * delta * 20
+	rotating_platform_velocity = Vector2(0, 0)
+	
+	#
+	move_and_slide()
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
@@ -88,30 +97,64 @@ func interact_with_solid_tiles():
 	if !collision:
 		return
 		
-	var collider = collision.get_collider()
-	if collider.get_class() != "TileMap":
+	var tilemap = collision.get_collider()
+	if tilemap.get_class() != "TileMap":
 		return
 	
 	var normal = collision.get_normal()
 	var rid = collision.get_collider_rid()
-	var coords = collider.get_coords_for_body_rid(rid)
-	var atlas_coords = collider.get_cell_atlas_coords(0, coords)
+	var coords = tilemap.get_coords_for_body_rid(rid)
+	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	var tile_type = atlas_coords.x + (atlas_coords.y * 10)
 	var game = Game.game
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:
-			game.tile_behaviors.on("left", tile_type, self, collider, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, collider, coords)
+			game.tile_behaviors.on("left", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
 		else:
-			game.tile_behaviors.on("right", tile_type, self, collider, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, collider, coords)
+			game.tile_behaviors.on("right", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
 	else:
 		if normal.y > 0:
-			game.tile_behaviors.on("bottom", tile_type, self, collider, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, collider, coords)
-			game.tile_behaviors.on("bump", tile_type, self, collider, coords)
+			game.tile_behaviors.on("bottom", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("bump", tile_type, self, tilemap, coords)
 		else:
-			game.tile_behaviors.on("top", tile_type, self, collider, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, collider, coords)
-			game.tile_behaviors.on("stand", tile_type, self, collider, coords)
+			game.tile_behaviors.on("top", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
+			game.tile_behaviors.on("stand", tile_type, self, tilemap, coords)
+		
+	# Account for rotating tiles
+	if tilemap.get_parent() is RotationController:
+		var rotation_controller = tilemap.get_parent()
+		var tile_position = tilemap.to_global(coords * 128 + Vector2i(64, 64))
+		rotating_platform_velocity = calculate_velocity(rotation_controller.position, tile_position, rotation_controller.rotation_velocity)
+		game.get_node('BlockPoint').position = tile_position
+		game.get_node('PlayerPoint').position = tile_position + rotating_platform_velocity / 10
+		
+		
+# Function to calculate the tangential velocity at a subject point
+# due to rotation around an origin point.
+func calculate_velocity(origin_point, subject_point, rotation_velocity):
+	# Calculate the direction from the origin to the subject
+	var direction = subject_point - origin_point
+	
+	# Calculate the radius of the rotation
+	var radius = direction.length()
+	
+	# Calculate the angle of the direction vector
+	var angle = direction.angle()
+	
+	# Calculate the new angle by adding 90 degrees (π/2 radians)
+	# to make the velocity vector perpendicular to the radius
+	var new_angle = angle + PI / 2
+	#var new_angle = angle
+	
+	# Calculate the velocity components using the new angle
+	# Note: rotation_velocity is assumed to be in radians per second
+	var vx = rotation_velocity * radius * cos(new_angle)
+	var vy = rotation_velocity * radius * sin(new_angle)
+	
+	# Return the velocity as a Vector2
+	return Vector2(vx, vy)

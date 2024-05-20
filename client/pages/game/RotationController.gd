@@ -1,4 +1,5 @@
 extends Node2D
+class_name RotationController
 
 var target: Node2D
 var rotation_velocity: float = 0
