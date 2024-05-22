@@ -1,4 +1,4 @@
-class_name BehaviorGroup
+class_name Tile
 
 var top = []
 var left = []

@@ -1,25 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=5 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_424wm"]
 radius = 3.125
-height = 22.25
+height = 7.25
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o4m3e"]
+radius = 3.5
+height = 22.5
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_bf8be"]
+polygon = PackedVector2Array(0, -164, 15, -48, -22, -46)
 
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_phdif")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -88)
+[node name="ShortShape" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(1, -33)
 scale = Vector2(8, 8)
 shape = SubResource("CapsuleShape2D_424wm")
+disabled = true
+
+[node name="TallShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -88)
+scale = Vector2(8, 8)
+shape = SubResource("CapsuleShape2D_o4m3e")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 position = Vector2(-1, -88)
 scale = Vector2(8, 8)
 shape = SubResource("CapsuleShape2D_424wm")
@@ -31,3 +45,6 @@ polygon = PackedVector2Array(9, -128, 49, -112, 15, -86, 15, -59, 128, -85, 131,
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -79)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_bf8be")

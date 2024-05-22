@@ -1,14 +1,22 @@
 extends CharacterBody2D
 
-
 const SPEED = 1000.0
 const JUMP_VELOCITY = -1600.0
 const TRACTION = 2500
 const FRICTION = 0.1
+const LIGHTBREAK_SPEED = 300000.0
+
+@onready var short_shape = $ShortShape
+@onready var tall_shape = $TallShape
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
+var lightbreak_from: Vector2i # used by light blocks to track when to start lightbreak
+var lightbreak_from_cooldown: float
+var lightbreak_direction: Vector2
+var is_lightbreaking: bool = false
+var control_vector: Vector2
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -29,22 +37,27 @@ func _ready():
 func _physics_process(delta):
 	if !active:
 		return
-		
+	
+	# default to standing
+	var crouched = false
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
+	
+	# Inputs
+	control_vector = Input.get_vector("left", "right", "up", "down")
 
 	# Handle jump.
-	if Input.is_action_pressed("ui_up") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
+	if Input.is_action_pressed("jump") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
 		velocity.y += JUMP_VELOCITY
 	
 	# Lame super jump
-	if Input.is_action_pressed("ui_down") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
+	if Input.is_action_pressed("down") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
 		velocity.y += JUMP_VELOCITY * 1.5
 	
-	var direction = Input.get_axis("ui_left", "ui_right")
-	var target_speed = direction * SPEED
-	if direction:
+	var target_speed = control_vector.x * SPEED
+	if control_vector.x != 0:
 		if (target_speed > 0 && target_speed > velocity.x) || target_speed < 0 && target_speed < velocity.x:
 			velocity.x = move_toward(velocity.x, target_speed, delta * TRACTION)
 	else:
@@ -65,6 +78,23 @@ func _physics_process(delta):
 	position += rotating_platform_velocity * delta * 1
 	velocity += rotating_platform_velocity * delta * 20
 	rotating_platform_velocity = Vector2(0, 0)
+	
+	# lightbreak
+	if lightbreak_from_cooldown > 0:
+		lightbreak_from_cooldown -= delta
+		if lightbreak_from_cooldown <= 0:
+			lightbreak_from = Vector2(0, 0)
+			
+	if is_lightbreaking:
+		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
+		crouched = true
+		if (control_vector + lightbreak_direction).length() < 0.5:
+			is_lightbreaking = false
+			lightbreak_from = Vector2(0, 0)
+	
+	# change hitbox if crouched
+	short_shape.disabled = !crouched
+	tall_shape.disabled = crouched
 	
 	#
 	move_and_slide()
