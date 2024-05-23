@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="1_n1imr"]
 
-[node name="TileLight" type="Node2D"]
+[node name="LightDisplay" type="Node2D"]
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(2, 2)

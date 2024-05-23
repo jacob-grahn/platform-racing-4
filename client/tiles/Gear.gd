@@ -14,7 +14,7 @@ func activate(game):
 		var rotation_controller = RotationController.new()
 		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(64, 64)
 		game.add_child(rotation_controller)
-		game.move_child(rotation_controller, 0)
+		game.move_child(rotation_controller, 4)
 		
 		# Create sub tilemap
 		var sub_tile_map = TileMap.new()

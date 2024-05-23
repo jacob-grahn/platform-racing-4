@@ -8,15 +8,20 @@ const LIGHTBREAK_SPEED = 300000.0
 
 @onready var short_shape = $ShortShape
 @onready var tall_shape = $TallShape
+@onready var light = $Light
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
+var control_vector: Vector2
+
+#
 var lightbreak_from: Vector2i # used by light blocks to track when to start lightbreak
+var lightbreak_setup: Vector2i
 var lightbreak_from_cooldown: float
 var lightbreak_direction: Vector2
+var lightbreak_input_primed: bool = false
 var is_lightbreaking: bool = false
-var control_vector: Vector2
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -56,6 +61,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("down") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
 		velocity.y += JUMP_VELOCITY * 1.5
 	
+	# Move left / right
 	var target_speed = control_vector.x * SPEED
 	if control_vector.x != 0:
 		if (target_speed > 0 && target_speed > velocity.x) || target_speed < 0 && target_speed < velocity.x:
@@ -70,34 +76,58 @@ func _physics_process(delta):
 	velocity += phantom_velocity
 	phantom_velocity = phantom_velocity * phantom_velocity_decay
 	
-	# interact with tiles
-	interact_with_incoporeal_tiles()
-	interact_with_solid_tiles()
-	
 	#
 	position += rotating_platform_velocity * delta * 1
 	velocity += rotating_platform_velocity * delta * 20
 	rotating_platform_velocity = Vector2(0, 0)
 	
-	# lightbreak
+	# lightbreak cooldown
 	if lightbreak_from_cooldown > 0:
 		lightbreak_from_cooldown -= delta
 		if lightbreak_from_cooldown <= 0:
 			lightbreak_from = Vector2(0, 0)
-			
+	
+	# lightbreak
 	if is_lightbreaking:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		crouched = true
 		if (control_vector + lightbreak_direction).length() < 0.5:
-			is_lightbreaking = false
-			lightbreak_from = Vector2(0, 0)
+			_end_lightbreak()
+	
+	# safetey net to get out of failed lightbreak setups
+	if !is_lightbreaking && lightbreak_setup == Vector2i(0, 0) && Game.game.brightness != 1.0:
+		_end_lightbreak()
+	
+	# glow when lightbreaking
+	if Game.game.brightness != 1.0:
+		var perc = -(1 - (Game.game.brightness * (1/Game.game.lightbreak_brightness)))
+		light.enabled = true
+		light.energy = 1 - perc
+	else:
+		light.enabled = false
+	
+	# use crouch hitbox if not moving up
+	if velocity.y >= 0:
+		crouched = true
 	
 	# change hitbox if crouched
 	short_shape.disabled = !crouched
 	tall_shape.disabled = crouched
 	
+	# interact with tiles
+	interact_with_incoporeal_tiles()
+	interact_with_solid_tiles()
+	
 	#
 	move_and_slide()
+
+
+func _end_lightbreak():
+	is_lightbreaking = false
+	lightbreak_from = Vector2(0, 0)
+	lightbreak_setup = Vector2(0, 0)
+	lightbreak_input_primed = false
+	Game.game.target_brightness = 1.0
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
@@ -118,7 +148,7 @@ func interact_with_incoporeal_tiles():
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
-		Game.game.tile_behaviors.on("area", tile_type, self, tilemap, coords)
+		Game.game.tiles.on("area", tile_type, self, tilemap, coords)
 	
 
 # Interact with tiles like walls, arrows, etc
@@ -131,6 +161,9 @@ func interact_with_solid_tiles():
 	if tilemap.get_class() != "TileMap":
 		return
 	
+	if is_lightbreaking:
+		_end_lightbreak()
+	
 	var normal = collision.get_normal()
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
@@ -140,20 +173,20 @@ func interact_with_solid_tiles():
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:
-			game.tile_behaviors.on("left", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
+			game.tiles.on("left", tile_type, self, tilemap, coords)
+			game.tiles.on("any_side", tile_type, self, tilemap, coords)
 		else:
-			game.tile_behaviors.on("right", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
+			game.tiles.on("right", tile_type, self, tilemap, coords)
+			game.tiles.on("any_side", tile_type, self, tilemap, coords)
 	else:
 		if normal.y > 0:
-			game.tile_behaviors.on("bottom", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("bump", tile_type, self, tilemap, coords)
+			game.tiles.on("bottom", tile_type, self, tilemap, coords)
+			game.tiles.on("any_side", tile_type, self, tilemap, coords)
+			game.tiles.on("bump", tile_type, self, tilemap, coords)
 		else:
-			game.tile_behaviors.on("top", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("any_side", tile_type, self, tilemap, coords)
-			game.tile_behaviors.on("stand", tile_type, self, tilemap, coords)
+			game.tiles.on("top", tile_type, self, tilemap, coords)
+			game.tiles.on("any_side", tile_type, self, tilemap, coords)
+			game.tiles.on("stand", tile_type, self, tilemap, coords)
 		
 	# Account for rotating tiles
 	if tilemap.get_parent() is RotationController:
