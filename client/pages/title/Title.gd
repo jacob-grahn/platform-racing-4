@@ -3,7 +3,7 @@ extends Node2D
 
 func _ready():
 	Jukebox.play('noodle-town-4')
-	$Voter.init('2024/05/16', ['Lightbreaking', 'Barely functional block editor', 'Another new block?'])
+	$Voter.init('2024/05/24', ['Sun Lightbreaking', 'Moon Lightbreaking', 'Firefly Lightbreaking'])
 	$GameButton.pressed.connect(_on_game_pressed)
 	$GearButton.pressed.connect(_on_gear_pressed)
 

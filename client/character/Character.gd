@@ -9,19 +9,18 @@ const LIGHTBREAK_SPEED = 300000.0
 @onready var short_shape = $ShortShape
 @onready var tall_shape = $TallShape
 @onready var light = $Light
+@onready var camera = $Camera
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
 var control_vector: Vector2
 
-#
-var lightbreak_from: Vector2i # used by light blocks to track when to start lightbreak
-var lightbreak_setup: Vector2i
-var lightbreak_from_cooldown: float
-var lightbreak_direction: Vector2
+# Lightbreak
+var lightbreak_direction: Vector2 = Vector2(0, 0)
+var lightbreak_windup: float = 0
 var lightbreak_input_primed: bool = false
-var is_lightbreaking: bool = false
+var lightbreak_src_tile: Vector2i
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -82,29 +81,31 @@ func _physics_process(delta):
 	rotating_platform_velocity = Vector2(0, 0)
 	
 	# lightbreak cooldown
-	if lightbreak_from_cooldown > 0:
-		lightbreak_from_cooldown -= delta
-		if lightbreak_from_cooldown <= 0:
-			lightbreak_from = Vector2(0, 0)
+	if lightbreak_windup > 0:
+		lightbreak_windup -= delta
+		if lightbreak_windup <= 0:
+			lightbreak_src_tile = Vector2i(0, 0)
+			lightbreak_input_primed = false
+	
+	# manage character light
+	if lightbreak_windup > 0 || lightbreak_direction.length() > 0:
+		light.enabled = true
+		if lightbreak_direction.length() > 0:
+			light.energy = 0.5
+			#camera.zoom = Vector2(0.8, 0.8)
+		else:
+			light.energy = lightbreak_windup / 2
+			#camera.zoom = Vector2(1 - lightbreak_windup / 10, 1 - lightbreak_windup / 10) 
+	else:
+		light.enabled = false
+		#camera.zoom = Vector2(1, 1)
 	
 	# lightbreak
-	if is_lightbreaking:
+	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		crouched = true
 		if (control_vector + lightbreak_direction).length() < 0.5:
 			_end_lightbreak()
-	
-	# safetey net to get out of failed lightbreak setups
-	if !is_lightbreaking && lightbreak_setup == Vector2i(0, 0) && Game.game.brightness != 1.0:
-		_end_lightbreak()
-	
-	# glow when lightbreaking
-	if Game.game.brightness != 1.0:
-		var perc = -(1 - (Game.game.brightness * (1/Game.game.lightbreak_brightness)))
-		light.enabled = true
-		light.energy = 1 - perc
-	else:
-		light.enabled = false
 	
 	# use crouch hitbox if not moving up
 	if velocity.y >= 0:
@@ -116,18 +117,18 @@ func _physics_process(delta):
 	
 	# interact with tiles
 	interact_with_incoporeal_tiles()
-	interact_with_solid_tiles()
+	var hit_something = interact_with_solid_tiles()
+	
+	# end lightbreak if you hit a wall
+	if hit_something && lightbreak_direction.length() > 0:
+		_end_lightbreak()
 	
 	#
 	move_and_slide()
 
 
 func _end_lightbreak():
-	is_lightbreaking = false
-	lightbreak_from = Vector2(0, 0)
-	lightbreak_setup = Vector2(0, 0)
-	lightbreak_input_primed = false
-	Game.game.target_brightness = 1.0
+	lightbreak_direction = Vector2(0, 0)
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
@@ -152,17 +153,14 @@ func interact_with_incoporeal_tiles():
 	
 
 # Interact with tiles like walls, arrows, etc
-func interact_with_solid_tiles():
+func interact_with_solid_tiles() -> bool:
 	var collision = get_last_slide_collision()
 	if !collision:
-		return
+		return false
 		
 	var tilemap = collision.get_collider()
 	if tilemap.get_class() != "TileMap":
-		return
-	
-	if is_lightbreaking:
-		_end_lightbreak()
+		return false
 	
 	var normal = collision.get_normal()
 	var rid = collision.get_collider_rid()
@@ -195,6 +193,8 @@ func interact_with_solid_tiles():
 		rotating_platform_velocity = calculate_velocity(rotation_controller.position, tile_position, rotation_controller.rotation_velocity)
 		game.get_node('BlockPoint').position = tile_position
 		game.get_node('PlayerPoint').position = tile_position + rotating_platform_velocity / 10
+	
+	return true
 		
 		
 # Function to calculate the tangential velocity at a subject point

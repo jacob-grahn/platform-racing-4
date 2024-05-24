@@ -5,7 +5,5 @@
 [node name="LightDisplay" type="Node2D"]
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(2, 2)
 energy = 0.5
-shadow_enabled = true
 texture = ExtResource("1_n1imr")

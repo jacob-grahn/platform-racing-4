@@ -41,13 +41,13 @@ theme = SubResource("Theme_84xtq")
 text = "Import & Play Level!"
 
 [node name="GearButton" type="Button" parent="."]
-offset_left = 232.0
-offset_top = 1763.0
-offset_right = 784.0
-offset_bottom = 1816.0
+offset_left = 498.0
+offset_top = 1661.0
+offset_right = 763.0
+offset_bottom = 1725.0
 scale = Vector2(3, 3)
 theme = SubResource("Theme_84xtq")
-text = "You have the power (to spin things)"
+text = "play"
 
 [node name="TextEdit" type="TextEdit" parent="."]
 offset_left = 174.0

@@ -4,12 +4,7 @@ class_name Game
 static var pr2_level_id
 static var game: Game
 
-@onready var canvas_modulate = $CanvasModulate
-
 var tiles: Tiles = Tiles.new()
-var brightness: float = 1.0
-var target_brightness: float = 1.0
-var lightbreak_brightness: float = 0.5
 var target_zoom: float = 1.0
 
 
@@ -61,16 +56,6 @@ func _http_request_completed(result, response_code, headers, body):
 func activate():
 	tiles.activate(self)
 	$Character.active = true
-
-
-func _process(_delta):
-	if brightness != target_brightness:
-		var dist = target_brightness - brightness
-		if abs(dist) < 0.01:
-			brightness = target_brightness
-		else:
-			brightness += dist * 3 * _delta
-		canvas_modulate.color = Color(brightness, brightness, brightness)
 
 
 func _exit_tree():
