@@ -1,9 +1,14 @@
 extends Tile
 class_name LightTile
 
+const SUN = "sun"
+const MOON = "moon"
+const FIREFLY = "firefly"
+
 var LightDisplay: PackedScene = preload("res://tiles/lights/LightDisplay.tscn")
 var display_color: Color = Color("ffffff")
 var atlas_coords: Vector2i
+var lightbreak_type: String
 
 
 func init():
@@ -46,6 +51,7 @@ func start_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 		player.lightbreak_src_tile = coords
 		player.lightbreak_input_primed = false
 		player.lightbreak_windup = 0.1
+		player.lightbreak_type = lightbreak_type
 		return
 	
 	# at the light timeout, either go in the direction that is being pressed or drop out
@@ -53,6 +59,7 @@ func start_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 		if player.control_vector.length() != 0:
 			player.lightbreak_direction = Vector2(player.control_vector)
 			player.lightbreak_windup = 0.1
+			player.lightbreak_type = lightbreak_type
 		else:
 			player.lightbreak_direction = Vector2(0, 0)
 		player.lightbreak_src_tile = coords

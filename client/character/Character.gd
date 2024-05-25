@@ -4,7 +4,8 @@ const SPEED = 1000.0
 const JUMP_VELOCITY = -1600.0
 const TRACTION = 2500
 const FRICTION = 0.1
-const LIGHTBREAK_SPEED = 300000.0
+const LIGHTBREAK_SPEED = 250000.0
+const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var short_shape = $ShortShape
 @onready var tall_shape = $TallShape
@@ -21,6 +22,15 @@ var lightbreak_direction: Vector2 = Vector2(0, 0)
 var lightbreak_windup: float = 0
 var lightbreak_input_primed: bool = false
 var lightbreak_src_tile: Vector2i
+var lightbreak_type: String = ""
+var lightbreak_line: Node2D
+
+# Camera
+var camera_target_zoom: float = 1.0
+var camera_zoom_speed: float = 0.6
+var camera_max_zoom: float = 1.0
+var camera_min_zoom: float = 0.8
+var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -92,20 +102,41 @@ func _physics_process(delta):
 		light.enabled = true
 		if lightbreak_direction.length() > 0:
 			light.energy = 0.5
-			#camera.zoom = Vector2(0.8, 0.8)
 		else:
 			light.energy = lightbreak_windup / 2
-			#camera.zoom = Vector2(1 - lightbreak_windup / 10, 1 - lightbreak_windup / 10) 
 	else:
 		light.enabled = false
-		#camera.zoom = Vector2(1, 1)
+	
+	# camera
+	if lightbreak_windup > 0 || lightbreak_direction.length() > 0:
+		if camera_target_zoom > camera_min_zoom:
+			camera_target_zoom -= camera_zoom_speed * delta
+		if camera_target_zoom < camera_min_zoom:
+			camera_target_zoom = camera_min_zoom
+	else:
+		if camera_target_zoom < camera_max_zoom:
+			camera_target_zoom += camera_zoom_speed * delta
+		if camera_target_zoom > camera_max_zoom:
+			camera_target_zoom = camera_max_zoom
+	camera.zoom.x += (camera_target_zoom - camera.zoom.x) * camera_zoom_smoothing
+	camera.zoom.y += (camera_target_zoom - camera.zoom.y) * camera_zoom_smoothing
 	
 	# lightbreak
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		crouched = true
+		if !lightbreak_line:
+			lightbreak_line = LightLine2D.instantiate()
+			get_parent().add_child(lightbreak_line)
+		lightbreak_line.add_point(position)
 		if (control_vector + lightbreak_direction).length() < 0.5:
 			_end_lightbreak()
+	
+	# firefly
+	if lightbreak_type == LightTile.FIREFLY:
+		if control_vector.length() > 0:
+			if (control_vector + lightbreak_direction).length() > 0.5:
+				lightbreak_direction = control_vector
 	
 	# use crouch hitbox if not moving up
 	if velocity.y >= 0:
@@ -129,6 +160,8 @@ func _physics_process(delta):
 
 func _end_lightbreak():
 	lightbreak_direction = Vector2(0, 0)
+	lightbreak_type = ""
+	lightbreak_line = null
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):

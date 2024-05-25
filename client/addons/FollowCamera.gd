@@ -1,12 +1,14 @@
 extends Node2D
 
+var parent: Node2D
+var camera: Camera2D
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	pass # Replace with function body.
+	parent = get_parent()
+	camera = get_viewport().get_camera_2d()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var camera:Camera2D = get_viewport().get_camera_2d()
-	get_parent().position = camera.get_screen_center_position()
+	parent.position = camera.get_screen_center_position()
+	parent.scale = Vector2.ONE / camera.zoom
