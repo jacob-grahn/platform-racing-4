@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=13 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="2_kipoy"]
+[ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_424wm"]
 radius = 3.125
@@ -10,6 +11,45 @@ height = 7.25
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o4m3e"]
 radius = 3.5
 height = 22.5
+
+[sub_resource type="Curve" id="Curve_7bwiu"]
+_data = [Vector2(0, 0.741988), 0.0, 0.0, 0, 0, Vector2(0.155052, 0.98471), 0.0, 0.0, 0, 0, Vector2(0.989547, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ojv5h"]
+curve = SubResource("Curve_7bwiu")
+
+[sub_resource type="Gradient" id="Gradient_14l1a"]
+colors = PackedColorArray(1, 1, 1, 1, 0.974034, 0.000834058, 0.184732, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ck8t1"]
+gradient = SubResource("Gradient_14l1a")
+
+[sub_resource type="Curve" id="Curve_l8w56"]
+_data = [Vector2(0, 0.526022), 0.0, 0.0, 0, 0, Vector2(0.254355, 0.764922), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_chmfs"]
+curve = SubResource("Curve_l8w56")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptqpr"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 40.54
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_chmfs")
+color = Color(1, 0.803922, 0.6, 1)
+color_ramp = SubResource("GradientTexture1D_ck8t1")
+alpha_curve = SubResource("CurveTexture_ojv5h")
+hue_variation_min = 0.04
+hue_variation_max = 0.3
 
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_phdif")
@@ -49,3 +89,11 @@ energy = 0.5
 shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("2_kipoy")
+
+[node name="SunParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_ptqpr")
+texture = ExtResource("3_14ic5")
+lifetime = 0.5
+fixed_fps = 60

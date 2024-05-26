@@ -12,7 +12,7 @@ var lightbreak_type: String
 
 
 func init():
-	area.push_back(start_lightbreak)
+	area.push_back(charge_lightbreak)
 
 
 func activate_tilemap(tilemap: TileMap):
@@ -29,7 +29,7 @@ func activate_tilemap(tilemap: TileMap):
 		holder.add_child(light)
 
 
-func start_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
+func charge_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 	# avoid drawing the player into the same light again too soon
 	if player.lightbreak_src_tile == coords:
 		return
@@ -41,27 +41,28 @@ func start_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 	var target_velocity = dist * 3
 	player.velocity = target_velocity
 	player.light.color = display_color
+	player.lightbreak_direction = Vector2.ZERO
 	player.lightbreak_windup += player.get_physics_process_delta_time() * 2
 	
 	# get into the lightbreak faster if you release dir keys and hit the direction you want
 	if player.control_vector.length() == 0:
 		player.lightbreak_input_primed = true
 	if player.control_vector.length() != 0 && player.lightbreak_input_primed:
-		player.lightbreak_direction = Vector2(player.control_vector)
-		player.lightbreak_src_tile = coords
-		player.lightbreak_input_primed = false
-		player.lightbreak_windup = 0.1
-		player.lightbreak_type = lightbreak_type
+		start_lightbreak(player, coords)
 		return
 	
 	# at the light timeout, either go in the direction that is being pressed or drop out
 	if player.lightbreak_windup >= 1:
 		if player.control_vector.length() != 0:
-			player.lightbreak_direction = Vector2(player.control_vector)
-			player.lightbreak_windup = 0.1
-			player.lightbreak_type = lightbreak_type
+			start_lightbreak(player, coords)
 		else:
-			player.lightbreak_direction = Vector2(0, 0)
-		player.lightbreak_src_tile = coords
-		player.lightbreak_input_primed = false
-		
+			player.end_lightbreak()
+			player.lightbreak_src_tile = coords
+
+
+func start_lightbreak(player: Node2D, coords: Vector2i) -> void:
+	player.lightbreak_direction = Vector2(player.control_vector)
+	player.lightbreak_src_tile = coords
+	player.lightbreak_input_primed = false
+	player.lightbreak_windup = 0.1
+	player.lightbreak_type = lightbreak_type

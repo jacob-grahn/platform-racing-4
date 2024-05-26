@@ -11,6 +11,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var tall_shape = $TallShape
 @onready var light = $Light
 @onready var camera = $Camera
+@onready var sun_particles = $SunParticles
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -24,6 +25,7 @@ var lightbreak_input_primed: bool = false
 var lightbreak_src_tile: Vector2i
 var lightbreak_type: String = ""
 var lightbreak_line: Node2D
+var lightbreak_fire_power: int = 0
 
 # Camera
 var camera_target_zoom: float = 1.0
@@ -125,18 +127,24 @@ func _physics_process(delta):
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		crouched = true
-		if !lightbreak_line:
-			lightbreak_line = LightLine2D.instantiate()
-			get_parent().add_child(lightbreak_line)
-		lightbreak_line.add_point(position)
 		if (control_vector + lightbreak_direction).length() < 0.5:
-			_end_lightbreak()
+			end_lightbreak()
 	
 	# firefly
 	if lightbreak_type == LightTile.FIREFLY:
+		if lightbreak_direction.length() > 0:
+			if !lightbreak_line:
+				lightbreak_line = LightLine2D.instantiate()
+				get_parent().add_child(lightbreak_line)
+			lightbreak_line.add_point(position)
 		if control_vector.length() > 0:
 			if (control_vector + lightbreak_direction).length() > 0.5:
 				lightbreak_direction = control_vector
+	
+	# sun
+	if lightbreak_type == LightTile.SUN:
+		if lightbreak_direction.length() > 0:
+			sun_particles.emitting = true
 	
 	# use crouch hitbox if not moving up
 	if velocity.y >= 0:
@@ -146,22 +154,24 @@ func _physics_process(delta):
 	short_shape.disabled = !crouched
 	tall_shape.disabled = crouched
 	
+	#
+	move_and_slide()
+	
 	# interact with tiles
 	interact_with_incoporeal_tiles()
 	var hit_something = interact_with_solid_tiles()
 	
 	# end lightbreak if you hit a wall
 	if hit_something && lightbreak_direction.length() > 0:
-		_end_lightbreak()
-	
-	#
-	move_and_slide()
+		end_lightbreak()
 
 
-func _end_lightbreak():
+func end_lightbreak():
 	lightbreak_direction = Vector2(0, 0)
 	lightbreak_type = ""
 	lightbreak_line = null
+	lightbreak_fire_power = 0
+	sun_particles.emitting = false
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
@@ -227,9 +237,15 @@ func interact_with_solid_tiles() -> bool:
 		game.get_node('BlockPoint').position = tile_position
 		game.get_node('PlayerPoint').position = tile_position + rotating_platform_velocity / 10
 	
-	return true
-		
-		
+	# blow up tiles when sun lightbreaking
+	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:
+		tilemap.set_cell(-1, coords)
+		lightbreak_fire_power -= 1
+		return false
+	else:
+		return true
+
+
 # Function to calculate the tangential velocity at a subject point
 # due to rotation around an origin point.
 func calculate_velocity(origin_point, subject_point, rotation_velocity):

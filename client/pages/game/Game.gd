@@ -7,8 +7,11 @@ static var game: Game
 var tiles: Tiles = Tiles.new()
 var target_zoom: float = 1.0
 
+@onready var back_button = $UI/BackButton
+
 
 func _ready():
+	back_button.connect("pressed", _on_back_pressed)	
 	tiles.init_defaults()
 	
 	if !pr2_level_id || pr2_level_id == '0':
@@ -60,3 +63,7 @@ func activate():
 
 func _exit_tree():
 	Game.game = null
+
+
+func _on_back_pressed():
+	Helpers.set_scene("TitlePage")
