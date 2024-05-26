@@ -12,6 +12,7 @@ var lightbreak_type: String
 
 
 func init():
+	matter_type = Tile.GAS
 	area.push_back(charge_lightbreak)
 
 
@@ -43,6 +44,7 @@ func charge_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 	player.light.color = display_color
 	player.lightbreak_direction = Vector2.ZERO
 	player.lightbreak_windup += player.get_physics_process_delta_time() * 2
+	player.crouched = true
 	
 	# get into the lightbreak faster if you release dir keys and hit the direction you want
 	if player.control_vector.length() == 0:

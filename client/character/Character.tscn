@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=19 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="2_kipoy"]
 [ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
+[ext_resource type="Texture2D" uid="uid://bs0lhbp2sf24" path="res://character/star_08.png" id="4_q6p6r"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_424wm"]
 radius = 3.125
@@ -51,6 +52,35 @@ alpha_curve = SubResource("CurveTexture_ojv5h")
 hue_variation_min = 0.04
 hue_variation_max = 0.3
 
+[sub_resource type="Curve" id="Curve_qi6cg"]
+_data = [Vector2(0.0121951, 0.996178), 0.0, 0.0, 0, 0, Vector2(1, 0.0042634), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_byfsx"]
+curve = SubResource("Curve_qi6cg")
+
+[sub_resource type="Curve" id="Curve_rc61j"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.487798), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1b3vu"]
+curve = SubResource("Curve_rc61j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8uxqt"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 56.03
+angle_min = -360.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 5.0
+radial_accel_max = 5.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_1b3vu")
+color = Color(1, 1, 0.54902, 1)
+alpha_curve = SubResource("CurveTexture_byfsx")
+hue_variation_min = -0.5
+hue_variation_max = 0.48
+
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_phdif")
 
@@ -69,7 +99,7 @@ shape = SubResource("CapsuleShape2D_o4m3e")
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
 collision_layer = 2
-collision_mask = 2
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -88)
@@ -95,5 +125,13 @@ emitting = false
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_ptqpr")
 texture = ExtResource("3_14ic5")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="MoonParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_8uxqt")
+texture = ExtResource("4_q6p6r")
 lifetime = 0.5
 fixed_fps = 60

@@ -4,7 +4,7 @@ const SPEED = 1000.0
 const JUMP_VELOCITY = -1600.0
 const TRACTION = 2500
 const FRICTION = 0.1
-const LIGHTBREAK_SPEED = 250000.0
+const LIGHTBREAK_SPEED = 200000.0
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var short_shape = $ShortShape
@@ -12,11 +12,13 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var light = $Light
 @onready var camera = $Camera
 @onready var sun_particles = $SunParticles
+@onready var moon_particles = $MoonParticles
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
 var control_vector: Vector2
+var crouched = false
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -26,6 +28,7 @@ var lightbreak_src_tile: Vector2i
 var lightbreak_type: String = ""
 var lightbreak_line: Node2D
 var lightbreak_fire_power: int = 0
+var lightbreak_moon_timer: float = 0
 
 # Camera
 var camera_target_zoom: float = 1.0
@@ -55,7 +58,9 @@ func _physics_process(delta):
 		return
 	
 	# default to standing
-	var crouched = false
+	crouched = false
+	if lightbreak_windup > 0:
+		crouched = true
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -154,6 +159,16 @@ func _physics_process(delta):
 	short_shape.disabled = !crouched
 	tall_shape.disabled = crouched
 	
+	# moon
+	if lightbreak_type == LightTile.MOON && lightbreak_direction.length() > 0:
+		short_shape.disabled = true
+		tall_shape.disabled = true
+		modulate.a = randf_range(0, 0.66)
+		lightbreak_moon_timer -= delta
+		moon_particles.emitting = true
+		if lightbreak_moon_timer < 0 && !is_in_solid():
+			end_lightbreak()
+	
 	#
 	move_and_slide()
 	
@@ -172,6 +187,9 @@ func end_lightbreak():
 	lightbreak_line = null
 	lightbreak_fire_power = 0
 	sun_particles.emitting = false
+	modulate.a = 1
+	lightbreak_moon_timer = 0
+	moon_particles.emitting = false
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
@@ -261,7 +279,6 @@ func calculate_velocity(origin_point, subject_point, rotation_velocity):
 	# Calculate the new angle by adding 90 degrees (π/2 radians)
 	# to make the velocity vector perpendicular to the radius
 	var new_angle = angle + PI / 2
-	#var new_angle = angle
 	
 	# Calculate the velocity components using the new angle
 	# Note: rotation_velocity is assumed to be in radians per second
@@ -270,3 +287,17 @@ func calculate_velocity(origin_point, subject_point, rotation_velocity):
 	
 	# Return the velocity as a Vector2
 	return Vector2(vx, vy)
+
+
+# Interact with tiles like water, switches, etc
+func is_in_solid() -> bool:
+	var in_solid = false
+	for shape in incoporeal_rids:
+		var rid: RID = shape["body_rid"]
+		var tilemap: TileMap = shape["body"]
+		var coords = tilemap.get_coords_for_body_rid(rid)
+		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
+		if Game.game.tiles.is_solid(tile_type):
+			in_solid = true
+	return in_solid

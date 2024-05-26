@@ -13,7 +13,19 @@ var gear
 
 
 func init_defaults() -> void:
-	var arrow_down:Tile = Tile.new()
+	var basic1: Tile = Tile.new()
+	map['0'] = basic1
+	
+	var basic2: Tile = Tile.new()
+	map['1'] = basic2
+	
+	var basic3: Tile = Tile.new()
+	map['2'] = basic3
+	
+	var basic4: Tile = Tile.new()
+	map['3'] = basic4
+	
+	var arrow_down: Tile = Tile.new()
 	arrow_down.any_side.push_back(Behaviors.push_down)
 	map['5'] = arrow_down
 	
@@ -55,6 +67,13 @@ func on(event: String, tile_type: int, source: Node2D, target: Node2D, coords: V
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		tile.on(event, source, target, coords)
+
+
+func is_solid(tile_type: int) -> bool:
+	if str(tile_type) in map:
+		var tile:Tile = map[str(tile_type)]
+		return tile.matter_type == Tile.SOLID
+	return false
 
 
 func activate(game):
