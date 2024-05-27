@@ -4,6 +4,10 @@ var Sun: GDScript = preload("res://tiles/lights/Sun.gd")
 var Moon: GDScript = preload("res://tiles/lights/Moon.gd")
 var Firefly: GDScript = preload("res://tiles/lights/Firefly.gd")
 var Gear: GDScript = preload("res://tiles/Gear.gd")
+var ArrowUp: GDScript = preload("res://tiles/arrows/ArrowUp.gd")
+var ArrowRight: GDScript = preload("res://tiles/arrows/ArrowRight.gd")
+var ArrowDown: GDScript = preload("res://tiles/arrows/ArrowDown.gd")
+var ArrowLeft: GDScript = preload("res://tiles/arrows/ArrowLeft.gd")
 
 var map = {}
 var sun
@@ -13,33 +17,17 @@ var gear
 
 
 func init_defaults() -> void:
-	var basic1: Tile = Tile.new()
-	map['0'] = basic1
+	# basic
+	map['0'] = Tile.new()
+	map['1'] = Tile.new()
+	map['2'] = Tile.new()
+	map['3'] = Tile.new()
 	
-	var basic2: Tile = Tile.new()
-	map['1'] = basic2
-	
-	var basic3: Tile = Tile.new()
-	map['2'] = basic3
-	
-	var basic4: Tile = Tile.new()
-	map['3'] = basic4
-	
-	var arrow_down: Tile = Tile.new()
-	arrow_down.any_side.push_back(Behaviors.push_down)
-	map['5'] = arrow_down
-	
-	var arrow_up:Tile = Tile.new()
-	arrow_up.any_side.push_back(Behaviors.push_up)
-	map['6'] = arrow_up
-	
-	var arrow_left:Tile = Tile.new()
-	arrow_left.any_side.push_back(Behaviors.push_left)
-	map['7'] = arrow_left
-	
-	var arrow_right:Tile = Tile.new()
-	arrow_right.any_side.push_back(Behaviors.push_right)
-	map['8'] = arrow_right
+	# arrow
+	map['5'] = ArrowDown.new()
+	map['6'] = ArrowUp.new()
+	map['7'] = ArrowLeft.new()
+	map['8'] = ArrowRight.new()
 	
 	var area_switch:Tile = Tile.new()
 	area_switch.area.push_back(Behaviors.ares_switch)
@@ -47,20 +35,17 @@ func init_defaults() -> void:
 	
 	gear = Gear.new()
 	
-	#
+	# lights
 	sun = Sun.new()
-	sun.init()
 	map['36'] = sun
-	
-	#
 	moon = Moon.new()
-	moon.init()
 	map['37'] = moon
-	
-	#
 	firefly = Firefly.new()
-	firefly.init()
 	map['38'] = firefly
+	
+	# init
+	for tile_id in map:
+		map[tile_id].init()
 
 
 func on(event: String, tile_type: int, source: Node2D, target: Node2D, coords: Vector2i) -> void:
