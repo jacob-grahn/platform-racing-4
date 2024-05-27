@@ -28,9 +28,6 @@ layer_0/tile_data = PackedInt32Array(262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 2
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="Character" parent="." instance=ExtResource("3_2sskp")]
-position = Vector2(-1219, 317)
-
 [node name="PlayerPoint" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(0.3, 0.3)
@@ -80,6 +77,9 @@ theme_override_font_sizes/font_size = 64
 text = "--->"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="Character" parent="." instance=ExtResource("3_2sskp")]
+position = Vector2(-1219, 317)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

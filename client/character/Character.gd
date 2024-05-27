@@ -93,8 +93,8 @@ func _physics_process(delta):
 	phantom_velocity = phantom_velocity * phantom_velocity_decay
 	
 	#
-	position += rotating_platform_velocity * delta * 1
-	velocity += rotating_platform_velocity * delta * 20
+	# position += rotating_platform_velocity * delta * 1
+	velocity += rotating_platform_velocity * delta * 3
 	rotating_platform_velocity = Vector2(0, 0)
 	
 	# lightbreak cooldown
@@ -169,7 +169,12 @@ func _physics_process(delta):
 		if lightbreak_moon_timer < 0 && !is_in_solid():
 			end_lightbreak()
 	
-	#
+	# disable collision if we're stuck in a wall
+	if is_in_solid():
+		short_shape.disabled = true
+		tall_shape.disabled = true
+		
+	# move
 	move_and_slide()
 	
 	# interact with tiles
