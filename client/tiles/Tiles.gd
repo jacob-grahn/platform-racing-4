@@ -23,6 +23,9 @@ func init_defaults() -> void:
 	map['2'] = Tile.new()
 	map['3'] = Tile.new()
 	
+	# brick
+	map['4'] = Brick.new()
+	
 	# arrow
 	map['5'] = ArrowDown.new()
 	map['6'] = ArrowUp.new()
@@ -82,3 +85,15 @@ func activate_tilemap(tilemap: TileMap):
 	sun.activate_tilemap(tilemap)
 	moon.activate_tilemap(tilemap)
 	firefly.activate_tilemap(tilemap)
+
+
+var ShatterEffect = preload("res://tiles/shatter_effect/ShatterEffect.tscn")
+var tileatlas = preload("res://tiles/tileatlas.png")
+func shatter(tilemap: TileMap, coords: Vector2i):
+	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+	var shatter_effect = ShatterEffect.instantiate()
+	shatter_effect.position = coords * Settings.tile_size
+	shatter_effect.add_pieces(tileatlas, atlas_coords)
+	tilemap.get_parent().add_child(shatter_effect)
+	
+	tilemap.set_cell(-1, coords)
