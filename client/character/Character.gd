@@ -19,6 +19,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
 var control_vector: Vector2
 var crouched = false
+var game: Node2D
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -41,14 +42,12 @@ var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
-# Used to carry the player along with rotating platforms
-var rotating_platform_velocity: Vector2 = Vector2(0, 0)
-
 # list of incopereal tile rids that are overlapping this character's area
 var incoporeal_rids = []
 
 
 func _ready():
+	game = get_parent()
 	$Area2D.connect("body_shape_entered", _on_body_shape_entered)
 	$Area2D.connect("body_shape_exited", _on_body_shape_exited)
 
@@ -91,11 +90,6 @@ func _physics_process(delta):
 	# Add velocity boost
 	velocity += phantom_velocity
 	phantom_velocity = phantom_velocity * phantom_velocity_decay
-	
-	#
-	# position += rotating_platform_velocity * delta * 1
-	velocity += rotating_platform_velocity * delta * 3
-	rotating_platform_velocity = Vector2(0, 0)
 	
 	# lightbreak cooldown
 	if lightbreak_windup > 0:
@@ -215,7 +209,7 @@ func interact_with_incoporeal_tiles():
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
-		Game.game.tiles.on("area", tile_type, self, tilemap, coords)
+		game.tiles.on("area", tile_type, self, tilemap, coords)
 	
 
 # Interact with tiles like walls, arrows, etc
@@ -233,7 +227,6 @@ func interact_with_solid_tiles() -> bool:
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	var tile_type = atlas_coords.x + (atlas_coords.y * 10)
-	var game = Game.game
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:
@@ -251,47 +244,14 @@ func interact_with_solid_tiles() -> bool:
 			game.tiles.on("top", tile_type, self, tilemap, coords)
 			game.tiles.on("any_side", tile_type, self, tilemap, coords)
 			game.tiles.on("stand", tile_type, self, tilemap, coords)
-		
-	# Account for rotating tiles
-	if tilemap.get_parent() is RotationController:
-		var rotation_controller = tilemap.get_parent()
-		var tile_position = tilemap.to_global(coords * 128 + Vector2i(64, 64))
-		rotating_platform_velocity = calculate_velocity(rotation_controller.position, tile_position, rotation_controller.rotation_velocity)
-		game.get_node('BlockPoint').position = tile_position
-		game.get_node('PlayerPoint').position = tile_position + rotating_platform_velocity / 10
 	
 	# blow up tiles when sun lightbreaking
 	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:
-		Game.game.tiles.shatter(tilemap, coords)
+		game.tiles.shatter(tilemap, coords)
 		lightbreak_fire_power -= 1
 		return false
 	else:
 		return true
-
-
-# Function to calculate the tangential velocity at a subject point
-# due to rotation around an origin point.
-func calculate_velocity(origin_point, subject_point, rotation_velocity):
-	# Calculate the direction from the origin to the subject
-	var direction = subject_point - origin_point
-	
-	# Calculate the radius of the rotation
-	var radius = direction.length()
-	
-	# Calculate the angle of the direction vector
-	var angle = direction.angle()
-	
-	# Calculate the new angle by adding 90 degrees (π/2 radians)
-	# to make the velocity vector perpendicular to the radius
-	var new_angle = angle + PI / 2
-	
-	# Calculate the velocity components using the new angle
-	# Note: rotation_velocity is assumed to be in radians per second
-	var vx = rotation_velocity * radius * cos(new_angle)
-	var vy = rotation_velocity * radius * sin(new_angle)
-	
-	# Return the velocity as a Vector2
-	return Vector2(vx, vy)
 
 
 # Interact with tiles like water, switches, etc
@@ -303,6 +263,6 @@ func is_in_solid() -> bool:
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
-		if Game.game.tiles.is_solid(tile_type):
+		if game.tiles.is_solid(tile_type):
 			in_solid = true
 	return in_solid

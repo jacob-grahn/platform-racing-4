@@ -1,4 +1,5 @@
 extends Arrow
+class_name ArrowLeft
 
 var vector_left = Vector2(-1, 0)
 

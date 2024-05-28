@@ -1,4 +1,5 @@
 extends Arrow
+class_name ArrowUp
 
 var vector_up = Vector2(0, -1)
 

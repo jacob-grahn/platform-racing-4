@@ -1,4 +1,7 @@
-var RotationController = preload("res://pages/game/RotationController.gd")
+extends Tile
+class_name Gear
+
+var RotationController = preload("res://tiles/gear/RotationController.gd")
 
 
 func activate(game):
@@ -12,7 +15,7 @@ func activate(game):
 	
 		# Create rotation controller
 		var rotation_controller = RotationController.new()
-		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(64, 64)
+		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
 		game.add_child(rotation_controller)
 		game.move_child(rotation_controller, 4)
 		
@@ -20,7 +23,8 @@ func activate(game):
 		var sub_tile_map = TileMap.new()
 		sub_tile_map.tile_set = tile_map.tile_set
 		sub_tile_map.set_cell(0, Vector2i(0, 0), 0, Vector2i(4, 3))
-		sub_tile_map.position = Vector2(-64, -64)
+		sub_tile_map.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
+		sub_tile_map.collision_animatable = true
 		rotation_controller.add_child(sub_tile_map)
 		
 		# Transfer tiles connected to the gear into the sub tilemap

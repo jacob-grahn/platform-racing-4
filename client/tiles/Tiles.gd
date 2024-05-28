@@ -1,14 +1,5 @@
 class_name Tiles
 
-var Sun: GDScript = preload("res://tiles/lights/Sun.gd")
-var Moon: GDScript = preload("res://tiles/lights/Moon.gd")
-var Firefly: GDScript = preload("res://tiles/lights/Firefly.gd")
-var Gear: GDScript = preload("res://tiles/Gear.gd")
-var ArrowUp: GDScript = preload("res://tiles/arrows/ArrowUp.gd")
-var ArrowRight: GDScript = preload("res://tiles/arrows/ArrowRight.gd")
-var ArrowDown: GDScript = preload("res://tiles/arrows/ArrowDown.gd")
-var ArrowLeft: GDScript = preload("res://tiles/arrows/ArrowLeft.gd")
-
 var map = {}
 var sun
 var moon
@@ -37,6 +28,7 @@ func init_defaults() -> void:
 	map['35'] = area_switch
 	
 	gear = Gear.new()
+	map['33'] = gear
 	
 	# lights
 	sun = Sun.new()
@@ -51,10 +43,12 @@ func init_defaults() -> void:
 		map[tile_id].init()
 
 
-func on(event: String, tile_type: int, source: Node2D, target: Node2D, coords: Vector2i) -> void:
+func on(event: String, tile_type: int, player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
-		tile.on(event, source, target, coords)
+		tile.on(event, player, tilemap, coords)
+		if event == "bump":
+			bump(player, tilemap, coords)
 
 
 func is_solid(tile_type: int) -> bool:
@@ -87,13 +81,37 @@ func activate_tilemap(tilemap: TileMap):
 	firefly.activate_tilemap(tilemap)
 
 
-var ShatterEffect = preload("res://tiles/shatter_effect/ShatterEffect.tscn")
-var tileatlas = preload("res://tiles/tileatlas.png")
+var ShatterEffect = preload("res://tile_effects/shatter_effect/ShatterEffect.tscn")
 func shatter(tilemap: TileMap, coords: Vector2i):
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+	if atlas_coords == Vector2i(-1, -1):
+		return
+	var tile_atlas = tilemap.tile_set.get_source(0).texture
 	var shatter_effect = ShatterEffect.instantiate()
 	shatter_effect.position = coords * Settings.tile_size
-	shatter_effect.add_pieces(tileatlas, atlas_coords)
+	shatter_effect.add_pieces(tile_atlas, atlas_coords)
 	tilemap.get_parent().add_child(shatter_effect)
 	
 	tilemap.set_cell(-1, coords)
+
+
+var BumpEffect = preload("res://tile_effects/bump_effect/BumpEffect.tscn")
+func bump(player: Node2D, tilemap: TileMap, coords: Vector2i):
+	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+	if atlas_coords == Vector2i(-1, -1):
+		return
+		
+	var atlas = tilemap.tile_set.get_source(0).texture
+	var node = tilemap.get_parent()
+	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
+	var existing_bump_effect = node.get_node(effect_name)
+	if existing_bump_effect:
+		existing_bump_effect.get_node("AnimationPlayer").seek(0.1)
+		return 
+		
+	var bump_effect = BumpEffect.instantiate()
+	bump_effect.name = effect_name
+	tilemap.add_child(bump_effect)
+	bump_effect.position = coords * Settings.tile_size + Settings.tile_size_half
+	bump_effect.rotation = player.rotation - tilemap.global_rotation
+	bump_effect.set_tile(atlas, atlas_coords, -bump_effect.rotation)

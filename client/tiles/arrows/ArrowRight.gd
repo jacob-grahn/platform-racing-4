@@ -1,4 +1,5 @@
 extends Arrow
+class_name ArrowRight
 
 var vector_right = Vector2(1, 0)
 

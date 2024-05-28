@@ -1,4 +1,5 @@
 extends LightTile
+class_name Firefly
 
 
 func init():

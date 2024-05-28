@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ottreb64v5vj"]
 
-[ext_resource type="Script" path="res://tiles/shatter_effect/ShatterEffect.gd" id="1_by1qa"]
+[ext_resource type="Script" path="res://tile_effects/shatter_effect/ShatterEffect.gd" id="1_sfmbf"]
 
 [sub_resource type="Animation" id="Animation_gupva"]
 length = 0.001
@@ -53,7 +53,7 @@ _data = {
 }
 
 [node name="ShatterEffect" type="Node2D"]
-script = ExtResource("1_by1qa")
+script = ExtResource("1_sfmbf")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

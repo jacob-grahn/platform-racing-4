@@ -24,6 +24,3 @@ func add_piece(atlas: Texture, coords: Vector2i, offset: Vector2i, dimensions: V
 	chunk.add_child(sprite)
 	
 	add_child(chunk)
-	
-	
-	

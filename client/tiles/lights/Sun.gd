@@ -1,4 +1,5 @@
 extends LightTile
+class_name Sun
 
 
 func init():
