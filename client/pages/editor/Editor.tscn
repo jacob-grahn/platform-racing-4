@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://gotxkw71bwdq"]
+
+[ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
+[ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/SliderMenu.tscn" id="2_klaio"]
+
+[node name="Editor" type="Node2D"]
+script = ExtResource("1_qeoq7")
+
+[node name="SliderMenu" parent="." instance=ExtResource("2_klaio")]

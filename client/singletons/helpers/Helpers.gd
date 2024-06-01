@@ -13,3 +13,9 @@ func get_base_url() -> String:
 
 func set_scene(scene_name: String):
 	get_node("/root/Main").set_scene(scene_name)
+
+
+func to_atlas_coords(block_id: int) -> Vector2i:
+	var x = block_id % 10
+	var y = block_id / 10
+	return Vector2i(x, y)

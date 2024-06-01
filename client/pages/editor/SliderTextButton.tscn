@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://6tvyfstbdm6b"]
+
+[ext_resource type="PackedScene" uid="uid://db2mwvyolxxpv" path="res://pages/editor/SliderItem.tscn" id="1_k7iws"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_1656n"]
+[ext_resource type="Script" path="res://pages/editor/SliderTextButton.gd" id="2_gth2k"]
+
+[node name="SliderTextButton" instance=ExtResource("1_k7iws")]
+script = ExtResource("2_gth2k")
+
+[node name="Button" type="Button" parent="Content" index="0"]
+clip_contents = true
+offset_right = 160.0
+offset_bottom = 90.0
+theme = ExtResource("2_1656n")
+text = "Text"
+text_overrun_behavior = 1
