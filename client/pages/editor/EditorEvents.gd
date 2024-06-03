@@ -1,10 +1,17 @@
 extends Node2D
+class_name EditorEvents
 
 signal do_event
 signal undo_event
 
+const SET_TILE = 'set_tile'
+
 var events = []
 var redo_events = []
+
+
+func _ready():
+	get_parent().get_node("Cursor").connect("event", add_event)
 
 
 func add_event(event: Dictionary) -> void:

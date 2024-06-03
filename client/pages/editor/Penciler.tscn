@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://e6aydemh5yb1"]
+
+[ext_resource type="Script" path="res://pages/editor/Penciler.gd" id="1_jv2v8"]
+
+[node name="Penciler" type="Node2D"]
+script = ExtResource("1_jv2v8")
