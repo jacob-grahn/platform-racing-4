@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://lctqwgbr7ty5"]
-
-[ext_resource type="PackedScene" uid="uid://c1t4er2top1pa" path="res://pages/editor/SliderRow.tscn" id="1_1n1cn"]
-[ext_resource type="Script" path="res://pages/editor/SliderControlRow.gd" id="2_cxbmu"]
-
-[node name="SliderControlRow" instance=ExtResource("1_1n1cn")]
-script = ExtResource("2_cxbmu")

@@ -1,9 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=6 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
-[ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/SliderMenu.tscn" id="2_klaio"]
+[ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/menu/SliderMenu.tscn" id="2_klaio"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/EditorEvents.tscn" id="3_05sia"]
+[ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://pages/editor/Cursor.tscn" id="4_pnfuv"]
+[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="5_qdwto"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
 
 [node name="SliderMenu" parent="." instance=ExtResource("2_klaio")]
+
+[node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
+
+[node name="Cursor" parent="." instance=ExtResource("4_pnfuv")]
+
+[node name="Layers" type="Node2D" parent="."]
+
+[node name="Layer 1" type="Node2D" parent="Layers"]
+
+[node name="TileMap" type="TileMap" parent="Layers/Layer 1"]
+tile_set = ExtResource("5_qdwto")
+format = 2

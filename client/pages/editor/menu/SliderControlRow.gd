@@ -2,11 +2,12 @@ extends SliderRow
 
 signal pressed
 
-var SliderTextButton: PackedScene = preload("res://pages/editor/SliderTextButton.tscn")
+var SliderTextButton: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
 var button_labels = ["Blocks", "Stamps", "Art", "Select", "Erase", "Undo", "Redo", "Layers"]
 
 
 func _ready():
+	super._ready()
 	for label in button_labels:
 		var button = SliderTextButton.instantiate()
 		add_slider(button)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" path="res://pages/game/Game.gd" id="1_cq41v"]
-[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://pages/game/pr2-tilemap.tres" id="2_bvyfc"]
+[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="2_bvyfc"]
 [ext_resource type="Texture2D" uid="uid://bpmp38i1xaqby" path="res://pages/game/bg-1.jpg" id="2_c3snn"]
 [ext_resource type="PackedScene" uid="uid://c4b6khd33tysp" path="res://character/Character.tscn" id="3_2sskp"]
 [ext_resource type="PackedScene" uid="uid://facica06ifm6" path="res://addons/FitScreen.tscn" id="3_qjash"]

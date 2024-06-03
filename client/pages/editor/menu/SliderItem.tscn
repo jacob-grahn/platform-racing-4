@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://db2mwvyolxxpv"]
 
-[ext_resource type="Script" path="res://pages/editor/SliderItem.gd" id="1_atxek"]
+[ext_resource type="Script" path="res://pages/editor/menu/SliderItem.gd" id="1_atxek"]
 
 [sub_resource type="Animation" id="Animation_jm0cr"]
 length = 0.001

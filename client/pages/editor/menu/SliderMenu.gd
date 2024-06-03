@@ -1,8 +1,10 @@
 extends Node2D
 
-var SliderControlRow: PackedScene = preload("res://pages/editor/SliderControlRow.tscn")
-var SliderBlockRow: PackedScene = preload("res://pages/editor/SliderBlockRow.tscn")
+signal control_changed
+signal block_changed
 
+var SliderControlRow: PackedScene = preload("res://pages/editor/menu/SliderControlRow.tscn")
+var SliderBlockRow: PackedScene = preload("res://pages/editor/menu/SliderBlockRow.tscn")
 var sub_row
 var sub_row_type: String
 
@@ -14,10 +16,8 @@ func _ready():
 	
 	get_viewport().size_changed.connect(_on_size_changed)
 	_on_size_changed()
-
-
-func _process(delta):
-	pass
+	
+	_on_control_pressed("Blocks")
 
 
 func add_row(row) -> void:
@@ -56,4 +56,11 @@ func _on_control_pressed(label: String) -> void:
 	
 	if label == "Blocks":
 		sub_row = SliderBlockRow.instantiate()
+		sub_row.connect("pressed", _on_block_pressed)
 		add_row(sub_row)
+	
+	emit_signal("control_changed", label)
+
+
+func _on_block_pressed(block_id: int) -> void:
+	emit_signal("block_changed", block_id)

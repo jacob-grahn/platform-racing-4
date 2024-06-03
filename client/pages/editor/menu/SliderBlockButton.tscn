@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbymfy68h26fc"]
+
+[ext_resource type="PackedScene" uid="uid://db2mwvyolxxpv" path="res://pages/editor/menu/SliderItem.tscn" id="1_d0q7r"]
+[ext_resource type="Script" path="res://pages/editor/menu/SliderBlockButton.gd" id="2_wqcke"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="3_bbiin"]
+
+[node name="SliderBlockButton" instance=ExtResource("1_d0q7r")]
+script = ExtResource("2_wqcke")
+
+[node name="Sprite" type="Sprite2D" parent="Content" index="0"]
+position = Vector2(64, 64)
+texture = ExtResource("3_bbiin")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 128)
+
+[node name="Button" type="Button" parent="Content" index="1"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 128.0
+offset_bottom = 128.0
