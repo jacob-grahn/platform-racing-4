@@ -1,27 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=8 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
+[ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
 [ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/menu/SliderMenu.tscn" id="2_klaio"]
+[ext_resource type="PackedScene" uid="uid://h5onwupb7ju1" path="res://pages/editor/Layer.tscn" id="2_lir3m"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/EditorEvents.tscn" id="3_05sia"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://pages/editor/Cursor.tscn" id="4_pnfuv"]
-[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="5_qdwto"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://pages/editor/Penciler.tscn" id="5_vq0x1"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
 
+[node name="EditorCamera" parent="." instance=ExtResource("2_ifj8n")]
+
 [node name="Layers" type="Node2D" parent="."]
 
-[node name="Layer 1" type="Node2D" parent="Layers"]
-
-[node name="TileMap" type="TileMap" parent="Layers/Layer 1"]
-tile_set = ExtResource("5_qdwto")
-format = 2
+[node name="Layer 1" parent="Layers" instance=ExtResource("2_lir3m")]
 
 [node name="Cursor" parent="." instance=ExtResource("4_pnfuv")]
-
-[node name="SliderMenu" parent="." instance=ExtResource("2_klaio")]
 
 [node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
 
 [node name="Penciler" parent="." instance=ExtResource("5_vq0x1")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="SliderMenu" parent="UI" instance=ExtResource("2_klaio")]

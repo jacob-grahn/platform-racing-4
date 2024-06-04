@@ -14,7 +14,7 @@ var layer_id: int = 0
 
 
 func _ready():
-	var slider_menu = get_parent().get_node("SliderMenu")
+	var slider_menu = get_parent().get_node("UI/SliderMenu")
 	slider_menu.connect("control_changed", _on_control_changed)
 	slider_menu.connect("block_changed", _on_block_changed)
 	control.connect("gui_input", _on_gui_input)
@@ -41,14 +41,13 @@ func _on_control_changed(control: String) -> void:
 
 
 func _on_block_changed(new_block_id: int) -> void:
-	print("Cursor::_on_block_changed ", new_block_id)
 	block_id = new_block_id
 
 
 func do_block_drop():
-	var position = get_viewport().get_mouse_position()
+	var mouse_position = get_global_mouse_position()
 	var tilemap: TileMap = get_parent().get_node("Layers/Layer 1/TileMap")
-	var coords = tilemap.local_to_map(tilemap.to_local(position))
+	var coords = tilemap.local_to_map(tilemap.to_local(mouse_position))
 	var atlas_coords = Helpers.to_atlas_coords(block_id)
 	var existing_atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	if atlas_coords != existing_atlas_coords:
