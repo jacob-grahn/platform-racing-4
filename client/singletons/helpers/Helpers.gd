@@ -11,11 +11,16 @@ func get_base_url() -> String:
 		return 'https://platformracing.com'
 
 
-func set_scene(scene_name: String):
-	get_node("/root/Main").set_scene(scene_name)
+func set_scene(scene: PackedScene):
+	get_node("/root/Main").set_scene(scene)
 
 
 func to_atlas_coords(block_id: int) -> Vector2i:
-	var x = block_id % 10
-	var y = block_id / 10
+	var id = block_id - 1
+	var x = id % 10
+	var y = id / 10
 	return Vector2i(x, y)
+
+
+func to_block_id(atlas_coords: Vector2i) -> int:
+	return (atlas_coords.y * 10) + atlas_coords.x + 1

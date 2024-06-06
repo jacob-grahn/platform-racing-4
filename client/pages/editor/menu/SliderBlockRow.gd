@@ -8,7 +8,7 @@ const SliderBlockButton = preload("res://pages/editor/menu/SliderBlockButton.tsc
 func _ready():
 	super._ready()
 	step_delay = 0.03
-	for i in range(0, 38):
+	for i in range(1, 39):
 		var block_button = SliderBlockButton.instantiate()
 		add_slider(block_button)
 		block_button.set_block_id(i)

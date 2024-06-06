@@ -47,7 +47,7 @@ offset_right = 763.0
 offset_bottom = 1725.0
 scale = Vector2(3, 3)
 theme = SubResource("Theme_84xtq")
-text = "play"
+text = "editor"
 
 [node name="TextEdit" type="TextEdit" parent="."]
 offset_left = 174.0

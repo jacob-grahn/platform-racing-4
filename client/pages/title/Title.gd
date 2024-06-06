@@ -10,9 +10,9 @@ func _ready():
 
 func _on_game_pressed():
 	Game.pr2_level_id = $TextEdit.text
-	Helpers.set_scene("GamePage")
+	Helpers.set_scene(Main.GAME)
 
 
 func _on_gear_pressed():
 	Game.pr2_level_id = '0'
-	Helpers.set_scene("GamePage")
+	Helpers.set_scene(Main.EDITOR)

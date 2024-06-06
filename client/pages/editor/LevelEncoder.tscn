@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://batk4yeogrp0r"]
+
+[ext_resource type="Script" path="res://pages/editor/LevelEncoder.gd" id="1_ydaa7"]
+
+[node name="LevelEncoder" type="Node2D"]
+script = ExtResource("1_ydaa7")

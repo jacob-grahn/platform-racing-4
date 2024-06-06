@@ -66,4 +66,4 @@ func _exit_tree():
 
 
 func _on_back_pressed():
-	Helpers.set_scene("TitlePage")
+	Helpers.set_scene(Main.TITLE)
