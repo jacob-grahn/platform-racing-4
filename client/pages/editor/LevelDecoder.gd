@@ -5,12 +5,14 @@ const LAYER = preload("res://pages/editor/Layer.tscn")
 
 func decode(level: Dictionary) -> void:
 	var layer = LAYER.instantiate()
+	layer.name = "Layer 1"
 	get_node("../Layers").add_child(layer)
 	var tilemap = layer.get_node("TileMap")
 	
 	var tile_layer = level.layers[0]
 	var chunks = tile_layer.chunks
 	for chunk in chunks:
+		print(chunk)
 		for i:int in chunk.data.size():
 			var tile_id:int = chunk.data[i]
 			if tile_id == 0:

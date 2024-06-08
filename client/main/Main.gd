@@ -1,6 +1,7 @@
 extends Node2D
 class_name Main
 
+
 const TITLE = preload("res://pages/title/Title.tscn")
 const GAME = preload("res://pages/game/Game.tscn")
 const EDITOR = preload("res://pages/editor/Editor.tscn")
@@ -10,11 +11,13 @@ var current_scene: Node2D
 
 
 func _ready():
-	set_scene(Main.TITLE)
+	set_scene("TITLE")
 
 
-func set_scene(packed_scene: PackedScene):
+func set_scene(scene_name: String) -> Node2D:
 	if current_scene:
 		current_scene.queue_free()
-	current_scene = packed_scene.instantiate()
+	current_scene = self[scene_name].instantiate()
+	current_scene.name = scene_name
 	add_child(current_scene)
+	return current_scene

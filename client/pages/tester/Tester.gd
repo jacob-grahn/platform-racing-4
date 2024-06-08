@@ -5,9 +5,12 @@ extends Node2D
 
 
 func _ready():
-	level_decoder.decode(Editor.current_level)
 	back.connect("pressed", _on_back_pressed)
 
 
 func _on_back_pressed():
-	Helpers.set_scene(Main.TITLE)
+	Helpers.set_scene("EDITOR")
+
+
+func set_level(level: Dictionary) -> void:
+	level_decoder.decode(level)
