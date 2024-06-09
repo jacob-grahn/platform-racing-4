@@ -12,7 +12,6 @@ func decode(level: Dictionary) -> void:
 	var tile_layer = level.layers[0]
 	var chunks = tile_layer.chunks
 	for chunk in chunks:
-		print(chunk)
 		for i:int in chunk.data.size():
 			var tile_id:int = chunk.data[i]
 			if tile_id == 0:
@@ -22,5 +21,3 @@ func decode(level: Dictionary) -> void:
 			var atlas_coords = Helpers.to_atlas_coords(tile_id)
 			var alternative_tile = 0
 			tilemap.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
-			# if tile_id == 12:
-			#	$Character.position = Vector2(coords.x * 128, coords.y * 128)

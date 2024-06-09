@@ -11,7 +11,7 @@ var redo_events = []
 
 
 func _ready():
-	get_parent().get_node("Cursor").connect("event", add_event)
+	get_parent().get_node("UI/Cursor").connect("event", add_event)
 
 
 func add_event(event: Dictionary) -> void:

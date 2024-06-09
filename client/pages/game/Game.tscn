@@ -1,15 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
+[gd_scene load_steps=7 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" path="res://pages/game/Game.gd" id="1_cq41v"]
-[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="2_bvyfc"]
 [ext_resource type="Texture2D" uid="uid://bpmp38i1xaqby" path="res://pages/game/bg-1.jpg" id="2_c3snn"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="2_dbxag"]
 [ext_resource type="PackedScene" uid="uid://c4b6khd33tysp" path="res://character/Character.tscn" id="3_2sskp"]
 [ext_resource type="PackedScene" uid="uid://facica06ifm6" path="res://addons/FitScreen.tscn" id="3_qjash"]
 [ext_resource type="PackedScene" uid="uid://bb2q3wohjm3yk" path="res://addons/FollowCamera.tscn" id="3_qqqfl"]
-[ext_resource type="Texture2D" uid="uid://d2cvs4uespslp" path="res://icon.svg" id="4_8ssyw"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_cq41v")
+
+[node name="LevelDecoder" parent="." instance=ExtResource("2_dbxag")]
+position = Vector2(268, 504)
 
 [node name="BG" type="Node2D" parent="."]
 
@@ -20,23 +22,9 @@ texture = ExtResource("2_c3snn")
 
 [node name="FollowCamera" parent="BG" instance=ExtResource("3_qqqfl")]
 
-[node name="TileMap" type="TileMap" parent="."]
-position = Vector2(0, -1)
-tile_set = ExtResource("2_bvyfc")
-format = 2
-layer_0/tile_data = PackedInt32Array(327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 65544, 131072, 0, 131080, 131072, 0, 196616, 131072, 0, 262152, 131072, 0, 9, 131072, 0, 10, 131072, 0, 11, 131072, 0, 12, 131072, 0, 4, 131072, 0, 5, 131072, 0, 6, 131072, 0, 7, 131072, 0, -262136, 131072, 0, -196600, 131072, 0, -131064, 131072, 0, -65528, 131072, 0, 65543, 131072, 0, -65529, 131072, 0, -65527, 131072, 0, 65545, 131072, 0, 393211, 0, 0, 393212, 0, 0, 393213, 0, 0, 393214, 0, 0, 393215, 0, 0, 327686, 0, 0, 327687, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 393195, 0, 0, 393196, 0, 0, 393197, 0, 0, 393198, 0, 0, 393199, 0, 0, 393200, 0, 0, 393201, 0, 0, 393202, 0, 0, 393203, 0, 0, 393204, 0, 0, 393205, 0, 0, 393206, 0, 0, 393207, 0, 0, 393208, 0, 0, 393209, 0, 0, 393210, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 327703, 0, 0, 327704, 0, 0, 327705, 0, 0, 327706, 0, 0, 327707, 0, 0, 327708, 0, 0, 327709, 0, 0, 327710, 0, 0, 327711, 0, 0, 327712, 0, 0, 327713, 0, 0, 327714, 0, 0, 393192, 0, 0, 393193, 0, 0, 393194, 0, 0, 13, 131072, 0, 14, 131072, 0, 15, 131072, 0, 16, 131072, 0, 17, 131072, 0, 18, 131072, 0, 19, 131072, 0, 20, 131072, 0, 21, 131072, 0, 22, 131072, 0, 23, 131072, 0, 24, 131072, 0, 25, 131072, 0, 26, 131072, 0, 27, 131072, 0, 28, 131072, 0, 29, 131072, 0, 30, 131072, 0, 31, 131072, 0, 1, 131072, 0, 2, 131072, 0, 3, 131072, 0, 65526, 131072, 0, 65527, 131072, 0, 65528, 131072, 0, 65529, 131072, 0, 65530, 131072, 0, 65531, 131072, 0, 65532, 131072, 0, 65533, 131072, 0, 65534, 131072, 0, 65535, 131072, 0, 0, 131072, 0, 131062, 131072, 0, 196598, 131072, 0, 196595, 131072, 0, 196596, 131072, 0, 196597, 131072, 0, 65523, 131072, 0, 131059, 131072, 0, 196604, 393216, 3, 131076, 393216, 3, 65525, 458752, 3, -327672, 458752, 3, 8, 393216, 3, 131056, 524288, 3)
-
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="PlayerPoint" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("4_8ssyw")
-
-[node name="BlockPoint" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("4_8ssyw")
+[node name="Layers" type="Node2D" parent="."]
 
 [node name="Character" parent="." instance=ExtResource("3_2sskp")]
 position = Vector2(268, 504)

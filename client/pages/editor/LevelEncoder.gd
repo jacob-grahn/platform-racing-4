@@ -18,7 +18,7 @@ func encode() -> Dictionary:
 		for coords in used_coords:
 			var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 			var block_id = Helpers.to_block_id(atlas_coords)
-			var chunk_coords = coords / chunk_size
+			var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 			var chunk_data_coords = coords - (chunk_coords * chunk_size)
 			var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)
 			var chunk_data_index = (chunk_data_coords.y * chunk_size.x) + chunk_data_coords.x
@@ -41,7 +41,6 @@ func encode() -> Dictionary:
 				chunk_map[chunk_name] = chunk
 			chunk.data[chunk_data_index] = block_id
 		level.layers.push_back(tile_layer)
-	print(level)
 	return level
 
 

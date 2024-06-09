@@ -18,9 +18,15 @@ var area = [] # used for tiles with no collision like water
 var physics_type = STATIC
 var matter_type = SOLID
 
+
 func init():
 	pass
+
 
 func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void:
 	for behavior in self[event]:
 		behavior.call(source, target, coords)
+
+
+func activate_tilemap(tilemap: TileMap) -> void:
+	pass

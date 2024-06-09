@@ -17,8 +17,6 @@ script = ExtResource("1_qeoq7")
 
 [node name="Layers" type="Node2D" parent="."]
 
-[node name="Cursor" parent="." instance=ExtResource("4_pnfuv")]
-
 [node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
 
 [node name="LevelEncoder" parent="." instance=ExtResource("6_1cvds")]
@@ -28,6 +26,8 @@ script = ExtResource("1_qeoq7")
 [node name="Penciler" parent="." instance=ExtResource("5_vq0x1")]
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Cursor" parent="UI" instance=ExtResource("4_pnfuv")]
 
 [node name="SliderMenu" parent="UI" instance=ExtResource("2_klaio")]
 

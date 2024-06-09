@@ -4,10 +4,10 @@ class_name Gear
 var RotationController = preload("res://tiles/gear/RotationController.gd")
 
 
-func activate(game):
-	var tile_map = game.get_node("TileMap")
+func activate_tilemap(tile_map: TileMap):
 	var gear_coord_list = tile_map.get_used_cells_by_id(0, 0, Vector2i(4, 3))
 	var switch_atlas_coords = Vector2i(5, 3)
+	var holder = tile_map.get_parent()
 	
 	for gear_coords in gear_coord_list:
 		# Erase gears from main tile map
@@ -16,8 +16,8 @@ func activate(game):
 		# Create rotation controller
 		var rotation_controller = RotationController.new()
 		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
-		game.add_child(rotation_controller)
-		game.move_child(rotation_controller, 4)
+		holder.add_child(rotation_controller)
+		holder.move_child(rotation_controller, 4)
 		
 		# Create sub tilemap
 		var sub_tile_map = TileMap.new()

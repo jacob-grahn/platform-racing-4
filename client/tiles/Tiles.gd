@@ -1,10 +1,6 @@
 class_name Tiles
 
 var map = {}
-var sun
-var moon
-var firefly
-var gear
 
 
 func init_defaults() -> void:
@@ -23,20 +19,20 @@ func init_defaults() -> void:
 	map['7'] = ArrowLeft.new()
 	map['8'] = ArrowRight.new()
 	
+	# start
+	map['12'] = Start.new()
+	
 	var area_switch:Tile = Tile.new()
 	area_switch.area.push_back(Behaviors.ares_switch)
 	map['35'] = area_switch
 	
-	gear = Gear.new()
-	map['33'] = gear
+	# gear
+	map['33'] = Gear.new()
 	
 	# lights
-	sun = Sun.new()
-	map['36'] = sun
-	moon = Moon.new()
-	map['37'] = moon
-	firefly = Firefly.new()
-	map['38'] = firefly
+	map['36'] = Sun.new()
+	map['37'] = Moon.new()
+	map['38'] = Firefly.new()
 	
 	# init
 	for tile_id in map:
@@ -58,11 +54,6 @@ func is_solid(tile_type: int) -> bool:
 	return false
 
 
-func activate(game):
-	gear.activate(game)
-	activate_node(game)
-
-
 func activate_node(node: Node2D):
 	if node is TileMap:
 		activate_tilemap(node)
@@ -76,9 +67,8 @@ func activate_node(node: Node2D):
 
 
 func activate_tilemap(tilemap: TileMap):
-	sun.activate_tilemap(tilemap)
-	moon.activate_tilemap(tilemap)
-	firefly.activate_tilemap(tilemap)
+	for tile_id in map:
+		map[tile_id].activate_tilemap(tilemap)
 
 
 var ShatterEffect = preload("res://tile_effects/shatter_effect/ShatterEffect.tscn")
