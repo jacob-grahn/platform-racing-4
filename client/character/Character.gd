@@ -32,7 +32,7 @@ var lightbreak_fire_power: int = 0
 var lightbreak_moon_timer: float = 0
 
 # Camera
-var camera_target_zoom: float = 1.0
+var camera_target_zoom: float = 0.2
 var camera_zoom_speed: float = 0.6
 var camera_max_zoom: float = 1.0
 var camera_min_zoom: float = 0.8
@@ -53,6 +53,7 @@ func _ready():
 
 
 func _physics_process(delta):
+	print(position)
 	if !active:
 		return
 	

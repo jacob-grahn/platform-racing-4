@@ -5,6 +5,7 @@ signal do_event
 signal undo_event
 
 const SET_TILE = 'set_tile'
+const ADD_LINE = 'add_line'
 
 var events = []
 var redo_events = []
