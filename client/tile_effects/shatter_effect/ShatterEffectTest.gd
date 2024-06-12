@@ -1,6 +1,6 @@
 extends Node2D
 
-var ShatterEffect = preload("res://tiles/shatter_effect/ShatterEffect.tscn")
+var ShatterEffect = preload("res://tile_effects/shatter_effect/ShatterEffect.tscn")
 var tileatlas = preload("res://tiles/tileatlas.png")
 @onready var timer = $Timer
 

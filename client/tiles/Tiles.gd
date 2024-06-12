@@ -5,34 +5,37 @@ var map = {}
 
 func init_defaults() -> void:
 	# basic
-	map['0'] = Tile.new()
 	map['1'] = Tile.new()
 	map['2'] = Tile.new()
 	map['3'] = Tile.new()
+	map['4'] = Tile.new()
 	
 	# brick
-	map['4'] = Brick.new()
+	map['5'] = Brick.new()
 	
 	# arrow
-	map['5'] = ArrowDown.new()
-	map['6'] = ArrowUp.new()
-	map['7'] = ArrowLeft.new()
-	map['8'] = ArrowRight.new()
+	map['6'] = ArrowDown.new()
+	map['7'] = ArrowUp.new()
+	map['8'] = ArrowLeft.new()
+	map['9'] = ArrowRight.new()
 	
 	# start
 	map['12'] = Start.new()
 	
+	# bounce
+	map['13'] = Bounce.new()
+	
 	var area_switch:Tile = Tile.new()
 	area_switch.area.push_back(Behaviors.ares_switch)
-	map['35'] = area_switch
+	map['36'] = area_switch
 	
 	# gear
-	map['33'] = Gear.new()
+	map['34'] = Gear.new()
 	
 	# lights
-	map['36'] = Sun.new()
-	map['37'] = Moon.new()
-	map['38'] = Firefly.new()
+	map['37'] = Sun.new()
+	map['38'] = Moon.new()
+	map['39'] = Firefly.new()
 	
 	# init
 	for tile_id in map:

@@ -20,6 +20,8 @@ var active = false
 var control_vector: Vector2
 var crouched = false
 var game: Node2D
+var previous_velocity = Vector2(0 , 0)
+var last_collision: KinematicCollision2D
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -53,7 +55,6 @@ func _ready():
 
 
 func _physics_process(delta):
-	print(position)
 	if !active:
 		return
 	
@@ -170,6 +171,7 @@ func _physics_process(delta):
 		tall_shape.disabled = true
 		
 	# move
+	previous_velocity = velocity
 	move_and_slide()
 	
 	# interact with tiles
@@ -215,7 +217,8 @@ func interact_with_incoporeal_tiles():
 
 # Interact with tiles like walls, arrows, etc
 func interact_with_solid_tiles() -> bool:
-	var collision = get_last_slide_collision()
+	var collision: KinematicCollision2D = get_last_slide_collision()
+	last_collision = collision
 	if !collision:
 		return false
 		
@@ -227,7 +230,7 @@ func interact_with_solid_tiles() -> bool:
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-	var tile_type = atlas_coords.x + (atlas_coords.y * 10)
+	var tile_type = Helpers.to_block_id(atlas_coords)
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:

@@ -45,6 +45,11 @@ func parseBlocks(blockArr []string, chunkSize int) TileLayer {
 			} else {
 				tileId = newTileId + 1
 			}
+
+			// replace other start positions with #1
+			if tileId == 13 || tileId == 14 || tileId == 15 {
+				tileId = 12
+			}
 		}
 		x += moveX
 		y += moveY
