@@ -27,15 +27,15 @@ func init_defaults() -> void:
 	
 	var area_switch:Tile = Tile.new()
 	area_switch.area.push_back(Behaviors.ares_switch)
-	map['36'] = area_switch
+	map['35'] = area_switch
 	
 	# gear
 	map['34'] = Gear.new()
 	
 	# lights
-	map['37'] = Sun.new()
-	map['38'] = Moon.new()
-	map['39'] = Firefly.new()
+	map['36'] = Sun.new()
+	map['37'] = Moon.new()
+	map['38'] = Firefly.new()
 	
 	# init
 	for tile_id in map:
