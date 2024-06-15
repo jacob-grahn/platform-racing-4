@@ -10,7 +10,7 @@ signal event
 var using_gui = false
 var mouse_down = false
 var current_cursor: Node2D
-var layer_id: int = 0
+var layer_name: String = "Layer 1"
 
 
 func _ready():

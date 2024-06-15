@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://brtk2r1g0dk55"]
+
+[ext_resource type="Script" path="res://pages/editor/menu/LayerRow.gd" id="1_h07wl"]
+
+[node name="LayerRow" type="Node2D"]
+script = ExtResource("1_h07wl")

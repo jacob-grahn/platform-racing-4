@@ -6,13 +6,15 @@ signal undo_event
 
 const SET_TILE = 'set_tile'
 const ADD_LINE = 'add_line'
+const ADD_LAYER = 'add_layer'
 
 var events = []
 var redo_events = []
 
 
 func _ready():
-	get_parent().get_node("UI/Cursor").connect("event", add_event)
+	get_node("../UI/Cursor").connect("event", add_event)
+	get_node("../UI/SliderMenu").connect("event", add_event)
 
 
 func add_event(event: Dictionary) -> void:

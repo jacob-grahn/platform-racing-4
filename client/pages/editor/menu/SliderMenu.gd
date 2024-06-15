@@ -2,6 +2,7 @@ extends Node2D
 
 signal control_changed
 signal block_changed
+signal event
 
 var SliderControlRow: PackedScene = preload("res://pages/editor/menu/SliderControlRow.tscn")
 var SliderBlockRow: PackedScene = preload("res://pages/editor/menu/SliderBlockRow.tscn")
@@ -24,6 +25,7 @@ func add_row(row) -> void:
 	var height = get_height()
 	add_child(row)
 	row.position = Vector2(0, height)
+	row.connect("event", _on_row_event)
 	_on_size_changed()
 
 
@@ -64,3 +66,7 @@ func _on_control_pressed(label: String) -> void:
 
 func _on_block_pressed(block_id: int) -> void:
 	emit_signal("block_changed", block_id)
+
+
+func _on_row_event(event: Dictionary) -> void:
+	emit_signal("event", event)

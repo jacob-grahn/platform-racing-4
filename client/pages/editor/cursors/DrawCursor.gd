@@ -9,7 +9,8 @@ var optimization_epsilon: float = 1.0 # bigger = more line optimization
 
 func on_mouse_down():
 	if !current_line:
-		var lines: Node2D = get_node("../../../Layers/Layer 1/Lines")
+		var layer_name = get_parent().layer_name
+		var lines: Node2D = get_node("../../../Layers/"+layer_name+"/Lines")
 		var mouse_position = lines.get_local_mouse_position()
 		current_line = Line2D.new()
 		lines.add_child(current_line)
@@ -22,7 +23,8 @@ func on_mouse_down():
 
 func on_drag():
 	if current_line:
-		var lines: Node2D = get_node("../../../Layers/Layer 1/Lines")
+		var layer_name = get_parent().layer_name
+		var lines: Node2D = get_node("../../../Layers/"+layer_name+"/Lines")
 		var mouse_position = lines.get_local_mouse_position()
 		var point = Vector2i((mouse_position - current_line.position).round())
 		if point != current_point:
@@ -43,6 +45,7 @@ func on_mouse_up():
 		# Save the line
 		emit_signal("event", {
 			"type": EditorEvents.ADD_LINE,
+			"layer_name": get_parent().layer_name,
 			"position": current_line.position,
 			"points": simplified_points
 		})
