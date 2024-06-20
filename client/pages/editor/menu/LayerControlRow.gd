@@ -1,7 +1,8 @@
 extends SliderRow
 
-@onready var rotation_picker = $RotationPicker
+signal level_event
 
+@onready var rotation_picker = $RotationPicker
 var layer_name: String = ""
 
 
@@ -16,7 +17,7 @@ func _ready():
 
 func _on_rotation_change(rotation):
 	emit_signal("level_event", {
-		"type": "layer_rotation_change",
+		"type": EditorEvents.ROTATE_LAYER,
 		"layer_name": layer_name,
-		"value": rotation
+		"rotation": rotation
 	})

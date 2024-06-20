@@ -12,7 +12,8 @@ func encode() -> Dictionary:
 		var tile_layer = {
 			"name": group_layer.name,
 			"chunks": encode_chunks(group_layer.get_node("TileMap")),
-			"objects": encode_lines(group_layer.get_node("Lines"))
+			"objects": encode_lines(group_layer.get_node("Lines")),
+			"rotation": group_layer.rotation_degrees
 		}
 		level.layers.push_back(tile_layer)
 	return level

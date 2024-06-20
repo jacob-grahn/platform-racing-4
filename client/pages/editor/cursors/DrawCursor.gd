@@ -1,6 +1,6 @@
 extends Node2D
 
-signal event
+signal level_event
 
 var current_line: Line2D
 var current_point: Vector2i
@@ -43,7 +43,7 @@ func on_mouse_up():
 		var simplified_points = douglas_peucker(current_line.points, optimization_epsilon)
 		
 		# Save the line
-		emit_signal("event", {
+		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LINE,
 			"layer_name": get_parent().layer_name,
 			"position": current_line.position,

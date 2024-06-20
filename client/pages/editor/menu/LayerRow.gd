@@ -1,10 +1,14 @@
 extends SliderRow
+class_name LayerRow
 
-signal event
-signal pressed
+signal level_event
+signal control_event
+
+static var selected_layer_name: String = "L1"
 
 @onready var layers = get_node("../../../Layers")
 @onready var editor = get_node("../../../")
+@onready var menu = get_node("../")
 
 const SLIDER_TEXT_BUTTON: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
 const LAYER_CONTROL_ROW: PackedScene = preload("res://pages/editor/menu/LayerControlRow.tscn")
@@ -16,8 +20,7 @@ func _ready():
 	super._ready()
 	
 	layer_control_row = LAYER_CONTROL_ROW.instantiate()
-	get_parent().add_row(layer_control_row)
-	layer_control_row.position.y += 128
+	menu.add_row(layer_control_row)
 	
 	render()
 
@@ -43,11 +46,12 @@ func render():
 	button.connect("pressed", _on_new_pressed)
 	
 	# select the currently active layer
-	select(editor.current_layer_name)
-	layer_control_row.layer_name = editor.current_layer_name
+	select(selected_layer_name)
+	layer_control_row.layer_name = selected_layer_name
 
 
 func select(label: String) -> void:
+	selected_layer_name = label
 	for button in get_children():
 		if button.get_label() == label:
 			button.set_focus(true)
@@ -57,11 +61,14 @@ func select(label: String) -> void:
 
 func _on_pressed(label: String) -> void:
 	select(label)
-	emit_signal("pressed", label)
+	emit_signal("control_event", {
+		"type": EditorEvents.SELECT_LAYER,
+		"layer_name": label
+	})
 
 
 func _on_new_pressed(label: String) -> void:
-	emit_signal("event", {
+	emit_signal("level_event", {
 		"type": EditorEvents.ADD_LAYER,
 		"name": "L" + str(layers.get_child_count() + 1)
 	})
@@ -71,3 +78,4 @@ func _on_new_pressed(label: String) -> void:
 func _exit_tree():
 	if layer_control_row:
 		layer_control_row.queue_free()
+		layer_control_row = null

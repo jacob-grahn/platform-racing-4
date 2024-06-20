@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1an2cgd34sv1"]
+
+[ext_resource type="Script" path="res://pages/editor/menu/EditorMenu.gd" id="1_nt1xp"]
+[ext_resource type="PackedScene" uid="uid://lctqwgbr7ty5" path="res://pages/editor/menu/ToolRow.tscn" id="2_u81ln"]
+
+[node name="EditorMenu" type="Node2D"]
+script = ExtResource("1_nt1xp")
+
+[node name="ToolRow" parent="." instance=ExtResource("2_u81ln")]
