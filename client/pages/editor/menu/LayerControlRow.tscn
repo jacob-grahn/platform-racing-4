@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://o3n0t5nfmyqs"]
+
+[ext_resource type="Script" path="res://pages/editor/menu/LayerControlRow.gd" id="1_q52ec"]
+[ext_resource type="PackedScene" uid="uid://d4ee2umkl2ogn" path="res://pages/editor/menu/NumberPicker.tscn" id="2_aqkmn"]
+
+[node name="LayerControlRow" type="Node2D"]
+script = ExtResource("1_q52ec")
+
+[node name="RotationPicker" parent="." instance=ExtResource("2_aqkmn")]

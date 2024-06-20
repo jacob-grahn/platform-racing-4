@@ -10,12 +10,13 @@ signal event
 var using_gui = false
 var mouse_down = false
 var current_cursor: Node2D
-var layer_name: String = "Layer 1"
+var layer_name: String = "L1"
 
 
 func _ready():
 	var slider_menu = get_parent().get_node("SliderMenu")
 	slider_menu.connect("control_changed", _on_control_changed)
+	slider_menu.connect("layer_changed", _on_layer_changed)
 	control.connect("gui_input", _on_gui_input)
 	
 	for child in get_children():
@@ -45,6 +46,10 @@ func _on_control_changed(control: String) -> void:
 		current_cursor = block_cursor
 	if control == "Draw":
 		current_cursor = draw_cursor
+
+
+func _on_layer_changed(new_layer_name: String) -> void:
+	layer_name = new_layer_name
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

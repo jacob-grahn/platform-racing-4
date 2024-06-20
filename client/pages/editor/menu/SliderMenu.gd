@@ -2,10 +2,12 @@ extends Node2D
 
 signal control_changed
 signal block_changed
+signal layer_changed
 signal event
 
 var SliderControlRow: PackedScene = preload("res://pages/editor/menu/SliderControlRow.tscn")
 var SliderBlockRow: PackedScene = preload("res://pages/editor/menu/SliderBlockRow.tscn")
+var LayerRow: PackedScene = preload("res://pages/editor/menu/LayerRow.tscn")
 var sub_row
 var sub_row_type: String
 
@@ -60,12 +62,21 @@ func _on_control_pressed(label: String) -> void:
 		sub_row = SliderBlockRow.instantiate()
 		sub_row.connect("pressed", _on_block_pressed)
 		add_row(sub_row)
+	if label == "Layers":
+		sub_row = LayerRow.instantiate()
+		sub_row.connect("event", _on_row_event)
+		sub_row.connect("pressed", _on_layer_pressed)
+		add_row(sub_row)
 	
 	emit_signal("control_changed", label)
 
 
 func _on_block_pressed(block_id: int) -> void:
 	emit_signal("block_changed", block_id)
+
+
+func _on_layer_pressed(layer_name: String) -> void:
+	emit_signal("layer_changed", layer_name)
 
 
 func _on_row_event(event: Dictionary) -> void:

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bj6gaakk3dg01"
-path="res://.godot/imported/Litzbitz_2024.ttf-5a90a325f59c912d413482fe83a8fa88.fontdata"
+uid="uid://dj5a7t44vk0ld"
+path="res://.godot/imported/PoetsenOne-Regular.ttf-89147ffc31f4d5761ade928a3c71fc2b.fontdata"
 
 [deps]
 
-source_file="res://fonts/Litzbitz_2024.ttf"
-dest_files=["res://.godot/imported/Litzbitz_2024.ttf-5a90a325f59c912d413482fe83a8fa88.fontdata"]
+source_file="res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+dest_files=["res://.godot/imported/PoetsenOne-Regular.ttf-89147ffc31f4d5761ade928a3c71fc2b.fontdata"]
 
 [params]
 

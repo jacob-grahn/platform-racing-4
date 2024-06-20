@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4ee2umkl2ogn"]
+
+[ext_resource type="PackedScene" uid="uid://db2mwvyolxxpv" path="res://pages/editor/menu/SliderItem.tscn" id="1_n7pri"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_axm3m"]
+[ext_resource type="Script" path="res://pages/editor/menu/NumberPicker.gd" id="2_svlra"]
+
+[node name="NumberPicker" instance=ExtResource("1_n7pri")]
+script = ExtResource("2_svlra")
+
+[node name="DownButton" type="Button" parent="Content" index="0"]
+clip_contents = true
+offset_left = 295.0
+offset_top = -2.0
+offset_right = 475.0
+offset_bottom = 126.0
+theme = ExtResource("2_axm3m")
+text = "-"
+text_overrun_behavior = 1
+
+[node name="UpButton" type="Button" parent="Content" index="1"]
+clip_contents = true
+offset_left = 485.0
+offset_top = -4.0
+offset_right = 665.0
+offset_bottom = 124.0
+theme = ExtResource("2_axm3m")
+text = "+"
+text_overrun_behavior = 1
+
+[node name="Panel" type="Panel" parent="Content" index="2"]
+offset_right = 284.0
+offset_bottom = 124.0
+
+[node name="Label" type="Label" parent="Content" index="3"]
+offset_left = 23.0
+offset_top = 29.0
+offset_right = 235.0
+offset_bottom = 95.0
+theme = ExtResource("2_axm3m")
+text = "Rotation: 0"

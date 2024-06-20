@@ -1,13 +1,13 @@
 [gd_resource type="Theme" load_steps=8 format=3 uid="uid://cf25w553mynfo"]
 
-[ext_resource type="FontFile" uid="uid://bj6gaakk3dg01" path="res://fonts/Litzbitz_2024.ttf" id="1_7qhf8"]
+[ext_resource type="FontFile" uid="uid://dj5a7t44vk0ld" path="res://fonts/Poetsen_One/PoetsenOne-Regular.ttf" id="1_whhyf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2204u"]
 content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.980392, 0.976471, 0.803922, 1)
+bg_color = Color(0.913725, 0.933333, 1, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -46,7 +46,7 @@ content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.980392, 0.976471, 0.803922, 1)
+bg_color = Color(0.0431373, 0.266667, 0.996078, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -78,14 +78,14 @@ bg_color = Color(0.981878, 0.975142, 0.803432, 1)
 
 [resource]
 default_base_scale = 1.0
-default_font = ExtResource("1_7qhf8")
-default_font_size = 64
-Button/colors/font_color = Color(0.156863, 0.364706, 0.541176, 1)
-Button/colors/font_disabled_color = Color(0.568297, 0.757289, 0.933431, 1)
-Button/colors/font_focus_color = Color(0.156863, 0.364706, 0.541176, 1)
-Button/colors/font_hover_color = Color(0.156863, 0.364706, 0.541176, 1)
-Button/colors/font_hover_pressed_color = Color(0.156863, 0.364706, 0.541176, 1)
-Button/colors/font_pressed_color = Color(0.156863, 0.364706, 0.541176, 1)
+default_font = ExtResource("1_whhyf")
+default_font_size = 32
+Button/colors/font_color = Color(0.960784, 0.972549, 1, 1)
+Button/colors/font_disabled_color = Color(0.65422, 0.697955, 0.83509, 1)
+Button/colors/font_focus_color = Color(0.960784, 0.972549, 1, 1)
+Button/colors/font_hover_color = Color(0.960784, 0.972549, 1, 1)
+Button/colors/font_hover_pressed_color = Color(0.960784, 0.972549, 1, 1)
+Button/colors/font_pressed_color = Color(0.960784, 0.972549, 1, 1)
 Button/styles/disabled = SubResource("StyleBoxFlat_2204u")
 Button/styles/focus = SubResource("StyleBoxFlat_svxdh")
 Button/styles/hover = SubResource("StyleBoxFlat_ulea6")

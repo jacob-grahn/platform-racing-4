@@ -10,6 +10,7 @@ func encode() -> Dictionary:
 	var layers: Node2D = get_node("../Layers")
 	for group_layer in layers.get_children():
 		var tile_layer = {
+			"name": group_layer.name,
 			"chunks": encode_chunks(group_layer.get_node("TileMap")),
 			"objects": encode_lines(group_layer.get_node("Lines"))
 		}

@@ -4,11 +4,10 @@ const LAYER = preload("res://pages/editor/Layer.tscn")
 
 
 func decode(level: Dictionary) -> void:
-	var layer = LAYER.instantiate()
-	layer.name = "Layer 1"
-	get_node("../Layers").add_child(layer)
-	
 	for encoded_layer in level.layers:
+		var layer = LAYER.instantiate()
+		layer.name = encoded_layer.name
+		get_node("../Layers").add_child(layer)
 		if encoded_layer.get("chunks"):
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
 		if encoded_layer.get("objects"):
