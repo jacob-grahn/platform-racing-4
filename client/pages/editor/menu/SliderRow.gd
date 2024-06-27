@@ -48,8 +48,9 @@ func position_sliders():
 
 
 func position_slider(slider: Node2D):
-	slider.position = Vector2(pos) * slider_dimensions
-	pos.x += 1
-	if (pos.x + 1) * slider_dimensions.x > max_width:
+	var slider_dimensions = slider.get_dimensions()
+	if pos.x + slider_dimensions.x > max_width:
 		pos.x = 0
-		pos.y += 1
+		pos.y += slider_dimensions.y
+	slider.position = pos
+	pos.x += slider_dimensions.x

@@ -17,6 +17,7 @@ func _ready():
 	super._ready()
 	up_button.connect("pressed", _on_up_button_pressed)
 	down_button.connect("pressed", _on_down_button_pressed)
+	_render()
 
 
 func _on_up_button_pressed():
@@ -32,5 +33,18 @@ func _on_down_button_pressed():
 func _on_change():
 	value = clamp(value, min, max)
 	emit_signal("value_change", value)
+	_render()
+
+
+func _render():
 	label.text = text + ": " + str(value)
+
+
+func get_dimensions() -> Vector2:
+	return Vector2i(640, 128)
+
+
+func set_value(new_value: int) -> void:
+	value = new_value
+	_render()
 

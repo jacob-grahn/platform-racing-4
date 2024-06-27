@@ -25,7 +25,12 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_LAYER:
 		var layer = LAYER.instantiate()
 		layer.name = event.name
+		layer.z_index = -900
 		layers.add_child(layer)
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
 		layer.rotation_degrees = event.rotation
+	if event.type == EditorEvents.LAYER_DEPTH:
+		var layer = layers.get_node(event.layer_name)
+		layer.scale = Vector2(float(event.depth) / 100, float(event.depth) / 100)
+		layer.z_index = -1000 + event.depth

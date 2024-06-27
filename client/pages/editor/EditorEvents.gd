@@ -13,6 +13,7 @@ const SET_TILE = 'set_tile'
 const ADD_LINE = 'add_line'
 const ADD_LAYER = 'add_layer'
 const ROTATE_LAYER = 'rotate_layer'
+const LAYER_DEPTH = 'layer_depth'
 const UNDO = 'undo'
 
 var events = []

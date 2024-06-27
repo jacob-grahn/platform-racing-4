@@ -13,7 +13,8 @@ func encode() -> Dictionary:
 			"name": group_layer.name,
 			"chunks": encode_chunks(group_layer.get_node("TileMap")),
 			"objects": encode_lines(group_layer.get_node("Lines")),
-			"rotation": group_layer.rotation_degrees
+			"rotation": group_layer.rotation_degrees,
+			"depth": round(group_layer.scale.x * 100)
 		}
 		level.layers.push_back(tile_layer)
 	return level

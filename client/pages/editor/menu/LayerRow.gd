@@ -52,6 +52,7 @@ func render():
 
 func select(label: String) -> void:
 	selected_layer_name = label
+	layer_control_row.set_layer_name(selected_layer_name)
 	for button in get_children():
 		if button.get_label() == label:
 			button.set_focus(true)

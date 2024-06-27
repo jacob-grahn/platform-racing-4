@@ -19,7 +19,9 @@ func _ready():
 		level_decoder.decode({
 			"layers": [{
 				"name": "L1",
-				"chunks": []
+				"chunks": [],
+				"rotation": 0,
+				"depth": 100
 			}]
 		})
 
