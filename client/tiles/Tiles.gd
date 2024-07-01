@@ -57,7 +57,7 @@ func is_solid(tile_type: int) -> bool:
 	return false
 
 
-func activate_node(node: Node2D):
+func activate_node(node: Node):
 	if node is TileMap:
 		activate_tilemap(node)
 		return
@@ -65,13 +65,18 @@ func activate_node(node: Node2D):
 	for child in node.get_children():
 		if child is TileMap:
 			activate_tilemap(child)
-		elif child is Node2D:
+		elif child is Node2D || child is ParallaxBackground:
 			activate_node(child)
 
 
 func activate_tilemap(tilemap: TileMap):
 	for tile_id in map:
 		map[tile_id].activate_tilemap(tilemap)
+
+
+func clear():
+	for tile_id in map:
+		map[tile_id].clear()
 
 
 var ShatterEffect = preload("res://tile_effects/shatter_effect/ShatterEffect.tscn")

@@ -32,8 +32,8 @@ func _ready():
 func set_layer_name(new_layer_name: String) -> void:
 	layer_name = new_layer_name
 	var layer = get_node("../../../Layers/" + layer_name)
-	depth_picker.set_value(round(layer.scale.x * 100))
-	rotation_picker.set_value(round(layer.rotation_degrees))
+	depth_picker.set_value(round(layer.follow_viewport_scale * 100))
+	rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
 
 
 func _on_rotation_change(rotation):

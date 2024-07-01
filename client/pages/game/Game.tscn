@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ro82b48ln0gj"]
+[gd_scene load_steps=6 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" path="res://pages/game/Game.gd" id="1_cq41v"]
 [ext_resource type="Texture2D" uid="uid://bpmp38i1xaqby" path="res://pages/game/bg-1.jpg" id="2_c3snn"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="2_dbxag"]
-[ext_resource type="PackedScene" uid="uid://c4b6khd33tysp" path="res://character/Character.tscn" id="3_2sskp"]
 [ext_resource type="PackedScene" uid="uid://facica06ifm6" path="res://addons/FitScreen.tscn" id="3_qjash"]
 [ext_resource type="PackedScene" uid="uid://bb2q3wohjm3yk" path="res://addons/FollowCamera.tscn" id="3_qqqfl"]
 
@@ -14,6 +13,7 @@ script = ExtResource("1_cq41v")
 position = Vector2(268, 504)
 
 [node name="BG" type="Node2D" parent="."]
+z_index = -2000
 
 [node name="Sprite" type="Sprite2D" parent="BG"]
 texture = ExtResource("2_c3snn")
@@ -25,9 +25,6 @@ texture = ExtResource("2_c3snn")
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="Layers" type="Node2D" parent="."]
-
-[node name="Character" parent="." instance=ExtResource("3_2sskp")]
-position = Vector2(268, 504)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

@@ -10,8 +10,10 @@ var optimization_epsilon: float = 1.0 # bigger = more line optimization
 func on_mouse_down():
 	if !current_line:
 		var layer_name = get_parent().layer_name
-		var lines: Node2D = get_node("../../../Layers/"+layer_name+"/Lines")
-		var mouse_position = lines.get_local_mouse_position()
+		var layer: ParallaxBackground = get_node("../../../Layers/"+layer_name)
+		var lines: Node2D = layer.get_node("Lines")
+		var camera: Camera2D = get_viewport().get_camera_2d()
+		var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 		current_line = Line2D.new()
 		lines.add_child(current_line)
 		current_line.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -24,8 +26,10 @@ func on_mouse_down():
 func on_drag():
 	if current_line:
 		var layer_name = get_parent().layer_name
-		var lines: Node2D = get_node("../../../Layers/"+layer_name+"/Lines")
-		var mouse_position = lines.get_local_mouse_position()
+		var layer: ParallaxBackground = get_node("../../../Layers/"+layer_name)		
+		var lines: Node2D = layer.get_node("Lines")
+		var camera: Camera2D = get_viewport().get_camera_2d()
+		var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 		var point = Vector2i((mouse_position - current_line.position).round())
 		if point != current_point:
 			current_line.add_point(point)

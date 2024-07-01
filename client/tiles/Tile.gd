@@ -23,6 +23,10 @@ func init():
 	pass
 
 
+func clear():
+	pass
+
+
 func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void:
 	for behavior in self[event]:
 		behavior.call(source, target, coords)

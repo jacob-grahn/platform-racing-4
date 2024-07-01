@@ -1,7 +1,7 @@
 extends Tile
 class_name Start
 
-static var start_coords = []
+static var start_options = []
 static var i = 0
 
 
@@ -11,15 +11,28 @@ func init():
 
 
 func activate_tilemap(tilemap: TileMap) -> void:
-	start_coords = tilemap.get_used_cells_by_id(0, 0, Vector2i(1, 1))
+	var coord_list = tilemap.get_used_cells_by_id(0, 0, Vector2i(1, 1))
+	for coords in coord_list:
+		var start_option = {
+			"layer_name": str(tilemap.get_parent().name),
+			"coords": coords
+		}
+		start_options.push_back(start_option)
 
 
-static func get_next_start_coords() -> Vector2i:
-	if len(start_coords) > 0:
-		var coords = start_coords[i]
+func clear():
+	start_options = []
+
+
+static func get_next_start_option() -> Dictionary:
+	if len(start_options) > 0:
+		var start_option = start_options[i]
 		i += 1
-		if i >= len(start_coords):
+		if i >= len(start_options):
 			i = 0
-		return coords
+		return start_option
 	else:
-		return Vector2i(0, 0)
+		return {
+			"layer_name": "L1",
+			"coords": Vector2i(0, 0)
+		}

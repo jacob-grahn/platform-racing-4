@@ -1,15 +1,15 @@
 extends Node2D
 class_name Game
 
+const CHARACTER = preload("res://character/Character.tscn")
+
 static var pr2_level_id
 static var game: Game
 
 var tiles: Tiles = Tiles.new()
-var target_zoom: float = 1.0
-
 @onready var back_button = $UI/BackButton
 @onready var level_decoder = $LevelDecoder
-
+@onready var layers = $Layers
 
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)	
@@ -43,11 +43,17 @@ func _http_request_completed(result, response_code, headers, body):
 
 func activate():
 	tiles.activate_node($Layers)
-	$Character.position = Start.get_next_start_coords() * Settings.tile_size + Settings.tile_size_half
-	$Character.active = true
+	var start_option = Start.get_next_start_option()
+	var layer = layers.get_node(start_option.layer_name)
+	var character = CHARACTER.instantiate()
+	character.position = layer.to_global(start_option.coords * Settings.tile_size + Settings.tile_size_half)
+	character.position += character.position * (1 - layer.scale.x)
+	character.active = true
+	add_child(character)
 
 
 func _exit_tree():
+	tiles.clear()
 	Game.game = null
 
 

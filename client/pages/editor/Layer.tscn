@@ -3,7 +3,8 @@
 [ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="1_6he4o"]
 [ext_resource type="Script" path="res://pages/editor/Layer.gd" id="1_ls4ir"]
 
-[node name="Layer" type="Node2D"]
+[node name="Layer" type="ParallaxBackground"]
+follow_viewport_enabled = true
 script = ExtResource("1_ls4ir")
 
 [node name="TileMap" type="TileMap" parent="."]

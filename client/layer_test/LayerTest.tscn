@@ -1,0 +1,112 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr45yk7m8plti"]
+
+[ext_resource type="Texture2D" uid="uid://d2cvs4uespslp" path="res://icon.svg" id="1_hcrhf"]
+
+[sub_resource type="Animation" id="Animation_t0i0i"]
+resource_name = "pan"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2.1, 3.1, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(500, 0), Vector2(500, 500), Vector2(0, 500), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qja34"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j84ig"]
+_data = {
+"RESET": SubResource("Animation_qja34"),
+"pan": SubResource("Animation_t0i0i")
+}
+
+[node name="LayerTest" type="Node2D"]
+
+[node name="Layers" type="Node2D" parent="."]
+
+[node name="Layer1" type="ParallaxBackground" parent="Layers"]
+follow_viewport_enabled = true
+follow_viewport_scale = 0.5
+
+[node name="Icon" type="Sprite2D" parent="Layers/Layer1"]
+position = Vector2(368, 352)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon2" type="Sprite2D" parent="Layers/Layer1"]
+position = Vector2(1068, 360)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon3" type="Sprite2D" parent="Layers/Layer1"]
+position = Vector2(372, 876)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon4" type="Sprite2D" parent="Layers/Layer1"]
+position = Vector2(1028, 888)
+texture = ExtResource("1_hcrhf")
+
+[node name="Layer2" type="ParallaxBackground" parent="Layers"]
+follow_viewport_enabled = true
+
+[node name="Icon" type="Sprite2D" parent="Layers/Layer2"]
+position = Vector2(368, 352)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon2" type="Sprite2D" parent="Layers/Layer2"]
+position = Vector2(1068, 360)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon3" type="Sprite2D" parent="Layers/Layer2"]
+position = Vector2(372, 876)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon4" type="Sprite2D" parent="Layers/Layer2"]
+position = Vector2(1028, 888)
+texture = ExtResource("1_hcrhf")
+
+[node name="Layer3" type="ParallaxBackground" parent="Layers"]
+follow_viewport_enabled = true
+follow_viewport_scale = 2.0
+
+[node name="Icon" type="Sprite2D" parent="Layers/Layer3"]
+position = Vector2(368, 352)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon2" type="Sprite2D" parent="Layers/Layer3"]
+position = Vector2(1068, 360)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon3" type="Sprite2D" parent="Layers/Layer3"]
+position = Vector2(372, 876)
+texture = ExtResource("1_hcrhf")
+
+[node name="Icon4" type="Sprite2D" parent="Layers/Layer3"]
+position = Vector2(1028, 888)
+texture = ExtResource("1_hcrhf")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j84ig")
+}
+autoplay = "pan"

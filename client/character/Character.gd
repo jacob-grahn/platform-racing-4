@@ -49,7 +49,7 @@ var incoporeal_rids = []
 
 
 func _ready():
-	game = get_parent()
+	game = get_parent().get_parent().get_parent().get_parent()
 	$Area2D.connect("body_shape_entered", _on_body_shape_entered)
 	$Area2D.connect("body_shape_exited", _on_body_shape_exited)
 
