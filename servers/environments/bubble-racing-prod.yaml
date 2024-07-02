@@ -20,14 +20,14 @@ services:
     !!merge <<: *gameserver
     environment:
       GAMESERVER_ID: 1
-      API_URL: http://prod-api:8080
+      API_URL: http://bubble-racing-prod-api:8080
       SELF_URL: wss://bubbleracing.com/gameservers
   
   bubble-racing-prod-gameserver-2:
     !!merge <<: *gameserver
     environment:
       GAMESERVER_ID: 2
-      API_URL: http://prod-api:8080
+      API_URL: http://bubble-racing-prod-api:8080
       SELF_URL: wss://bubbleracing.com/gameservers
 
 volumes:
