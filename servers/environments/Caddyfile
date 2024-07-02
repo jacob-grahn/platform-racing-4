@@ -22,3 +22,26 @@ dev.platformracing.com {
     # web
     reverse_proxy /* http://dev-web:80
 }
+
+
+bubbleracing.com {
+    
+    # api
+    route /api/* {
+        uri strip_prefix api
+        reverse_proxy http://bubble-racing-prod-api:8080
+    }
+
+    # web
+    reverse_proxy /* http://bubble-racing-prod-web:80
+
+    # gameservers
+    route /gameservers/1 {
+        uri strip_prefix gameservers/1
+        reverse_proxy bubble-racing-prod-gameserver-1:9999
+    }
+    route /gameservers/2 {
+        uri strip_prefix gameservers/2
+        reverse_proxy bubble-racing-prod-gameserver-2:9999
+    }
+}
