@@ -8,8 +8,8 @@ docker compose \
   -f dev.secrets.yaml \
   -f prod.yaml.rendered \
   -f prod.secrets.yaml \
-  -f prod-bubble-racing.yaml \
-  -f prod-bubble-racing.secrets.yaml \
+  -f bubble-racing-prod.yaml \
+  -f bubble-racing-prod.secrets.yaml \
   --project-name platform-racing-4 \
   up \
   -d \
