@@ -8,5 +8,4 @@ func init():
 
 
 func shatter(player: Node2D, tilemap: TileMap, coords: Vector2i):
-	# Game.game.tiles.shatter(tilemap, coords)
-	pass
+	TileEffects.shatter(tilemap, coords)

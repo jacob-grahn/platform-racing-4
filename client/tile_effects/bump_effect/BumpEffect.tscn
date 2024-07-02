@@ -79,6 +79,7 @@ _data = {
 }
 
 [node name="BumpEffect" type="Node2D"]
+z_index = -1
 script = ExtResource("1_fwhhp")
 
 [node name="Node" type="Node2D" parent="."]

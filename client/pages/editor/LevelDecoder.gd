@@ -9,7 +9,7 @@ func decode(level: Dictionary) -> void:
 		layer.name = encoded_layer.name
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.follow_viewport_scale = encoded_layer.get('depth', 100) / 100
-		layer.layer = -1000 + encoded_layer.get('depth', 100)
+		layer.layer = encoded_layer.get('depth', 100) / 10
 		get_node("../Layers").add_child(layer)
 		if encoded_layer.get("chunks"):
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))

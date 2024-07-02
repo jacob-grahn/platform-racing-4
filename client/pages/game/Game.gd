@@ -44,12 +44,12 @@ func _http_request_completed(result, response_code, headers, body):
 func activate():
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option()
-	var layer = layers.get_node(start_option.layer_name)
 	var character = CHARACTER.instantiate()
-	character.position = layer.to_global(start_option.coords * Settings.tile_size + Settings.tile_size_half)
-	character.position += character.position * (1 - layer.scale.x)
+	var layer = layers.get_node(start_option.layer_name)
+	var player_holder = layer.get_node("Players")
+	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
 	character.active = true
-	add_child(character)
+	player_holder.add_child(character)
 
 
 func _exit_tree():

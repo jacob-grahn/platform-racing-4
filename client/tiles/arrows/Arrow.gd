@@ -5,8 +5,8 @@ var ArrowActivateEffect: PackedScene = preload("res://tile_effects/arrow_activat
 var push_force = 75 # used for gliding up/down/left/right
 var push_force_stand = 600 # used for standing, bumps you up into the air
 var push_force_bump = 75 #
-var phantom_push_force_bump = 260
-var phantom_push_force_bump_decay = 0.8
+var phantom_push_force_bump = 400
+var phantom_push_force_bump_decay = 0.85
 
 
 func init():

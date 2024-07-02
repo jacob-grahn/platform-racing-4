@@ -26,6 +26,7 @@ script = ExtResource("1_qeoq7")
 [node name="Penciler" parent="." instance=ExtResource("5_vq0x1")]
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 120
 
 [node name="Cursor" parent="UI" instance=ExtResource("4_pnfuv")]
 

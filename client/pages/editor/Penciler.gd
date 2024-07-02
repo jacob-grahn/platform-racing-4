@@ -25,7 +25,7 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_LAYER:
 		var layer = LAYER.instantiate()
 		layer.name = event.name
-		layer.layer = -900
+		layer.layer = 10
 		layers.add_child(layer)
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
@@ -33,4 +33,4 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.LAYER_DEPTH:
 		var layer = layers.get_node(event.layer_name)
 		layer.follow_viewport_scale = float(event.depth) / 100
-		layer.layer = -1000 + event.depth
+		layer.layer = event.depth / 10

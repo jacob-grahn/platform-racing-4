@@ -251,7 +251,7 @@ func interact_with_solid_tiles() -> bool:
 	
 	# blow up tiles when sun lightbreaking
 	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:
-		game.tiles.shatter(tilemap, coords)
+		TileEffects.shatter(tilemap, coords)
 		lightbreak_fire_power -= 1
 		return false
 	else:
