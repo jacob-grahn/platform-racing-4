@@ -24,8 +24,7 @@ func activate_tilemap(tilemap: TileMap) -> void:
 		# Add a light
 		var light = LightDisplay.instantiate()
 		var holder = tilemap.get_parent()
-		var global_pos = tilemap.to_global((coords * Settings.tile_size) + Settings.tile_size_half)
-		light.position = holder.to_local(global_pos)
+		light.position = (coords * Settings.tile_size) + Settings.tile_size_half
 		light.get_node("PointLight2D").color = display_color
 		holder.add_child(light)
 

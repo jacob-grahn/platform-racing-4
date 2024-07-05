@@ -211,7 +211,7 @@ func interact_with_incoporeal_tiles():
 		var tilemap: TileMap = shape["body"]
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
+		var tile_type = Helpers.to_block_id(atlas_coords)
 		game.tiles.on("area", tile_type, self, tilemap, coords)
 	
 

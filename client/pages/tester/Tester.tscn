@@ -12,6 +12,7 @@ script = ExtResource("1_uug6k")
 [node name="LevelDecoder" parent="." instance=ExtResource("2_qvp0h")]
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 120
 
 [node name="Back" type="Button" parent="UI"]
 offset_left = 34.0

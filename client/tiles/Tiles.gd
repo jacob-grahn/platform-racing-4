@@ -22,13 +22,20 @@ func init_defaults() -> void:
 	# more
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
-	map['35'] = PresenceSwitch.new()
-	map['34'] = Gear.new()
+	
+	# teleports
+	map['32'] = BlueTeleport.new()
+	map['33'] = RedTeleport.new()
+	map['34'] = YellowTeleport.new()
+	
+	#
+	map['35'] = Gear.new()
+	map['36'] = PresenceSwitch.new()
 	
 	# lights
-	map['36'] = Sun.new()
-	map['37'] = Moon.new()
-	map['38'] = Firefly.new()
+	map['37'] = Sun.new()
+	map['38'] = Moon.new()
+	map['39'] = Firefly.new()
 	
 	# init
 	for tile_id in map:

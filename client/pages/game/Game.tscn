@@ -28,6 +28,7 @@ position = Vector2(268, 504)
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 120
 
 [node name="BackButton" type="Button" parent="UI"]
 offset_left = 65.0
