@@ -1,6 +1,6 @@
 extends Node2D
 
-const LAYER = preload("res://pages/editor/Layer.tscn")
+const LAYER = preload("res://layers/Layer.tscn")
 
 @onready var layers: Node2D = get_node("../Layers")
 @onready var editor_events: Node2D = get_node("../EditorEvents")

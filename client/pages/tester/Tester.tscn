@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://btetwq0fyumv"]
+[gd_scene load_steps=5 format=3 uid="uid://btetwq0fyumv"]
 
 [ext_resource type="Script" path="res://pages/tester/Tester.gd" id="1_uug6k"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="2_mjhpf"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="2_qvp0h"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_sy0tr"]
 
 [node name="Tester" type="Node2D"]
 script = ExtResource("1_uug6k")
 
-[node name="Layers" type="Node2D" parent="."]
+[node name="Layers" parent="." instance=ExtResource("2_mjhpf")]
 
 [node name="LevelDecoder" parent="." instance=ExtResource("2_qvp0h")]
 

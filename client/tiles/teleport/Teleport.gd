@@ -5,6 +5,7 @@ var positions = []
 var recent_teleports = []
 var color = "none"
 var atlas_coords = Vector2i(0, 0)
+var throttle_ms = 1000
 
 
 func init():
@@ -45,14 +46,15 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half)
 	var dist = player.position - source_block_position
+	player.get_parent().remove_child(player)
 	layer.get_node("Players").add_child(player)
 	player.position = next_block_position + dist
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 
 
 func is_teleport_throttled(player_name: String, layer_name: String, coords: Vector2i) -> bool:
-	# remove recent teleports older than x
-	var min_ms = Time.get_ticks_msec() - 1000
+	# remove recent teleports older than throttle_ms
+	var min_ms = Time.get_ticks_msec() - throttle_ms
 	recent_teleports = recent_teleports.filter( func(record): return record.ms >= min_ms )
 	
 	# check if there is a match

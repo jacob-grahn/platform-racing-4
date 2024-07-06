@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://h5onwupb7ju1"]
 
-[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="1_6he4o"]
-[ext_resource type="Script" path="res://pages/editor/Layer.gd" id="1_ls4ir"]
+[ext_resource type="Script" path="res://layers/Layer.gd" id="1_wroxk"]
+[ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr2-tileset.tres" id="2_hrlxt"]
 
 [node name="Layer" type="ParallaxBackground"]
 follow_viewport_enabled = true
-script = ExtResource("1_ls4ir")
+script = ExtResource("1_wroxk")
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource("1_6he4o")
+tile_set = ExtResource("2_hrlxt")
 format = 2
 
 [node name="MovingTileMaps" type="Node2D" parent="."]

@@ -1,6 +1,6 @@
 extends Node2D
 
-const LAYER = preload("res://pages/editor/Layer.tscn")
+const LAYER = preload("res://layers/Layer.tscn")
 
 
 func decode(level: Dictionary) -> void:
