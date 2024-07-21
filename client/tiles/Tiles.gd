@@ -20,8 +20,28 @@ func init_defaults() -> void:
 	map['9'] = ArrowRight.new()
 	
 	# more
+	map['10'] = Tile.new()
+	map['11'] = Tile.new()
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
+	map['14'] = Tile.new()
+	map['15'] = Tile.new()
+	map['16'] = Tile.new()
+	map['17'] = Tile.new()
+	map['18'] = Tile.new()
+	map['19'] = Tile.new()
+	map['20'] = Tile.new()
+	map['21'] = Tile.new()
+	map['22'] = Tile.new()
+	map['23'] = Tile.new()
+	map['24'] = Tile.new()
+	map['25'] = Tile.new()
+	map['26'] = Tile.new()
+	map['27'] = Tile.new()
+	map['28'] = Tile.new()
+	map['29'] = Tile.new()
+	map['30'] = Tile.new()
+	map['31'] = Tile.new()
 	
 	# teleports
 	map['32'] = BlueTeleport.new()

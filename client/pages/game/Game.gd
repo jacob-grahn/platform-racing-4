@@ -14,6 +14,7 @@ var tiles: Tiles = Tiles.new()
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)	
 	tiles.init_defaults()
+	layers.init(tiles)
 	
 	if !pr2_level_id || pr2_level_id == '0':
 		activate()

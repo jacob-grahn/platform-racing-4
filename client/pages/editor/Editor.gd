@@ -1,11 +1,13 @@
 extends Node2D
 class_name Editor
 
+var tiles: Tiles = Tiles.new()
 @onready var back = $UI/Back
 @onready var test = $UI/Test
 @onready var level_encoder = $LevelEncoder
 @onready var level_decoder = $LevelDecoder
 @onready var editor_menu = $UI/EditorMenu
+@onready var layers = $Layers
 
 static var current_level: Dictionary
 
@@ -24,6 +26,9 @@ func _ready():
 				"depth": 100
 			}]
 		})
+	
+	tiles.init_defaults()
+	layers.init(tiles)
 
 
 func _on_back_pressed():
@@ -34,4 +39,4 @@ func _on_back_pressed():
 func _on_test_pressed():
 	Editor.current_level = level_encoder.encode()
 	var tester = Helpers.set_scene("TESTER")
-	tester.set_level(Editor.current_level)
+	tester.init(Editor.current_level)

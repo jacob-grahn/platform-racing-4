@@ -17,18 +17,14 @@ func _on_back_pressed():
 	Helpers.set_scene("EDITOR")
 
 
-func set_level(level: Dictionary) -> void:
+func init(level: Dictionary):
 	level_decoder.decode(level)
-	activate()
-
-
-func activate():
+	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option()
 	var character = CHARACTER.instantiate()
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")
-	print("start_option ", start_option)
 	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
 	character.active = true
 	player_holder.add_child(character)

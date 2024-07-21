@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cow7p4hc0rpk4"]
+
+[ext_resource type="Script" path="res://layers/LayerTest.gd" id="1_hkgdh"]
+[ext_resource type="PackedScene" uid="uid://h5onwupb7ju1" path="res://layers/Layer.tscn" id="2_hcswu"]
+
+[node name="LayerTest" type="Node2D"]
+script = ExtResource("1_hkgdh")
+
+[node name="Layer" parent="." instance=ExtResource("2_hcswu")]
