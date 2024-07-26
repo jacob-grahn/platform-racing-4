@@ -13,6 +13,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var camera = $Camera
 @onready var sun_particles = $SunParticles
 @onready var moon_particles = $MoonParticles
+@onready var area = $Area
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -50,8 +51,8 @@ var incoporeal_rids = []
 
 func _ready():
 	game = get_parent().get_parent().get_parent().get_parent()
-	$Area2D.connect("body_shape_entered", _on_body_shape_entered)
-	$Area2D.connect("body_shape_exited", _on_body_shape_exited)
+	area.connect("body_shape_entered", _on_body_shape_entered)
+	area.connect("body_shape_exited", _on_body_shape_exited)
 
 
 func _physics_process(delta):
@@ -270,3 +271,12 @@ func is_in_solid() -> bool:
 		if game.tiles.is_solid(tile_type):
 			in_solid = true
 	return in_solid
+
+
+func set_depth(depth: int) -> void:
+	var solid_layer = Helpers.to_bitmask_32(depth * 2)
+	var vapor_layer = Helpers.to_bitmask_32((depth * 2) + 1)
+	collision_layer = solid_layer
+	collision_mask = solid_layer
+	area.collision_layer = vapor_layer
+	area.collision_mask = solid_layer | vapor_layer

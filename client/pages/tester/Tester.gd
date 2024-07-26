@@ -28,6 +28,7 @@ func init(level: Dictionary):
 	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
 	character.active = true
 	player_holder.add_child(character)
+	character.set_depth(round(layer.follow_viewport_scale * 10))
 
 
 func _exit_tree():

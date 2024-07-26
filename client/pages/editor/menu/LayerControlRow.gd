@@ -19,9 +19,9 @@ func _ready():
 	
 	depth_picker = NUMBER_PICKER.instantiate()
 	depth_picker.text = "Depth"
-	depth_picker.min = 0
-	depth_picker.max = 300
-	depth_picker.step = 10
+	depth_picker.min = 1
+	depth_picker.max = 16
+	depth_picker.step = 1
 	depth_picker.connect("value_change", _on_depth_change)
 	add_slider(depth_picker)
 	
@@ -32,7 +32,7 @@ func _ready():
 func set_layer_name(new_layer_name: String) -> void:
 	layer_name = new_layer_name
 	var layer = get_node("../../../Layers/" + layer_name)
-	depth_picker.set_value(round(layer.follow_viewport_scale * 100))
+	depth_picker.set_value(round(layer.follow_viewport_scale * 10))
 	rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
 
 

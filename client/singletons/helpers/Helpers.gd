@@ -24,3 +24,9 @@ func to_atlas_coords(block_id: int) -> Vector2i:
 
 func to_block_id(atlas_coords: Vector2i) -> int:
 	return (atlas_coords.y * 10) + atlas_coords.x + 1
+
+
+func to_bitmask_32(num: int) -> int:
+	if num < 1 or num > 32:
+		return 0 # Return 0 for out of range numbers
+	return 1 << (num - 1)

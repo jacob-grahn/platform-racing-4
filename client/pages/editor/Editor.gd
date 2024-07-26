@@ -23,7 +23,7 @@ func _ready():
 				"name": "L1",
 				"chunks": [],
 				"rotation": 0,
-				"depth": 100
+				"depth": 10
 			}]
 		})
 	

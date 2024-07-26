@@ -27,10 +27,11 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.name = event.name
 		layer.layer = 10
 		layers.add_child(layer)
+		layer.init(get_parent().tiles)
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
 		layer.get_node("TileMap").rotation_degrees = event.rotation
 	if event.type == EditorEvents.LAYER_DEPTH:
 		var layer = layers.get_node(event.layer_name)
-		layer.follow_viewport_scale = float(event.depth) / 100
-		layer.layer = event.depth / 10
+		layer.follow_viewport_scale = float(event.depth) / 10
+		layer.layer = event.depth
