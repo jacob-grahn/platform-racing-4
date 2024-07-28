@@ -12,9 +12,9 @@ var tiles: Tiles = Tiles.new()
 @onready var layers = $Layers
 
 func _ready():
+	Jukebox.play_url("https://tunes.platformracing.com/pr1-future-penumbra-by-adulock-van-liovick.mp3")
 	back_button.connect("pressed", _on_back_pressed)	
 	tiles.init_defaults()
-	layers.init(tiles)
 	
 	if !pr2_level_id || pr2_level_id == '0':
 		activate()
@@ -43,6 +43,7 @@ func _http_request_completed(result, response_code, headers, body):
 
 
 func activate():
+	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option()
 	var character = CHARACTER.instantiate()
@@ -51,6 +52,7 @@ func activate():
 	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
 	character.active = true
 	player_holder.add_child(character)
+	character.set_depth(round(layer.follow_viewport_scale * 10))
 
 
 func _exit_tree():

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://d153l8ayxy25b"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_hnp8c"]
+
+[node name="Credits" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 2430.0
+offset_bottom = 1314.0
+theme = ExtResource("1_hnp8c")
+text = "--- Code ---
+AudioImport - Gianclgar - https://github.com/Gianclgar/GDScriptAudioImport
+
+--- Art ---
+
+--- Music ---
+Noodletown 4 Remake - Damon Bass - https://open.spotify.com/artist/35EsioXPOMMzLpzHrvHCn3?si=Cqmrf_OZSy-a5ULrm9Y9mQ
+PR1 Future Theme (Penumbra) - Adulock Van Liovick - https://soundcloud.com/adulock77/pr1-future-theme-penumbra
+
+--- Sound ---"

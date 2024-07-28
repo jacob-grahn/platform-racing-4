@@ -2,8 +2,8 @@ extends Node2D
 
 
 func _ready():
-	Jukebox.play('noodle-town-4')
-	$Voter.init('2024/06/27', ['Blocks on all layers are active, kind of goofy but kind of fun', 'Blocks on the same depth as the player are active, can go from layer to layer with teleport blocks', 'Only blocks on depth 100 are active, the rest are for decoration'])
+	Jukebox.play_url("https://tunes.platformracing.com/noodletown-4-remake-by-damon-bass.mp3")
+	$Voter.init('2024/07/28', ['Just make all of the PR2 blocks work', 'Add a couple of new blocks', 'Save and share levels'])
 	$GameButton.pressed.connect(_on_game_pressed)
 	$GearButton.pressed.connect(_on_gear_pressed)
 

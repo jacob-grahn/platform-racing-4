@@ -6,4 +6,5 @@
 script = ExtResource("1_2tc2v")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-autoplay = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
