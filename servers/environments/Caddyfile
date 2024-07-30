@@ -13,10 +13,28 @@ platformracing.com {
 
 dev.platformracing.com {
 
-     # api
+    # api
     route /api/* {
         uri strip_prefix api
         reverse_proxy http://dev-api:8080
+    }
+
+    # auth
+    route /auth/* {
+        uri strip_prefix auth
+        reverse_proxy http://dev-kratos:4433
+    }
+
+    # auth-admin
+    route /auth-admin/* {
+        uri strip_prefix auth-admin
+        reverse_proxy http://dev-kratos:4434
+    }
+
+    # auth-ui
+    route /auth-ui/* {
+        uri strip_prefix auth-ui
+        reverse_proxy http://dev-kratos-ui:4455
     }
 
     # web
