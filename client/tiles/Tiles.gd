@@ -4,22 +4,15 @@ var map = {}
 
 
 func init_defaults() -> void:
-	# basic
 	map['1'] = Tile.new()
 	map['2'] = Tile.new()
 	map['3'] = Tile.new()
 	map['4'] = Tile.new()
-	
-	# brick
 	map['5'] = Brick.new()
-	
-	# arrow
 	map['6'] = ArrowDown.new()
 	map['7'] = ArrowUp.new()
 	map['8'] = ArrowLeft.new()
 	map['9'] = ArrowRight.new()
-	
-	# more
 	map['10'] = Tile.new()
 	map['11'] = Tile.new()
 	map['12'] = Start.new()
@@ -29,7 +22,7 @@ func init_defaults() -> void:
 	map['16'] = Tile.new()
 	map['17'] = Tile.new()
 	map['18'] = Tile.new()
-	map['19'] = Tile.new()
+	map['19'] = Vanish.new()
 	map['20'] = Tile.new()
 	map['21'] = Tile.new()
 	map['22'] = Tile.new()
@@ -42,17 +35,11 @@ func init_defaults() -> void:
 	map['29'] = Tile.new()
 	map['30'] = Tile.new()
 	map['31'] = Tile.new()
-	
-	# teleports
 	map['32'] = BlueTeleport.new()
 	map['33'] = RedTeleport.new()
 	map['34'] = YellowTeleport.new()
-	
-	#
 	map['35'] = Gear.new()
 	map['36'] = PresenceSwitch.new()
-	
-	# lights
 	map['37'] = Sun.new()
 	map['38'] = Moon.new()
 	map['39'] = Firefly.new()
