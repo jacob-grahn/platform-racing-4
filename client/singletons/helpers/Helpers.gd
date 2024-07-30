@@ -30,3 +30,9 @@ func to_bitmask_32(num: int) -> int:
 	if num < 1 or num > 32:
 		return 0 # Return 0 for out of range numbers
 	return 1 << (num - 1)
+
+
+func get_depth(node: Node) -> int:
+	if node is ParallaxBackground:
+		return round(node.follow_viewport_scale * 10)
+	return get_depth(node.get_parent())

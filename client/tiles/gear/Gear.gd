@@ -16,6 +16,8 @@ func activate_tilemap(tile_map: TileMap):
 		# Create rotation controller
 		var rotation_controller = RotationController.new()
 		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
+		rotation_controller.rotation = tile_map.rotation
+		rotation_controller.target_rotation = tile_map.rotation
 		holder.add_child(rotation_controller)
 		holder.move_child(rotation_controller, 4)
 		

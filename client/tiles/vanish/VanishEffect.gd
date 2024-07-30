@@ -17,7 +17,7 @@ func init(atlas: Texture, atlas_coords: Vector2i, tile_map: TileMap, coords: Vec
 	sprite.region_enabled = true
 	sprite.region_rect = Rect2i((atlas_coords * Settings.tile_size), Settings.tile_size)
 	
-	var depth = round(tile_map.get_parent().follow_viewport_scale * 10)
+	var depth = Helpers.get_depth(tile_map)
 	var layer = Helpers.to_bitmask_32(depth * 2)
 	static_body.collision_layer = layer 
 	static_body.collision_mask = layer

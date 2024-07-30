@@ -13,7 +13,7 @@ static func shatter(tilemap: TileMap, coords: Vector2i):
 	var shatter_effect = SHATTER_EFFECT.instantiate()
 	shatter_effect.position = coords * Settings.tile_size
 	shatter_effect.add_pieces(tile_atlas, atlas_coords)
-	tilemap.get_parent().add_child(shatter_effect)
+	tilemap.add_child(shatter_effect)
 	tilemap.set_cell(-1, coords)
 
 

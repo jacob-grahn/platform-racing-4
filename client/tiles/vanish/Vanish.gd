@@ -17,7 +17,7 @@ func vanish(player: Node2D, tilemap: TileMap, coords: Vector2i):
 	var tile_atlas = tilemap.tile_set.get_source(0).texture
 	var vanish_effect = VANISH_EFFECT.instantiate()
 	vanish_effect.position = coords * Settings.tile_size
-	tilemap.get_parent().add_child(vanish_effect)
+	tilemap.add_child(vanish_effect)
 	vanish_effect.init(tile_atlas, atlas_coords, tilemap, coords)
 
 	tilemap.set_cell(-1, coords)
