@@ -13,7 +13,7 @@ func init_defaults() -> void:
 	map['7'] = ArrowUp.new()
 	map['8'] = ArrowLeft.new()
 	map['9'] = ArrowRight.new()
-	map['10'] = Tile.new()
+	map['10'] = Mine.new()
 	map['11'] = Tile.new()
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
