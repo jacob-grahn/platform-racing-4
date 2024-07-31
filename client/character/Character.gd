@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 1000.0
-const JUMP_VELOCITY = -1600.0
+const JUMP_VELOCITY = Vector2(0, -1600.0)
 const TRACTION = 2500
 const FRICTION = 0.1
 const LIGHTBREAK_SPEED = 200000.0
@@ -16,13 +16,17 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var area = $Area
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
+var gravity_rotated: Vector2 = gravity.rotated(rotation)
+var base_up_direction = Vector2(0, -1)
 var active = false
 var control_vector: Vector2
 var crouched = false
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
+var target_rotation: float = 0
+var rotate_speed: float = 0.05
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -64,28 +68,36 @@ func _physics_process(delta):
 	if lightbreak_windup > 0:
 		crouched = true
 	
+	# Rotate
+	if rotation != target_rotation:
+		# print("rotation: " + str(rotation) + ", target_rotation: " + str(target_rotation))
+		var rotation_dist = clamp(rotation - target_rotation, -rotate_speed, rotate_speed)
+		rotation -= rotation_dist
+		gravity_rotated = gravity.rotated(rotation)
+		up_direction = base_up_direction.rotated(rotation)
+	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		velocity += gravity_rotated * delta
 	
 	# Inputs
 	control_vector = Input.get_vector("left", "right", "up", "down")
 
 	# Handle jump.
-	if Input.is_action_pressed("jump") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
-		velocity.y += JUMP_VELOCITY
+	if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
+		velocity += JUMP_VELOCITY.rotated(rotation)
 	
 	# Lame super jump
-	if Input.is_action_pressed("down") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
-		velocity.y += JUMP_VELOCITY * 1.5
+	if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
+		velocity += JUMP_VELOCITY.rotated(rotation) * 1.5
 	
 	# Move left / right
-	var target_speed = control_vector.x * SPEED
+	var target_velocity = Vector2(control_vector.x * SPEED, velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
-		if (target_speed > 0 && target_speed > velocity.x) || target_speed < 0 && target_speed < velocity.x:
-			velocity.x = move_toward(velocity.x, target_speed, delta * TRACTION)
+		if (target_velocity.length() > velocity.length()):
+			velocity = velocity.move_toward(target_velocity, delta * TRACTION)
 	else:
-		velocity.x = move_toward(velocity.x, 0, delta * TRACTION * 0.8)
+		velocity = velocity.move_toward(target_velocity, delta * TRACTION * 0.8)
 	
 	# Add friction
 	velocity = velocity * (1 - (FRICTION * delta))
@@ -149,7 +161,7 @@ func _physics_process(delta):
 			sun_particles.emitting = true
 	
 	# use crouch hitbox if not moving up
-	if velocity.y >= 0:
+	if velocity.rotated(-rotation).y >= 0:
 		crouched = true
 	
 	# change hitbox if crouched

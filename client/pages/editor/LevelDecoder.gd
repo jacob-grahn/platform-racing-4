@@ -15,6 +15,7 @@ func decode(level: Dictionary) -> void:
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
 		if encoded_layer.get("objects"):
 			decode_lines(encoded_layer.objects, layer.get_node("Lines"))
+		print("Added layer: " + layer.name + " should be: " + encoded_layer.name )
 
 
 func decode_chunks(chunks: Array, tilemap: TileMap) -> void:

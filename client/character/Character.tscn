@@ -118,6 +118,7 @@ polygon = PackedVector2Array(9, -128, 49, -112, 15, -86, 15, -59, 128, -85, 131,
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(0, 44)
+ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
 
 [node name="Light" type="PointLight2D" parent="."]

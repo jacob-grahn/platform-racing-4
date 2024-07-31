@@ -12,4 +12,3 @@ func presence_switch(node: Node2D, tilemap: Node2D, _coords: Vector2i)->void:
 	if len(gear_list) > 0:
 		var rotation_controller = tilemap.get_parent()
 		rotation_controller.enabled_temp = true
-
