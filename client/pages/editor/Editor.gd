@@ -58,7 +58,7 @@ func _on_clear_pressed():
 	layers.clear()
 	tiles.clear()
 	Editor.current_level = default_level
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(0.1).timeout
 	level_decoder.decode(default_level)
 	layers.init(tiles)
 

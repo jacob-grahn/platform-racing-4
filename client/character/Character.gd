@@ -70,9 +70,12 @@ func _physics_process(delta):
 	
 	# Rotate
 	if rotation != target_rotation:
-		# print("rotation: " + str(rotation) + ", target_rotation: " + str(target_rotation))
 		var rotation_dist = clamp(rotation - target_rotation, -rotate_speed, rotate_speed)
-		rotation -= rotation_dist
+		if abs(rotation_dist) < rotate_speed:
+			rotation = target_rotation
+			target_rotation = rotation # deal with rotation switching from negative to positive
+		else:
+			rotation -= rotation_dist
 		gravity_rotated = gravity.rotated(rotation)
 		up_direction = base_up_direction.rotated(rotation)
 	
@@ -239,7 +242,7 @@ func interact_with_solid_tiles() -> bool:
 	if tilemap.get_class() != "TileMap":
 		return false
 	
-	var normal = collision.get_normal()
+	var normal = collision.get_normal().rotated(-rotation)
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)

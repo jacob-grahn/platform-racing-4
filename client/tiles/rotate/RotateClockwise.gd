@@ -9,6 +9,9 @@ func init():
 
 func rotate_player_clockwise(player: Node2D, tilemap: Node2D, _coords: Vector2i) -> void:
 	player.target_rotation += PI / 2
-	if player.target_rotation > PI:
+	if abs(player.target_rotation - PI) < 0.001:
+		player.target_rotation = PI - 0.00001
+	elif player.target_rotation > PI:
 		player.target_rotation -= PI * 2
+		player.rotation -= PI * 2
 
