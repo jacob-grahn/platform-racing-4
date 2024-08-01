@@ -27,7 +27,7 @@ func init_defaults() -> void:
 	map['21'] = Tile.new()
 	map['22'] = RotateClockwise.new()
 	map['23'] = RotateCounterclockwise.new()
-	map['24'] = Tile.new()
+	map['24'] = Push.new()
 	map['25'] = Tile.new()
 	map['26'] = Tile.new()
 	map['27'] = Tile.new()
