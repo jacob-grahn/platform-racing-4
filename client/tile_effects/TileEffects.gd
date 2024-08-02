@@ -21,8 +21,10 @@ static func bump(player: Node2D, tilemap: TileMap, coords: Vector2i):
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
-		
-	var atlas = tilemap.tile_set.get_source(0).texture
+	
+	var source: TileSetAtlasSource = tilemap.tile_set.get_source(0)
+	var tile_data: TileData = tilemap.get_cell_tile_data(0, coords)
+	var atlas = source.texture
 	var node = tilemap.get_parent()
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
 	var existing_bump_effect = node.get_node(effect_name)
@@ -31,6 +33,7 @@ static func bump(player: Node2D, tilemap: TileMap, coords: Vector2i):
 		return 
 		
 	var bump_effect = BUMP_EFFECT.instantiate()
+	bump_effect.modulate = tile_data.modulate
 	bump_effect.name = effect_name
 	tilemap.add_child(bump_effect)
 	bump_effect.position = coords * Settings.tile_size + Settings.tile_size_half

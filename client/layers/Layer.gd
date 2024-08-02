@@ -30,7 +30,6 @@ func init(tiles: Tiles) -> void:
 			data.add_collision_polygon(0)
 			data.set_collision_polygon_points(0, 0, polygon)
 		else:
-			data.set_collision_polygons_count(1, 1)
 			data.add_collision_polygon(1)
 			data.set_collision_polygon_points(1, 0, polygon)
 	

@@ -14,7 +14,7 @@ func init_defaults() -> void:
 	map['8'] = ArrowLeft.new()
 	map['9'] = ArrowRight.new()
 	map['10'] = Mine.new()
-	map['11'] = Tile.new()
+	map['11'] = ItemDispsnser.new()
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
 	map['14'] = Tile.new()
