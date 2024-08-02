@@ -147,3 +147,6 @@ process_material = SubResource("ParticleProcessMaterial_8uxqt")
 texture = ExtResource("4_q6p6r")
 lifetime = 0.5
 fixed_fps = 60
+
+[node name="ItemHolder" type="Node2D" parent="."]
+position = Vector2(93, -88)

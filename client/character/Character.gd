@@ -14,6 +14,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var sun_particles = $SunParticles
 @onready var moon_particles = $MoonParticles
 @onready var area = $Area
+@onready var item_holder = $ItemHolder
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
@@ -27,6 +28,7 @@ var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
 var target_rotation: float = 0
 var rotate_speed: float = 0.05
+var item: Node2D
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -197,6 +199,10 @@ func _physics_process(delta):
 	# end lightbreak if you hit a wall
 	if hit_something && lightbreak_direction.length() > 0:
 		end_lightbreak()
+	
+	# Use items
+	if Input.is_action_pressed("item"):
+		use_item(delta)
 
 
 func end_lightbreak():
@@ -295,3 +301,24 @@ func set_depth(depth: int) -> void:
 	collision_mask = solid_layer
 	area.collision_layer = vapor_layer
 	area.collision_mask = solid_layer | vapor_layer
+
+
+func set_item(new_item: Node2D) -> void:
+	if item:
+		remove_item()
+	
+	item = new_item
+	item_holder.add_child(item)
+
+
+func remove_item() -> void:
+	if item:
+		item.queue_free()
+		item = null
+
+
+func use_item(delta: float) -> void:
+	if item:
+		var has_more_uses: bool = item.use(delta)
+		if !has_more_uses:
+			remove_item()

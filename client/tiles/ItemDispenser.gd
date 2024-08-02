@@ -1,6 +1,8 @@
 extends Tile
 class_name ItemDispsnser
 
+const RANDOM_BLOCK_ITEM = preload("res://items/RandomBlockItem.tscn")
+
 var item_atlas_coords = Vector2i(0, 1)
 var alternative_id = 10
 
@@ -13,7 +15,12 @@ func init():
 func dispense_item(player: Node2D, tile_map: TileMap, coords: Vector2i):
 	if tile_map.get_cell_alternative_tile(0, coords) == alternative_id:
 		return
-	# player.set_item("jetpack")
+	
+	# grant an item
+	var item = RANDOM_BLOCK_ITEM.instantiate()
+	player.set_item(item)
+	
+	# deactivate this tile
 	create_alternative_tile(tile_map.tile_set.get_source(0))
 	tile_map.set_cell(0, coords, 0, item_atlas_coords, alternative_id)
 
