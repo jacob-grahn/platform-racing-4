@@ -288,7 +288,7 @@ func is_in_solid() -> bool:
 		var tilemap: TileMap = shape["body"]
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
+		var tile_type = Helpers.to_block_id(atlas_coords)
 		if game.tiles.is_solid(tile_type):
 			in_solid = true
 	return in_solid
