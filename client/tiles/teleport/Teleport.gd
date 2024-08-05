@@ -11,6 +11,7 @@ var throttle_ms = 1000
 func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(teleport)
+	is_safe = false
 
 
 func activate_tilemap(tilemap: TileMap) -> void:

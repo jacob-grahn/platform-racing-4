@@ -17,6 +17,7 @@ var tick = [] # will run on some interval
 var area = [] # used for tiles with no collision like water
 var physics_type = STATIC
 var matter_type = SOLID
+var is_safe: bool = true
 
 
 func init():

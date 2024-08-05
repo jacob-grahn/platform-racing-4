@@ -28,7 +28,7 @@ func init_defaults() -> void:
 	map['22'] = RotateClockwise.new()
 	map['23'] = RotateCounterclockwise.new()
 	map['24'] = Push.new()
-	map['25'] = Tile.new()
+	map['25'] = SafetyNet.new()
 	map['26'] = Tile.new()
 	map['27'] = Tile.new()
 	map['28'] = Tile.new()
@@ -61,6 +61,13 @@ func is_solid(tile_type: int) -> bool:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		return tile.matter_type == Tile.SOLID
+	return false
+
+
+func is_safe(tile_type: int) -> bool:
+	if str(tile_type) in map:
+		var tile:Tile = map[str(tile_type)]
+		return tile.matter_type == Tile.SOLID && tile.is_safe
 	return false
 
 

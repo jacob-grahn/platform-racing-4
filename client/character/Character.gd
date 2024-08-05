@@ -29,6 +29,7 @@ var last_collision: KinematicCollision2D
 var target_rotation: float = 0
 var rotate_speed: float = 0.05
 var item: Node2D
+var last_safe_position = Vector2(0, 0)
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -59,6 +60,7 @@ func _ready():
 	game = get_parent().get_parent().get_parent().get_parent()
 	area.connect("body_shape_entered", _on_body_shape_entered)
 	area.connect("body_shape_exited", _on_body_shape_exited)
+	last_safe_position = Vector2(position)
 
 
 func _physics_process(delta):
@@ -270,6 +272,8 @@ func interact_with_solid_tiles() -> bool:
 			game.tiles.on("top", tile_type, self, tilemap, coords)
 			game.tiles.on("any_side", tile_type, self, tilemap, coords)
 			game.tiles.on("stand", tile_type, self, tilemap, coords)
+			if game.tiles.is_safe(tile_type):
+				last_safe_position = Vector2(floor(position.x / Settings.tile_size.x) * Settings.tile_size.x, position.y) - Vector2(-Settings.tile_size_half.x, Settings.tile_size_half.y).rotated(rotation)
 	
 	# blow up tiles when sun lightbreaking
 	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:

@@ -14,6 +14,7 @@ var mode = PLAN
 func init():
 	matter_type = Tile.SOLID
 	stand.push_back(move_track)
+	is_safe = false
 
 
 func activate_tilemap(tile_map: TileMap) -> void:

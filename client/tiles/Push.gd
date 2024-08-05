@@ -7,6 +7,7 @@ var push_atlas_coords = Vector2i(3, 2)
 func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(push)
+	is_safe = false
 
 
 func push(player: Node2D, tilemap: TileMap, coords: Vector2i):

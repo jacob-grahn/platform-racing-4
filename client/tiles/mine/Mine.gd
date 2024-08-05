@@ -6,6 +6,7 @@ const EXPLODE_EFFECT = preload("res://tiles/mine/ExplodeEffect.tscn")
 func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(explode)
+	is_safe = false
 
 
 func explode(player: Node2D, tilemap: TileMap, coords: Vector2i):
