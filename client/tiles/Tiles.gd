@@ -19,7 +19,7 @@ func init_defaults() -> void:
 	map['13'] = Bounce.new()
 	map['14'] = Tile.new()
 	map['15'] = Tile.new()
-	map['16'] = Tile.new()
+	map['16'] = Ice.new()
 	map['17'] = Tile.new()
 	map['18'] = Tile.new()
 	map['19'] = Vanish.new()

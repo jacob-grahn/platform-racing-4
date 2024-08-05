@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=21 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="2_kipoy"]
 [ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
 [ext_resource type="Texture2D" uid="uid://bs0lhbp2sf24" path="res://character/star_08.png" id="4_q6p6r"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="5_33c0d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_424wm"]
 radius = 3.125
@@ -150,3 +151,12 @@ fixed_fps = 60
 
 [node name="ItemHolder" type="Node2D" parent="."]
 position = Vector2(93, -88)
+
+[node name="Ice" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.27451)
+position = Vector2(-1, -59.5)
+scale = Vector2(1, 1.74219)
+texture = ExtResource("5_33c0d")
+region_enabled = true
+region_rect = Rect2(640, 128, 128, 128)

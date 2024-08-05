@@ -15,6 +15,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var moon_particles = $MoonParticles
 @onready var area = $Area
 @onready var item_holder = $ItemHolder
+@onready var ice = $Ice
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
@@ -30,6 +31,7 @@ var target_rotation: float = 0
 var rotate_speed: float = 0.05
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
+var frozen_timer: float = 0.0
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -72,6 +74,15 @@ func _physics_process(delta):
 	if lightbreak_windup > 0:
 		crouched = true
 	
+	# frozen timer
+	var traction = TRACTION
+	if frozen_timer >= 0:
+		frozen_timer -= delta
+		ice.visible = true
+		traction = TRACTION / 10
+	else:
+		ice.visible = false
+	
 	# Rotate
 	if rotation != target_rotation:
 		var rotation_dist = clamp(rotation - target_rotation, -rotate_speed, rotate_speed)
@@ -102,9 +113,9 @@ func _physics_process(delta):
 	var target_velocity = Vector2(control_vector.x * SPEED, velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
 		if (target_velocity.length() > velocity.length()):
-			velocity = velocity.move_toward(target_velocity, delta * TRACTION)
+			velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
-		velocity = velocity.move_toward(target_velocity, delta * TRACTION * 0.8)
+		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
 	
 	# Add friction
 	velocity = velocity * (1 - (FRICTION * delta))
@@ -205,6 +216,10 @@ func _physics_process(delta):
 	# Use items
 	if Input.is_action_pressed("item"):
 		use_item(delta)
+
+
+func freeze():
+	frozen_timer = 1.0
 
 
 func end_lightbreak():
