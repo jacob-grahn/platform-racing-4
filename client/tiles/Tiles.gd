@@ -43,6 +43,7 @@ func init_defaults() -> void:
 	map['37'] = Sun.new()
 	map['38'] = Moon.new()
 	map['39'] = Firefly.new()
+	map['40'] = Appear.new()
 	
 	# init
 	for tile_id in map:
