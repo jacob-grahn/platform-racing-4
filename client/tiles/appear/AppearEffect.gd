@@ -7,12 +7,14 @@ extends Node2D
 var _tile_map: TileMap
 var _coords: Vector2i
 var _atlas_coords: Vector2i
+var _appear: Appear
 
 
-func init(atlas: Texture, atlas_coords: Vector2i, tile_map: TileMap, coords: Vector2i):
+func init(appear: Appear, atlas: Texture, atlas_coords: Vector2i, tile_map: TileMap, coords: Vector2i):
 	_tile_map = tile_map
 	_coords = coords
 	_atlas_coords = atlas_coords
+	_appear = appear
 	sprite.texture = atlas
 	sprite.region_enabled = true
 	sprite.region_rect = Rect2i((atlas_coords * Settings.tile_size), Settings.tile_size)
@@ -24,15 +26,12 @@ func init(atlas: Texture, atlas_coords: Vector2i, tile_map: TileMap, coords: Vec
 
 func reinit():
 	reappear_check()
-
+					
 func reappear_check():
 	if animation_player.current_animation_position >= 1:
-			for body in area.get_overlapping_bodies():
-				if body is CharacterBody2D:
-					animation_player.seek(sprite.modulate.a)
-
-func _process(delta):
-	reappear_check()
+			animation_player.seek(sprite.modulate.a)
 
 func _on_anim_complete():
+	if _appear != null:
+		_appear.remove_from_appear_dict(_coords)
 	queue_free()
