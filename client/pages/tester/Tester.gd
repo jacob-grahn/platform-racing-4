@@ -32,5 +32,9 @@ func init(level: Dictionary):
 	character.set_depth(round(layer.follow_viewport_scale * 10))
 
 
+func finish():
+	Helpers.set_scene("EDITOR")
+
+
 func _exit_tree():
 	tiles.clear()

@@ -56,6 +56,10 @@ func activate():
 	character.set_depth(round(layer.follow_viewport_scale * 10))
 
 
+func finish():
+	Helpers.set_scene("TITLE")
+
+
 func _exit_tree():
 	tiles.clear()
 	Game.game = null
