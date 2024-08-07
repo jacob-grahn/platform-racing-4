@@ -33,5 +33,9 @@ func on(event: String, source: Node2D, target: Node2D, coords: Vector2i) -> void
 		behavior.call(source, target, coords)
 
 
-func activate_tilemap(tilemap: TileMap) -> void:
+func activate_tilemap(tile_map: TileMap) -> void:
 	pass
+
+
+func get_center_position(tile_map: TileMap, coords: Vector2i) -> Vector2:
+	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map.rotation)

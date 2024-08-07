@@ -21,7 +21,7 @@ func init_defaults() -> void:
 	map['15'] = Tile.new()
 	map['16'] = Ice.new()
 	map['17'] = Finish.new()
-	map['18'] = Tile.new()
+	map['18'] = Crumble.new()
 	map['19'] = Vanish.new()
 	map['20'] = Move.new()
 	map['21'] = Tile.new()

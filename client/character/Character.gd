@@ -32,6 +32,8 @@ var rotate_speed: float = 0.05
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
 var frozen_timer: float = 0.0
+var last_velocity: Vector2
+var last_collision_normal: Vector2
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -216,6 +218,9 @@ func _physics_process(delta):
 	# Use items
 	if Input.is_action_pressed("item"):
 		use_item(delta)
+	
+	# Save velocity for a cycle
+	last_velocity = Vector2(velocity)
 
 
 func freeze():
@@ -270,6 +275,8 @@ func interact_with_solid_tiles() -> bool:
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	var tile_type = Helpers.to_block_id(atlas_coords)
+	
+	last_collision_normal = normal
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:

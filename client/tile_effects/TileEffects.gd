@@ -5,17 +5,21 @@ const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/ShatterEffect.
 const BUMP_EFFECT = preload("res://tile_effects/bump_effect/BumpEffect.tscn")
 
 
-static func shatter(tilemap: TileMap, coords: Vector2i):
-	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+static func shatter(tile_map: TileMap, coords: Vector2i):
+	crumble(tile_map, coords)
+	tile_map.set_cell(-1, coords)
+
+
+static func crumble(tile_map: TileMap, coords: Vector2i):
+	var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
-	var tile_atlas = tilemap.tile_set.get_source(0).texture
+	var tile_atlas = tile_map.tile_set.get_source(0).texture
 	var shatter_effect = SHATTER_EFFECT.instantiate()
 	shatter_effect.position = coords * Settings.tile_size
 	shatter_effect.add_pieces(tile_atlas, atlas_coords)
-	tilemap.add_child(shatter_effect)
-	tilemap.set_cell(-1, coords)
-
+	tile_map.add_child(shatter_effect)
+	
 
 static func bump(player: Node2D, tilemap: TileMap, coords: Vector2i):
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
