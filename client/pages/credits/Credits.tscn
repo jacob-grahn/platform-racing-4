@@ -12,7 +12,13 @@ offset_top = 150.0
 offset_right = 2490.0
 offset_bottom = 1464.0
 theme = ExtResource("1_hnp8c")
-text = "--- Code ---
+text = "--- Contributors ---
+GambitAnimating
+CamerTheDragon
+DuckJohnn
+JcNumbers
+
+--- Libraries ---
 AudioImport - Gianclgar - https://github.com/Gianclgar/GDScriptAudioImport
 
 --- Art ---
