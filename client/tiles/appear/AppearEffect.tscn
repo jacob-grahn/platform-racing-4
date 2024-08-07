@@ -1,80 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://puyix383bcci"]
+[gd_scene load_steps=2 format=3 uid="uid://puyix383bcci"]
 
 [ext_resource type="Script" path="res://tiles/appear/AppearEffect.gd" id="1_egy7u"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_numk8"]
-
-[sub_resource type="Animation" id="Animation_dfmcq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_jves3"]
-resource_name = "appear"
-length = 4.0
-step = 1.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1, 2),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"_keep_active"
-}, {
-"args": [],
-"method": &"_on_anim_complete"
-}]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_lx6mq"]
-_data = {
-"RESET": SubResource("Animation_dfmcq"),
-"appear": SubResource("Animation_jves3")
-}
 
 [node name="AppearEffect" type="Node2D"]
 script = ExtResource("1_egy7u")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(64, 64)
-
-[node name="Area" type="Area2D" parent="."]
-position = Vector2(64, 64)
-
-[node name="CollisionShape" type="CollisionShape2D" parent="Area"]
-scale = Vector2(7, 7)
-shape = SubResource("RectangleShape2D_numk8")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-active = false
-libraries = {
-"": SubResource("AnimationLibrary_lx6mq")
-}
-autoplay = "appear"

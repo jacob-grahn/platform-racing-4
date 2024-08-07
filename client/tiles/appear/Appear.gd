@@ -37,6 +37,7 @@ func add_to_appear_dict(coords: Vector2i, appear_effect):
 
 func remove_from_appear_dict(coords: Vector2i) -> void:
 	appear_effects.erase(coords)
+	print("remove ", coords)
 
 func activate_tilemap(tilemap: TileMap) -> void:
 	var coord_list = tilemap.get_used_cells_by_id(0, 0, atlas_coords)
