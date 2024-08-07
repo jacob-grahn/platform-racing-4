@@ -76,12 +76,10 @@ func encode_lines(node: Node2D) -> Array:
 func encode_usertext(node: Node2D) -> Array:
 	var usertextboxobjects = []
 	for usertextbox: Label in node.get_children():
-		print("textbox save")
 		var usertextboxobject = {
 			"x": usertextbox.position.x,
 			"y": usertextbox.position.y,
 			"usertext": usertextbox.text,
-			#"font": usertextbox.get_theme_font("usertext_font"),
 			"font_size": usertextbox.get("theme_override_font_sizes/font_size"),
 			"autowrap_mode": usertextbox.autowrap_mode,
 			"text_width": usertextbox.size.x
