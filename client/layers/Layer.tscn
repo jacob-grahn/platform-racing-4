@@ -15,6 +15,8 @@ format = 2
 
 [node name="Lines" type="Node2D" parent="."]
 
+[node name="UserTextboxes" type="Node2D" parent="."]
+
 [node name="Text" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
