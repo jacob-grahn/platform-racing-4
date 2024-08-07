@@ -7,6 +7,7 @@ signal level_event
 @onready var block_cursor = $BlockCursor
 @onready var draw_cursor = $DrawCursor
 @onready var erase_cursor = $EraseCursor
+@onready var usertext_cursor = $UserTextCursor
 
 var using_gui = false
 var mouse_down = false
@@ -50,6 +51,8 @@ func _on_control_event(event: Dictionary) -> void:
 			current_cursor = draw_cursor
 		if event.tool == "erase":
 			current_cursor = erase_cursor
+		if event.tool == "add text":
+			current_cursor = usertext_cursor
 	if event.type == EditorEvents.SELECT_LAYER:
 		layer_name = event.layer_name
 
