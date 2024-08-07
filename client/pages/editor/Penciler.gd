@@ -28,6 +28,16 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.layer = 10
 		layers.add_child(layer)
 		layer.init(get_parent().tiles)
+	if event.type == EditorEvents.ADD_USERTEXT:
+		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
+		var usertextbox = Label.new()
+		usertextboxes.add_child(usertextbox)
+		usertextbox.position = event.position
+		usertextbox.text = event.usertext
+		usertextbox.autowrap_mode = event.autowrap_mode
+		usertextbox.set("theme_override_fonts/font", load(event.font))
+		usertextbox.set("theme_override_font_sizes/font_size", event.font_size)
+		usertextbox.size.x = event.text_width
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
 		layer.get_node("TileMap").rotation_degrees = event.rotation

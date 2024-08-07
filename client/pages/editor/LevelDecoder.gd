@@ -15,6 +15,8 @@ func decode(level: Dictionary) -> void:
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
 		if encoded_layer.get("objects"):
 			decode_lines(encoded_layer.objects, layer.get_node("Lines"))
+		if encoded_layer.get("usertextboxobjects"):
+			decode_usertextboxes(encoded_layer.usertextboxobjects, layer.get_node("UserTextboxes"))
 
 
 func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
@@ -44,3 +46,20 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 		for point in object.polyline:
 			line.add_point(Vector2(point.x, point.y))
 		holder.add_child(line)
+
+
+func decode_usertextboxes(usertextboxobjects: Array, holder: Node2D) -> void:
+	for usertextboxobject in usertextboxobjects:
+		#print(usertextboxobject)
+		var usertextbox = Label.new()
+		#print("textbox load")
+		usertextbox.position = Vector2(usertextboxobject.x, usertextboxobject.y)
+		usertextbox.text = usertextboxobject.usertext
+		#usertextbox.add_theme_font_override("usertext_font", load(usertextboxobject.font))
+		#usertextbox.add_theme_font_override("usertext_font", load("res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"))
+		usertextbox.set("theme_override_fonts/font", load("res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"))
+		usertextbox.set("theme_override_font_sizes/font_size", usertextboxobject.font_size)
+		#usertextbox.add_theme_font_size_override("usertext_font_size", usertextboxobject.font_size)
+		usertextbox.autowrap_mode = usertextboxobject.autowrap_mode
+		usertextbox.size.x = usertextboxobject.text_width
+		holder.add_child(usertextbox)
