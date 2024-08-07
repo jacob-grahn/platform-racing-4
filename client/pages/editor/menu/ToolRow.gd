@@ -5,7 +5,7 @@ signal control_event
 const BLOCK_ROW: PackedScene = preload("res://pages/editor/menu/BlockRow.tscn")
 const LAYER_ROW: PackedScene = preload("res://pages/editor/menu/LayerRow.tscn")
 var TEXT_BUTTON: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
-var button_labels = ["Blocks", "Stamps", "Draw", "Select", "Erase", "Undo", "Redo", "Layers"]
+var button_labels = ["Blocks", "Stamps", "Draw", "Select", "Erase", "Undo", "Redo", "Layers", "Add Text"]
 var sub_row
 var menu
 
