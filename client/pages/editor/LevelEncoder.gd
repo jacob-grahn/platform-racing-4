@@ -62,7 +62,7 @@ func encode_lines(node: Node2D) -> Array:
 		var object = {
 			"x": line.position.x,
 			"y": line.position.y,
-			"polyline": line.points,
+			"polyline": var_to_str(line.points),
 			"properties": {
 				"color": "FFFFFF",
 				"thickness": 10

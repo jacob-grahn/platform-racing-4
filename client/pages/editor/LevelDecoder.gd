@@ -41,6 +41,6 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
 		line.default_color = Color("FFFFFF") # Color(object.properties.color)
 		line.width = 10 # object.properties.thickness
-		for point in object.polyline:
+		for point in str_to_var(object.polyline):
 			line.add_point(Vector2(point.x, point.y))
 		holder.add_child(line)
