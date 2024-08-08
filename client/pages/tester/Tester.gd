@@ -19,7 +19,7 @@ func _on_back_pressed():
 
 
 func init(level: Dictionary):
-	level_decoder.decode(level)
+	level_decoder.decode(level, false)
 	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option()
