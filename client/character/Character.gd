@@ -1,10 +1,17 @@
 extends CharacterBody2D
 
 const SPEED = 1000.0
-const JUMP_VELOCITY = Vector2(0, -1600.0)
+const JUMP_VELOCITY = Vector2(0, -400.0)
+const SUPER_JUMP_VELOCITY = Vector2(0, -3000.0)
+const FASTFALL_VELOCITY = Vector2(0, 100.0)
 const TRACTION = 2500
 const FRICTION = 0.1
 const LIGHTBREAK_SPEED = 200000.0
+const JUMP_VELOCITY_MULTIPLIER = 0.75
+const JUMP_TIMER_MAX = 10.0
+const SUPER_JUMP_CHECK_TIMER_MAX = 30
+const SUPER_JUMP_CHARGE_TIMER_MAX = 90.0
+const SUPER_JUMP_CHARGE_TIMER_MINIMUM_THRESHOLD = 6.0
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var short_shape = $ShortShape
@@ -24,6 +31,13 @@ var base_up_direction = Vector2(0, -1)
 var active = false
 var control_vector: Vector2
 var crouched = false
+var jump_timer: int = 0
+var jumped = false
+var can_move = true
+var can_jump = true
+var super_jump_charging = false
+var super_jump_charge_timer: int = 0
+var super_jump_check_timer: int = 0
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
@@ -104,14 +118,59 @@ func _physics_process(delta):
 	control_vector = Input.get_vector("left", "right", "up", "down")
 
 	# Handle jump.
-	if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
-		velocity += JUMP_VELOCITY.rotated(rotation)
+	if can_jump:
+		if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+			jumped = true
+			jump_timer = JUMP_TIMER_MAX
 	
-	# Lame super jump
-	if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
-		velocity += JUMP_VELOCITY.rotated(rotation) * 1.5
+	# Handle jump strength/velocity increment
+	if jumped:
+		velocity += JUMP_VELOCITY.rotated(rotation) * (jump_timer / JUMP_TIMER_MAX)
+		jump_timer -= 1
+		if jump_timer <= 0:
+			jumped = false
+			jump_timer = 0
+		
+	# Airborne behavior
+	if not is_on_floor():
+		# Cancel jump early by not pressing jump.
+		if jumped and not Input.is_action_pressed("jump"):
+			jumped = false
+		# Fastfall; if down pressed while not on floor, fall faster
+		if Input.is_action_pressed("down"):
+			print("FASTFALL VELOCITY: ", FASTFALL_VELOCITY.rotated(rotation))
+			velocity += FASTFALL_VELOCITY.rotated(rotation)
+			jumped = false
+		if not jumped:
+			jump_timer = 0
+			
+	# Super jump; are we charging?
+	if super_jump_charging:
+		super_jump_charge_timer += 1
+		# Can't move while super jumping
+		control_vector.x = 0
+		# Clamp (fix this if there's a sexier way to do it)
+		if super_jump_charge_timer >= SUPER_JUMP_CHARGE_TIMER_MAX:
+			super_jump_charge_timer = SUPER_JUMP_CHARGE_TIMER_MAX
+		# If we release super jump, then based on length of super jump charge, add velocity
+		# (also make sure we are above the minimum threshold to do so)
+		if super_jump_charging and Input.is_action_just_released("down") and super_jump_charge_timer >= SUPER_JUMP_CHARGE_TIMER_MINIMUM_THRESHOLD:
+			velocity += SUPER_JUMP_VELOCITY.rotated(rotation) * (super_jump_charge_timer / SUPER_JUMP_CHARGE_TIMER_MAX)
+			super_jump_charging = false
+			super_jump_charge_timer = 0
+			can_jump = true
+	# If not, check to see if we're trying to	
+	else:
+		if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+			super_jump_check_timer += 1
+		else:
+			super_jump_check_timer = 0
+		# If grounded and down held long enough, begin charging
+		if super_jump_check_timer >= SUPER_JUMP_CHECK_TIMER_MAX:
+			can_jump = false
+			super_jump_charging = true
+			super_jump_check_timer = 0
 	
-	# Move left / right
 	var target_velocity = Vector2(control_vector.x * SPEED, velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
 		if (target_velocity.length() > velocity.length()):
@@ -348,3 +407,5 @@ func use_item(delta: float) -> void:
 		var has_more_uses: bool = item.use(delta)
 		if !has_more_uses:
 			remove_item()
+			
+			
