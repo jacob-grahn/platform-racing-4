@@ -2,9 +2,11 @@ extends CharacterBody2D
 
 const SPEED = 1000.0
 const JUMP_VELOCITY = Vector2(0, -1600.0)
+const FASTFALL_VELOCITY = Vector2(0, 100.0)
 const TRACTION = 2500
 const FRICTION = 0.1
 const LIGHTBREAK_SPEED = 200000.0
+const JUMP_VELOCITY_MULTIPLIER = 0.75
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var short_shape = $ShortShape
@@ -104,12 +106,16 @@ func _physics_process(delta):
 	control_vector = Input.get_vector("left", "right", "up", "down")
 
 	# Handle jump.
-	if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
+	if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
 		velocity += JUMP_VELOCITY.rotated(rotation)
 	
 	# Lame super jump
-	if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * 0.75:
+	if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
 		velocity += JUMP_VELOCITY.rotated(rotation) * 1.5
+
+	# Fastfall; if down pressed while not grounded, fall faster
+	if Input.is_action_pressed("down") and !is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+		velocity += FASTFALL_VELOCITY.rotated(rotation)
 	
 	# Move left / right
 	var target_velocity = Vector2(control_vector.x * SPEED, velocity.rotated(-rotation).y).rotated(rotation)
