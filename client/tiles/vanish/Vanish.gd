@@ -7,7 +7,7 @@ const VANISH_EFFECT = preload("res://tiles/vanish/VanishEffect.tscn")
 func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(vanish)
-
+	is_safe = false
 
 func vanish(player: Node2D, tilemap: TileMap, coords: Vector2i):
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
