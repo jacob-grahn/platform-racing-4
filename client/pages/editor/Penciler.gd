@@ -43,7 +43,8 @@ func _on_level_event(event: Dictionary) -> void:
 		usertextbox_bg.set_bg_color(event.background_color)
 		usertextbox.size.x = event.text_width
 		usertextbox.size.y = event.text_height
-		usertextbox.set_focus_mode(1) #Editable on click
+		usertextbox.mouse_filter = 0 #Editable on click (click stops at text)
+		usertextbox.context_menu_enabled = false
 		
 		
 	if event.type == EditorEvents.ROTATE_LAYER:

@@ -64,6 +64,7 @@ func decode_usertextboxes(usertextboxobjects: Array, holder: Node2D, isEditing: 
 		usertextbox.size.x = usertextboxobject.text_width
 		usertextbox.size.y = usertextboxobject.text_height
 		if isEditing:
-			usertextbox.set_focus_mode(1) #Editable on click
+			usertextbox.mouse_filter = 0 #Editable on click (click stops at text)
 		else:
-			usertextbox.set_focus_mode(0) #Not Editable on click
+			usertextbox.mouse_filter = 2 #Not Editable on click (click passes through)
+		usertextbox.context_menu_enabled = false
