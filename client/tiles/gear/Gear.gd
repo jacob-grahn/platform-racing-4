@@ -3,6 +3,8 @@ class_name Gear
 
 var RotationController = preload("res://tiles/gear/RotationController.gd")
 
+func init():
+	is_safe = false
 
 func activate_tilemap(tile_map: TileMap):
 	var gear_coord_list = tile_map.get_used_cells_by_id(0, 0, Vector2i(4, 3))
