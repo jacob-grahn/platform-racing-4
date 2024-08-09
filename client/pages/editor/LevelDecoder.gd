@@ -43,7 +43,12 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
 		line.default_color = Color("FFFFFF") # Color(object.properties.color)
 		line.width = 10 # object.properties.thickness
-		for point in str_to_var(object.polyline):
+		var polyline
+		if typeof(object.polyline) == 4: #If the line was saved as a string (For levels made in PR4)
+			polyline = str_to_var(object.polyline)
+		else: #For imported levels from PR2 (Saved as an array already)
+			polyline = object.polyline
+		for point in polyline:
 			line.add_point(Vector2(point.x, point.y))
 		holder.add_child(line)
 
