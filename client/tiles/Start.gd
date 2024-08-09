@@ -15,7 +15,8 @@ func activate_tilemap(tilemap: TileMap) -> void:
 	for coords in coord_list:
 		var start_option = {
 			"layer_name": str(tilemap.get_parent().name),
-			"coords": coords
+			"coords": coords,
+			"tilemap": tilemap,
 		}
 		start_options.push_back(start_option)
 
@@ -34,5 +35,5 @@ static func get_next_start_option() -> Dictionary:
 	else:
 		return {
 			"layer_name": "L1",
-			"coords": Vector2i(0, 0)
+			"coords": Vector2i(0, 0),
 		}
