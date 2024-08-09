@@ -45,6 +45,7 @@ var target_rotation: float = 0
 var rotate_speed: float = 0.05
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
+var last_safe_layer: Node
 var frozen_timer: float = 0.0
 var last_velocity: Vector2
 var last_collision_normal: Vector2
@@ -299,12 +300,15 @@ func end_lightbreak():
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
 	if body.get_class() != "TileMap":
 		return
-	incoporeal_rids.push_back({"body_rid": body_rid, "body": body})
+
+	incoporeal_rids.push_back({"body_rid": body_rid, "body": body, "coords":body.get_coords_for_body_rid(body_rid)})
 
 
 func _on_body_shape_exited(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
 	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["body_rid"] != body_rid)
 
+func force_remove_body_shape(coords: Vector2i):
+	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["coords"] != coords)
 
 # Interact with tiles like water, switches, etc
 func interact_with_incoporeal_tiles():
@@ -355,6 +359,8 @@ func interact_with_solid_tiles() -> bool:
 			if game.tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
 				var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tilemap.global_rotation)
 				last_safe_position = centre_safe_block - (Vector2(0,(1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
+				var layers = tilemap.get_node("../../")
+				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
 	# blow up tiles when sun lightbreaking
 	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:
