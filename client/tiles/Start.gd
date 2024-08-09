@@ -36,4 +36,5 @@ static func get_next_start_option() -> Dictionary:
 		return {
 			"layer_name": "L1",
 			"coords": Vector2i(0, 0),
+			"tilemap": null,
 		}
