@@ -24,7 +24,7 @@ func init_defaults() -> void:
 	map['18'] = Crumble.new()
 	map['19'] = Vanish.new()
 	map['20'] = Move.new()
-	map['21'] = Tile.new()
+	map['21'] = Water.new()
 	map['22'] = RotateClockwise.new()
 	map['23'] = RotateCounterclockwise.new()
 	map['24'] = Push.new()
@@ -62,6 +62,13 @@ func is_solid(tile_type: int) -> bool:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		return tile.matter_type == Tile.SOLID
+	return false
+
+
+func is_liquid(tile_type: int) -> bool:
+	if str(tile_type) in map:
+		var tile:Tile = map[str(tile_type)]
+		return tile.matter_type == Tile.LIQUID
 	return false
 
 

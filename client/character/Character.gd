@@ -4,8 +4,10 @@ const SPEED = 1000.0
 const JUMP_VELOCITY = Vector2(0, -400.0)
 const SUPER_JUMP_VELOCITY = Vector2(0, -3000.0)
 const FASTFALL_VELOCITY = Vector2(0, 100.0)
+const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
 const TRACTION = 2500
 const FRICTION = 0.1
+const FRICTION_SWIMMING = 4.0
 const LIGHTBREAK_SPEED = 200000.0
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
@@ -49,6 +51,7 @@ var last_safe_layer: Node
 var frozen_timer: float = 0.0
 var last_velocity: Vector2
 var last_collision_normal: Vector2
+var swimming: bool = false
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -141,6 +144,10 @@ func _physics_process(delta):
 		if Input.is_action_pressed("down"):
 			velocity += FASTFALL_VELOCITY.rotated(rotation)
 			jumped = false
+		# if in liquid, we can swim up
+		if swimming && Input.is_action_pressed("up"):
+			velocity += SWIM_UP_VELOCITY.rotated(rotation) * delta
+		# extra jump is gone after releasing jump button
 		if not jumped:
 			jump_timer = 0
 			
@@ -179,7 +186,10 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
 	
 	# Add friction
-	velocity = velocity * (1 - (FRICTION * delta))
+	var friction = FRICTION
+	if swimming:
+		friction = FRICTION_SWIMMING
+	velocity = velocity * (1 - (friction * delta))
 	
 	# Add velocity boost
 	velocity += phantom_velocity
@@ -310,14 +320,18 @@ func _on_body_shape_exited(body_rid: RID, body: Node2D, _body_shape_index: int, 
 func force_remove_body_shape(coords: Vector2i):
 	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["coords"] != coords)
 
+
 # Interact with tiles like water, switches, etc
 func interact_with_incoporeal_tiles():
+	swimming = false
 	for shape in incoporeal_rids:
 		var rid: RID = shape["body_rid"]
 		var tilemap: TileMap = shape["body"]
 		var coords = tilemap.get_coords_for_body_rid(rid)
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 		var tile_type = Helpers.to_block_id(atlas_coords)
+		if game.tiles.is_liquid(tile_type):
+			swimming = true
 		game.tiles.on("area", tile_type, self, tilemap, coords)
 	
 
@@ -371,7 +385,7 @@ func interact_with_solid_tiles() -> bool:
 		return true
 
 
-# Interact with tiles like water, switches, etc
+# Are we in a wall?
 func is_in_solid() -> bool:
 	var in_solid = false
 	for shape in incoporeal_rids:
