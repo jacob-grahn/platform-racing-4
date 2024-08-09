@@ -29,13 +29,13 @@ func _ready():
 	test.connect("pressed", _on_test_pressed)
 	clear.connect("pressed", _on_clear_pressed)
 	if Editor.current_level:
-		level_decoder.decode(Editor.current_level)
+		level_decoder.decode(Editor.current_level, true)
 	else:
 		var saved_level = _load_from_file()
 		if saved_level:
-			level_decoder.decode(saved_level)
+			level_decoder.decode(saved_level, true)
 		else:
-			level_decoder.decode(default_level)
+			level_decoder.decode(default_level, true)
 	
 	tiles.init_defaults()
 	layers.init(tiles)
@@ -59,7 +59,7 @@ func _on_clear_pressed():
 	tiles.clear()
 	Editor.current_level = default_level
 	await get_tree().create_timer(0.1).timeout
-	level_decoder.decode(default_level)
+	level_decoder.decode(default_level, true)
 	layers.init(tiles)
 
 

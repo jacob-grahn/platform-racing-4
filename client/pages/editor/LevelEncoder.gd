@@ -13,6 +13,7 @@ func encode() -> Dictionary:
 			"name": group_layer.name,
 			"chunks": encode_chunks(group_layer.get_node("TileMap")),
 			"objects": encode_lines(group_layer.get_node("Lines")),
+			"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
 			"rotation": group_layer.get_node("TileMap").rotation_degrees,
 			"depth": round(group_layer.follow_viewport_scale * 10)
 		}
@@ -62,7 +63,7 @@ func encode_lines(node: Node2D) -> Array:
 		var object = {
 			"x": line.position.x,
 			"y": line.position.y,
-			"polyline": line.points,
+			"polyline": var_to_str(line.points),
 			"properties": {
 				"color": "FFFFFF",
 				"thickness": 10
@@ -70,3 +71,21 @@ func encode_lines(node: Node2D) -> Array:
 		}
 		objects.push_back(object)
 	return objects
+
+
+func encode_usertext(node: Node2D) -> Array:
+	var usertextboxobjects = []
+	for usertextbox: TextEdit in node.get_children():
+		var usertextboxobject = {
+			"x": usertextbox.position.x,
+			"y": usertextbox.position.y,
+			"usertext": usertextbox.text,
+			"wrap_mode": usertextbox.wrap_mode,
+			"autowrap_mode": usertextbox.autowrap_mode,
+			"font_size": usertextbox.get("theme_override_font_sizes/font_size"),
+			"background_color": var_to_str(usertextbox.get_theme_stylebox("normal").get_bg_color()),
+			"text_width": usertextbox.size.x,
+			"text_height": usertextbox.size.y
+		}
+		usertextboxobjects.push_back(usertextboxobject)
+	return usertextboxobjects
