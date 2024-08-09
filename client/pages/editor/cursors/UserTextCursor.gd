@@ -17,7 +17,7 @@ func on_mouse_down():
 	current_usertextbox.text = "Default Text!"
 	current_usertextbox.wrap_mode = 1
 	current_usertextbox.autowrap_mode = 1
-	current_usertextbox.size.x = 600
+	current_usertextbox.size.x = 1800
 	current_usertextbox.size.y = 600
 	var usertextbox_background_color = Color(1.0, 0.0, 0.0, 0.0)
 	var usertextbox_font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
@@ -27,7 +27,6 @@ func on_mouse_down():
 	var usertextbox_bg = StyleBoxFlat.new()
 	current_usertextbox.set("theme_override_styles/normal", usertextbox_bg)
 	usertextbox_bg.set_bg_color(usertextbox_background_color)
-	print("123456 ", current_usertextbox.get_local_mouse_pos())
 
 
 func on_drag():
@@ -59,4 +58,4 @@ func on_mouse_up():
 	})
 		
 	current_usertextbox.queue_free()
-	self.get_parent().get_node("Control").mouse_filter = 1 #reset from randomness in cursor
+	self.get_parent().get_node("Control").mouse_filter = 2 #edit text mode until add text is reselected

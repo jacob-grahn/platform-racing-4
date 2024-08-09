@@ -54,11 +54,7 @@ func _on_control_event(event: Dictionary) -> void:
 			current_cursor = erase_cursor
 		if event.tool == "add text":
 			current_cursor = usertext_cursor
-			if randf() < 0.5:
-				$Control.mouse_filter = 1
-			else:
-				$Control.mouse_filter = 2
-		print($Control.mouse_filter)
+			$Control.mouse_filter = 1
 	if event.type == EditorEvents.SELECT_LAYER:
 		layer_name = event.layer_name
 
