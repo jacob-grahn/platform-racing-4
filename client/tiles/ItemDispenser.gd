@@ -1,5 +1,5 @@
 extends Tile
-class_name ItemDispsnser
+class_name ItemDispenser
 
 const RANDOM_BLOCK_ITEM = preload("res://items/RandomBlockItem.tscn")
 
@@ -21,6 +21,10 @@ func dispense_item(player: Node2D, tile_map: TileMap, coords: Vector2i):
 	player.set_item(item)
 	
 	# deactivate this tile
+	deactivate(tile_map, coords)
+	
+
+func deactivate(tile_map: TileMap, coords: Vector2i):
 	create_alternative_tile(tile_map.tile_set.get_source(0))
 	tile_map.set_cell(0, coords, 0, item_atlas_coords, alternative_id)
 
