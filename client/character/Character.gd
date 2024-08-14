@@ -25,6 +25,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var area = $Area
 @onready var item_holder = $ItemHolder
 @onready var ice = $Ice
+@onready var shield = $Shield
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))

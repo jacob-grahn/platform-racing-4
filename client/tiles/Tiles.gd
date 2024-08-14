@@ -32,7 +32,7 @@ func init_defaults() -> void:
 	map['26'] = ItemDispenserInfinite.new()
 	map['27'] = Happy.new()
 	map['28'] = Sad.new()
-	map['29'] = Tile.new()
+	map['29'] = Heart.new()
 	map['30'] = Tile.new()
 	map['31'] = Tile.new()
 	map['32'] = BlueTeleport.new()
