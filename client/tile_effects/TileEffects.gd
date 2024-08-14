@@ -21,25 +21,26 @@ static func crumble(tile_map: TileMap, coords: Vector2i):
 	tile_map.add_child(shatter_effect)
 	
 
-static func bump(player: Node2D, tilemap: TileMap, coords: Vector2i):
-	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
+	var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
 	
-	var source: TileSetAtlasSource = tilemap.tile_set.get_source(0)
-	var tile_data: TileData = tilemap.get_cell_tile_data(0, coords)
-	var atlas = source.texture
-	var node = tilemap.get_parent()
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
-	var existing_bump_effect = node.get_node(effect_name)
+	var existing_bump_effect = tile_map.get_node(effect_name)
 	if existing_bump_effect:
 		existing_bump_effect.get_node("AnimationPlayer").seek(0.1)
-		return 
+		return
 		
 	var bump_effect = BUMP_EFFECT.instantiate()
-	bump_effect.modulate = tile_data.modulate
 	bump_effect.name = effect_name
-	tilemap.add_child(bump_effect)
+	tile_map.add_child(bump_effect)
 	bump_effect.position = coords * Settings.tile_size + Settings.tile_size_half
-	bump_effect.rotation = player.rotation - tilemap.global_rotation
-	bump_effect.set_tile(atlas, atlas_coords, -bump_effect.rotation)
+	bump_effect.rotation = player.rotation - tile_map.global_rotation
+	bump_effect.set_tile(tile_map, coords, -bump_effect.rotation)
+	
+	var alt_id: int = tile_map.get_cell_alternative_tile(0, coords)
+	if alt_id == Tile.DEACTIVATED_ALT_ID:
+		tile_map.set_cell(0, coords, 0, atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
+	else:
+		tile_map.set_cell(0, coords, 0, atlas_coords, Tile.INVISIBLE_ALT_ID)

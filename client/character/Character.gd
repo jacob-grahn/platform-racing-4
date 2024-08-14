@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 1000.0
-const JUMP_VELOCITY = Vector2(0, -400.0)
+const SPEED = 900.0
+const JUMP_VELOCITY = Vector2(0, -300.0)
 const SUPER_JUMP_VELOCITY = Vector2(0, -3000.0)
 const FASTFALL_VELOCITY = Vector2(0, 100.0)
 const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
@@ -52,6 +52,7 @@ var frozen_timer: float = 0.0
 var last_velocity: Vector2
 var last_collision_normal: Vector2
 var swimming: bool = false
+var stats: Stats = Stats.new()
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -129,7 +130,7 @@ func _physics_process(delta):
 	
 	# Handle jump strength/velocity increment
 	if jumped:
-		velocity += JUMP_VELOCITY.rotated(rotation) * (jump_timer / JUMP_TIMER_MAX)
+		velocity += JUMP_VELOCITY.rotated(rotation) * stats.get_jump_bonus() * (jump_timer / JUMP_TIMER_MAX)
 		jump_timer -= 1
 		if jump_timer <= 0:
 			jumped = false
@@ -178,7 +179,7 @@ func _physics_process(delta):
 			super_jump_charging = true
 			super_jump_check_timer = 0
 	
-	var target_velocity = Vector2(control_vector.x * SPEED, velocity.rotated(-rotation).y).rotated(rotation)
+	var target_velocity = Vector2(control_vector.x * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
 		if (target_velocity.length() > velocity.length()):
 			velocity = velocity.move_toward(target_velocity, delta * traction)
@@ -293,7 +294,7 @@ func _physics_process(delta):
 
 
 func freeze():
-	frozen_timer = 1.0
+	frozen_timer = 1.0 / stats.get_skill_bonus()
 
 
 func end_lightbreak():

@@ -6,6 +6,11 @@ const SOLID = 'solid'
 const LIQUID = 'liquid'
 const GAS = 'gas'
 
+const VISIBLE_ALT_ID = 0
+const INVISIBLE_ALT_ID = 1
+const DEACTIVATED_ALT_ID = 2
+const INVISIBLE_DEACTIVATED_ALT_ID = 3
+
 var top = []
 var left = []
 var right = []
@@ -39,3 +44,34 @@ func activate_tilemap(tile_map: TileMap) -> void:
 
 func get_center_position(tile_map: TileMap, coords: Vector2i) -> Vector2:
 	return (Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)).rotated(tile_map.rotation)
+
+
+func deactivate(tile_map: TileMap, coords: Vector2i):
+	var atlas_coords: Vector2i = tile_map.get_cell_atlas_coords(0, coords)
+	tile_map.set_cell(0, coords, 0, atlas_coords, Tile.DEACTIVATED_ALT_ID)
+
+
+func set_visible(tile_map: TileMap, coords: Vector2i, visible: bool):
+	var atlas_coords: Vector2i = tile_map.get_cell_atlas_coords(0, coords)
+	var alt_id
+	if visible:
+		if is_active(tile_map, coords):
+			alt_id = Tile.VISIBLE_ALT_ID
+		else:
+			alt_id = Tile.DEACTIVATED_ALT_ID
+	else:
+		if is_active(tile_map, coords):
+			alt_id = Tile.INVISIBLE_ALT_ID
+		else:
+			alt_id = Tile.INVISIBLE_DEACTIVATED_ALT_ID
+	tile_map.set_cell(0, coords, 0, atlas_coords, alt_id)
+
+
+func is_active(tile_map: TileMap, coords: Vector2i) -> bool:
+	var alt_id = tile_map.get_cell_alternative_tile(0, coords)
+	return alt_id == Tile.VISIBLE_ALT_ID || alt_id == Tile.INVISIBLE_ALT_ID
+
+
+func is_visible(tile_map: TileMap, coords: Vector2i) -> bool:
+	var alt_id = tile_map.get_cell_alternative_tile(0, coords)
+	return alt_id == Tile.DEACTIVATED_ALT_ID || alt_id == Tile.VISIBLE_ALT_ID
