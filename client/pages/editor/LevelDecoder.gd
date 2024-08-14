@@ -55,21 +55,17 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 
 func decode_usertextboxes(usertextboxobjects: Array, holder: Node2D, isEditing: bool) -> void:
 	for usertextboxobject in usertextboxobjects:
-		var usertextbox = TextEdit.new()
+		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/UserTextbox.tscn")
+		var usertextbox = usertextbox_scene.instantiate()
+		if "font" not in usertextboxobject.keys(): #Failsafe for old text. May be removed in future.
+			usertextboxobject.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+		usertextbox.set_usertext_properties(usertextboxobject.usertext, usertextboxobject.font, usertextboxobject.font_size)
 		holder.add_child(usertextbox)
 		usertextbox.position = Vector2(usertextboxobject.x, usertextboxobject.y)
-		usertextbox.text = usertextboxobject.usertext
-		usertextbox.wrap_mode = usertextboxobject.wrap_mode
-		usertextbox.autowrap_mode = usertextboxobject.autowrap_mode
-		usertextbox.set("theme_override_fonts/font", load("res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"))
-		usertextbox.set("theme_override_font_sizes/font_size", usertextboxobject.font_size)
-		var usertextbox_bg = StyleBoxFlat.new()
-		usertextbox.set("theme_override_styles/normal", usertextbox_bg)
-		usertextbox_bg.set_bg_color(str_to_var(usertextboxobject.background_color))
-		usertextbox.size.x = usertextboxobject.text_width
-		usertextbox.size.y = usertextboxobject.text_height
+		usertextbox.resize_text(usertextboxobject.text_width, usertextboxobject.text_height)
+		usertextbox.disable_text_edits()
+
 		if isEditing:
 			usertextbox.mouse_filter = 0 #Editable on click (click stops at text)
 		else:
 			usertextbox.mouse_filter = 2 #Not Editable on click (click passes through)
-		usertextbox.context_menu_enabled = false
