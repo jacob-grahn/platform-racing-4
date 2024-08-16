@@ -30,23 +30,11 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.init(get_parent().tiles)
 	if event.type == EditorEvents.ADD_USERTEXT:
 		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
-		var usertextbox = TextEdit.new()
+		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/UserTextbox.tscn")
+		var usertextbox = usertextbox_scene.instantiate()
+		usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
 		usertextboxes.add_child(usertextbox)
 		usertextbox.position = event.position
-		usertextbox.text = event.usertext
-		usertextbox.wrap_mode = event.wrap_mode
-		usertextbox.autowrap_mode = event.autowrap_mode
-		usertextbox.set("theme_override_fonts/font", load(event.font))
-		usertextbox.set("theme_override_font_sizes/font_size", event.font_size)
-		var usertextbox_bg = StyleBoxFlat.new()
-		usertextbox.set("theme_override_styles/normal", usertextbox_bg)
-		usertextbox_bg.set_bg_color(event.background_color)
-		usertextbox.size.x = event.text_width
-		usertextbox.size.y = event.text_height
-		usertextbox.mouse_filter = 0 #Editable on click (click stops at text)
-		usertextbox.context_menu_enabled = false
-		
-		
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
 		layer.get_node("TileMap").rotation_degrees = event.rotation

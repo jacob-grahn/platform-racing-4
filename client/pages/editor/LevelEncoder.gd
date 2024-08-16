@@ -75,17 +75,15 @@ func encode_lines(node: Node2D) -> Array:
 
 func encode_usertext(node: Node2D) -> Array:
 	var usertextboxobjects = []
-	for usertextbox: TextEdit in node.get_children():
+	for usertextbox: Control in node.get_children():
 		var usertextboxobject = {
 			"x": usertextbox.position.x,
 			"y": usertextbox.position.y,
-			"usertext": usertextbox.text,
-			"wrap_mode": usertextbox.wrap_mode,
-			"autowrap_mode": usertextbox.autowrap_mode,
-			"font_size": usertextbox.get("theme_override_font_sizes/font_size"),
-			"background_color": var_to_str(usertextbox.get_theme_stylebox("normal").get_bg_color()),
-			"text_width": usertextbox.size.x,
-			"text_height": usertextbox.size.y
+			"usertext": usertextbox.get_node("UserText").text,
+			"font": usertextbox.usertext_font,
+			"font_size": usertextbox.get_node("UserText").get("theme_override_font_sizes/font_size"),
+			"text_width": usertextbox.get_node("UserText").size.x,
+			"text_height": usertextbox.get_node("UserText").size.y
 		}
 		usertextboxobjects.push_back(usertextboxobject)
 	return usertextboxobjects
