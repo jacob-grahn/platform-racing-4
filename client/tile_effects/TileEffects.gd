@@ -31,7 +31,11 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 	if existing_bump_effect:
 		existing_bump_effect.get_node("AnimationPlayer").seek(0.1)
 		return
-		
+	
+	var alt_id: int = tile_map.get_cell_alternative_tile(0, coords)
+	if alt_id == Tile.INVISIBLE_ALT_ID:
+		return
+	
 	var bump_effect = BUMP_EFFECT.instantiate()
 	bump_effect.name = effect_name
 	tile_map.add_child(bump_effect)
@@ -39,7 +43,6 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 	bump_effect.rotation = player.rotation - tile_map.global_rotation
 	bump_effect.set_tile(tile_map, coords, -bump_effect.rotation)
 	
-	var alt_id: int = tile_map.get_cell_alternative_tile(0, coords)
 	if alt_id == Tile.DEACTIVATED_ALT_ID:
 		tile_map.set_cell(0, coords, 0, atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
 	else:
