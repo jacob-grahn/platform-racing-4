@@ -34,7 +34,7 @@ func init_defaults() -> void:
 	map['28'] = Sad.new()
 	map['29'] = Heart.new()
 	map['30'] = Tile.new()
-	map['31'] = Tile.new()
+	map['31'] = EggBlock.new()
 	map['32'] = BlueTeleport.new()
 	map['33'] = RedTeleport.new()
 	map['34'] = YellowTeleport.new()

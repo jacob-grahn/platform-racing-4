@@ -402,8 +402,8 @@ func is_in_solid() -> bool:
 
 
 func set_depth(depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32(depth * 2)
-	var vapor_layer = Helpers.to_bitmask_32((depth * 2) + 1)
+	var solid_layer = Helpers.to_bitmask_32((depth-1) * 2)
+	var vapor_layer = Helpers.to_bitmask_32(((depth-1) * 2) + 1)
 	collision_layer = solid_layer
 	collision_mask = solid_layer
 	area.collision_layer = vapor_layer
