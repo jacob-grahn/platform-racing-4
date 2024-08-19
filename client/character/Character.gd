@@ -26,6 +26,8 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var item_holder = $ItemHolder
 @onready var ice = $Ice
 @onready var shield = $Shield
+@onready var display = $Display
+@onready var animations: AnimationPlayer = $Animations
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
@@ -292,6 +294,9 @@ func _physics_process(delta):
 	
 	# Save velocity for a cycle
 	last_velocity = Vector2(velocity)
+	
+	# Look good
+	update_animation()
 
 
 func freeze():
@@ -429,5 +434,23 @@ func use_item(delta: float) -> void:
 		var has_more_uses: bool = item.use(delta)
 		if !has_more_uses:
 			remove_item()
-			
-			
+
+
+func update_animation() -> void:
+	# face left or right
+	var control_vector = Input.get_vector("left", "right", "up", "down")
+	if control_vector.x > 0:
+		display.scale.x = 1
+	if control_vector.x < 0:
+		display.scale.x = -1
+	
+	# run on ground
+	if is_on_floor():
+		if control_vector.x != 0:
+			animations.play("run")
+		else:
+			animations.play("idle")
+	else:
+		animations.play("jump")
+		
+
