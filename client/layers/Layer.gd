@@ -53,7 +53,7 @@ func init(tiles: Tiles) -> void:
 
 func set_depth(depth: int) -> void:
 	var tile_set = tile_map.tile_set
-	tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth-1) * 2))
-	tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth-1) * 2))
-	tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(((depth-1) * 2) + 1))
-	tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(((depth-1) * 2) + 1))
+	tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
+	tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))
+	tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
+	tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))

@@ -29,9 +29,10 @@ func activate_tilemap(tile_map: TileMap) -> void:
 
 func add_egg_enemy(tile_map: TileMap, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
+	var depth = Helpers.get_depth(tile_map)
 	egg_enemy.position = get_center_position(tile_map, coords)
 	tile_map.add_child(egg_enemy)
-	egg_enemy.set_depth(10) # todo fixme
+	egg_enemy.set_depth(depth)
 
 
 func add_timer() -> void:
