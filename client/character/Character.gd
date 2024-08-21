@@ -1,8 +1,8 @@
 extends CharacterBody2D
+class_name Character
 
 const SPEED = 900.0
 const JUMP_VELOCITY = Vector2(0, -300.0)
-const SUPER_JUMP_VELOCITY = Vector2(0, -3000.0)
 const FASTFALL_VELOCITY = Vector2(0, 100.0)
 const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
 const TRACTION = 2500
@@ -11,9 +11,6 @@ const FRICTION_SWIMMING = 4.0
 const LIGHTBREAK_SPEED = 200000.0
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
-const SUPER_JUMP_CHECK_TIMER_MAX = 30
-const SUPER_JUMP_CHARGE_TIMER_MAX = 90.0
-const SUPER_JUMP_CHARGE_TIMER_MINIMUM_THRESHOLD = 6.0
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var short_shape = $ShortShape
@@ -40,9 +37,6 @@ var jump_timer: int = 0
 var jumped = false
 var can_move = true
 var can_jump = true
-var super_jump_charging = false
-var super_jump_charge_timer: int = 0
-var super_jump_check_timer: int = 0
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
@@ -56,6 +50,7 @@ var last_velocity: Vector2
 var last_collision_normal: Vector2
 var swimming: bool = false
 var stats: Stats = Stats.new()
+var super_jump: SuperJump = SuperJump.new()
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -154,34 +149,13 @@ func _physics_process(delta):
 		# extra jump is gone after releasing jump button
 		if not jumped:
 			jump_timer = 0
-			
-	# Super jump; are we charging?
-	if super_jump_charging:
-		super_jump_charge_timer += 1
-		# Can't move while super jumping
-		control_vector.x = 0
-		# Clamp (fix this if there's a sexier way to do it)
-		if super_jump_charge_timer >= SUPER_JUMP_CHARGE_TIMER_MAX:
-			super_jump_charge_timer = SUPER_JUMP_CHARGE_TIMER_MAX
-		# If we release super jump, then based on length of super jump charge, add velocity
-		# (also make sure we are above the minimum threshold to do so)
-		if super_jump_charging and Input.is_action_just_released("down") and super_jump_charge_timer >= SUPER_JUMP_CHARGE_TIMER_MINIMUM_THRESHOLD:
-			velocity += SUPER_JUMP_VELOCITY.rotated(rotation) * (super_jump_charge_timer / SUPER_JUMP_CHARGE_TIMER_MAX)
-			super_jump_charging = false
-			super_jump_charge_timer = 0
-			can_jump = true
-	# If not, check to see if we're trying to	
-	else:
-		if Input.is_action_pressed("down") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
-			super_jump_check_timer += 1
-		else:
-			super_jump_check_timer = 0
-		# If grounded and down held long enough, begin charging
-		if super_jump_check_timer >= SUPER_JUMP_CHECK_TIMER_MAX:
-			can_jump = false
-			super_jump_charging = true
-			super_jump_check_timer = 0
 	
+	# Super jump
+	super_jump.run(self, delta)
+	
+	# Move left/right
+	if super_jump.is_locking():
+		control_vector.x = 0
 	var target_velocity = Vector2(control_vector.x * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
 		if (target_velocity.length() > velocity.length()):
@@ -444,13 +418,34 @@ func update_animation() -> void:
 	if control_vector.x < 0:
 		display.scale.x = -1
 	
-	# run on ground
+	# on ground
 	if is_on_floor():
-		if control_vector.x != 0:
+		if super_jump.is_charging():
+			animations.play("charge")
+		elif control_vector.x != 0:
 			animations.play("run")
 		else:
 			animations.play("idle")
+			
+	# in the air
 	else:
 		animations.play("jump")
-		
-
+	
+	# super jump charge effect
+	if super_jump.is_fully_charged():
+		display.scale.y = randf_range(0.9, 1.1)
+		if display.scale.x > 0:
+			display.scale.x = randf_range(0.9, 1.7)
+		else:
+			display.scale.x = -randf_range(0.9, 1.7)
+		display.modulate = Color("FFFF00")
+	elif super_jump.is_locking():
+		display.scale.y = randf_range(0.8, 1.1)
+		display.modulate = Color("FFFFAA")
+	else:
+		display.modulate = Color("FFFFFF")
+		display.scale.y = 1
+		if display.scale.x > 0:
+			display.scale.x = 1
+		else:
+			display.scale.x = -1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=34 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="2_kipoy"]
@@ -496,9 +496,112 @@ tracks/7/keys = {
 "values": [-0.20944, -0.174533, -0.20944, -0.174533]
 }
 
+[sub_resource type="Animation" id="Animation_lk06q"]
+resource_name = "charge"
+length = 120.0
+loop_mode = 1
+step = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Display/Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-4, -124), Vector2(10, -60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Display/Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-6, -38), Vector2(5, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Display/FootFront:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Display/FootFront:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-5, -14), Vector2(-15, -14)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Display/FootBack:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Display/FootBack:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(10, -15), Vector2(35, -15)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Display/Body:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0872665]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Display/Head:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.523599]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rfx8m"]
 _data = {
 "RESET": SubResource("Animation_5crqw"),
+"charge": SubResource("Animation_lk06q"),
 "idle": SubResource("Animation_rdh48"),
 "jump": SubResource("Animation_f26m5"),
 "run": SubResource("Animation_eoogh")
@@ -581,6 +684,7 @@ position = Vector2(2, 42)
 scale = Vector2(0.3, 0.3)
 
 [node name="Display" type="Node2D" parent="."]
+modulate = Color(1, 1, 0.0196078, 1)
 position = Vector2(0, -18)
 
 [node name="FootBack" type="Node2D" parent="Display"]
