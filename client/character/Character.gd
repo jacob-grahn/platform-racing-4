@@ -26,10 +26,6 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var display = $Display
 @onready var animations: AnimationPlayer = $Animations
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity"))
-var gravity_rotated: Vector2 = gravity.rotated(rotation)
-var base_up_direction = Vector2(0, -1)
 var active = false
 var control_vector: Vector2
 var crouched = false
@@ -40,8 +36,6 @@ var can_jump = true
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
-var target_rotation: float = 0
-var rotate_speed: float = 0.05
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
 var last_safe_layer: Node
@@ -51,6 +45,7 @@ var last_collision_normal: Vector2
 var swimming: bool = false
 var stats: Stats = Stats.new()
 var super_jump: SuperJump = SuperJump.new()
+var gravity: Gravity = Gravity.new()
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -102,20 +97,8 @@ func _physics_process(delta):
 	else:
 		ice.visible = false
 	
-	# Rotate
-	if rotation != target_rotation:
-		var rotation_dist = clamp(rotation - target_rotation, -rotate_speed, rotate_speed)
-		if abs(rotation_dist) < rotate_speed:
-			rotation = target_rotation
-			target_rotation = rotation # deal with rotation switching from negative to positive
-		else:
-			rotation -= rotation_dist
-		gravity_rotated = gravity.rotated(rotation)
-		up_direction = base_up_direction.rotated(rotation)
-	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += gravity_rotated * delta
+	# Gravity
+	gravity.run(self, delta)
 	
 	# Inputs
 	control_vector = Input.get_vector("left", "right", "up", "down")

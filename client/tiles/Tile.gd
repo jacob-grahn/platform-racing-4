@@ -23,6 +23,7 @@ var area = [] # used for tiles with no collision like water
 var physics_type = STATIC
 var matter_type = SOLID
 var is_safe: bool = true
+var cooldown_dict = {}
 
 
 func init():
@@ -75,3 +76,19 @@ func is_active(tile_map: TileMap, coords: Vector2i) -> bool:
 func is_visible(tile_map: TileMap, coords: Vector2i) -> bool:
 	var alt_id = tile_map.get_cell_alternative_tile(0, coords)
 	return alt_id == Tile.DEACTIVATED_ALT_ID || alt_id == Tile.VISIBLE_ALT_ID
+
+
+func get_slug(tile_map: TileMap, coords: Vector2i) -> String:
+	return str(tile_map.get_path()) + "/" + str(coords)
+
+
+func cooldown(tile_map: TileMap, coords: Vector2i, seconds: float) -> bool:
+	var ms: int = int(seconds * 1000)
+	var key: String = get_slug(tile_map, coords)
+	var last: int = cooldown_dict.get(key, 0)
+	var current: int = Time.get_ticks_msec()
+	var elapsed: int = current - last
+	var is_cooling_down: bool = elapsed < ms
+	if !is_cooling_down:
+		cooldown_dict[key] = current
+	return is_cooling_down

@@ -15,7 +15,7 @@ func init():
 
 
 func crumble(player: Node2D, tile_map: TileMap, coords: Vector2i):
-	var key = str(tile_map.get_path()) + "/" + str(coords)
+	var key = get_slug(tile_map, coords)
 	
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block

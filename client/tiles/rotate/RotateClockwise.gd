@@ -7,11 +7,13 @@ func init():
 	bump.push_back(rotate_player_clockwise)
 
 
-func rotate_player_clockwise(player: Node2D, tilemap: Node2D, _coords: Vector2i) -> void:
-	player.target_rotation += PI / 2
-	if abs(player.target_rotation - PI) < 0.001:
-		player.target_rotation = PI - 0.00001
-	elif player.target_rotation > PI:
-		player.target_rotation -= PI * 2
-		player.rotation -= PI * 2
-
+func rotate_player_clockwise(player: Node2D, tile_map: Node2D, coords: Vector2i) -> void:
+	if cooldown(tile_map, coords, 0.25):
+		return
+		
+	player.gravity.target_rotation += PI / 2
+	if abs(player.gravity.target_rotation - PI) < 0.001:
+		player.gravity.target_rotation = PI - 0.00001
+	elif player.gravity.target_rotation > PI:
+		player.gravity.target_rotation -= PI * 2
+		player.gravity.rotation -= PI * 2

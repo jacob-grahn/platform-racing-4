@@ -7,7 +7,7 @@ const CHARGE_TIMER_MINIMUM_THRESHOLD = 0.5 # in seconds
 var charge_timer: float = 0.0
 
 
-func run(character: Character, delta):
+func run(character: Character, delta: float) -> void:
 	# no super jumps if we're not on the ground
 	if !character.is_on_floor():
 		charge_timer = 0
