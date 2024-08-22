@@ -16,7 +16,7 @@ func run(character: Character, delta: float) -> void:
 	# not charging
 	if !Input.is_action_pressed("down"):
 		if charge_timer >= CHARGE_TIMER_MINIMUM_THRESHOLD: 
-			character.velocity += SUPER_JUMP_VELOCITY.rotated(character.rotation) * (charge_timer / CHARGE_TIMER_MAX)
+			character.velocity += SUPER_JUMP_VELOCITY.rotated(character.rotation) * ((charge_timer - CHARGE_TIMER_MINIMUM_THRESHOLD) / (CHARGE_TIMER_MAX - CHARGE_TIMER_MINIMUM_THRESHOLD))
 		charge_timer = 0
 		return
 		
