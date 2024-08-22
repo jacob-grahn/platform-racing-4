@@ -76,6 +76,12 @@ func do_move():
 			# move!
 			tile_map.set_cell(-1, coords)
 			tile_map.set_cell(0, coords + dir, 0, move_atlas_coords)
+
+			# remove any lingering bounce effects
+			var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
+			var existing_bump_effect = tile_map.get_node(effect_name)
+			if existing_bump_effect:
+				existing_bump_effect.queue_free()
 			
 			# move connected objects
 			for co in connected_objects:
