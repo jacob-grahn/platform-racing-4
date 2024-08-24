@@ -97,7 +97,7 @@ func _physics_process(delta):
 	gravity.run(self, delta)
 	
 	# Inputs
-	control_vector = Input.get_vector("left", "right", "up", "down")
+	var control_axis: float = Input.get_axis("left", "right")
 
 	# Handle jump.
 	if can_jump:
@@ -134,11 +134,11 @@ func _physics_process(delta):
 	
 	# Move left/right
 	if super_jump.is_locking():
-		control_vector.x = 0
+		control_axis = 0
 	if is_crouching:
-		control_vector.x = control_vector.x / 2
-	var target_velocity = Vector2(control_vector.x * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
-	if control_vector.x != 0:
+		control_axis = control_axis / 2
+	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
+	if control_axis != 0:
 		if (target_velocity.length() > velocity.length()):
 			traction * 0.8
 		velocity = velocity.move_toward(target_velocity, delta * traction)
@@ -187,6 +187,7 @@ func _physics_process(delta):
 	camera.zoom.y += (camera_target_zoom - camera.zoom.y) * camera_zoom_smoothing
 	
 	# lightbreak
+	var control_vector = Input.get_vector("left", "right", "up", "down")
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		if (control_vector + lightbreak_direction).length() < 0.5:
