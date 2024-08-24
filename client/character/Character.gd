@@ -13,13 +13,13 @@ const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
-@onready var short_shape = $ShortShape
-@onready var tall_shape = $TallShape
+@onready var hitbox = $CharacterHitbox
 @onready var light = $Light
 @onready var camera = $Camera
 @onready var sun_particles = $SunParticles
 @onready var moon_particles = $MoonParticles
-@onready var area = $Area
+@onready var low_area = $LowArea
+@onready var high_area = $HighArea
 @onready var item_holder = $ItemHolder
 @onready var ice = $Ice
 @onready var shield = $Shield
@@ -28,11 +28,11 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 var active = false
 var control_vector: Vector2
-var crouched = false
 var jump_timer: int = 0
 var jumped = false
 var can_move = true
 var can_jump = true
+var is_crouching = false
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
@@ -68,14 +68,9 @@ var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
-# list of incopereal tile rids that are overlapping this character's area
-var incoporeal_rids = []
-
 
 func _ready():
 	game = get_parent().get_parent().get_parent().get_parent()
-	area.connect("body_shape_entered", _on_body_shape_entered)
-	area.connect("body_shape_exited", _on_body_shape_exited)
 	last_safe_position = Vector2(position)
 
 
@@ -83,10 +78,11 @@ func _physics_process(delta):
 	if !active:
 		return
 	
-	# default to standing
-	crouched = false
-	if lightbreak_windup > 0:
-		crouched = true
+	# crouch under stuff
+	is_crouching = should_crouch()
+	
+	# hitbox resizes based on things
+	hitbox.run(self)
 	
 	# frozen timer
 	var traction = TRACTION
@@ -139,10 +135,13 @@ func _physics_process(delta):
 	# Move left/right
 	if super_jump.is_locking():
 		control_vector.x = 0
+	if is_crouching:
+		control_vector.x = control_vector.x / 2
 	var target_velocity = Vector2(control_vector.x * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_vector.x != 0:
 		if (target_velocity.length() > velocity.length()):
-			velocity = velocity.move_toward(target_velocity, delta * traction)
+			traction * 0.8
+		velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
 		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
 	
@@ -190,7 +189,6 @@ func _physics_process(delta):
 	# lightbreak
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
-		crouched = true
 		if (control_vector + lightbreak_direction).length() < 0.5:
 			end_lightbreak()
 	
@@ -210,28 +208,13 @@ func _physics_process(delta):
 		if lightbreak_direction.length() > 0:
 			sun_particles.emitting = true
 	
-	# use crouch hitbox if not moving up
-	if velocity.rotated(-rotation).y >= 0:
-		crouched = true
-	
-	# change hitbox if crouched
-	short_shape.disabled = !crouched
-	tall_shape.disabled = crouched
-	
 	# moon
 	if lightbreak_type == LightTile.MOON && lightbreak_direction.length() > 0:
-		short_shape.disabled = true
-		tall_shape.disabled = true
 		modulate.a = randf_range(0, 0.66)
 		lightbreak_moon_timer -= delta
 		moon_particles.emitting = true
 		if lightbreak_moon_timer < 0 && !is_in_solid():
 			end_lightbreak()
-	
-	# disable collision if we're stuck in a wall
-	if is_in_solid():
-		short_shape.disabled = true
-		tall_shape.disabled = true
 		
 	# move
 	previous_velocity = velocity
@@ -271,32 +254,53 @@ func end_lightbreak():
 	moon_particles.emitting = false
 
 
-func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
-	if body.get_class() != "TileMap":
-		return
-
-	incoporeal_rids.push_back({"body_rid": body_rid, "body": body, "coords":body.get_coords_for_body_rid(body_rid)})
-
-
-func _on_body_shape_exited(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
-	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["body_rid"] != body_rid)
-
-func force_remove_body_shape(coords: Vector2i):
-	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["coords"] != coords)
-
+func get_tiles_overlapping_area(area: Area2D):
+	var tiles = []
+	var bodies: Array = area.get_overlapping_bodies()
+	for tile_map in bodies:
+		if !(tile_map is TileMap):
+			continue
+		var coords = tile_map.local_to_map(tile_map.to_local(area.to_global(Vector2.ZERO)))
+		var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
+		var block_id = Helpers.to_block_id(atlas_coords)
+		if block_id != 0:
+			tiles.push_back({
+				"tile_map": tile_map,
+				"coords": coords,
+				"atlas_coords": atlas_coords,
+				"block_id": block_id
+			})
+	return tiles
+	
 
 # Interact with tiles like water, switches, etc
 func interact_with_incoporeal_tiles():
 	swimming = false
-	for shape in incoporeal_rids:
-		var rid: RID = shape["body_rid"]
-		var tilemap: TileMap = shape["body"]
-		var coords = tilemap.get_coords_for_body_rid(rid)
-		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = Helpers.to_block_id(atlas_coords)
-		if game.tiles.is_liquid(tile_type):
+	var tiles: Array = get_tiles_overlapping_area(low_area)
+	for tile in tiles:
+		if game.tiles.is_liquid(tile.block_id):
 			swimming = true
-		game.tiles.on("area", tile_type, self, tilemap, coords)
+		game.tiles.on("area", tile.block_id, self, tile.tile_map, tile.coords)
+
+
+# Are we in a wall?
+func is_in_solid() -> bool:
+	var tiles: Array = get_tiles_overlapping_area(low_area)
+	for tile in tiles:
+		if game.tiles.is_solid(tile.block_id):
+			return true
+	return false
+
+
+# should crouch
+func should_crouch():
+	if !is_crouching && !is_on_floor():
+		return false
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	for tile_data in tiles:
+		if game.tiles.is_solid(tile_data.block_id):
+			return true
+	return false
 	
 
 # Interact with tiles like walls, arrows, etc
@@ -349,27 +353,14 @@ func interact_with_solid_tiles() -> bool:
 		return true
 
 
-# Are we in a wall?
-func is_in_solid() -> bool:
-	var in_solid = false
-	for shape in incoporeal_rids:
-		var rid: RID = shape["body_rid"]
-		var tilemap: TileMap = shape["body"]
-		var coords = tilemap.get_coords_for_body_rid(rid)
-		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = Helpers.to_block_id(atlas_coords)
-		if game.tiles.is_solid(tile_type):
-			in_solid = true
-	return in_solid
-
-
 func set_depth(depth: int) -> void:
 	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
 	var vapor_layer = Helpers.to_bitmask_32(depth * 2)
 	collision_layer = solid_layer
 	collision_mask = solid_layer
-	area.collision_layer = vapor_layer
-	area.collision_mask = solid_layer | vapor_layer
+	low_area.collision_layer = vapor_layer
+	low_area.collision_mask = solid_layer | vapor_layer
+	high_area.collision_mask = solid_layer
 
 
 func set_item(new_item: Node2D) -> void:
@@ -401,8 +392,12 @@ func update_animation() -> void:
 	if control_vector.x < 0:
 		display.scale.x = -1
 	
+	# crouching
+	if is_crouching:
+		animations.play("crawl")
+		
 	# on ground
-	if is_on_floor():
+	elif is_on_floor():
 		if super_jump.is_charging():
 			animations.play("charge")
 		elif control_vector.x != 0:

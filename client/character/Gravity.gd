@@ -23,5 +23,6 @@ func run(character: Character, delta: float) -> void:
 	# Apply to character
 	character.rotation = rotation
 	character.up_direction = base_up_direction.rotated(rotation)
-	if not character.is_on_floor():
-		character.velocity += gravity_rotated * delta
+	#if not character.is_on_floor():
+	#	character.velocity += gravity_rotated * delta
+	character.velocity += gravity_rotated * delta
