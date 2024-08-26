@@ -1,0 +1,225 @@
+[gd_scene load_steps=8 format=3 uid="uid://2abefujwdjsl"]
+
+[ext_resource type="Script" path="res://tiles/egg/EggEnemy.gd" id="1_l1sxf"]
+[ext_resource type="Texture2D" uid="uid://cno66df5a30ef" path="res://tiles/egg/shoe.png" id="2_lsfw2"]
+[ext_resource type="Texture2D" uid="uid://coqqsr3rjpwqd" path="res://tiles/egg/egg.png" id="3_bmsgc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ar3lm"]
+radius = 43.0
+height = 144.0
+
+[sub_resource type="Animation" id="Animation_itr6u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Display/FrontShoe:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-53, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Display/FrontShoe:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0544915]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Display/Egg:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-3, -87)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Display/Egg:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Display/Egg:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Display/BackShoe:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-27, -17)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Display/BackShoe:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.204859]
+}
+
+[sub_resource type="Animation" id="Animation_h882w"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Display/FrontShoe:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, -2, 0.5),
+"update": 0,
+"values": [Vector2(-50, -18), Vector2(50, -16), Vector2(0, -50), Vector2(-50, -18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Display/FrontShoe:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, -0.5, 0.5),
+"update": 0,
+"values": [0.436332, -0.221657, -0.525344, 0.436332]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Display/Egg:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-3, -87), Vector2(-10, -87), Vector2(-3, -87), Vector2(10, -87), Vector2(-3, -87)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Display/Egg:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0872665, 0.0, 0.0872665, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Display/Egg:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 0.9), Vector2(1, 1), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Display/BackShoe:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(1, -2, 1, 1),
+"update": 0,
+"values": [Vector2(40, -18), Vector2(-10, -40), Vector2(-60, -18), Vector2(40, -18)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Display/BackShoe:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(1, -2, 1, 1),
+"update": 0,
+"values": [-0.226893, 0.0872665, 0.436332, -0.20944]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h1vgd"]
+_data = {
+"RESET": SubResource("Animation_itr6u"),
+"walk": SubResource("Animation_h882w")
+}
+
+[node name="EggEnemy" type="CharacterBody2D"]
+script = ExtResource("1_l1sxf")
+
+[node name="Display" type="Node2D" parent="."]
+
+[node name="BackShoe" type="Sprite2D" parent="Display"]
+position = Vector2(-27, -17)
+rotation = 0.204859
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_lsfw2")
+
+[node name="Egg" type="Sprite2D" parent="Display"]
+position = Vector2(-3, -87)
+texture = ExtResource("3_bmsgc")
+
+[node name="FrontShoe" type="Sprite2D" parent="Display"]
+position = Vector2(-53, -16)
+rotation = 0.0544915
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_lsfw2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -75)
+shape = SubResource("CapsuleShape2D_ar3lm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_h1vgd")
+}
+autoplay = "walk"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true

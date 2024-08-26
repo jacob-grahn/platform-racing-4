@@ -50,6 +50,13 @@ func parseBlocks(blockArr []string, chunkSize int) TileLayer {
 			if tileId == 13 || tileId == 14 || tileId == 15 {
 				tileId = 12
 			}
+
+			// swap rotate blocks
+			if tileId == 22 {
+				tileId = 23
+			} else if tileId == 23 {
+				tileId = 22
+			}
 		}
 		x += moveX
 		y += moveY

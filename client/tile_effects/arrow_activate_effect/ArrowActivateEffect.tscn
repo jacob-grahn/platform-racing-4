@@ -75,6 +75,7 @@ _data = {
 }
 
 [node name="ArrowActivateEffect" type="Node2D"]
+z_index = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

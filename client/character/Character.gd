@@ -1,28 +1,51 @@
 extends CharacterBody2D
+class_name Character
 
-const SPEED = 1000.0
-const JUMP_VELOCITY = -1600.0
+const SPEED = 900.0
+const JUMP_VELOCITY = Vector2(0, -300.0)
+const FASTFALL_VELOCITY = Vector2(0, 100.0)
+const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
 const TRACTION = 2500
 const FRICTION = 0.1
+const FRICTION_SWIMMING = 4.0
 const LIGHTBREAK_SPEED = 200000.0
+const JUMP_VELOCITY_MULTIPLIER = 0.75
+const JUMP_TIMER_MAX = 10.0
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
-@onready var short_shape = $ShortShape
-@onready var tall_shape = $TallShape
+@onready var hitbox = $CharacterHitbox
 @onready var light = $Light
 @onready var camera = $Camera
 @onready var sun_particles = $SunParticles
 @onready var moon_particles = $MoonParticles
-@onready var area = $Area
+@onready var low_area = $LowArea
+@onready var high_area = $HighArea
+@onready var item_holder = $ItemHolder
+@onready var ice = $Ice
+@onready var shield = $Shield
+@onready var display = $Display
+@onready var animations: AnimationPlayer = $Animations
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var active = false
 var control_vector: Vector2
-var crouched = false
+var jump_timer: int = 0
+var jumped = false
+var can_move = true
+var can_jump = true
+var is_crouching = false
 var game: Node2D
 var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
+var item: Node2D
+var last_safe_position = Vector2(0, 0)
+var last_safe_layer: Node
+var frozen_timer: float = 0.0
+var last_velocity: Vector2
+var last_collision_normal: Vector2
+var swimming: bool = false
+var stats: Stats = Stats.new()
+var super_jump: SuperJump = SuperJump.new()
+var gravity: Gravity = Gravity.new()
 
 # Lightbreak
 var lightbreak_direction: Vector2 = Vector2(0, 0)
@@ -45,50 +68,88 @@ var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
-# list of incopereal tile rids that are overlapping this character's area
-var incoporeal_rids = []
-
 
 func _ready():
 	game = get_parent().get_parent().get_parent().get_parent()
-	area.connect("body_shape_entered", _on_body_shape_entered)
-	area.connect("body_shape_exited", _on_body_shape_exited)
+	last_safe_position = Vector2(position)
 
 
 func _physics_process(delta):
 	if !active:
 		return
 	
-	# default to standing
-	crouched = false
-	if lightbreak_windup > 0:
-		crouched = true
+	# crouch under stuff
+	is_crouching = should_crouch()
 	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	# hitbox resizes based on things
+	hitbox.run(self)
+	
+	# frozen timer
+	var traction = TRACTION
+	if frozen_timer >= 0:
+		frozen_timer -= delta
+		ice.visible = true
+		traction = TRACTION / 10
+	else:
+		ice.visible = false
+	
+	# Gravity
+	gravity.run(self, delta)
 	
 	# Inputs
-	control_vector = Input.get_vector("left", "right", "up", "down")
+	var control_axis: float = Input.get_axis("left", "right")
 
 	# Handle jump.
-	if Input.is_action_pressed("jump") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
-		velocity.y += JUMP_VELOCITY
+	if can_jump:
+		if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+			jumped = true
+			jump_timer = JUMP_TIMER_MAX
 	
-	# Lame super jump
-	if Input.is_action_pressed("down") and is_on_floor() and velocity.y > JUMP_VELOCITY * 0.75:
-		velocity.y += JUMP_VELOCITY * 1.5
+	# Handle jump strength/velocity increment
+	if jumped:
+		velocity += JUMP_VELOCITY.rotated(rotation) * stats.get_jump_bonus() * (jump_timer / JUMP_TIMER_MAX)
+		jump_timer -= 1
+		if jump_timer <= 0:
+			jumped = false
+			jump_timer = 0
+		
+	# Airborne behavior
+	if not is_on_floor():
+		# Cancel jump early by not pressing jump.
+		if jumped and not Input.is_action_pressed("jump"):
+			jumped = false
+		# Fastfall; if down pressed while not on floor, fall faster
+		if Input.is_action_pressed("down"):
+			velocity += FASTFALL_VELOCITY.rotated(rotation)
+			jumped = false
+		# if in liquid, we can swim up
+		if swimming && Input.is_action_pressed("up"):
+			velocity += SWIM_UP_VELOCITY.rotated(rotation) * delta
+		# extra jump is gone after releasing jump button
+		if not jumped:
+			jump_timer = 0
 	
-	# Move left / right
-	var target_speed = control_vector.x * SPEED
-	if control_vector.x != 0:
-		if (target_speed > 0 && target_speed > velocity.x) || target_speed < 0 && target_speed < velocity.x:
-			velocity.x = move_toward(velocity.x, target_speed, delta * TRACTION)
+	# Super jump
+	super_jump.run(self, delta)
+	
+	# Move left/right
+	if super_jump.is_locking():
+		control_axis = 0
+	if is_crouching:
+		control_axis = control_axis / 2
+	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
+	if control_axis != 0:
+		if (target_velocity.length() > velocity.length()):
+			traction * 0.8
+		velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
-		velocity.x = move_toward(velocity.x, 0, delta * TRACTION * 0.8)
+		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
 	
 	# Add friction
-	velocity = velocity * (1 - (FRICTION * delta))
+	var friction = FRICTION
+	if swimming:
+		friction = FRICTION_SWIMMING
+	velocity = velocity * (1 - (friction * delta))
 	
 	# Add velocity boost
 	velocity += phantom_velocity
@@ -126,9 +187,9 @@ func _physics_process(delta):
 	camera.zoom.y += (camera_target_zoom - camera.zoom.y) * camera_zoom_smoothing
 	
 	# lightbreak
+	var control_vector = Input.get_vector("left", "right", "up", "down")
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
-		crouched = true
 		if (control_vector + lightbreak_direction).length() < 0.5:
 			end_lightbreak()
 	
@@ -148,28 +209,13 @@ func _physics_process(delta):
 		if lightbreak_direction.length() > 0:
 			sun_particles.emitting = true
 	
-	# use crouch hitbox if not moving up
-	if velocity.y >= 0:
-		crouched = true
-	
-	# change hitbox if crouched
-	short_shape.disabled = !crouched
-	tall_shape.disabled = crouched
-	
 	# moon
 	if lightbreak_type == LightTile.MOON && lightbreak_direction.length() > 0:
-		short_shape.disabled = true
-		tall_shape.disabled = true
 		modulate.a = randf_range(0, 0.66)
 		lightbreak_moon_timer -= delta
 		moon_particles.emitting = true
 		if lightbreak_moon_timer < 0 && !is_in_solid():
 			end_lightbreak()
-	
-	# disable collision if we're stuck in a wall
-	if is_in_solid():
-		short_shape.disabled = true
-		tall_shape.disabled = true
 		
 	# move
 	previous_velocity = velocity
@@ -182,6 +228,20 @@ func _physics_process(delta):
 	# end lightbreak if you hit a wall
 	if hit_something && lightbreak_direction.length() > 0:
 		end_lightbreak()
+	
+	# Use items
+	if Input.is_action_pressed("item"):
+		use_item(delta)
+	
+	# Save velocity for a cycle
+	last_velocity = Vector2(velocity)
+	
+	# Look good
+	update_animation()
+
+
+func freeze():
+	frozen_timer = 1.0 / stats.get_skill_bonus()
 
 
 func end_lightbreak():
@@ -195,25 +255,53 @@ func end_lightbreak():
 	moon_particles.emitting = false
 
 
-func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
-	if body.get_class() != "TileMap":
-		return
-	incoporeal_rids.push_back({"body_rid": body_rid, "body": body})
-
-
-func _on_body_shape_exited(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int):
-	incoporeal_rids = incoporeal_rids.filter(func(dict): return dict["body_rid"] != body_rid)
-
+func get_tiles_overlapping_area(area: Area2D):
+	var tiles = []
+	var bodies: Array = area.get_overlapping_bodies()
+	for tile_map in bodies:
+		if !(tile_map is TileMap):
+			continue
+		var coords = tile_map.local_to_map(tile_map.to_local(area.to_global(Vector2.ZERO)))
+		var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
+		var block_id = Helpers.to_block_id(atlas_coords)
+		if block_id != 0:
+			tiles.push_back({
+				"tile_map": tile_map,
+				"coords": coords,
+				"atlas_coords": atlas_coords,
+				"block_id": block_id
+			})
+	return tiles
+	
 
 # Interact with tiles like water, switches, etc
 func interact_with_incoporeal_tiles():
-	for shape in incoporeal_rids:
-		var rid: RID = shape["body_rid"]
-		var tilemap: TileMap = shape["body"]
-		var coords = tilemap.get_coords_for_body_rid(rid)
-		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = Helpers.to_block_id(atlas_coords)
-		game.tiles.on("area", tile_type, self, tilemap, coords)
+	swimming = false
+	var tiles: Array = get_tiles_overlapping_area(low_area)
+	for tile in tiles:
+		if game.tiles.is_liquid(tile.block_id):
+			swimming = true
+		game.tiles.on("area", tile.block_id, self, tile.tile_map, tile.coords)
+
+
+# Are we in a wall?
+func is_in_solid() -> bool:
+	var tiles: Array = get_tiles_overlapping_area(low_area)
+	for tile in tiles:
+		if game.tiles.is_solid(tile.block_id):
+			return true
+	return false
+
+
+# should crouch
+func should_crouch():
+	if !is_crouching && !is_on_floor():
+		return false
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	for tile_data in tiles:
+		if game.tiles.is_solid(tile_data.block_id):
+			return true
+	return false
 	
 
 # Interact with tiles like walls, arrows, etc
@@ -226,12 +314,14 @@ func interact_with_solid_tiles() -> bool:
 	var tilemap = collision.get_collider()
 	if tilemap.get_class() != "TileMap":
 		return false
-	
-	var normal = collision.get_normal()
+
+	var normal = collision.get_normal().rotated(-rotation)
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	var tile_type = Helpers.to_block_id(atlas_coords)
+	
+	last_collision_normal = normal
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:
@@ -249,6 +339,11 @@ func interact_with_solid_tiles() -> bool:
 			game.tiles.on("top", tile_type, self, tilemap, coords)
 			game.tiles.on("any_side", tile_type, self, tilemap, coords)
 			game.tiles.on("stand", tile_type, self, tilemap, coords)
+			if game.tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
+				var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tilemap.global_rotation)
+				last_safe_position = centre_safe_block - (Vector2(0,(1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
+				var layers = tilemap.get_node("../../")
+				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
 	# blow up tiles when sun lightbreaking
 	if lightbreak_direction.length() > 0 && lightbreak_fire_power > 0:
@@ -259,24 +354,77 @@ func interact_with_solid_tiles() -> bool:
 		return true
 
 
-# Interact with tiles like water, switches, etc
-func is_in_solid() -> bool:
-	var in_solid = false
-	for shape in incoporeal_rids:
-		var rid: RID = shape["body_rid"]
-		var tilemap: TileMap = shape["body"]
-		var coords = tilemap.get_coords_for_body_rid(rid)
-		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var tile_type = atlas_coords.x + (atlas_coords.y * 10)
-		if game.tiles.is_solid(tile_type):
-			in_solid = true
-	return in_solid
-
-
 func set_depth(depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32(depth * 2)
-	var vapor_layer = Helpers.to_bitmask_32((depth * 2) + 1)
+	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
+	var vapor_layer = Helpers.to_bitmask_32(depth * 2)
 	collision_layer = solid_layer
 	collision_mask = solid_layer
-	area.collision_layer = vapor_layer
-	area.collision_mask = solid_layer | vapor_layer
+	low_area.collision_layer = vapor_layer
+	low_area.collision_mask = solid_layer | vapor_layer
+	high_area.collision_mask = solid_layer
+
+
+func set_item(new_item: Node2D) -> void:
+	if item:
+		remove_item()
+	
+	item = new_item
+	item_holder.add_child(item)
+
+
+func remove_item() -> void:
+	if item:
+		item.queue_free()
+		item = null
+
+
+func use_item(delta: float) -> void:
+	if item:
+		var has_more_uses: bool = item.use(delta)
+		if !has_more_uses:
+			remove_item()
+
+
+func update_animation() -> void:
+	# face left or right
+	var control_vector = Input.get_vector("left", "right", "up", "down")
+	if control_vector.x > 0:
+		display.scale.x = 1
+	if control_vector.x < 0:
+		display.scale.x = -1
+	
+	# crouching
+	if is_crouching:
+		animations.play("crawl")
+		
+	# on ground
+	elif is_on_floor():
+		if super_jump.is_charging():
+			animations.play("charge")
+		elif control_vector.x != 0:
+			animations.play("run")
+		else:
+			animations.play("idle")
+			
+	# in the air
+	else:
+		animations.play("jump")
+	
+	# super jump charge effect
+	if super_jump.is_fully_charged():
+		display.scale.y = randf_range(0.9, 1.1)
+		if display.scale.x > 0:
+			display.scale.x = randf_range(0.9, 1.7)
+		else:
+			display.scale.x = -randf_range(0.9, 1.7)
+		display.modulate = Color("FFFF00")
+	elif super_jump.is_locking():
+		display.scale.y = randf_range(0.8, 1.1)
+		display.modulate = Color("FFFFAA")
+	else:
+		display.modulate = Color("FFFFFF")
+		display.scale.y = 1
+		if display.scale.x > 0:
+			display.scale.x = 1
+		else:
+			display.scale.x = -1

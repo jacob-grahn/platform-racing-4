@@ -4,58 +4,46 @@ var map = {}
 
 
 func init_defaults() -> void:
-	# basic
 	map['1'] = Tile.new()
 	map['2'] = Tile.new()
 	map['3'] = Tile.new()
 	map['4'] = Tile.new()
-	
-	# brick
 	map['5'] = Brick.new()
-	
-	# arrow
 	map['6'] = ArrowDown.new()
 	map['7'] = ArrowUp.new()
 	map['8'] = ArrowLeft.new()
 	map['9'] = ArrowRight.new()
-	
-	# more
-	map['10'] = Tile.new()
-	map['11'] = Tile.new()
+	map['10'] = Mine.new()
+	map['11'] = ItemDispenser.new()
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
 	map['14'] = Tile.new()
 	map['15'] = Tile.new()
-	map['16'] = Tile.new()
-	map['17'] = Tile.new()
-	map['18'] = Tile.new()
-	map['19'] = Tile.new()
-	map['20'] = Tile.new()
-	map['21'] = Tile.new()
-	map['22'] = Tile.new()
-	map['23'] = Tile.new()
-	map['24'] = Tile.new()
-	map['25'] = Tile.new()
-	map['26'] = Tile.new()
-	map['27'] = Tile.new()
-	map['28'] = Tile.new()
-	map['29'] = Tile.new()
+	map['16'] = Ice.new()
+	map['17'] = Finish.new()
+	map['18'] = Crumble.new()
+	map['19'] = Vanish.new()
+	map['20'] = Move.new()
+	map['21'] = Water.new()
+	map['22'] = RotateClockwise.new()
+	map['23'] = RotateCounterclockwise.new()
+	map['24'] = Push.new()
+	map['25'] = SafetyNet.new()
+	map['26'] = ItemDispenserInfinite.new()
+	map['27'] = Happy.new()
+	map['28'] = Sad.new()
+	map['29'] = Heart.new()
 	map['30'] = Tile.new()
-	map['31'] = Tile.new()
-	
-	# teleports
+	map['31'] = EggBlock.new()
 	map['32'] = BlueTeleport.new()
 	map['33'] = RedTeleport.new()
 	map['34'] = YellowTeleport.new()
-	
-	#
 	map['35'] = Gear.new()
 	map['36'] = PresenceSwitch.new()
-	
-	# lights
 	map['37'] = Sun.new()
 	map['38'] = Moon.new()
 	map['39'] = Firefly.new()
+	map['40'] = Appear.new()
 	
 	# init
 	for tile_id in map:
@@ -74,6 +62,20 @@ func is_solid(tile_type: int) -> bool:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		return tile.matter_type == Tile.SOLID
+	return false
+
+
+func is_liquid(tile_type: int) -> bool:
+	if str(tile_type) in map:
+		var tile:Tile = map[str(tile_type)]
+		return tile.matter_type == Tile.LIQUID
+	return false
+
+
+func is_safe(tile_type: int) -> bool:
+	if str(tile_type) in map:
+		var tile:Tile = map[str(tile_type)]
+		return tile.matter_type == Tile.SOLID && tile.is_safe
 	return false
 
 

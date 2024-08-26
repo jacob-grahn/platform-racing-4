@@ -19,17 +19,21 @@ func _on_back_pressed():
 
 
 func init(level: Dictionary):
-	level_decoder.decode(level)
+	level_decoder.decode(level, false)
 	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option()
 	var character = CHARACTER.instantiate()
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")
-	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
+	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)
 	character.active = true
 	player_holder.add_child(character)
 	character.set_depth(round(layer.follow_viewport_scale * 10))
+
+
+func finish():
+	Helpers.set_scene("EDITOR")
 
 
 func _exit_tree():

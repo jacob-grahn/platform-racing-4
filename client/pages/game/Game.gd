@@ -11,6 +11,7 @@ var tiles: Tiles = Tiles.new()
 @onready var level_decoder = $LevelDecoder
 @onready var layers = $Layers
 
+
 func _ready():
 	Jukebox.play_url("https://tunes.platformracing.com/pr1-future-penumbra-by-adulock-van-liovick.mp3")
 	back_button.connect("pressed", _on_back_pressed)	
@@ -38,7 +39,7 @@ func _http_request_completed(result, response_code, headers, body):
 	if response.get("error", ''):
 		return
 	
-	level_decoder.decode(response)
+	level_decoder.decode(response, false)
 	activate()
 
 
@@ -49,10 +50,14 @@ func activate():
 	var character = CHARACTER.instantiate()
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")
-	character.position = (start_option.coords * Settings.tile_size) + Settings.tile_size_half
+	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)
 	character.active = true
 	player_holder.add_child(character)
 	character.set_depth(round(layer.follow_viewport_scale * 10))
+
+
+func finish():
+	Helpers.set_scene("TITLE")
 
 
 func _exit_tree():

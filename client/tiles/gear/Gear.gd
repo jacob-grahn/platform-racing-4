@@ -3,6 +3,8 @@ class_name Gear
 
 var RotationController = preload("res://tiles/gear/RotationController.gd")
 
+func init():
+	is_safe = false
 
 func activate_tilemap(tile_map: TileMap):
 	var gear_coord_list = tile_map.get_used_cells_by_id(0, 0, Vector2i(4, 3))
@@ -16,12 +18,15 @@ func activate_tilemap(tile_map: TileMap):
 		# Create rotation controller
 		var rotation_controller = RotationController.new()
 		rotation_controller.position = Vector2(gear_coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
+		rotation_controller.rotation = tile_map.rotation
+		rotation_controller.target_rotation = tile_map.rotation
 		holder.add_child(rotation_controller)
 		holder.move_child(rotation_controller, 4)
 		
 		# Create sub tilemap
 		var sub_tile_map = TileMap.new()
 		sub_tile_map.tile_set = tile_map.tile_set
+		sub_tile_map.name = "gear_" + str(gear_coords) + "_tilemap"
 		sub_tile_map.set_cell(0, Vector2i(0, 0), 0, Vector2i(4, 3))
 		sub_tile_map.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
 		sub_tile_map.collision_animatable = true

@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://joknjf6qnfx5"]
+[gd_scene load_steps=6 format=3 uid="uid://joknjf6qnfx5"]
 
 [ext_resource type="Script" path="res://pages/editor/cursors/Cursor.gd" id="1_bnky5"]
 [ext_resource type="PackedScene" uid="uid://capwvms00utqf" path="res://pages/editor/cursors/BlockCursor.tscn" id="2_7h2ej"]
 [ext_resource type="PackedScene" uid="uid://cauj7mmhr7tdc" path="res://pages/editor/cursors/DrawCursor.tscn" id="3_egyd5"]
+[ext_resource type="PackedScene" uid="uid://db753dcpsi48c" path="res://pages/editor/cursors/EraseCursor.tscn" id="4_1xtjb"]
+[ext_resource type="PackedScene" uid="uid://jjmfqdooq1yd" path="res://pages/editor/cursors/UserTextCursor.tscn" id="5_5xoxa"]
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_bnky5")
@@ -18,3 +20,7 @@ offset_bottom = 3454.0
 [node name="BlockCursor" parent="." instance=ExtResource("2_7h2ej")]
 
 [node name="DrawCursor" parent="." instance=ExtResource("3_egyd5")]
+
+[node name="EraseCursor" parent="." instance=ExtResource("4_1xtjb")]
+
+[node name="UserTextCursor" parent="." instance=ExtResource("5_5xoxa")]

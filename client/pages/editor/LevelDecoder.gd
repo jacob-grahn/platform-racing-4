@@ -3,7 +3,7 @@ extends Node2D
 const LAYER = preload("res://layers/Layer.tscn")
 
 
-func decode(level: Dictionary) -> void:
+func decode(level: Dictionary, isEditing: bool) -> void:
 	for encoded_layer in level.layers:
 		var layer = LAYER.instantiate()
 		layer.name = encoded_layer.name
@@ -15,6 +15,8 @@ func decode(level: Dictionary) -> void:
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
 		if encoded_layer.get("objects"):
 			decode_lines(encoded_layer.objects, layer.get_node("Lines"))
+		if encoded_layer.get("usertextboxobjects"):
+			decode_usertextboxes(encoded_layer.usertextboxobjects, layer.get_node("UserTextboxes"), isEditing)
 
 
 func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
@@ -41,6 +43,29 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
 		line.default_color = Color("FFFFFF") # Color(object.properties.color)
 		line.width = 10 # object.properties.thickness
-		for point in object.polyline:
+		var polyline
+		if typeof(object.polyline) == 4: #If the line was saved as a string (For levels made in PR4)
+			polyline = str_to_var(object.polyline)
+		else: #For imported levels from PR2 (Saved as an array already)
+			polyline = object.polyline
+		for point in polyline:
 			line.add_point(Vector2(point.x, point.y))
 		holder.add_child(line)
+
+
+func decode_usertextboxes(usertextboxobjects: Array, holder: Node2D, isEditing: bool) -> void:
+	for usertextboxobject in usertextboxobjects:
+		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/UserTextbox.tscn")
+		var usertextbox = usertextbox_scene.instantiate()
+		if "font" not in usertextboxobject.keys(): #Failsafe for old text. May be removed in future.
+			usertextboxobject.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
+		usertextbox.set_usertext_properties(usertextboxobject.usertext, usertextboxobject.font, usertextboxobject.font_size)
+		holder.add_child(usertextbox)
+		usertextbox.position = Vector2(usertextboxobject.x, usertextboxobject.y)
+		usertextbox.resize_text(usertextboxobject.text_width, usertextboxobject.text_height)
+		usertextbox.disable_text_edits()
+
+		if isEditing:
+			usertextbox.mouse_filter = 0 #Editable on click (click stops at text)
+		else:
+			usertextbox.mouse_filter = 2 #Not Editable on click (click passes through)

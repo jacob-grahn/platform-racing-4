@@ -11,6 +11,7 @@ var throttle_ms = 1000
 func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(teleport)
+	is_safe = false
 
 
 func activate_tilemap(tilemap: TileMap) -> void:
@@ -19,7 +20,8 @@ func activate_tilemap(tilemap: TileMap) -> void:
 		var position = {
 			"layer_name": str(tilemap.get_parent().name),
 			"coords": coords,
-			"color": color
+			"color": color,
+			"tilemap": tilemap
 		}
 		positions.push_back(position)
 
@@ -43,9 +45,10 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	var next_position = get_next_position(source_position)
 	var layers = tilemap.get_node("../../")
 	var layer = layers.get_node(next_position.layer_name)
-	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half)
-	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half)
-	var dist = player.position - source_block_position
+	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tilemap.global_rotation)
+	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tilemap.global_rotation)
+	var dist = (player.position - source_block_position).rotated(next_position.tilemap.global_rotation)
+	
 	player.get_parent().remove_child(player)
 	layer.get_node("Players").add_child(player)
 	player.position = next_block_position + dist

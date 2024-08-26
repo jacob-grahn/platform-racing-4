@@ -16,6 +16,8 @@ func set_scene(scene_name: String) -> Node2D:
 
 
 func to_atlas_coords(block_id: int) -> Vector2i:
+	if block_id == 0:
+		return Vector2(-1, -1)
 	var id = block_id - 1
 	var x = id % 10
 	var y = id / 10
@@ -30,3 +32,9 @@ func to_bitmask_32(num: int) -> int:
 	if num < 1 or num > 32:
 		return 0 # Return 0 for out of range numbers
 	return 1 << (num - 1)
+
+
+func get_depth(node: Node) -> int:
+	if node is ParallaxBackground:
+		return round(node.follow_viewport_scale * 10)
+	return get_depth(node.get_parent())
