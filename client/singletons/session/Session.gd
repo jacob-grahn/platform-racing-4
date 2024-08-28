@@ -35,7 +35,7 @@ func _request_completed(result, response_code, headers, body):
 
 
 func refresh():
-	http.request("https://dev.platformracing.com/auth/sessions/whoami")
+	http.request(Helpers.get_base_url() + "/auth/sessions/whoami")
 
 
 func start_guest_session():

@@ -54,17 +54,17 @@ func _guest_pressed():
 
 func _create_pressed():
 	if OS.has_feature('JavaScript'):
-		JavaScriptBridge.eval('window.location.replace("https://dev.platformracing.com/auth-ui/login")')
+		JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth-ui/login")')
 
 
 func _log_in_pressed():
 	if OS.has_feature('JavaScript'):
-		JavaScriptBridge.eval('window.location.replace("https://dev.platformracing.com/auth-ui/registration")')
+		JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth-ui/registration")')
 
 
 func _logout_pressed():
 	if OS.has_feature('JavaScript'):
-		JavaScriptBridge.eval('window.location.replace("https://dev.platformracing.com/auth/self-service/logout?token=ory_lo")')
+		JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth/self-service/logout?token=ory_lo")')
 	else:
 		Session.end()
 
