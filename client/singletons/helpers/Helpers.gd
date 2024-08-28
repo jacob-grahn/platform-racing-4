@@ -3,9 +3,10 @@ extends Node2D
 
 var hostname: String = ""
 func get_base_url() -> String:
-	if OS.has_feature('JavaScript'):
+	if OS.has_feature('web'):
 		if !hostname:
 			hostname = JavaScriptBridge.eval('window.location.hostname')
+			print("Setting base url hostname: ", hostname)
 		return "https://" + hostname
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local':
