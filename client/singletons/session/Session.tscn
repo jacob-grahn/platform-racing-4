@@ -6,3 +6,5 @@
 script = ExtResource("1_ind5g")
 
 [node name="HTTP" type="HTTPRequest" parent="."]
+
+[node name="HTTPLogout" type="HTTPRequest" parent="."]

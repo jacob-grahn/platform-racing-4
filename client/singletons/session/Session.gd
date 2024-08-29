@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var http = $HTTP
+@onready var http_logout = $HTTPLogout
 var player_id = ""
 var nickname = ""
 var is_guest = true
@@ -48,3 +49,29 @@ func end():
 	player_id = ""
 	is_guest = true
 	nickname = ""
+	if OS.has_feature('web'):
+		http_logout.request(Helpers.get_base_url() + '/kratos/self-service/logout/browser')
+	
+	
+func _logout_request_completed(result: int, response_code: int, headers, body):
+	if result != HTTPRequest.RESULT_SUCCESS:
+		print("Session couldn't be deleted. Result: " + str(result))
+		return
+		
+	if response_code != 200:
+		print("Session::_logout_request_completed - response code: ", response_code)
+		return
+		
+	var json = JSON.new()
+	var error = json.parse(body.get_string_from_utf8())
+	if error != OK:
+		print("Session::_logout_request_completed - json parse error: ", error)
+		return
+		
+	var data = json.data
+	if (data.error):
+		print(data.error)
+		return
+		
+	JavaScriptBridge.eval("window.location = '" + data.logout_url + "';")
+

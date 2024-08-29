@@ -63,10 +63,7 @@ func _log_in_pressed():
 
 
 func _logout_pressed():
-	if OS.has_feature('web'):
-		JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth/self-service/logout?token=ory_lo")')
-	else:
-		Session.end()
+	Session.end()
 
 
 func _credits_pressed():
