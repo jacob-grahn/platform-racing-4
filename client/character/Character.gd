@@ -187,7 +187,7 @@ func _physics_process(delta):
 	camera.zoom.y += (camera_target_zoom - camera.zoom.y) * camera_zoom_smoothing
 	
 	# lightbreak
-	var control_vector = Input.get_vector("left", "right", "up", "down")
+	control_vector = Input.get_vector("left", "right", "up", "down")
 	if lightbreak_direction.length() > 0:
 		velocity = lightbreak_direction * LIGHTBREAK_SPEED * delta
 		if (control_vector + lightbreak_direction).length() < 0.5:
@@ -387,7 +387,7 @@ func use_item(delta: float) -> void:
 
 func update_animation() -> void:
 	# face left or right
-	var control_vector = Input.get_vector("left", "right", "up", "down")
+	control_vector = Input.get_vector("left", "right", "up", "down")
 	if control_vector.x > 0:
 		display.scale.x = 1
 	if control_vector.x < 0:
