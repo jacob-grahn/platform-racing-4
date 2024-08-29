@@ -50,7 +50,7 @@ func end():
 	is_guest = true
 	nickname = ""
 	if OS.has_feature('web'):
-		http_logout.request(Helpers.get_base_url() + '/kratos/self-service/logout/browser')
+		http_logout.request(Helpers.get_base_url() + '/auth/self-service/logout/browser')
 	
 	
 func _logout_request_completed(result: int, response_code: int, headers, body):
