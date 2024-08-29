@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: snok/container-retention-policy@v3.0.0
         with:
-          account: jacob-grahn
+          account: user
           token: ${{ secrets.GITHUB_TOKEN }}
           image-names: "platform-racing-4-api platform-racing-4-client-web"
           image-tags: "*main* *release*"
