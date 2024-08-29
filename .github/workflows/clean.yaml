@@ -2,6 +2,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "5 5 5 * *"  # At 05:05 on day-of-month 5
+permissions:
+  packages: admin
 
 jobs:
   clean:
