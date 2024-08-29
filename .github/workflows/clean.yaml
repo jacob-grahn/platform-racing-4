@@ -16,4 +16,4 @@ jobs:
           image-tags: "*main* *release*"
           cut-off: 4w
           keep-n-most-recent: 5
-          dry-run: true
+          dry-run: false
