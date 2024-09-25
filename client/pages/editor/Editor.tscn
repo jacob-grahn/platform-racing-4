@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=12 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="7_kmgse"]
 [ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/menu/EditorMenu.tscn" id="8_c5wg3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="8_t266g"]
+[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://pages/editor/layer_panel/LayerPanel.tscn" id="11_vx1vu"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
@@ -32,6 +33,9 @@ layer = 120
 [node name="Cursor" parent="UI" instance=ExtResource("4_pnfuv")]
 
 [node name="EditorMenu" parent="UI" instance=ExtResource("8_c5wg3")]
+
+[node name="LayerPanel" parent="UI" instance=ExtResource("11_vx1vu")]
+position = Vector2(28, 162)
 
 [node name="Test" type="Button" parent="UI"]
 offset_left = 1718.0

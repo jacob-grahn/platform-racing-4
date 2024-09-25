@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfsddu7uhkrp5"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_w2du1"]
+[ext_resource type="Texture2D" uid="uid://csldj28jkpwjh" path="res://pages/editor/layer_panel/eye.png" id="2_o3boq"]
+
+[node name="LayerRow" type="Control"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 50.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 50.0
+color = Color(0.172549, 0.176471, 0.247059, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 70.0
+offset_top = 3.0
+offset_right = 390.0
+offset_bottom = 43.0
+theme = ExtResource("1_w2du1")
+text = "Layer 1"
+
+[node name="Eye" type="Sprite2D" parent="."]
+position = Vector2(35, 26)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_o3boq")

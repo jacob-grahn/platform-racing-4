@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cntljr72fl7i0"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_qwtjx"]
+[ext_resource type="Script" path="res://pages/editor/layer_panel/LayerPanel.gd" id="1_vw7vn"]
+[ext_resource type="PackedScene" uid="uid://cfsddu7uhkrp5" path="res://pages/editor/layer_panel/LayerRow.tscn" id="2_urqxs"]
+
+[node name="LayerPanel" type="Node2D"]
+script = ExtResource("1_vw7vn")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 400.0
+offset_bottom = 600.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_right = 408.0
+offset_bottom = 600.0
+horizontal_scroll_mode = 0
+
+[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(400, 600)
+layout_mode = 2
+
+[node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow3" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow4" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow5" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="."]
+offset_left = 338.0
+offset_top = 535.0
+offset_right = 389.0
+offset_bottom = 590.0
+theme = ExtResource("1_qwtjx")
+text = "X"
+
+[node name="NewButton" type="Button" parent="."]
+offset_left = 10.0
+offset_top = 535.0
+offset_right = 65.0
+offset_bottom = 590.0
+theme = ExtResource("1_qwtjx")
+text = "+"
