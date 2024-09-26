@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6hg56c7sf73m"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_rlgcu"]
+[ext_resource type="Script" path="res://pages/editor/layer_panel/NumberPicker.gd" id="1_shofn"]
+
+[node name="NumberPicker" type="Node2D"]
+script = ExtResource("1_shofn")
+
+[node name="DownButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 295.0
+offset_top = -2.0
+offset_right = 475.0
+offset_bottom = 126.0
+theme = ExtResource("1_rlgcu")
+text = "-"
+text_overrun_behavior = 1
+
+[node name="UpButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 485.0
+offset_top = -4.0
+offset_right = 665.0
+offset_bottom = 124.0
+theme = ExtResource("1_rlgcu")
+text = "+"
+text_overrun_behavior = 1
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 284.0
+offset_bottom = 124.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 23.0
+offset_top = 29.0
+offset_right = 235.0
+offset_bottom = 95.0
+theme = ExtResource("1_rlgcu")
+text = "Rotation: 0"

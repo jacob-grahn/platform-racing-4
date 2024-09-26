@@ -1,10 +1,10 @@
-extends SliderItem
+extends Node2D
 
 signal value_change
 
-@onready var down_button = $Content/DownButton
-@onready var up_button = $Content/UpButton
-@onready var label = $Content/Label
+@onready var down_button = $DownButton
+@onready var up_button = $UpButton
+@onready var label = $Label
 
 var text: String = "Value"
 var value: int = 0
@@ -14,7 +14,6 @@ var step: int = 1
 
 
 func _ready():
-	super._ready()
 	up_button.connect("pressed", _on_up_button_pressed)
 	down_button.connect("pressed", _on_down_button_pressed)
 	_render()
@@ -38,10 +37,6 @@ func _on_change():
 
 func _render():
 	label.text = text + ": " + str(value)
-
-
-func get_dimensions() -> Vector2:
-	return Vector2i(640, 128)
 
 
 func set_value(new_value: int) -> void:

@@ -22,7 +22,7 @@ func init(level: Dictionary):
 	level_decoder.decode(level, false)
 	layers.init(tiles)
 	tiles.activate_node($Layers)
-	var start_option = Start.get_next_start_option()
+	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")

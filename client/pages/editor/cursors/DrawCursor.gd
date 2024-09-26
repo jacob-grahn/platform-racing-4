@@ -5,12 +5,12 @@ signal level_event
 var current_line: Line2D
 var current_point: Vector2i
 var optimization_epsilon: float = 1.0 # bigger = more line optimization
+@onready var layers = get_node("../../../Layers")
 
 
 func on_mouse_down():
 	if !current_line:
-		var layer_name = get_parent().layer_name
-		var layer: ParallaxBackground = get_node("../../../Layers/"+layer_name)
+		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 		var lines: Node2D = layer.get_node("Lines")
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -25,8 +25,7 @@ func on_mouse_down():
 
 func on_drag():
 	if current_line:
-		var layer_name = get_parent().layer_name
-		var layer: ParallaxBackground = get_node("../../../Layers/"+layer_name)		
+		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 		var lines: Node2D = layer.get_node("Lines")
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var mouse_position = lines.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -49,7 +48,7 @@ func on_mouse_up():
 		# Save the line
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LINE,
-			"layer_name": get_parent().layer_name,
+			"layer_name": layers.get_target_layer(),
 			"position": current_line.position,
 			"points": simplified_points
 		})

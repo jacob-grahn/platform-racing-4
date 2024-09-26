@@ -14,6 +14,7 @@ const ADD_LINE = 'add_line'
 const ADD_LAYER = 'add_layer'
 const ADD_USERTEXT = 'add_usertext'
 const ROTATE_LAYER = 'rotate_layer'
+const DELETE_LAYER = 'delete_layer'
 const LAYER_DEPTH = 'layer_depth'
 const UNDO = 'undo'
 
@@ -24,6 +25,7 @@ var redo_events = []
 func _ready():
 	get_node("../UI/Cursor").connect("level_event", _on_level_event)
 	get_node("../UI/EditorMenu").connect("level_event", _on_level_event)
+	get_node("../UI/LayerPanel").connect("level_event", _on_level_event)
 
 
 func _on_level_event(event: Dictionary) -> void:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cntljr72fl7i0"]
+[gd_scene load_steps=5 format=3 uid="uid://cntljr72fl7i0"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_qwtjx"]
 [ext_resource type="Script" path="res://pages/editor/layer_panel/LayerPanel.gd" id="1_vw7vn"]
 [ext_resource type="PackedScene" uid="uid://cfsddu7uhkrp5" path="res://pages/editor/layer_panel/LayerRow.tscn" id="2_urqxs"]
+[ext_resource type="PackedScene" uid="uid://c6hg56c7sf73m" path="res://pages/editor/layer_panel/NumberPicker.tscn" id="4_45vqc"]
 
 [node name="LayerPanel" type="Node2D"]
 script = ExtResource("1_vw7vn")
@@ -13,11 +14,11 @@ offset_bottom = 600.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 offset_right = 408.0
-offset_bottom = 600.0
+offset_bottom = 520.0
 horizontal_scroll_mode = 0
 
 [node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
-custom_minimum_size = Vector2(400, 600)
+custom_minimum_size = Vector2(400, 520)
 layout_mode = 2
 
 [node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
@@ -50,3 +51,9 @@ offset_right = 65.0
 offset_bottom = 590.0
 theme = ExtResource("1_qwtjx")
 text = "+"
+
+[node name="RotationPicker" parent="." instance=ExtResource("4_45vqc")]
+position = Vector2(3, 618)
+
+[node name="DepthPicker" parent="." instance=ExtResource("4_45vqc")]
+position = Vector2(0, 761)

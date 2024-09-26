@@ -6,7 +6,7 @@ var save_dir: String = "user://editor"
 var save_file_path: String = save_dir + "/current-level.json"
 var default_level: Dictionary = {
 	"layers": [{
-		"name": "L1",
+		"name": "Layer 1",
 		"chunks": [],
 		"rotation": 0,
 		"depth": 10
@@ -19,6 +19,7 @@ var default_level: Dictionary = {
 @onready var level_decoder = $LevelDecoder
 @onready var editor_menu = $UI/EditorMenu
 @onready var layers = $Layers
+@onready var layer_panel = $UI/LayerPanel
 
 static var current_level: Dictionary
 
@@ -39,6 +40,7 @@ func _ready():
 	
 	tiles.init_defaults()
 	layers.init(tiles)
+	layer_panel.set_layers(layers)
 
 
 func _on_back_pressed():

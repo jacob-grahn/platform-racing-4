@@ -3,11 +3,11 @@ extends Node2D
 signal level_event
 
 var current_usertextbox: TextEdit
+@onready var layers = get_node("../../../Layers")
 
 
 func on_mouse_down():
-	var layer_name = get_parent().layer_name
-	var layer: ParallaxBackground = get_node("../../../Layers/"+layer_name)
+	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 	var textboxes: Node2D = layer.get_node("UserTextboxes")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var mouse_position = textboxes.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -18,7 +18,7 @@ func on_mouse_down():
 	
 	emit_signal("level_event", {
 		"type": EditorEvents.ADD_USERTEXT,
-		"layer_name": get_parent().layer_name,
+		"layer_name": layers.get_target_layer(),
 		"position": mouse_position.round(),
 		"usertext": "Text!",
 		"font": usertextbox_font,

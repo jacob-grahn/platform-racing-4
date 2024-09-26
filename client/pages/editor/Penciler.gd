@@ -28,6 +28,11 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.layer = 10
 		layers.add_child(layer)
 		layer.init(get_parent().tiles)
+	if event.type == EditorEvents.DELETE_LAYER:
+		var layer = layers.get_node(event.name)
+		if layer:
+			layers.remove_child(layer)
+			layer.queue_free()
 	if event.type == EditorEvents.ADD_USERTEXT:
 		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
 		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/UserTextbox.tscn")

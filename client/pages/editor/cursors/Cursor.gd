@@ -12,7 +12,6 @@ signal level_event
 var using_gui = false
 var mouse_down = false
 var current_cursor: Node2D
-var layer_name: String = "L1"
 
 
 func _ready():
@@ -43,7 +42,6 @@ func _process(delta):
 
 
 func _on_control_event(event: Dictionary) -> void:
-	print("Cursor::_on_control_event ", event)
 	if event.type == EditorEvents.SELECT_TOOL:
 		$Control.mouse_filter = 0
 		if event.tool == "blocks":
@@ -55,8 +53,6 @@ func _on_control_event(event: Dictionary) -> void:
 		if event.tool == "add text":
 			current_cursor = usertext_cursor
 			$Control.mouse_filter = 1
-	if event.type == EditorEvents.SELECT_LAYER:
-		layer_name = event.layer_name
 
 
 func _on_subcursor_event(event: Dictionary) -> void:
