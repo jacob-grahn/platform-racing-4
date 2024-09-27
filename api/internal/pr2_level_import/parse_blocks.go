@@ -39,11 +39,12 @@ func parseBlocks(blockArr []string, chunkSize int) TileLayer {
 			continue
 		}
 		parts := strings.Split(command, ";")
-		if len(parts) < 2 {
-			continue
+		moveX := 0
+		moveY := 0
+		moveX, _ = strconv.Atoi(parts[0])
+		if len(parts) > 1 {
+			moveY, _ = strconv.Atoi(parts[1])
 		}
-		moveX, _ := strconv.Atoi(parts[0])
-		moveY, _ := strconv.Atoi(parts[1])
 		if len(parts) > 2 {
 			newTileId, _ := strconv.Atoi(parts[2])
 			if newTileId >= 100 {
