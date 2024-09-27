@@ -41,6 +41,9 @@ func parseArt(artArr []string) ObjectGroup {
 	objects := []ArtObject{}
 
 	for _, command := range artArr {
+		if command == "" {
+			continue
+		}
 		typeCmd := command[:1]
 		content := command[1:]
 
