@@ -1,6 +1,7 @@
 package pr2_level_import
 
 import (
+	"math"
 	"strconv"
 	"strings"
 )
@@ -19,8 +20,11 @@ func parseLine(lineStr, color string, thickness int, mode string) ArtObject {
 	var startX, _ = strconv.Atoi(values[0])
 	var startY, _ = strconv.Atoi(values[1])
 	var polyline []Point
-	var x int = 0
-	var y int = 0
+	x := 0
+	y := 0
+
+	startX = int(math.Round(float64(startX) * upscaleRatio))
+	startY = int(math.Round(float64(startY) * upscaleRatio))
 
 	for i := 0; i < len(values); i += 2 {
 		valueX, _ := strconv.Atoi(values[i])
@@ -29,9 +33,14 @@ func parseLine(lineStr, color string, thickness int, mode string) ArtObject {
 			polyline = append(polyline, Point{X: 0, Y: 0})
 			continue
 		}
-		x += valueX
-		y += valueY
-		polyline = append(polyline, Point{X: x, Y: y})
+		if valueX != 0 || valueY != 0 {
+			x += valueX
+			y += valueY
+			polyline = append(polyline, Point{
+				X: int(math.Round(float64(x) * upscaleRatio)),
+				Y: int(math.Round(float64(y) * upscaleRatio)),
+			})
+		}
 	}
 
 	return ArtObject{
@@ -40,7 +49,7 @@ func parseLine(lineStr, color string, thickness int, mode string) ArtObject {
 		Polyline: polyline,
 		Properties: LineProperties{
 			Color:     rightPad(color, "0", 6),
-			Thickness: thickness,
+			Thickness: int(math.Round(float64(thickness) * upscaleRatio)),
 			Mode:      mode,
 		},
 	}

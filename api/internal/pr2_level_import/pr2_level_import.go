@@ -33,6 +33,7 @@ type Tileset struct {
 }
 
 const baseURL = "https://pr2hub.com/levels"
+const upscaleRatio = 4.2666666667
 
 func SetupPR2LevelImportRoutes(router *gin.Engine, db *gorm.DB) {
 	router.GET("/pr2/level/:id", func(c *gin.Context) {

@@ -4,13 +4,14 @@ const LAYER = preload("res://layers/Layer.tscn")
 
 
 func decode(level: Dictionary, isEditing: bool) -> void:
+	var layers: Node2D = get_node("../Layers")
 	for encoded_layer in level.layers:
 		var layer = LAYER.instantiate()
 		layer.name = encoded_layer.name
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.follow_viewport_scale = encoded_layer.get('depth', 10) / 10
 		layer.layer = encoded_layer.get('depth', 10)
-		get_node("../Layers").add_child(layer)
+		layers.add_child(layer)
 		if encoded_layer.get("chunks"):
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
 		if encoded_layer.get("objects"):
