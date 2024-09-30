@@ -11,7 +11,7 @@ func _ready():
 
 
 func _on_pressed() -> void:
-	emit_signal("pressed", get_label())
+	emit_signal("pressed")
 
 
 func get_dimensions() -> Vector2:

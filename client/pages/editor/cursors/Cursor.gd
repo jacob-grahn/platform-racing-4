@@ -42,6 +42,8 @@ func _process(delta):
 
 
 func _on_control_event(event: Dictionary) -> void:
+	if event.type == EditorEvents.SELECT_BLOCK:
+		current_cursor = block_cursor
 	if event.type == EditorEvents.SELECT_TOOL:
 		$Control.mouse_filter = 0
 		if event.tool == "blocks":
@@ -50,7 +52,7 @@ func _on_control_event(event: Dictionary) -> void:
 			current_cursor = draw_cursor
 		if event.tool == "erase":
 			current_cursor = erase_cursor
-		if event.tool == "add text":
+		if event.tool == "text":
 			current_cursor = usertext_cursor
 			$Control.mouse_filter = 1
 

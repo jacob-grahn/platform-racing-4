@@ -3,11 +3,11 @@ extends Node2D
 signal control_event
 signal level_event
 
-@onready var tool_row = $ToolRow
+@onready var mega_row = $MegaRow
 
 
 func _ready():
-	add_row(tool_row)
+	add_row(mega_row)
 	get_viewport().size_changed.connect(_on_size_changed)
 	_on_size_changed()
 
