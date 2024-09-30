@@ -10,6 +10,25 @@ func on_mouse_down():
 
 
 func on_drag():
+	erase_blocks()
+	erase_lines()
+
+
+func erase_lines():
+	var radius: int = 20
+	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+	var line_holder: Node2D = layer.get_node("Lines")
+	var camera: Camera2D = get_viewport().get_camera_2d()
+	var mouse_position = line_holder.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+	for line in line_holder.get_children():
+		for point in line.points:
+			var local_point: Vector2 = point + line.position
+			if local_point.distance_to(mouse_position) < radius:
+				line.queue_free()
+				continue
+
+
+func erase_blocks():
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 	var tilemap: TileMap = layer.get_node("TileMap")
 	var camera: Camera2D = get_viewport().get_camera_2d()
@@ -23,7 +42,7 @@ func on_drag():
 			"coords": coords,
 			"block_id": 0
 		})
-
+		
 
 func on_mouse_up():
 	pass
