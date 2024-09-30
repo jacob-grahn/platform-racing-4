@@ -85,4 +85,3 @@ func _load_from_file():
 	file.close()
 	
 	return level
-

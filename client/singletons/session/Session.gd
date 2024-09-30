@@ -74,4 +74,3 @@ func _logout_request_completed(result: int, response_code: int, headers, body):
 		return
 		
 	JavaScriptBridge.eval("window.location = '" + data.logout_url + "';")
-

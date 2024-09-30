@@ -11,4 +11,3 @@ func init():
 
 func push_up(node: Node2D, target: Node2D, coords: Vector2i)->void:
 	push(node, target, coords, vector_up)
-

@@ -42,4 +42,3 @@ func _render():
 func set_value(new_value: int) -> void:
 	value = new_value
 	_render()
-
