@@ -27,7 +27,7 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 		return
 	
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
-	var existing_bump_effect = tile_map.get_node(effect_name)
+	var existing_bump_effect = tile_map.get_node_or_null(effect_name)
 	if existing_bump_effect:
 		existing_bump_effect.get_node("AnimationPlayer").seek(0.1)
 		return
