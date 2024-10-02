@@ -26,6 +26,7 @@ func finish():
 	var tile_map: TileMap = get_parent()
 	var atlas_coords: Vector2i = tile_map.get_cell_atlas_coords(0, _coords)
 	var alt_id: int = tile_map.get_cell_alternative_tile(0, _coords)
+	await get_tree().physics_frame
 	if _atlas_coords == atlas_coords:
 		if alt_id == Tile.INVISIBLE_DEACTIVATED_ALT_ID:
 			tile_map.set_cell(0, _coords, 0, _atlas_coords, Tile.DEACTIVATED_ALT_ID)
