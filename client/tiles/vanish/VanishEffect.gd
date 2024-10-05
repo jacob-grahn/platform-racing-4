@@ -64,6 +64,7 @@ func _on_reappear():
 	_tile_map.set_cell(0, _coords, 0, _atlas_coords,1)
 
 func _on_anim_complete():
+	await get_tree().physics_frame
 	if _vanish != null:
 		_vanish.remove_from_vanish_dict(_coords)
 	_tile_map.set_cell(0, _coords, 0, _atlas_coords,0)
