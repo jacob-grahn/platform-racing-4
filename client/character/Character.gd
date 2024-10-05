@@ -99,6 +99,9 @@ func _physics_process(delta):
 	# Inputs
 	var control_axis: float = Input.get_axis("left", "right")
 
+	# Super jump
+	super_jump.run(self, delta)
+	
 	# Handle jump.
 	if can_jump:
 		if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
@@ -128,9 +131,6 @@ func _physics_process(delta):
 		# extra jump is gone after releasing jump button
 		if not jumped:
 			jump_timer = 0
-	
-	# Super jump
-	super_jump.run(self, delta)
 	
 	# Move left/right
 	if super_jump.is_locking():
