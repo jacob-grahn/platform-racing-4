@@ -9,6 +9,8 @@ signal pressed
 func _ready():
 	super._ready()
 	button.connect("pressed", _on_pressed)
+	sprite.scale = Vector2(0.5, 0.5)
+	sprite.position = Vector2(32, 32)
 
 
 func set_block_id(id: int) -> void:

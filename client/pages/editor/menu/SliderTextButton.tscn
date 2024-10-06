@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://6tvyfstbdm6b"]
+[gd_scene load_steps=3 format=3 uid="uid://6tvyfstbdm6b"]
 
 [ext_resource type="PackedScene" uid="uid://db2mwvyolxxpv" path="res://pages/editor/menu/SliderItem.tscn" id="1_k7iws"]
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_1656n"]
 [ext_resource type="Script" path="res://pages/editor/menu/SliderTextButton.gd" id="2_gth2k"]
 
 [node name="SliderTextButton" instance=ExtResource("1_k7iws")]
@@ -9,8 +8,9 @@ script = ExtResource("2_gth2k")
 
 [node name="Button" type="Button" parent="Content" index="0"]
 clip_contents = true
-offset_right = 180.0
-offset_bottom = 128.0
-theme = ExtResource("2_1656n")
+offset_right = 128.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
 text = "Text"
 text_overrun_behavior = 1

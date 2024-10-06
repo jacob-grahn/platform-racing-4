@@ -30,7 +30,7 @@ func disappear(delay: float) -> void:
 
 
 func get_dimensions() -> Vector2:
-	return Settings.tile_size
+	return Settings.tile_size / 2
 
 
 func _on_timeout() -> void:

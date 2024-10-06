@@ -16,6 +16,7 @@
 script = ExtResource("1_qeoq7")
 
 [node name="EditorCamera" parent="." instance=ExtResource("2_ifj8n")]
+zoom = Vector2(0.5, 0.5)
 
 [node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
 

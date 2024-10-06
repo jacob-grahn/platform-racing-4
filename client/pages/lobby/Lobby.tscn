@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://deiu5ka4ihdm5"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_4b3kv"]
+[ext_resource type="Script" path="res://pages/lobby/lobby.gd" id="1_aqp3w"]
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aqp3w")
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -674.0
+offset_top = -92.0
+offset_right = -334.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4b3kv")
+text = "Play PR2 Level"
+
+[node name="BackButton" type="Button" parent="."]
+offset_left = 34.0
+offset_top = 28.0
+offset_right = 239.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Back"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 693.0
+offset_top = 457.0
+offset_right = 1097.0
+offset_bottom = 520.0
+theme = ExtResource("1_4b3kv")
+text = "50815"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 56.0
+offset_right = 868.0
+offset_bottom = 95.0
+text = "Some single player stuff that wroks offline goes here..."
