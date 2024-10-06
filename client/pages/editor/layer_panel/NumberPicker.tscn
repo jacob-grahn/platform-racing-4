@@ -8,32 +8,32 @@ script = ExtResource("1_shofn")
 
 [node name="DownButton" type="Button" parent="."]
 clip_contents = true
-offset_left = 295.0
-offset_top = -2.0
-offset_right = 475.0
-offset_bottom = 126.0
+offset_left = 286.0
+offset_top = -1.0
+offset_right = 431.0
+offset_bottom = 70.0
 theme = ExtResource("1_rlgcu")
 text = "-"
 text_overrun_behavior = 1
 
 [node name="UpButton" type="Button" parent="."]
 clip_contents = true
-offset_left = 485.0
-offset_top = -4.0
-offset_right = 665.0
-offset_bottom = 124.0
+offset_left = 442.0
+offset_top = -1.0
+offset_right = 595.0
+offset_bottom = 70.0
 theme = ExtResource("1_rlgcu")
 text = "+"
 text_overrun_behavior = 1
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 284.0
-offset_bottom = 124.0
+offset_right = 268.0
+offset_bottom = 70.0
 
 [node name="Label" type="Label" parent="."]
 offset_left = 23.0
-offset_top = 29.0
+offset_top = 13.0
 offset_right = 235.0
-offset_bottom = 95.0
+offset_bottom = 52.0
 theme = ExtResource("1_rlgcu")
 text = "Rotation: 0"

@@ -9,136 +9,148 @@
 default_font = ExtResource("2_a4giu")
 default_font_size = 128
 
-[node name="Title" type="Node2D"]
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_d2gdb")
 
 [node name="ParallaxBg" parent="." instance=ExtResource("3_033iv")]
 position = Vector2(2048, 0)
 
-[node name="GuestMenu" type="Node2D" parent="."]
-visible = false
-position = Vector2(1940, 1000)
-
-[node name="LogInButton" type="Button" parent="GuestMenu"]
-offset_left = -186.0
-offset_right = 189.0
-offset_bottom = 170.0
+[node name="NicknameLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1853.0
+offset_bottom = 77.0
+grow_horizontal = 0
 theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Log In"
-flat = true
+text = "-- Nickname --"
+horizontal_alignment = 2
 
-[node name="GuestButton" type="Button" parent="GuestMenu"]
-offset_left = -234.0
+[node name="GuestMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OnlineButton" type="Button" parent="GuestMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -66.0
+offset_right = 120.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_k3j40")
+text = "Online"
+
+[node name="SoloButton" type="Button" parent="GuestMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 41.0
+offset_right = 120.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_k3j40")
+text = "Solo"
+
+[node name="EditorButton" type="Button" parent="GuestMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
 offset_top = 150.0
-offset_right = 231.0
-offset_bottom = 320.0
+offset_right = 120.0
+offset_bottom = 221.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Play as Guest"
-flat = true
-
-[node name="CreateButton" type="Button" parent="GuestMenu"]
-offset_left = -235.0
-offset_top = 300.0
-offset_right = 239.0
-offset_bottom = 470.0
-theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Create Account"
-flat = true
+text = "Editor"
 
 [node name="CreditsButton" type="Button" parent="GuestMenu"]
-offset_left = -235.0
-offset_top = 450.0
-offset_right = 239.0
-offset_bottom = 620.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 260.0
+offset_right = 120.0
+offset_bottom = 331.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Credits
-"
-flat = true
-
-[node name="PlayerMenu" type="Node2D" parent="."]
-position = Vector2(1940, 1000)
-
-[node name="NicknameLabel" type="Label" parent="PlayerMenu"]
-offset_left = -1021.0
-offset_right = 1025.0
-offset_bottom = 77.0
-theme = ExtResource("3_k3j40")
-theme_override_font_sizes/font_size = 64
-text = "-- Nickname --"
-horizontal_alignment = 1
-
-[node name="PlayButton" type="Button" parent="PlayerMenu"]
-offset_left = -246.0
-offset_top = 150.0
-offset_right = 254.0
-offset_bottom = 320.0
-theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Play PR2 Level"
-flat = true
-
-[node name="EditorButton" type="Button" parent="PlayerMenu"]
-offset_left = -233.0
-offset_top = 300.0
-offset_right = 232.0
-offset_bottom = 470.0
-theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Editor"
-flat = true
-
-[node name="LogoutButton" type="Button" parent="PlayerMenu"]
-offset_left = -237.0
-offset_top = 450.0
-offset_right = 237.0
-offset_bottom = 620.0
-theme = ExtResource("3_k3j40")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
-text = "Logout"
-flat = true
-
-[node name="TextEdit" type="TextEdit" parent="PlayerMenu"]
-offset_left = 325.0
-offset_top = 188.0
-offset_right = 729.0
-offset_bottom = 284.0
-theme = ExtResource("3_k3j40")
-theme_override_font_sizes/font_size = 64
-text = "50815"
-
-[node name="Title1" type="Label" parent="."]
-offset_left = 5.0
-offset_top = 271.0
-offset_right = 3829.0
-offset_bottom = 544.0
-theme = SubResource("Theme_jjqe5")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 256
-text = "Platform Racing"
-horizontal_alignment = 1
-
-[node name="Title2" type="Label" parent="."]
-offset_left = 5.0
-offset_top = 520.0
-offset_right = 3837.0
-offset_bottom = 793.0
-theme = SubResource("Theme_jjqe5")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 256
-text = "-- 4 --"
-horizontal_alignment = 1
+text = "Credits"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 autostart = true
+
+[node name="Title1" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -445.0
+offset_right = 720.0
+offset_bottom = -275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jjqe5")
+theme_override_colors/font_color = Color(0.129412, 0.172549, 0.243137, 1)
+theme_override_colors/font_shadow_color = Color(0.815686, 0.796078, 0.603922, 1)
+theme_override_constants/shadow_offset_x = -3
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 140
+text = "Platform Racing"
+horizontal_alignment = 1
+
+[node name="Title2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -307.0
+offset_right = 250.0
+offset_bottom = -111.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jjqe5")
+theme_override_colors/font_color = Color(0.129412, 0.172549, 0.243137, 1)
+theme_override_colors/font_shadow_color = Color(0.815686, 0.796078, 0.603922, 1)
+theme_override_constants/shadow_offset_x = -3
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 140
+text = "-- 4 --"
+horizontal_alignment = 1

@@ -35,7 +35,6 @@ layer = 120
 [node name="BackButton" type="Button" parent="UI"]
 offset_left = 65.0
 offset_top = 40.0
-offset_right = 297.0
-offset_bottom = 136.0
-theme_override_font_sizes/font_size = 64
+offset_right = 264.0
+offset_bottom = 111.0
 text = "Back"

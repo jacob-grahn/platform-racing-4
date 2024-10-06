@@ -23,13 +23,15 @@ Session="*res://singletons/session/Session.tscn"
 
 [display]
 
-window/size/viewport_width=3840
-window/size/viewport_height=2160
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [gui]
 
+theme/custom="res://theme.tres"
+theme/custom_font="res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 theme/default_font_multichannel_signed_distance_field=true
 
 [input]

@@ -37,18 +37,18 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="DeleteButton" type="Button" parent="."]
-offset_left = 338.0
-offset_top = 535.0
-offset_right = 389.0
-offset_bottom = 590.0
+offset_left = 249.0
+offset_top = 525.0
+offset_right = 397.0
+offset_bottom = 596.0
 theme = ExtResource("1_qwtjx")
 text = "X"
 
 [node name="NewButton" type="Button" parent="."]
-offset_left = 10.0
-offset_top = 535.0
-offset_right = 65.0
-offset_bottom = 590.0
+offset_left = 3.0
+offset_top = 528.0
+offset_right = 146.0
+offset_bottom = 599.0
 theme = ExtResource("1_qwtjx")
 text = "+"
 
@@ -56,4 +56,4 @@ text = "+"
 position = Vector2(3, 618)
 
 [node name="DepthPicker" parent="." instance=ExtResource("4_45vqc")]
-position = Vector2(0, 761)
+position = Vector2(0, 708)
