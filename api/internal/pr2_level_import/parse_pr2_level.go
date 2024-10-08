@@ -18,12 +18,19 @@ type PR2Level struct {
 	FadeColor   int        `json:"fadecolor"`
 	BG          string     `json:"bg"`
 	Title       string     `json:"title"`
+	Hash        string     `json:"hash"`
 }
 
 func parsePr2Level(pr2LevelStrRaw string) PR2Level {
 	pr2LevelStr := strings.ReplaceAll(pr2LevelStrRaw, "`", "%60")
 	pr2LevelStr = strings.ReplaceAll(pr2LevelStr, " ", "%20")
 	pr2LevelStr = strings.ReplaceAll(pr2LevelStr, ";", "%3B")
+
+	// Extract the hash and the level data
+	hashPos := len(pr2LevelStr) - 32
+	levelHash := pr2LevelStr[hashPos:]
+	pr2LevelStr = pr2LevelStr[:hashPos]
+
 	parsed, _ := url.ParseQuery(pr2LevelStr)
 	pr2Level := PR2Level{}
 	for key, values := range parsed {
@@ -58,6 +65,7 @@ func parsePr2Level(pr2LevelStrRaw string) PR2Level {
 	pr2Level.Blocks = sections.Blocks
 	pr2Level.ArtLayers = sections.ArtLayers
 	pr2Level.BG = sections.BG
+	pr2Level.Hash = levelHash
 
 	return pr2Level
 }

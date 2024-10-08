@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestParsePr2Level(t *testing.T) {
+func TestParsePr2LevelNewbieland(t *testing.T) {
 	filepath := filepath.Join("./", "50815.txt")
 	pr2LevelStr, err := os.ReadFile(filepath)
 	if err != nil {
@@ -19,5 +19,20 @@ func TestParsePr2Level(t *testing.T) {
 	}
 	if pr2Level.BG != "204" {
 		t.Errorf("Expected BG to be '204', got %s", pr2Level.BG)
+	}
+}
+
+func TestParsePr2LevelHotdogstane(t *testing.T) {
+	filepath := filepath.Join("./", "3395276.txt")
+	pr2LevelStr, err := os.ReadFile(filepath)
+	if err != nil {
+		t.Fatal("Failed to read test file:", err)
+	}
+	pr2Level := parsePr2Level(string(pr2LevelStr))
+	if pr2Level.Title != "hotdogstane" {
+		t.Errorf("Expected Title to be 'hotdogstane', got %s", pr2Level.Title)
+	}
+	if pr2Level.BG != "" {
+		t.Errorf("Expected BG to be '', got %s", pr2Level.BG)
 	}
 }

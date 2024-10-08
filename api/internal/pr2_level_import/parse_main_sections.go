@@ -7,7 +7,6 @@ import (
 )
 
 type PR2LevelSections struct {
-	Hash        string     `json:"hash"`
 	FileVersion string     `json:"fileversion"`
 	FadeColor   int        `json:"fadecolor"`
 	Blocks      []string   `json:"blocks"`
@@ -18,11 +17,7 @@ type PR2LevelSections struct {
 const defaultSegSize = 1
 const segSize = 30
 
-func parseMainSections(fullLevelStr string) PR2LevelSections {
-	// Extract the hash and the level data
-	hashPos := len(fullLevelStr) - 32
-	levelHash := fullLevelStr[hashPos:]
-	levelStr := fullLevelStr[:hashPos]
+func parseMainSections(levelStr string) PR2LevelSections {
 
 	// split on ` for main sections
 	levelData := strings.Split(levelStr, "`")
@@ -79,7 +74,6 @@ func parseMainSections(fullLevelStr string) PR2LevelSections {
 	}
 
 	return PR2LevelSections{
-		Hash:        levelHash,
 		FileVersion: readMode,
 		FadeColor:   fadeColor,
 		Blocks:      safeSplit(levelData[1]),
