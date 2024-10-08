@@ -23,6 +23,7 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 			"song":       parseFloat(PR2Level.Song),
 			"levelId":    parseFloat(PR2Level.LevelId),
 			"background": parseBackground(PR2Level.BG),
+			"fadeColor":  PR2Level.FadeColor,
 		},
 		Tilesets: []Tileset{
 			{FirstGid: 1, Name: "blocks"},

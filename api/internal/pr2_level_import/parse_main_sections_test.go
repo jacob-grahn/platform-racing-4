@@ -11,7 +11,7 @@ func TestParseMainSections(t *testing.T) {
 	str := strings.Join(arr, "`")
 	expected := PR2LevelSections{
 		FileVersion: "m0",
-		FadeColor:   16777215,
+		FadeColor:   "FFFFFF",
 		Blocks:      []string{"blocks"},
 		ArtLayers:   [][]string{{"objects1"}, {"objects2"}, {"objects3"}, {"art1"}, {"art2"}, {"art3"}},
 		BG:          "bg",

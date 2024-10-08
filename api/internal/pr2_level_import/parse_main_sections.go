@@ -8,7 +8,7 @@ import (
 
 type PR2LevelSections struct {
 	FileVersion string     `json:"fileversion"`
-	FadeColor   int        `json:"fadecolor"`
+	FadeColor   string     `json:"fadecolor"`
 	Blocks      []string   `json:"blocks"`
 	ArtLayers   [][]string `json:"artlayers"`
 	BG          string     `json:"bg"`
@@ -25,30 +25,30 @@ func parseMainSections(levelStr string) PR2LevelSections {
 
 	// handle different level readModes
 	levelData = levelData[1:]
-	levelData[0] = convertHexToNumber(levelData[0])
-	if readMode == "m1" || readMode == "m2" || readMode == "m3" || readMode == "m4" {
-		if readMode == "m1" {
-			levelData[1] = decodeObjectString(levelData[1])
-			levelData[2] = decodeObjectString(levelData[2])
-			levelData[3] = decodeObjectString(levelData[3])
-			levelData[4] = decodeObjectString(levelData[4])
-		} else if readMode == "m2" || readMode == "m3" || readMode == "m4" {
-			if readMode == "m2" {
-				levelData[1] = decodeObjectString2(levelData[1], defaultSegSize) // blocks
-			} else if readMode == "m3" {
-				levelData[1] = decodeObjectString2(levelData[1], segSize) // blocks
-			} else {
-				levelData[1] = decodeBlockString(levelData[1])
-			}
-			levelData[2] = decodeObjectString2(levelData[2], defaultSegSize) // art1
-			levelData[3] = decodeObjectString2(levelData[3], defaultSegSize) // art2
-			levelData[4] = decodeObjectString2(levelData[4], defaultSegSize) // art3
-			if len(levelData) > 10 {
-				levelData[9] = decodeObjectString2(levelData[9], defaultSegSize)   // art0
-				levelData[10] = decodeObjectString2(levelData[10], defaultSegSize) // art00
-			}
-		}
-	}
+	//levelData[0] = convertHexToNumber(levelData[0])
+	//if readMode == "m1" || readMode == "m2" || readMode == "m3" || readMode == "m4" {
+	//	if readMode == "m1" {
+	//		levelData[1] = decodeObjectString(levelData[1]) // blocks
+	//		levelData[2] = decodeObjectString(levelData[2]) // objects1
+	//		levelData[3] = decodeObjectString(levelData[3]) // objects2
+	//		levelData[4] = decodeObjectString(levelData[4]) // objects3
+	//	} else if readMode == "m2" || readMode == "m3" || readMode == "m4" {
+	//		if readMode == "m2" {
+	//			levelData[1] = decodeObjectString2(levelData[1], defaultSegSize) // blocks
+	//		} else if readMode == "m3" {
+	//			levelData[1] = decodeObjectString2(levelData[1], segSize) // blocks
+	//		} else {
+	//			levelData[1] = decodeBlockString(levelData[1]) // blocks
+	//		}
+	//		levelData[2] = decodeObjectString2(levelData[2], defaultSegSize) // objects1
+	//		levelData[3] = decodeObjectString2(levelData[3], defaultSegSize) // objects2
+	//		levelData[4] = decodeObjectString2(levelData[4], defaultSegSize) // objects3
+	//		if len(levelData) > 10 {
+	//			levelData[9] = decodeObjectString2(levelData[9], defaultSegSize)   // objects0
+	//			levelData[10] = decodeObjectString2(levelData[10], defaultSegSize) // objects00
+	//		}
+	//	}
+	//}
 
 	artLayers := [][]string{
 		safeSplit(levelData[2]), // objects1
@@ -68,14 +68,9 @@ func parseMainSections(levelStr string) PR2LevelSections {
 		)
 	}
 
-	fadeColor, err := strconv.Atoi(levelData[0])
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
 	return PR2LevelSections{
 		FileVersion: readMode,
-		FadeColor:   fadeColor,
+		FadeColor:   levelData[0],
 		Blocks:      safeSplit(levelData[1]),
 		BG:          levelData[8],
 		ArtLayers:   artLayers,
