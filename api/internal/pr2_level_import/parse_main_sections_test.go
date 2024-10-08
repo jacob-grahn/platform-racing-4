@@ -7,13 +7,15 @@ import (
 )
 
 func TestParseMainSections(t *testing.T) {
-	arr := []string{"fileVersion", "fadeColor", "blocks", "art1", "art2", "art3", "art4", "u1", "u2", "bg"}
+	arr := []string{"m0", "FFFFFF", "blocks", "objects1", "objects2", "objects3", "art1", "art2", "art3", "bg"}
 	str := strings.Join(arr, "`")
+	str += "32charhashwwwwwwwwwwwwwwwwwwwwww"
 	expected := PR2LevelSections{
-		FileVersion: "fileVersion",
-		FadeColor:   "fadeColor",
+		Hash:        "32charhashwwwwwwwwwwwwwwwwwwwwww",
+		FileVersion: "m0",
+		FadeColor:   16777215,
 		Blocks:      []string{"blocks"},
-		ArtLayers:   [][]string{{"u2"}, {"u1"}, {"art1"}, {"art2"}, {"art3"}, {"art4"}},
+		ArtLayers:   [][]string{{"objects1"}, {"objects2"}, {"objects3"}, {"art1"}, {"art2"}, {"art3"}},
 		BG:          "bg",
 	}
 

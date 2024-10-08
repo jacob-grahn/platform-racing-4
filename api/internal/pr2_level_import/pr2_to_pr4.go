@@ -17,11 +17,12 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		TileWidth:       128,
 		TiledVersion:    "1.1.5",
 		Properties: map[string]interface{}{
-			"items":   parseItems(PR2Level.Items),
-			"note":    PR2Level.Note,
-			"gravity": parseFloat(PR2Level.Gravity),
-			"song":    parseFloat(PR2Level.Song),
-			"levelId": parseFloat(PR2Level.LevelId),
+			"items":      parseItems(PR2Level.Items),
+			"note":       PR2Level.Note,
+			"gravity":    parseFloat(PR2Level.Gravity),
+			"song":       parseFloat(PR2Level.Song),
+			"levelId":    parseFloat(PR2Level.LevelId),
+			"background": parseBackground(PR2Level.BG),
 		},
 		Tilesets: []Tileset{
 			{FirstGid: 1, Name: "blocks"},

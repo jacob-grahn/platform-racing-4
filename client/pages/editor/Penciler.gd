@@ -3,6 +3,7 @@ extends Node2D
 const LAYER = preload("res://layers/Layer.tscn")
 
 @onready var layers: Node2D = get_node("../Layers")
+@onready var bg: Node2D = get_node("../BG")
 @onready var editor_events: Node2D = get_node("../EditorEvents")
 
 
@@ -47,3 +48,5 @@ func _on_level_event(event: Dictionary) -> void:
 		var layer = layers.get_node(event.layer_name)
 		layer.follow_viewport_scale = float(event.depth) / 10
 		layer.layer = event.depth
+	if event.type == EditorEvents.SET_BACKGROUND:
+		bg.set_bg(event.bg)

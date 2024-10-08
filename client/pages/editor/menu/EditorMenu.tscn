@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1an2cgd34sv1"]
+[gd_scene load_steps=4 format=3 uid="uid://c1an2cgd34sv1"]
 
 [ext_resource type="Script" path="res://pages/editor/menu/EditorMenu.gd" id="1_nt1xp"]
 [ext_resource type="PackedScene" uid="uid://ckdgvyuraxydl" path="res://pages/editor/menu/MegaRow.tscn" id="2_dlvc8"]
+[ext_resource type="PackedScene" uid="uid://cil8qhe2uvm10" path="res://pages/editor/menu/BackgroundRow.tscn" id="3_uqh71"]
 
 [node name="EditorMenu" type="Node2D"]
 script = ExtResource("1_nt1xp")
+
+[node name="BackgroundRow" parent="." instance=ExtResource("3_uqh71")]
 
 [node name="MegaRow" parent="." instance=ExtResource("2_dlvc8")]

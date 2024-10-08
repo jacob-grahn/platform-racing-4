@@ -1,13 +1,15 @@
 extends Node2D
 
 var chunk_size = Vector2i(10, 10)
+@onready var bg: Node2D = get_node("../BG")
+@onready var layers: Node2D = get_node("../Layers")
 
 
 func encode() -> Dictionary:
 	var level = {
-		"layers": []
+		"layers": [],
+		"background": bg.id
 	}
-	var layers: Node2D = get_node("../Layers")
 	for group_layer in layers.get_children():
 		var tile_layer = {
 			"name": group_layer.name,
@@ -19,10 +21,6 @@ func encode() -> Dictionary:
 		}
 		level.layers.push_back(tile_layer)
 	return level
-
-
-func decode():
-	pass
 
 
 func encode_chunks(tilemap: TileMap) -> Array:

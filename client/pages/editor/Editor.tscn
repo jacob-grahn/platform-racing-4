@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=13 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/EditorEvents.tscn" id="3_05sia"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://pages/editor/cursors/Cursor.tscn" id="4_pnfuv"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="4_qc07n"]
+[ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://pages/game/BG.tscn" id="4_xutd4"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://pages/editor/Penciler.tscn" id="5_vq0x1"]
 [ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://pages/editor/LevelEncoder.tscn" id="6_1cvds"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="7_kmgse"]
@@ -19,6 +20,8 @@ script = ExtResource("1_qeoq7")
 zoom = Vector2(0.5, 0.5)
 
 [node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
+
+[node name="BG" parent="." instance=ExtResource("4_xutd4")]
 
 [node name="Layers" parent="." instance=ExtResource("4_qc07n")]
 

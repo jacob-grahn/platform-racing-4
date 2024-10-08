@@ -8,7 +8,7 @@ script = ExtResource("2_gth2k")
 
 [node name="Button" type="Button" parent="Content" index="0"]
 clip_contents = true
-offset_right = 128.0
+offset_right = 182.0
 offset_bottom = 64.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16

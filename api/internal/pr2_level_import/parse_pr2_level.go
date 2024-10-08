@@ -15,7 +15,7 @@ type PR2Level struct {
 	LevelId     string     `json:"levelid"`
 	Data        string     `json:"data"`
 	FileVersion string     `json:"fileversion"`
-	FadeColor   string     `json:"fadecolor"`
+	FadeColor   int        `json:"fadecolor"`
 	BG          string     `json:"bg"`
 	Title       string     `json:"title"`
 }

@@ -21,3 +21,7 @@ func _on_size_changed():
 	else:
 		ratio.x = ratio.y
 	parent.scale = ratio
+
+
+func trigger():
+	_on_size_changed()

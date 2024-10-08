@@ -3,10 +3,13 @@ extends Node2D
 signal control_event
 signal level_event
 
-@onready var mega_row = $MegaRow
+@onready var mega_row: Node2D = $MegaRow
+@onready var background_row: Node2D = $BackgroundRow
 
 
 func _ready():
+	background_row.visible = false
+	add_row(background_row)
 	add_row(mega_row)
 	get_viewport().size_changed.connect(_on_size_changed)
 	_on_size_changed()
@@ -49,6 +52,7 @@ func _on_size_changed():
 func _on_control_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_control_event ", event)
 	emit_signal("control_event", event)
+	background_row.visible = event.get("tool") == "bg"
 
 
 func _on_level_event(event: Dictionary) -> void:

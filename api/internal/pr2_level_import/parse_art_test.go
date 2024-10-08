@@ -10,16 +10,16 @@ func TestParseArt(t *testing.T) {
 	group := parseArt(artArr)
 
 	expectedObjects := []ArtObject{{
-		X: 10155,
-		Y: 10082,
+		X: 43328,
+		Y: 43017,
 		Polyline: []Point{
 			{X: 0, Y: 0},
-			{X: 0, Y: -7},
-			{X: 0, Y: -20},
+			{X: 0, Y: -30},
+			{X: 0, Y: -85},
 		},
 		Properties: LineProperties{
 			Color:     "000000",
-			Thickness: 1,
+			Thickness: 4,
 			Mode:      "draw",
 		},
 	}}

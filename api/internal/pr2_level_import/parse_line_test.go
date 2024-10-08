@@ -12,15 +12,15 @@ func TestParseLine(t *testing.T) {
 	mode := "paintbrush"
 
 	expected := ArtObject{
-		X: 30,
-		Y: 27,
+		X: 128,
+		Y: 115,
 		Polyline: []Point{
 			{X: 0, Y: 0},
-			{X: 12, Y: 15},
+			{X: 51, Y: 64},
 		},
 		Properties: LineProperties{
 			Color:     "000000",
-			Thickness: thickness,
+			Thickness: 21,
 			Mode:      mode,
 		},
 	}

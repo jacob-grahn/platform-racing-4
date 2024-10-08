@@ -11,7 +11,7 @@ func _ready():
 	step_delay = 0.03
 	
 	# Add tools
-	var button_labels = ["Draw", "Erase", "Text"]
+	var button_labels = ["Draw", "Erase", "Text", "BG"]
 	for label in button_labels:
 		var button = TEXT_BUTTON.instantiate()
 		add_slider(button)
@@ -37,7 +37,6 @@ func _on_block_pressed(block_id: int) -> void:
 
 
 func _on_tool_pressed(tool_id: String) -> void:
-	print("on tool pressed")
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_TOOL,
 		"tool": tool_id

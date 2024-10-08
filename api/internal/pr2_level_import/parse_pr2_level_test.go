@@ -17,4 +17,7 @@ func TestParsePr2Level(t *testing.T) {
 	if pr2Level.Title != "Newbieland 2" {
 		t.Errorf("Expected Title to be 'Newbieland 2', got %s", pr2Level.Title)
 	}
+	if pr2Level.BG != "204" {
+		t.Errorf("Expected BG to be '204', got %s", pr2Level.BG)
+	}
 }

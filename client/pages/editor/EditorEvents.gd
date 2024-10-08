@@ -17,6 +17,7 @@ const ROTATE_LAYER = 'rotate_layer'
 const DELETE_LAYER = 'delete_layer'
 const LAYER_DEPTH = 'layer_depth'
 const UNDO = 'undo'
+const SET_BACKGROUND = 'set_background'
 
 var events = []
 var redo_events = []

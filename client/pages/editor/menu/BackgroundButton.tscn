@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk0qpmuk7iy0"]
+
+[ext_resource type="PackedScene" uid="uid://db2mwvyolxxpv" path="res://pages/editor/menu/SliderItem.tscn" id="1_dgsck"]
+[ext_resource type="Script" path="res://pages/editor/menu/BackgroundButton.gd" id="2_2urkw"]
+
+[node name="BackgroundButton" instance=ExtResource("1_dgsck")]
+script = ExtResource("2_2urkw")
+
+[node name="ColorRect" type="ColorRect" parent="Content" index="0"]
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite" type="Sprite2D" parent="Content" index="1"]
+position = Vector2(32, 32)
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="Button" type="Button" parent="Content" index="2"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 128.0
+offset_bottom = 128.0
+scale = Vector2(0.5, 0.5)
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." index="3"]
