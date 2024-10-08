@@ -8,7 +8,9 @@ var chunk_size = Vector2i(10, 10)
 func encode() -> Dictionary:
 	var level = {
 		"layers": [],
-		"background": bg.id
+		"properties": {
+			"background": bg.id
+		}
 	}
 	for group_layer in layers.get_children():
 		var tile_layer = {

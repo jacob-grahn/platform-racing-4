@@ -1,12 +1,14 @@
 extends Node2D
 
 const LAYER = preload("res://layers/Layer.tscn")
-@onready var bg = get_node("../BG")
+@onready var bg: Node2D = get_node("../BG")
+@onready var layers: Node2D = get_node("../Layers")
 
 
 func decode(level: Dictionary, isEditing: bool) -> void:
-	bg.set_bg(level.get("background", ""))
-	var layers: Node2D = get_node("../Layers")
+	var properties = level.get("properties", {})
+	bg.set_bg(properties.get("background", ""))
+	
 	for encoded_layer in level.layers:
 		var layer = LAYER.instantiate()
 		layer.name = encoded_layer.name
