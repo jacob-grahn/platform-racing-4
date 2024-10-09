@@ -7,18 +7,44 @@ var current_stream = null
 var next_stream = null
 var song_url: String = ''
 var audio_loader = AudioLoader.new()
+var base_url = "http://files.platformracing.com/music"
+var music_list = {
+	"noodletown-4-remake": {
+		"title": "Noodletown 4 Remake",
+		"composer": "Damon Bass",
+		"file": "noodletown-4-remake-by-damon-bass.mp3",
+		"group": "2024"
+	}
+}
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
-@onready var http_request: HTTPRequest = $HTTPRequest
+@onready var song_request: HTTPRequest = $SongRequest
+@onready var list_request: HTTPRequest = $ListRequest
 
 
-func play_url(url: String):
+func _ready():
+	song_request.request_completed.connect(_song_request_completed)
+	list_request.request_completed.connect(_list_request_completed)
+	list_request.request(base_url + "/00_music_list.json")
+
+
+func play(slug: String):
+	
+	# pick a random slug if input slug is empty
+	if slug == "":
+		var keys = music_list.keys()
+		slug = keys[randi() % keys.size()]
+	
+	# map slug to a url
+	var song_info: Dictionary = music_list.get(slug, music_list["noodletown-4-remake"])
+	var next_url: String = base_url + "/" + song_info.file
+	
 	# exit early if asked to play the same song
-	if song_url == url:
+	if song_url == next_url:
 		return
 	
 	# otherwise get ready for a new song
-	song_url = url
-	var filepath = _url_to_file(url)
+	song_url = next_url
+	var filepath = _url_to_file(next_url)
 	
 	# ensure a "songs" directory exists
 	if (!DirAccess.dir_exists_absolute("user://songs")):
@@ -30,22 +56,37 @@ func play_url(url: String):
 	
 	# otherwise load from url
 	else:
-		http_request.cancel_request()
-		http_request.download_file = _url_to_file(url)
-		http_request.request_completed.connect(_http_request_completed)
-		http_request.request(url)
+		song_request.cancel_request()
+		song_request.download_file = filepath
+		song_request.request(next_url)
 
 
 func play_file(filepath: String):
 	next_stream = audio_loader.loadfile(filepath)
 
 
-func _http_request_completed(result, response_code, headers, body):
-	if result == HTTPRequest.RESULT_SUCCESS:
-		print(song_url + " downlaod complete!")
-		play_file(_url_to_file(song_url))
-	else:
+func _song_request_completed(result, response_code, headers, body):
+	if result != HTTPRequest.RESULT_SUCCESS:
 		print(song_url + " couldn't be downloaded. Result: " + str(result))
+		return
+		
+	print(song_url + " downlaod complete!")
+	play_file(_url_to_file(song_url))
+
+
+func _list_request_completed(result, response_code, headers, body):
+	if result != HTTPRequest.RESULT_SUCCESS:
+		print("Jukebox::_list_request_completed - song list couldn't be downloaded. Result: " + str(result))
+		return
+	
+	var json = JSON.new()
+	var error = json.parse(body.get_string_from_utf8())
+	if error != OK:
+		print("Jukebox::_list_request_completed - json parse error: ", error)
+		return
+	
+	music_list = json.data
+	print("Jukebox::_list_request_completed - song list downlaoded successfully!")
 
 
 func _url_to_file(url: String) -> String:

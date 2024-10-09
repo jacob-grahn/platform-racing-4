@@ -6,6 +6,18 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		artLayers[i] = parseArt(layer) // Assuming parseArt returns a Layer
 	}
 
+	/*artLayers[0].set
+	this.bg1.setScale(1)
+	this.draw1.setScale(1)
+	this.bg2.setScale(0.5)
+	this.draw2.setScale(0.5)
+	this.bg3.setScale(0.25)
+	this.draw3.setScale(0.25)
+	this.bg4.setScale(1)
+	this.draw4.setScale(1)
+	this.bg5.setScale(2)
+	this.draw5.setScale(2)*/
+
 	return PR4Level{
 		BackgroundColor: "#FFFFFF",
 		Width:           100, // what is this for?
@@ -20,7 +32,7 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 			"items":      parseItems(PR2Level.Items),
 			"note":       PR2Level.Note,
 			"gravity":    parseFloat(PR2Level.Gravity),
-			"song":       parseFloat(PR2Level.Song),
+			"music":      parseMusic(PR2Level.Song),
 			"levelId":    parseFloat(PR2Level.LevelId),
 			"background": parseBackground(PR2Level.BG),
 			"fadeColor":  PR2Level.FadeColor,

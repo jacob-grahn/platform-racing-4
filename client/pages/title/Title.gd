@@ -10,7 +10,7 @@ extends Control
 
 
 func _ready():
-	Jukebox.play_url("https://tunes.platformracing.com/noodletown-4-remake-by-damon-bass.mp3")
+	Jukebox.play("noodletown-4-remake")
 	#$Voter.init('2024/07/28', ['Just make all of the PR2 blocks work', 'Add a couple of new blocks', 'Save and share levels'])
 	#$EditorButton.pressed.connect(_on_editor_pressed)
 	

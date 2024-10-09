@@ -20,8 +20,8 @@ func TestPr2ToPr4(t *testing.T) {
 	if items, ok := properties["items"].([]string); !ok || len(items) != 2 {
 		t.Errorf("Expected items to have 2 elements, got %v", properties["items"])
 	}
-	if properties["song"].(float64) != 1 {
-		t.Errorf("Expected song to be 1, got %v", properties["song"])
+	if properties["music"] != "orbital-trance" {
+		t.Errorf("Expected music to be 'orbital-trance', got %v", properties["music"])
 	}
 	if properties["gravity"].(float64) != 0.8 {
 		t.Errorf("Expected gravity to be 0.8, got %v", properties["gravity"])

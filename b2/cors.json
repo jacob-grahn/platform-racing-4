@@ -1,0 +1,20 @@
+[
+    {
+      "corsRuleName": "downloadFromAnyOrigin",
+      "allowedOrigins": [
+        "https://platformracing.com",
+        "https://dev.platformracing.com"
+      ],
+      "allowedHeaders": [
+        "range"
+      ],
+      "allowedOperations": [
+        "b2_download_file_by_id",
+        "b2_download_file_by_name"
+      ],
+      "exposeHeaders": [
+        "x-bz-content-sha1"
+      ],
+      "maxAgeSeconds": 3600
+    }
+]

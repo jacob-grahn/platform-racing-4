@@ -13,7 +13,6 @@ var tiles: Tiles = Tiles.new()
 
 
 func _ready():
-	Jukebox.play_url("https://tunes.platformracing.com/pr1-future-penumbra-by-adulock-van-liovick.mp3")
 	back_button.connect("pressed", _on_back_pressed)
 	tiles.init_defaults()
 	
@@ -39,6 +38,7 @@ func _http_request_completed(result, response_code, headers, body):
 	if response.get("error", ''):
 		return
 	
+	Jukebox.play(response.properties.get("music", ""))
 	level_decoder.decode(response, false)
 	activate()
 

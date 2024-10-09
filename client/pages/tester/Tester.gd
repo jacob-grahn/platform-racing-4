@@ -11,7 +11,7 @@ var tiles: Tiles = Tiles.new()
 func _ready():
 	tiles.init_defaults()
 	back.connect("pressed", _on_back_pressed)
-	Jukebox.play_url("https://tunes.platformracing.com/pr1-future-penumbra-by-adulock-van-liovick.mp3")
+	Jukebox.play("pr1-future-penumbra")
 
 
 func _on_back_pressed():

@@ -25,7 +25,7 @@ static var current_level: Dictionary
 
 
 func _ready():
-	Jukebox.play_url("https://tunes.platformracing.com/noodletown-4-remake-by-damon-bass.mp3")
+	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
 	test.connect("pressed", _on_test_pressed)
 	clear.connect("pressed", _on_clear_pressed)
