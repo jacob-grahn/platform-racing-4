@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpmp38i1xaqby"
-path="res://.godot/imported/bg-1.jpg-1c753b0e9632d97026362a9d3da1a810.ctex"
+uid="uid://20ccdggrhssy"
+path="res://.godot/imported/skyscraper.jpg-0fee1f6b775940a2e0b3a62718f0db50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pages/game/bg-1.jpg"
-dest_files=["res://.godot/imported/bg-1.jpg-1c753b0e9632d97026362a9d3da1a810.ctex"]
+source_file="res://backgrounds/skyscraper.jpg"
+dest_files=["res://.godot/imported/skyscraper.jpg-0fee1f6b775940a2e0b3a62718f0db50.ctex"]
 
 [params]
 
