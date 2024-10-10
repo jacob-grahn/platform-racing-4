@@ -1,12 +1,11 @@
-extends SliderItem
+extends Node2D
 
 signal pressed
 
-@onready var button = $Content/Button
+@onready var button = $Button
 
 
 func _ready():
-	super._ready()
 	button.connect("pressed", _on_pressed)
 
 

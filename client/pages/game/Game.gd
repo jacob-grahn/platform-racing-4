@@ -38,7 +38,6 @@ func _http_request_completed(result, response_code, headers, body):
 	if response.get("error", ''):
 		return
 	
-	Jukebox.play(response.properties.get("music", ""))
 	level_decoder.decode(response, false)
 	activate()
 

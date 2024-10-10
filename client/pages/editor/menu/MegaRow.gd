@@ -2,9 +2,10 @@ extends SliderRow
 
 signal control_event
 
-const BLOCK_BUTTON = preload("res://pages/editor/menu/BlockButton.tscn")
-var TEXT_BUTTON: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
-
+const BLOCK_BUTTON: PackedScene = preload("res://pages/editor/menu/BlockButton.tscn")
+const TEXT_BUTTON: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
+const MUSIC_SELECTOR: PackedScene = preload("res://pages/editor/menu/music_selector/MusicSelector.tscn")
+var music_selector
 
 func _ready():
 	super._ready()
@@ -17,7 +18,12 @@ func _ready():
 		add_slider(button)
 		button.set_label(label)
 		button.connect("pressed", _on_tool_pressed.bind(label.to_lower()))
-		
+	
+	# Add music selector
+	music_selector = MUSIC_SELECTOR.instantiate()
+	add_slider(music_selector)
+	music_selector.item_selected.connect(_music_selected)
+	
 	# Add blocks
 	for i in range(1, 41):
 		var block_button = BLOCK_BUTTON.instantiate()
@@ -27,6 +33,11 @@ func _ready():
 	
 	# select the first block by default
 	call_deferred("_on_block_pressed", 1)
+
+
+func _music_selected(_item_id: int):
+	var slug: String = music_selector.get_selected_metadata()
+	Jukebox.play(slug)
 
 
 func _on_block_pressed(block_id: int) -> void:

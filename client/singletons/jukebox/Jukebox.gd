@@ -6,6 +6,7 @@ var db_per_sec = 15
 var current_stream = null
 var next_stream = null
 var song_url: String = ''
+var song_id: String = ''
 var audio_loader = AudioLoader.new()
 var base_url = "http://files.platformracing.com/music"
 var music_list = {
@@ -28,6 +29,9 @@ func _ready():
 
 
 func play(slug: String):
+	
+	# keep track of the current song
+	song_id = slug
 	
 	# pick a random slug if input slug is empty
 	if slug == "":

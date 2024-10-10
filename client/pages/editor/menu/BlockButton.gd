@@ -1,13 +1,12 @@
-extends SliderItem
+extends Node2D
 
 signal pressed
 
-@onready var button = $Content/Button
-@onready var sprite = $Content/Sprite
+@onready var button = $Button
+@onready var sprite = $Sprite
 
 
 func _ready():
-	super._ready()
 	button.connect("pressed", _on_pressed)
 	sprite.scale = Vector2(0.5, 0.5)
 	sprite.position = Vector2(32, 32)
@@ -20,3 +19,7 @@ func set_block_id(id: int) -> void:
 
 func _on_pressed() -> void:
 	emit_signal("pressed")
+
+
+func get_dimensions() -> Vector2:
+	return Vector2(64, 64)

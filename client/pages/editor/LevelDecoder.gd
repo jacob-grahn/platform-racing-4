@@ -8,6 +8,7 @@ const LAYER = preload("res://layers/Layer.tscn")
 func decode(level: Dictionary, isEditing: bool) -> void:
 	var properties = level.get("properties", {})
 	bg.set_bg(properties.get("background", ""))
+	Jukebox.play(properties.get("music", ""))
 	
 	for encoded_layer in level.layers:
 		var layer = LAYER.instantiate()

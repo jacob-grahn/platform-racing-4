@@ -1,18 +1,21 @@
-extends SliderItem
+extends Node2D
 
 signal pressed
 
 var base_url = "https://files.platformracing.com/backgrounds"
 var max_size = Vector2(64, 64)
 @onready var http_request: HTTPRequest = $HTTPRequest
-@onready var sprite: Sprite2D = $Content/Sprite
-@onready var button = $Content/Button
+@onready var sprite: Sprite2D = $Sprite
+@onready var button = $Button
 
 
 func _ready():
-	super._ready()
 	button.connect("pressed", _on_pressed)
 	http_request.request_completed.connect(_request_completed)
+
+
+func get_dimensions() -> Vector2:
+	return max_size
 
 
 func set_bg(id: String) -> void:
@@ -35,6 +38,7 @@ func _resize_sprite() -> void:
 	var bigger = max(size.x, size.y)
 	var target_scale = (max_size / Vector2(bigger, bigger))
 	sprite.scale = target_scale
+
 
 func _on_pressed() -> void:
 	emit_signal("pressed")

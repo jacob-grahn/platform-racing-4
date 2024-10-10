@@ -9,7 +9,8 @@ func encode() -> Dictionary:
 	var level = {
 		"layers": [],
 		"properties": {
-			"background": bg.id
+			"background": bg.id,
+			"music": Jukebox.song_id
 		}
 	}
 	for group_layer in layers.get_children():

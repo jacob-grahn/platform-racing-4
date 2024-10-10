@@ -12,18 +12,10 @@ func _ready():
 	_on_size_changed()
 
 
-func add_slider(slider: Node2D) -> void:
+func add_slider(slider: Node) -> void:
 	add_child(slider)
 	slider_dimensions = slider.get_dimensions()
-	slider.appear(step_delay * get_child_count())
 	position_slider(slider)
-
-
-func disappear() -> void:
-	var delay = 0
-	for slider in get_children():
-		slider.disappear(delay)
-		delay += step_delay
 
 
 func get_dimensions() -> Vector2:
@@ -47,7 +39,7 @@ func position_sliders():
 		position_slider(slider)
 
 
-func position_slider(slider: Node2D):
+func position_slider(slider: Node):
 	var slider_dimensions = slider.get_dimensions()
 	if pos.x + slider_dimensions.x > max_width:
 		pos.x = 0
