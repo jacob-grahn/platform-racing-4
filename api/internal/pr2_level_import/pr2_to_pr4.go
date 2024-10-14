@@ -6,24 +6,55 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		artLayers[i] = parseArt(layer) // Assuming parseArt returns a Layer
 	}
 
-	/*artLayers[0].set
-	this.bg1.setScale(1)
-	this.draw1.setScale(1)
-	this.bg2.setScale(0.5)
-	this.draw2.setScale(0.5)
-	this.bg3.setScale(0.25)
-	this.draw3.setScale(0.25)
-	this.bg4.setScale(1)
-	this.draw4.setScale(1)
-	this.bg5.setScale(2)
-	this.draw5.setScale(2)*/
+	blockLayer := parseBlocks(PR2Level.Blocks, 8)
+	combinedLayers := []Layer{}
+
+	if len(artLayers) >= 6 {
+		combinedLayers = []Layer{
+			{
+				Name:   "Blocks",
+				Chunks: blockLayer.Chunks,
+				Depth:  10,
+			},
+			{
+				Name:    "Art 0",
+				Objects: append(artLayers[0].Objects, artLayers[1].Objects...),
+				Depth:   10,
+			},
+			{
+				Name:    "Art 1",
+				Objects: append(artLayers[2].Objects, artLayers[3].Objects...),
+				Depth:   5,
+			},
+			{
+				Name:    "Art 2",
+				Objects: append(artLayers[4].Objects, artLayers[5].Objects...),
+				Depth:   2, // 2.5
+			},
+		}
+	}
+
+	if len(artLayers) >= 10 {
+		combinedLayers = append(combinedLayers,
+			Layer{
+				Name:    "Art 0",
+				Objects: append(artLayers[6].Objects, artLayers[7].Objects...),
+				Depth:   10,
+			},
+			Layer{
+				Name:    "Art 00",
+				Objects: append(artLayers[8].Objects, artLayers[9].Objects...),
+				Depth:   20,
+			},
+		)
+	}
 
 	return PR4Level{
 		BackgroundColor: "#FFFFFF",
 		Width:           100, // what is this for?
 		Height:          100, // what is this for?
 		Infinite:        true,
-		Layers:          append([]Layer{parseBlocks(PR2Level.Blocks, 8)}, artLayers...),
+		Layers:          combinedLayers,
 		Orientation:     "orthogonal",
 		TileHeight:      128,
 		TileWidth:       128,

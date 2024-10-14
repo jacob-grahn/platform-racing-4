@@ -23,18 +23,7 @@ type LineProperties struct {
 	Mode      string `json:"mode"`
 }
 
-type ObjectGroup struct {
-	DrawOrder string      `json:"draworder"`
-	Name      string      `json:"name"`
-	Objects   []ArtObject `json:"objects"`
-	OffsetX   int         `json:"offsetx"`
-	OffsetY   int         `json:"offsety"`
-	Opacity   int         `json:"opacity"`
-	Type      string      `json:"type"`
-	Visible   bool        `json:"visible"`
-}
-
-func parseArt(artArr []string) ObjectGroup {
+func parseArt(artArr []string) Layer {
 	color := "000000"
 	mode := "draw"
 	thickness := 1
@@ -62,7 +51,7 @@ func parseArt(artArr []string) ObjectGroup {
 		}
 	}
 
-	return ObjectGroup{
+	return Layer{
 		DrawOrder: "topdown",
 		Name:      "artlayer",
 		Objects:   objects,

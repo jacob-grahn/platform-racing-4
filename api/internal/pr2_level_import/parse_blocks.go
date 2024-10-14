@@ -6,22 +6,6 @@ import (
 	"strings"
 )
 
-type TileLayer struct {
-	Opacity int     `json:"opacity"`
-	StartX  int     `json:"startx"`
-	StartY  int     `json:"starty"`
-	Type    string  `json:"type"`
-	Name    string  `json:"name"`
-	Visible bool    `json:"visible"`
-	OffsetX int     `json:"offsetx"`
-	OffsetY int     `json:"offsety"`
-	Width   int     `json:"width"`
-	Height  int     `json:"height"`
-	X       int     `json:"x"`
-	Y       int     `json:"y"`
-	Chunks  []Chunk `json:"chunks"`
-}
-
 type Chunk struct {
 	Data   []int `json:"data"`
 	Width  int   `json:"width"`
@@ -30,7 +14,7 @@ type Chunk struct {
 	Y      int   `json:"y"`
 }
 
-func parseBlocks(blockArr []string, chunkSize int) TileLayer {
+func parseBlocks(blockArr []string, chunkSize int) Layer {
 	chunkDict := make(map[string]Chunk)
 	x, y, tileId := 0, 0, 0
 
@@ -84,7 +68,7 @@ func parseBlocks(blockArr []string, chunkSize int) TileLayer {
 		chunks = append(chunks, value)
 	}
 
-	return TileLayer{
+	return Layer{
 		Opacity: 1,
 		StartX:  0,
 		StartY:  0,

@@ -26,6 +26,4 @@ func TestPr2ToPr4(t *testing.T) {
 	if properties["gravity"].(float64) != 0.8 {
 		t.Errorf("Expected gravity to be 0.8, got %v", properties["gravity"])
 	}
-
-	// Test for layers could be expanded based on more detailed mock data
 }
