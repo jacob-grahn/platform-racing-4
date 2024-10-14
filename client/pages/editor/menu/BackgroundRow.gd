@@ -9,16 +9,7 @@ func _ready():
 	super._ready()
 	
 	# Add background buttons
-	var bg_list = [
-		'desert',
-		'dots',
-		'field',
-		'generic',
-		'lake',
-		'skyscraper',
-		'space'
-	]
-	for id in bg_list:
+	for id in BackgroundsLoader.get_ids():
 		var bg_button = BACKGROUND_BUTTON.instantiate()
 		add_slider(bg_button)
 		bg_button.set_bg(id)
