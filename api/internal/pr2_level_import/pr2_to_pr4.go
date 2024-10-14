@@ -17,18 +17,18 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 				Depth:  10,
 			},
 			{
-				Name:    "Art 0",
-				Objects: append(artLayers[0].Objects, artLayers[1].Objects...),
+				Name:    "Art 1",
+				Objects: append(artLayers[0].Objects, artLayers[3].Objects...),
 				Depth:   10,
 			},
 			{
-				Name:    "Art 1",
-				Objects: append(artLayers[2].Objects, artLayers[3].Objects...),
+				Name:    "Art 2",
+				Objects: append(artLayers[1].Objects, artLayers[4].Objects...),
 				Depth:   5,
 			},
 			{
-				Name:    "Art 2",
-				Objects: append(artLayers[4].Objects, artLayers[5].Objects...),
+				Name:    "Art 3",
+				Objects: append(artLayers[2].Objects, artLayers[5].Objects...),
 				Depth:   2, // 2.5
 			},
 		}
@@ -38,12 +38,12 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		combinedLayers = append(combinedLayers,
 			Layer{
 				Name:    "Art 0",
-				Objects: append(artLayers[6].Objects, artLayers[7].Objects...),
+				Objects: append(artLayers[6].Objects, artLayers[8].Objects...),
 				Depth:   10,
 			},
 			Layer{
 				Name:    "Art 00",
-				Objects: append(artLayers[8].Objects, artLayers[9].Objects...),
+				Objects: append(artLayers[7].Objects, artLayers[9].Objects...),
 				Depth:   20,
 			},
 		)
