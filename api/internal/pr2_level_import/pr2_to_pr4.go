@@ -12,14 +12,14 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 	if len(artLayers) >= 6 {
 		combinedLayers = []Layer{
 			{
-				Name:   "Blocks",
-				Chunks: blockLayer.Chunks,
-				Depth:  10,
-			},
-			{
 				Name:    "Art 1",
 				Objects: append(artLayers[0].Objects, artLayers[3].Objects...),
 				Depth:   10,
+			},
+			{
+				Name:   "Blocks",
+				Chunks: blockLayer.Chunks,
+				Depth:  10,
 			},
 			{
 				Name:    "Art 2",

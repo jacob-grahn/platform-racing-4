@@ -20,7 +20,7 @@ func encode() -> Dictionary:
 			"objects": encode_lines(group_layer.get_node("Lines")),
 			"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
 			"rotation": group_layer.get_node("TileMap").rotation_degrees,
-			"depth": round(group_layer.follow_viewport_scale * 10)
+			"depth": group_layer.depth
 		}
 		level.layers.push_back(tile_layer)
 	return level

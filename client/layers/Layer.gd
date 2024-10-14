@@ -1,7 +1,11 @@
 extends ParallaxBackground
+class_name Layer
 
+@onready var lines: Node2D = $Lines
 @onready var tile_map = $TileMap
 const TILEATLAS = preload("res://tiles/tileatlas.png")
+var depth = 10
+
 
 func init(tiles: Tiles) -> void:
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
@@ -48,12 +52,24 @@ func init(tiles: Tiles) -> void:
 	
 	#
 	tile_map.tile_set = tile_set
-	set_depth(round(follow_viewport_scale * 10))
+	set_depth(depth)
 
 
-func set_depth(depth: int) -> void:
+func set_depth(_depth: int) -> void:
+	depth = _depth
+	layer = depth
+	
 	var tile_set = tile_map.tile_set
-	tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
-	tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))
-	tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
-	tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))
+	if tile_set:
+		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
+		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))
+		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
+		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))
+	
+	var depth_compat = depth
+	if depth == 2:
+		depth_compat = 2.5
+	var base_scale = depth_compat / 10.0
+	var inverse_scale = 1.0 / base_scale
+	lines.scale = Vector2(inverse_scale, inverse_scale)
+	follow_viewport_scale = depth_compat / 10

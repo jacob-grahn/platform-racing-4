@@ -52,7 +52,7 @@ func activate():
 	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)
 	character.active = true
 	player_holder.add_child(character)
-	character.set_depth(round(layer.follow_viewport_scale * 10))
+	character.set_depth(layer.depth)
 
 
 func finish():

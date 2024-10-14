@@ -52,7 +52,7 @@ func render() -> void:
 
 func update_pickers() -> void:
 	var layer = layers.get_node(layers.get_target_layer())
-	depth_picker.set_value(round(layer.follow_viewport_scale * 10))
+	depth_picker.set_value(layer.depth)
 	rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
 
 

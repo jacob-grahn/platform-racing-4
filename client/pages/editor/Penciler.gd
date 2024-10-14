@@ -46,7 +46,6 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.get_node("TileMap").rotation_degrees = event.rotation
 	if event.type == EditorEvents.LAYER_DEPTH:
 		var layer = layers.get_node(event.layer_name)
-		layer.follow_viewport_scale = float(event.depth) / 10
-		layer.layer = event.depth
+		layer.set_depth(event.depth)
 	if event.type == EditorEvents.SET_BACKGROUND:
 		bg.set_bg(event.bg)
