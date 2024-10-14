@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Jukebox="*res://singletons/jukebox/Jukebox.tscn"
 Helpers="*res://singletons/helpers/Helpers.tscn"
 Session="*res://singletons/session/Session.tscn"
+BackgroundsLoader="*res://singletons/BackgroundsLoader.gd"
 
 [display]
 
@@ -81,3 +82,7 @@ item={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[threading]
+
+worker_pool/max_threads=8
