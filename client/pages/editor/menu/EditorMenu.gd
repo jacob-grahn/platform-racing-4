@@ -15,11 +15,13 @@ func _ready():
 	_on_size_changed()
 
 
-func add_row(row) -> void:
+func add_row(row: Node) -> void:
 	var window_size = get_viewport().get_visible_rect().size
 	row.max_width = window_size.x
-	row.connect("control_event", _on_control_event)
-	row.connect("level_event", _on_level_event)
+	if row.has_signal("control_event"):
+		row.control_event.connect(_on_control_event)
+	if row.has_signal("level_event"):
+		row.level_event.connect(_on_level_event)
 	_position_rows()
 
 
@@ -50,10 +52,10 @@ func _on_size_changed():
 
 func _on_control_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_control_event ", event)
-	emit_signal("control_event", event)
+	control_event.emit(event)
 	background_row.visible = event.get("tool") == "bg"
 
 
 func _on_level_event(event: Dictionary) -> void:
 	print("EditorMenu::_on_level_event ", event)
-	emit_signal("level_event", event)
+	level_event.emit(event)
