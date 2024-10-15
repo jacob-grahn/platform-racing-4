@@ -27,9 +27,10 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 		return
 	
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"
-	var existing_bump_effect = tile_map.get_node(effect_name)
-	if existing_bump_effect:
-		existing_bump_effect.get_node("AnimationPlayer").seek(0.1)
+	if tile_map.has_node(effect_name):
+		var effect = tile_map.get_node(effect_name)
+		var animation_player = effect.get_node("AnimationPlayer") as AnimationPlayer
+		animation_player.seek(0.1)
 		return
 	
 	var alt_id: int = tile_map.get_cell_alternative_tile(0, coords)
