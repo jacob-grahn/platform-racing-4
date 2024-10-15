@@ -18,7 +18,6 @@ func _ready():
 func add_row(row) -> void:
 	var window_size = get_viewport().get_visible_rect().size
 	row.max_width = window_size.x
-	add_child(row)
 	row.connect("control_event", _on_control_event)
 	row.connect("level_event", _on_level_event)
 	_position_rows()
