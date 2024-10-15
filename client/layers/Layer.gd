@@ -66,10 +66,24 @@ func set_depth(_depth: int) -> void:
 		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
 		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))
 	
-	var depth_compat = depth
+	# pr2 has an art layer that scrolls at 25% scale
+	# this hack treats depth 2 as 2.5 instead so imported levels look the same
+	# probably there is some better solution, but will need more thinking
+	var depth_compat = float(depth)
 	if depth == 2:
 		depth_compat = 2.5
+	
+	# aaaand pr2 has an art layer that scrolls at 200% scale
+	# but our current setup maxes out at depth 16
+	if depth == 16:
+		depth_compat = 20.0
+	
+	# scale blocks up/down to match scale
+	# currently this scales lines and art as well, which actually we don't want
+	# todo: possibly only put tilemap and players in the viewport
 	var base_scale = depth_compat / 10.0
+	follow_viewport_scale = base_scale
+	
+	# scale lines to counteract the scaling on the viewport
 	var inverse_scale = 1.0 / base_scale
 	lines.scale = Vector2(inverse_scale, inverse_scale)
-	follow_viewport_scale = depth_compat / 10

@@ -44,7 +44,7 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 			Layer{
 				Name:    "Art 00",
 				Objects: append(artLayers[7].Objects, artLayers[9].Objects...),
-				Depth:   20,
+				Depth:   16, // 20
 			},
 		)
 	}
