@@ -28,7 +28,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 var active = false
 var control_vector: Vector2
-var jump_timer: int = 0
+var jump_timer: float = 0
 var jumped = false
 var can_move = true
 var can_jump = true
@@ -89,7 +89,7 @@ func _physics_process(delta):
 	if frozen_timer >= 0:
 		frozen_timer -= delta
 		ice.visible = true
-		traction = TRACTION / 10
+		traction = TRACTION / 10.0
 	else:
 		ice.visible = false
 	
