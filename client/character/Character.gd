@@ -139,8 +139,8 @@ func _physics_process(delta):
 		control_axis = control_axis / 2
 	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_axis != 0:
-		if (target_velocity.length() > velocity.length()):
-			traction * 0.8
+		if target_velocity.length() > velocity.length():
+			traction *= 0.8
 		velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
 		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
