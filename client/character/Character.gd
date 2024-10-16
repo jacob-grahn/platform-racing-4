@@ -103,8 +103,12 @@ func _physics_process(delta):
 	super_jump.run(self, delta)
 	
 	# Handle jump.
-	if can_jump:
-		if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+	if can_jump and Input.is_action_pressed("jump"):
+		
+		if is_crouching:
+			_bump_tile_covering_high_area()
+		
+		elif is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
 			jumped = true
 			jump_timer = JUMP_TIMER_MAX
 	
@@ -238,6 +242,23 @@ func _physics_process(delta):
 	
 	# Look good
 	update_animation()
+
+
+# When you try to jump while crouching
+func _bump_tile_covering_high_area() -> void:
+	
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	
+	if tiles.size() == 0:
+		push_error("Character::_bump_tile_covering_high_area - No tile covering high area")
+		return
+	
+	var tile = tiles[0]
+	var tile_type = Helpers.to_block_id(tile.atlas_coords)
+	
+	game.tiles.on("bottom", tile_type, self, tile.tile_map, tile.coords)
+	game.tiles.on("any_side", tile_type, self, tile.tile_map, tile.coords)
+	game.tiles.on("bump", tile_type, self, tile.tile_map, tile.coords)
 
 
 func freeze():
