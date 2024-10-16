@@ -28,7 +28,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 var active = false
 var control_vector: Vector2
-var jump_timer: int = 0
+var jump_timer: float = 0
 var jumped = false
 var can_move = true
 var can_jump = true
@@ -89,7 +89,7 @@ func _physics_process(delta):
 	if frozen_timer >= 0:
 		frozen_timer -= delta
 		ice.visible = true
-		traction = TRACTION / 10
+		traction = TRACTION / 10.0
 	else:
 		ice.visible = false
 	
@@ -139,8 +139,8 @@ func _physics_process(delta):
 		control_axis = control_axis / 2
 	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_axis != 0:
-		if (target_velocity.length() > velocity.length()):
-			traction * 0.8
+		if target_velocity.length() > velocity.length():
+			traction *= 0.8
 		velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
 		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)

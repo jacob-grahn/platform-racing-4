@@ -36,10 +36,10 @@ func run(character: Character) -> void:
 func go_high() -> void:
 	mode = "high"
 	shape.height = HIGH
-	position.y = -HIGH / 2
+	position.y = round(-HIGH / 2.0)
 
 
 func go_low() -> void:
 	mode = "low"
 	shape.height = LOW
-	position.y = -LOW / 2
+	position.y = round(-LOW / 2.0)

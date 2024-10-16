@@ -29,7 +29,7 @@ func _ready():
 	Game.game = self
 
 
-func _http_request_completed(result, response_code, headers, body):
+func _http_request_completed(_result, _response_code, _headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
