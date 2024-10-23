@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://6wipkung5rq8"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_6ojd1"]
+
+[node name="ZoomControls" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 365.0
+offset_bottom = 50.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 281.0
+offset_top = 9.0
+offset_right = 347.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 25
+text = "100%"
+
+[node name="DownButton" type="Button" parent="."]
+clip_contents = true
+offset_top = -1.0
+offset_right = 137.0
+offset_bottom = 51.0
+theme = ExtResource("1_6ojd1")
+theme_override_font_sizes/font_size = 16
+text = "-"
+text_overrun_behavior = 1
+
+[node name="UpButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 138.0
+offset_top = -1.0
+offset_right = 275.0
+offset_bottom = 51.0
+theme = ExtResource("1_6ojd1")
+theme_override_font_sizes/font_size = 16
+text = "+"
+text_overrun_behavior = 1
