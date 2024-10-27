@@ -11,22 +11,21 @@ import (
 )
 
 type Layer struct {
-	Opacity   int         `json:"opacity"`
-	StartX    int         `json:"startx"`
-	StartY    int         `json:"starty"`
-	Type      string      `json:"type"`
-	Name      string      `json:"name"`
-	Visible   bool        `json:"visible"`
-	OffsetX   int         `json:"offsetx"`
-	OffsetY   int         `json:"offsety"`
-	Width     int         `json:"width"`
-	Height    int         `json:"height"`
-	X         int         `json:"x"`
-	Y         int         `json:"y"`
-	Chunks    []Chunk     `json:"chunks"`
-	Depth     int         `json:"depth"`
-	DrawOrder string      `json:"draworder"`
-	Objects   []ArtObject `json:"objects"`
+	Opacity   int     `json:"opacity"`
+	Type      string  `json:"type"`
+	Name      string  `json:"name"`
+	Visible   bool    `json:"visible"`
+	OffsetX   int     `json:"offsetx"`
+	OffsetY   int     `json:"offsety"`
+	Width     int     `json:"width"`
+	Height    int     `json:"height"`
+	X         int     `json:"x"`
+	Y         int     `json:"y"`
+	Chunks    []Chunk `json:"chunks"`
+	Depth     int     `json:"depth"`
+	DrawOrder string  `json:"draworder"`
+	Lines     []Line  `json:"lines"`
+	Scale     float64 `json:"scale"`
 }
 
 type PR4Level struct {

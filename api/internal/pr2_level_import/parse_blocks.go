@@ -70,8 +70,6 @@ func parseBlocks(blockArr []string, chunkSize int) Layer {
 
 	return Layer{
 		Opacity: 1,
-		StartX:  0,
-		StartY:  0,
 		Type:    "tilelayer",
 		Name:    "tilelayer",
 		Visible: true,
