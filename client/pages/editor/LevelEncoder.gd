@@ -17,7 +17,7 @@ func encode() -> Dictionary:
 		var tile_layer = {
 			"name": group_layer.name,
 			"chunks": encode_chunks(group_layer.get_node("TileMap")),
-			"objects": encode_lines(group_layer.get_node("Lines")),
+			"lines": encode_lines(group_layer.get_node("Lines")),
 			"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
 			"rotation": group_layer.get_node("TileMap").rotation_degrees,
 			"depth": group_layer.depth
@@ -59,19 +59,21 @@ func encode_chunks(tilemap: TileMap) -> Array:
 
 
 func encode_lines(node: Node2D) -> Array:
-	var objects = []
+	var lines = []
+	
 	for line: Line2D in node.get_children():
-		var object = {
+		var pointObjects = []
+		for point in line.points:
+			pointObjects.push_back({"x": point.x, "y": point.y})
+		var lineData = {
 			"x": line.position.x,
 			"y": line.position.y,
-			"polyline": var_to_str(line.points),
-			"properties": {
-				"color": "FFFFFF",
-				"thickness": 10
-			}
+			"points": pointObjects.slice(1, len(pointObjects) - 1), # the first point should always be 0,0, we can leave it out
+			"color": "FFFFFF",
+			"thickness": 10
 		}
-		objects.push_back(object)
-	return objects
+		lines.push_back(lineData)
+	return lines
 
 
 func encode_usertext(node: Node2D) -> Array:

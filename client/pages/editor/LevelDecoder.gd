@@ -14,14 +14,18 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 		var layer = LAYER.instantiate()
 		layer.name = encoded_layer.name
 		layers.add_child(layer)
+		
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.set_depth(encoded_layer.get('depth', 10))
 		if encoded_layer.get("chunks"):
 			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
-		if encoded_layer.get("objects"):
-			decode_lines(encoded_layer.objects, layer.get_node("Lines"))
+		if encoded_layer.get("lines"):
+			decode_lines(encoded_layer.lines, layer.get_node("Lines"))
 		if encoded_layer.get("usertextboxobjects"):
 			decode_usertextboxes(encoded_layer.usertextboxobjects, layer.get_node("UserTextboxes"), isEditing)
+		
+		var layerScale = encoded_layer.get('scale', 1)
+		layer.get_node("Lines").scale = Vector2(layerScale, layerScale)
 
 
 func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
@@ -39,22 +43,17 @@ func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
 
 func decode_lines(objects: Array, holder: Node2D) -> void:
 	for object in objects:
-		if !object.get("polyline"):
+		if !object.get("points"):
 			continue
 		var line = Line2D.new()
 		line.position = Vector2(object.x, object.y)
-		# line.points = object.polyline
+		line.add_point(Vector2(0, 0))
+		for point in object.points:
+			line.add_point(Vector2(point.x, point.y))
 		line.end_cap_mode = Line2D.LINE_CAP_ROUND
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		line.default_color = Color(object.properties.color)
-		line.width = object.properties.thickness
-		var polyline
-		if typeof(object.polyline) == 4: #If the line was saved as a string (For levels made in PR4)
-			polyline = str_to_var(object.polyline)
-		else: #For imported levels from PR2 (Saved as an array already)
-			polyline = object.polyline
-		for point in polyline:
-			line.add_point(Vector2(point.x, point.y))
+		line.default_color = Color(object.color)
+		line.width = object.thickness
 		holder.add_child(line)
 
 
