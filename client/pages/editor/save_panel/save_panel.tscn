@@ -18,12 +18,14 @@ script = ExtResource("1_akvb1")
 
 [node name="BigPanel" type="Panel" parent="."]
 modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
 offset_left = -125.0
 offset_top = -115.0
 offset_right = 2068.0
 offset_bottom = 1194.0
 
 [node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 684.0
 offset_top = 261.0
 offset_right = 1294.0

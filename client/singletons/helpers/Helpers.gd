@@ -20,6 +20,9 @@ func get_base_url() -> String:
 	else:
 		return 'https://platformracing.com'
 
+func get_online_url() -> String:
+	return 'https://pr2hub.com'
+
 func _get_current_level_name() -> String:
 	return current_level_name
 	
