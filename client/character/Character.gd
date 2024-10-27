@@ -28,7 +28,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 var active = false
 var control_vector: Vector2
-var jump_timer: int = 0
+var jump_timer: float = 0
 var jumped = false
 var can_move = true
 var can_jump = true
@@ -89,7 +89,7 @@ func _physics_process(delta):
 	if frozen_timer >= 0:
 		frozen_timer -= delta
 		ice.visible = true
-		traction = TRACTION / 10
+		traction = TRACTION / 10.0
 	else:
 		ice.visible = false
 	
@@ -103,8 +103,12 @@ func _physics_process(delta):
 	super_jump.run(self, delta)
 	
 	# Handle jump.
-	if can_jump:
-		if Input.is_action_pressed("jump") and is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+	if can_jump and Input.is_action_pressed("jump"):
+		
+		if is_crouching:
+			_bump_tile_covering_high_area()
+		
+		elif is_on_floor() and velocity.rotated(-rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
 			jumped = true
 			jump_timer = JUMP_TIMER_MAX
 	
@@ -139,8 +143,8 @@ func _physics_process(delta):
 		control_axis = control_axis / 2
 	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
 	if control_axis != 0:
-		if (target_velocity.length() > velocity.length()):
-			traction * 0.8
+		if target_velocity.length() > velocity.length():
+			traction *= 0.8
 		velocity = velocity.move_toward(target_velocity, delta * traction)
 	else:
 		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
@@ -238,6 +242,23 @@ func _physics_process(delta):
 	
 	# Look good
 	update_animation()
+
+
+# When you try to jump while crouching
+func _bump_tile_covering_high_area() -> void:
+	
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	
+	if tiles.size() == 0:
+		push_error("Character::_bump_tile_covering_high_area - No tile covering high area")
+		return
+	
+	var tile = tiles[0]
+	var tile_type = Helpers.to_block_id(tile.atlas_coords)
+	
+	game.tiles.on("bottom", tile_type, self, tile.tile_map, tile.coords)
+	game.tiles.on("any_side", tile_type, self, tile.tile_map, tile.coords)
+	game.tiles.on("bump", tile_type, self, tile.tile_map, tile.coords)
 
 
 func freeze():
