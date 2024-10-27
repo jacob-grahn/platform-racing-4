@@ -17,7 +17,10 @@ func initialize(current_level: Dictionary) -> void:
 	save_button.connect("pressed", func() -> void:
 		_save_pressed(current_level)
 	)
-
+	
+func close() -> void:
+	self.visible = false
+	
 func _back_pressed():
 	self.visible = false
 	

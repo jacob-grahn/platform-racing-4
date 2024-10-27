@@ -54,10 +54,12 @@ func _on_back_pressed():
 	Helpers.set_scene("TITLE")
 
 func _on_load_pressed():
+	save_panel.close()
 	load_panel.initialize()
 	
 func _on_save_pressed():
 	Editor.current_level = level_encoder.encode()
+	load_panel.close()
 	save_panel.initialize(Editor.current_level)
 
 func _on_test_pressed():

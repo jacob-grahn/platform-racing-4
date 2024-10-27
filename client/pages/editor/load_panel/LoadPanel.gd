@@ -21,6 +21,9 @@ func _ready():
 func initialize() -> void:
 	render()
 	self.visible = true
+	
+func close() -> void:
+	self.visible = false
 
 func render() -> void:
 	clear()
