@@ -26,6 +26,69 @@ func TestParseArt(t *testing.T) {
 	}
 }
 
+func TestEraseSegmentList(t *testing.T) {
+	drawLines := []Line{
+		{
+			X: 0,
+			Y: 0,
+			Points: []Point{
+				{X: 100, Y: 0},
+			},
+			Thickness: 10,
+		},
+		{
+			X: 200,
+			Y: 200,
+			Points: []Point{
+				{X: 100, Y: 100},
+			},
+			Thickness: 10,
+		},
+	}
+
+	eraseLine := Line{
+		X: 50,
+		Y: -100,
+		Points: []Point{
+			{X: 0, Y: 200},
+		},
+		Thickness: 20,
+	}
+
+	expected := []Line{
+		{
+			X: 0,
+			Y: 0,
+			Points: []Point{
+				{X: 35, Y: 0},
+			},
+			Thickness: 10,
+		},
+		{
+			X: 65,
+			Y: 0,
+			Points: []Point{
+				{X: 35, Y: 0},
+			},
+			Thickness: 10,
+		},
+		{
+			X: 200,
+			Y: 200,
+			Points: []Point{
+				{X: 100, Y: 100},
+			},
+			Thickness: 10,
+		},
+	}
+
+	result := eraseSegmentList(drawLines, eraseLine)
+
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("eraseSegmentList() = %v, want %v", result, expected)
+	}
+}
+
 // TestEraseSegment tests the eraseSegment function.
 func TestEraseSegment(t *testing.T) {
 	drawLine := Line{

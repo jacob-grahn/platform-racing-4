@@ -1,5 +1,5 @@
-name: Build Platform Racing 4 Client
-run-name: ${{ github.actor }} is building a new version of Platform Racing 4 Client 🚀
+name: Build Platform Racing 4 API
+run-name: ${{ github.actor }} is building a new version of Platform Racing 4 API 🚀
 on:
   push:
     paths:

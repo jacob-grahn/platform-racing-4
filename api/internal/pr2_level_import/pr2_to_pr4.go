@@ -13,8 +13,8 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		combinedLayers = []Layer{
 			{
 				Name:  "Art 1",
-				Lines: artLayers[0].Lines,
-				//Objects: artLayers[3].Objects,
+				Lines: artLayers[3].Lines,
+				//Objects: artLayers[0].Objects,
 				Depth: 10,
 				Scale: upscaleRatio,
 			},
@@ -26,14 +26,14 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 			},
 			{
 				Name:  "Art 2",
-				Lines: artLayers[1].Lines,
+				Lines: artLayers[4].Lines,
 				//Objects: append(artLayers[1].Objects, artLayers[4].Objects...),
 				Depth: 5,
 				Scale: upscaleRatio,
 			},
 			{
 				Name:  "Art 3",
-				Lines: artLayers[2].Lines,
+				Lines: artLayers[5].Lines,
 				//Objects: append(artLayers[2].Objects, artLayers[5].Objects...),
 				Depth: 2, // 2.5
 				Scale: upscaleRatio,
@@ -45,14 +45,14 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 		combinedLayers = append(combinedLayers,
 			Layer{
 				Name:  "Art 0",
-				Lines: artLayers[6].Lines,
+				Lines: artLayers[8].Lines,
 				//Objects: append(artLayers[6].Objects, artLayers[8].Objects...),
 				Depth: 10,
 				Scale: upscaleRatio,
 			},
 			Layer{
 				Name:  "Art 00",
-				Lines: artLayers[7].Lines,
+				Lines: artLayers[9].Lines,
 				//Objects: append(artLayers[7].Objects, artLayers[9].Objects...),
 				Depth: 16, // 20
 				Scale: upscaleRatio,
@@ -62,8 +62,6 @@ func pr2ToPr4(PR2Level PR2Level) PR4Level {
 
 	return PR4Level{
 		BackgroundColor: "#FFFFFF",
-		Width:           100, // what is this for?
-		Height:          100, // what is this for?
 		Infinite:        true,
 		Layers:          combinedLayers,
 		Orientation:     "orthogonal",
