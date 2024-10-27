@@ -33,11 +33,12 @@ func _solo_pressed():
 
 
 func _online_pressed():
-	if Session.is_logged_in():
-		Helpers.set_scene("LOBBY")
-	else:
-		if OS.has_feature('web'):
-			JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth-ui/registration")')
+	Helpers.set_scene("LOBBY")
+	#if Session.is_logged_in():
+		#Helpers.set_scene("LOBBY")
+	#else:
+		#if OS.has_feature('web'):
+			#JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth-ui/registration")')
 
 
 func _logout_pressed():

@@ -29,6 +29,7 @@ theme = ExtResource("2_u2wx8")
 text = "Play PR2 Level"
 
 [node name="BackButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 34.0
 offset_top = 28.0
 offset_right = 239.0
@@ -37,6 +38,7 @@ theme = ExtResource("2_u2wx8")
 text = "Back"
 
 [node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
 offset_left = 693.0
 offset_top = 457.0
 offset_right = 1097.0
