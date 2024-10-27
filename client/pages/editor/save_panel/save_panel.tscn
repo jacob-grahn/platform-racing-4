@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjlp6cp6j6dmi"]
+
+[ext_resource type="Script" path="res://pages/editor/save_panel/save_panel.gd" id="1_akvb1"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_8272o"]
+
+[node name="SavePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 21.0
+offset_right = 46.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_akvb1")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.976471)
+offset_left = -125.0
+offset_top = -115.0
+offset_right = 2068.0
+offset_bottom = 1194.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1294.0
+offset_bottom = 612.0
+
+[node name="SaveLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 891.0
+offset_top = 299.0
+offset_right = 1096.0
+offset_bottom = 348.0
+theme_override_font_sizes/font_size = 30
+text = "-- Save Level --"
+horizontal_alignment = 2
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 691.0
+offset_top = 424.0
+offset_right = 803.0
+offset_bottom = 473.0
+theme_override_font_sizes/font_size = 30
+text = "Title"
+horizontal_alignment = 2
+
+[node name="TitleEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 818.0
+offset_top = 414.0
+offset_right = 1222.0
+offset_bottom = 477.0
+theme = ExtResource("2_8272o")
+text = "50815"
+
+[node name="SaveButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -233.0
+offset_top = -32.0
+offset_right = -35.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_8272o")
+text = "Save"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 988.0
+offset_top = 509.0
+offset_right = 1193.0
+offset_bottom = 580.0
+theme = ExtResource("2_8272o")
+text = "Back"

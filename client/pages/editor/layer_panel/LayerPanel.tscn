@@ -54,6 +54,16 @@ theme = ExtResource("1_qwtjx")
 theme_override_font_sizes/font_size = 16
 text = "+"
 
+[node name="NewButton" type="Button" parent="NewButton"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 405.0
+offset_right = 150.0
+offset_bottom = 457.0
+theme = ExtResource("1_qwtjx")
+theme_override_font_sizes/font_size = 16
+text = "+"
+
 [node name="RotationPicker" parent="." instance=ExtResource("4_45vqc")]
 position = Vector2(3, 482)
 

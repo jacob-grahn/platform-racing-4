@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=16 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
@@ -13,6 +13,8 @@
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="8_t266g"]
 [ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://pages/editor/layer_panel/LayerPanel.tscn" id="11_vx1vu"]
 [ext_resource type="PackedScene" uid="uid://b13rk6odtdct4" path="res://pages/editor/zoom_panel/ZoomPanel.tscn" id="12_iqakr"]
+[ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/editor/save_panel/save_panel.tscn" id="13_2dq10"]
+[ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/load_panel/LoadPanel.tscn" id="13_wy6hl"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
@@ -44,6 +46,28 @@ position = Vector2(7, 6)
 
 [node name="ZoomPanel" parent="UI" instance=ExtResource("12_iqakr")]
 position = Vector2(7, 613)
+
+[node name="LoadPanel" parent="UI" instance=ExtResource("13_wy6hl")]
+position = Vector2(3, -3)
+
+[node name="SavePanel" parent="UI" instance=ExtResource("13_2dq10")]
+visible = false
+
+[node name="Load" type="Button" parent="UI"]
+offset_left = 1252.0
+offset_top = 10.0
+offset_right = 1450.0
+offset_bottom = 90.0
+theme = ExtResource("8_t266g")
+text = "Load"
+
+[node name="Save" type="Button" parent="UI"]
+offset_left = 1505.0
+offset_top = 10.0
+offset_right = 1703.0
+offset_bottom = 90.0
+theme = ExtResource("8_t266g")
+text = "Save"
 
 [node name="Test" type="Button" parent="UI"]
 offset_left = 1744.0

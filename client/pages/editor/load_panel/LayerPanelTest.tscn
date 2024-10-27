@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://12lwmf4u8b84"]
+
+[ext_resource type="Script" path="res://pages/editor/layer_panel/LayerPanelTest.gd" id="1_yhgpd"]
+[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://pages/editor/layer_panel/LayerPanel.tscn" id="2_k3tmp"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="3_26ab8"]
+
+[node name="LayerPanelTest" type="Node2D"]
+script = ExtResource("1_yhgpd")
+
+[node name="LayerPanel" parent="." instance=ExtResource("2_k3tmp")]
+position = Vector2(400, 349)
+
+[node name="Layers" parent="." instance=ExtResource("3_26ab8")]
+position = Vector2(568, 1679)
+
+[node name="Art 1" type="ParallaxBackground" parent="Layers"]
+
+[node name="Blocks" type="ParallaxBackground" parent="Layers"]

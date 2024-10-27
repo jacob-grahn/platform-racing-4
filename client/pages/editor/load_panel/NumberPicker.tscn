@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba1ljm5s8vhfc"]
+
+[ext_resource type="Script" path="res://pages/editor/layer_panel/NumberPicker.gd" id="1_cyeae"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_67vul"]
+
+[node name="NumberPicker" type="Node2D"]
+script = ExtResource("1_cyeae")
+
+[node name="DownButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 174.0
+offset_top = -1.0
+offset_right = 311.0
+offset_bottom = 51.0
+theme = ExtResource("2_67vul")
+theme_override_font_sizes/font_size = 16
+text = "-"
+text_overrun_behavior = 1
+
+[node name="UpButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 316.0
+offset_top = -1.0
+offset_right = 453.0
+offset_bottom = 51.0
+theme = ExtResource("2_67vul")
+theme_override_font_sizes/font_size = 16
+text = "+"
+text_overrun_behavior = 1
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 168.0
+offset_bottom = 50.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 19.0
+offset_top = 13.0
+offset_right = 231.0
+offset_bottom = 33.0
+theme = ExtResource("2_67vul")
+theme_override_font_sizes/font_size = 16
+text = "Rotation: 0"
