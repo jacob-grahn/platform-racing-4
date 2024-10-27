@@ -1,9 +1,10 @@
 extends CharacterBody2D
 class_name Character
 
-const SPEED = 900.0
-const JUMP_VELOCITY = Vector2(0, -300.0)
-const FASTFALL_VELOCITY = Vector2(0, 100.0)
+const SPEED = 975.0
+const JUMP_VELOCITY = Vector2(0, -375.0)
+const FASTFALL_VELOCITY = Vector2(0, 65.0)
+const MAXFALL_VELOCITY = 6500.0
 const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
 const TRACTION = 2500
 const FRICTION = 0.1
@@ -119,6 +120,12 @@ func _physics_process(delta):
 		if jump_timer <= 0:
 			jumped = false
 			jump_timer = 0
+	# Caps falling velocity.
+	if abs(velocity.y) > MAXFALL_VELOCITY:
+		if velocity.y > 0:
+			velocity.y = MAXFALL_VELOCITY
+		else:
+			velocity.y = MAXFALL_VELOCITY * -1
 		
 	# Airborne behavior
 	if not is_on_floor():
