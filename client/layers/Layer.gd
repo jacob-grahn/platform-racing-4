@@ -5,6 +5,7 @@ class_name Layer
 @onready var tile_map = $TileMap
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
+var art_scale = 1.0
 
 
 func init(tiles: Tiles) -> void:
@@ -86,4 +87,4 @@ func set_depth(_depth: int) -> void:
 	
 	# scale lines to counteract the scaling on the viewport
 	var inverse_scale = 1.0 / base_scale
-	lines.scale = Vector2(inverse_scale, inverse_scale)
+	lines.scale = Vector2(inverse_scale * art_scale, inverse_scale * art_scale)

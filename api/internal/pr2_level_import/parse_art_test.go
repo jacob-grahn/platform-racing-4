@@ -97,6 +97,7 @@ func TestEraseSegment(t *testing.T) {
 			{X: 100, Y: 0},
 		},
 		Thickness: 10,
+		Color:     "123456",
 	}
 
 	eraseLine := Line{
@@ -114,6 +115,7 @@ func TestEraseSegment(t *testing.T) {
 				{X: 35, Y: 0},
 			},
 			Thickness: 10,
+			Color:     "123456",
 		},
 		{
 			Points: []Point{
@@ -121,6 +123,7 @@ func TestEraseSegment(t *testing.T) {
 				{X: 100, Y: 0},
 			},
 			Thickness: 10,
+			Color:     "123456",
 		},
 	}
 

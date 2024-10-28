@@ -217,6 +217,7 @@ func eraseSegment(drawLine Line, eraseLine Line) []Line {
 					result = append(result, Line{
 						Points:    currentSegment,
 						Thickness: drawLine.Thickness,
+						Color:     drawLine.Color,
 					})
 				}
 
@@ -233,6 +234,7 @@ func eraseSegment(drawLine Line, eraseLine Line) []Line {
 		result = append(result, Line{
 			Points:    currentSegment,
 			Thickness: drawLine.Thickness,
+			Color:     drawLine.Color,
 		})
 	}
 

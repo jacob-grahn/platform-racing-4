@@ -15,6 +15,7 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 		layer.name = encoded_layer.name
 		layers.add_child(layer)
 		
+		layer.art_scale = encoded_layer.get('scale', 1)
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.set_depth(encoded_layer.get('depth', 10))
 		if encoded_layer.get("chunks"):
@@ -23,9 +24,6 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 			decode_lines(encoded_layer.lines, layer.get_node("Lines"))
 		if encoded_layer.get("usertextboxobjects"):
 			decode_usertextboxes(encoded_layer.usertextboxobjects, layer.get_node("UserTextboxes"), isEditing)
-		
-		var layerScale = encoded_layer.get('scale', 1)
-		layer.get_node("Lines").scale = Vector2(layerScale, layerScale)
 
 
 func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
@@ -52,6 +50,7 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 			line.add_point(Vector2(point.x, point.y))
 		line.end_cap_mode = Line2D.LINE_CAP_ROUND
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		print("color: ", object.color)
 		line.default_color = Color(object.color)
 		line.width = object.thickness
 		holder.add_child(line)
