@@ -50,7 +50,6 @@ func decode_lines(objects: Array, holder: Node2D) -> void:
 			line.add_point(Vector2(point.x, point.y))
 		line.end_cap_mode = Line2D.LINE_CAP_ROUND
 		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		print("color: ", object.color)
 		line.default_color = Color(object.color)
 		line.width = object.thickness
 		holder.add_child(line)
