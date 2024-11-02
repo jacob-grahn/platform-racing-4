@@ -3,10 +3,11 @@ class_name Layer
 
 @onready var lines: Node2D = $Lines
 @onready var tile_map = $TileMap
+@onready var tile_map_mini: Node2D = get_node("../../UI/Minimap/TileMapMini")
+
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
 var art_scale = 1.0
-
 
 func init(tiles: Tiles) -> void:
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
@@ -51,8 +52,9 @@ func init(tiles: Tiles) -> void:
 		source.get_tile_data(atlas_coords, Tile.INVISIBLE_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
 		source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
 	
-	#
 	tile_map.tile_set = tile_set
+	tile_map_mini.tile_set = tile_set
+	
 	set_depth(depth)
 
 

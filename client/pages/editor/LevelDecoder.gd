@@ -3,8 +3,14 @@ extends Node2D
 const LAYER = preload("res://layers/Layer.tscn")
 @onready var bg: Node2D = get_node("../BG")
 @onready var layers: Node2D = get_node("../Layers")
+@onready var tile_map_mini: Node2D = get_node("../UI/Minimap/TileMapMini")
+@onready var tile_map_control: Control = get_node("../UI/Minimap")
 
-
+@onready var minimap_initial_position_x = tile_map_control.position.x
+@onready var minimap_initial_position_y = tile_map_control.position.y
+var minimap_y_percentage = 0.2
+var minimap_y_padding = 20
+	
 func decode(level: Dictionary, isEditing: bool) -> void:
 	var properties = level.get("properties", {})
 	bg.set_bg(properties.get("background", ""))
@@ -18,15 +24,17 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 		layer.art_scale = encoded_layer.get('scale', 1)
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.set_depth(encoded_layer.get('depth', 10))
+		
 		if encoded_layer.get("chunks"):
-			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"))
+			decode_chunks(encoded_layer.chunks, layer.get_node("TileMap"), tile_map_mini)
 		if encoded_layer.get("lines"):
 			decode_lines(encoded_layer.lines, layer.get_node("Lines"))
 		if encoded_layer.get("usertextboxobjects"):
 			decode_usertextboxes(encoded_layer.usertextboxobjects, layer.get_node("UserTextboxes"), isEditing)
+		
 
-
-func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
+func decode_chunks(chunks: Array, tilemap: TileMap, tile_map_mini: TileMap) -> void:
+	tile_map_mini.clear()
 	for chunk in chunks:
 		for i:int in chunk.data.size():
 			var tile_id:int = chunk.data[i]
@@ -37,7 +45,24 @@ func decode_chunks(chunks: Array, tilemap: TileMap) -> void:
 			var atlas_coords = Helpers.to_atlas_coords(tile_id)
 			var alternative_tile = 0
 			tilemap.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
-
+			
+			var coords_mini = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
+			tile_map_mini.set_cell(0, coords_mini, source_id, atlas_coords, alternative_tile)
+	
+	var window_size = get_viewport().get_visible_rect().size
+	var map_used_rect = tilemap.get_used_rect()
+	
+	tile_map_mini.position.y = -(map_used_rect.position.y) * Settings.tile_size.y
+	tile_map_mini.position.x = -(map_used_rect.position.x) * Settings.tile_size.x
+	
+	var scaleX = window_size.x / (map_used_rect.size.x * Settings.tile_size.x)
+	var scaleY = minimap_y_percentage * window_size.y / (map_used_rect.size.y * Settings.tile_size.y)
+	var effective_scale = min(scaleX, scaleY) * 0.9
+	var emptyX = window_size.x - (map_used_rect.size.x * Settings.tile_size.x * effective_scale)
+	
+	tile_map_control.position.x = minimap_initial_position_x + (emptyX / 2)
+	tile_map_control.position.y = minimap_initial_position_y + minimap_y_padding
+	tile_map_control.scale = Vector2(effective_scale, effective_scale)
 
 func decode_lines(objects: Array, holder: Node2D) -> void:
 	for object in objects:

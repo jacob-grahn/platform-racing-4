@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b0153ormkisno"]
+
+[node name="Minimap" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1918.0
+offset_bottom = 247.0
+
+[node name="TileMapMini" type="TileMap" parent="."]
+format = 2
