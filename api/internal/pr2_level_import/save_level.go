@@ -3,7 +3,6 @@ package pr2_level_import
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -20,5 +19,5 @@ func saveLevel(levelId int, PR4Level interface{}) error {
 		return err
 	}
 	// Write data to file
-	return ioutil.WriteFile(path, strLevel, 0644)
+	return os.WriteFile(path, strLevel, 0644)
 }
