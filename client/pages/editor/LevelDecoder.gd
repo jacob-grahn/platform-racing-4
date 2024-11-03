@@ -45,9 +45,7 @@ func decode_chunks(chunks: Array, tilemap: TileMap, tile_map_mini: TileMap) -> v
 			var atlas_coords = Helpers.to_atlas_coords(tile_id)
 			var alternative_tile = 0
 			tilemap.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
-			
-			var coords_mini = Vector2i(chunk.x + (i % int(chunk.width)), chunk.y + (i / int(chunk.width)))
-			tile_map_mini.set_cell(0, coords_mini, source_id, atlas_coords, alternative_tile)
+			tile_map_mini.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
 	
 	var window_size = get_viewport().get_visible_rect().size
 	var map_used_rect = tilemap.get_used_rect()
