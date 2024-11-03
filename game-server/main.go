@@ -54,7 +54,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-var clients = make(map[*websocket.Conn]ClientState)
+var clients = make(map[*websocket.Conn]*ClientState)
 var sendQueue = make(chan Update)
 
 func main() {
@@ -82,7 +82,7 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	clients[conn] = ClientState{}
+	clients[conn] = &ClientState{}
 
 	for {
 		var update Update

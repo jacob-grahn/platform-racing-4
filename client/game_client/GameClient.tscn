@@ -4,3 +4,6 @@
 
 [node name="GameClient" type="Node2D"]
 script = ExtResource("1_gj7qt")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
