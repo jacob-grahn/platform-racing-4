@@ -3,12 +3,23 @@ class_name Layer
 
 @onready var lines: Node2D = $Lines
 @onready var tile_map = $TileMap
+@onready var minimap_container: Control = get_node("../../UI/Minimaps")
+
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
 var art_scale = 1.0
 
-
 func init(tiles: Tiles) -> void:
+	tile_map.tile_set = create_tile_set(tiles, true)
+	
+	var minimap_tile_set = create_tile_set(tiles, false)	
+	for child in minimap_container.get_children():
+		var tile_map_mini: TileMap = child.get_node("TileMapMini")
+		tile_map_mini.tile_set = minimap_tile_set
+		
+	set_depth(depth)
+
+func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
 	source.texture = TILEATLAS
 	source.texture_region_size = Settings.tile_size
@@ -16,8 +27,10 @@ func init(tiles: Tiles) -> void:
 	var tile_set = TileSet.new()
 	tile_set.tile_size = Settings.tile_size
 	tile_set.add_source(source)
-	tile_set.add_physics_layer()
-	tile_set.add_physics_layer()
+	
+	if enable_collision:
+		tile_set.add_physics_layer()
+		tile_set.add_physics_layer()
 	
 	for tile_id in tiles.map:
 		var tile: Tile = tiles.map[tile_id]
@@ -40,21 +53,19 @@ func init(tiles: Tiles) -> void:
 			source.get_tile_data(atlas_coords, Tile.INVISIBLE_ALT_ID),
 			source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
 		]:
-			if tile.matter_type == Tile.SOLID:
-				data.add_collision_polygon(0)
-				data.set_collision_polygon_points(0, 0, polygon)
-			else:
-				data.add_collision_polygon(1)
-				data.set_collision_polygon_points(1, 0, polygon)
+			if enable_collision:
+				if tile.matter_type == Tile.SOLID:
+					data.add_collision_polygon(0)
+					data.set_collision_polygon_points(0, 0, polygon)
+				else:
+					data.add_collision_polygon(1)
+					data.set_collision_polygon_points(1, 0, polygon)
 		
 		source.get_tile_data(atlas_coords, Tile.DEACTIVATED_ALT_ID).modulate = Color(0.5, 0.5, 0.5, 1.0)
 		source.get_tile_data(atlas_coords, Tile.INVISIBLE_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
 		source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
 	
-	#
-	tile_map.tile_set = tile_set
-	set_depth(depth)
-
+	return tile_set
 
 func set_depth(_depth: int) -> void:
 	depth = _depth
