@@ -12,6 +12,7 @@ const FRICTION_SWIMMING = 4.0
 const LIGHTBREAK_SPEED = 200000.0
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
+const OUT_OF_BOUNDS_BLOCK_COUNT = 10
 const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 
 @onready var hitbox = $CharacterHitbox
@@ -249,6 +250,7 @@ func _physics_process(delta):
 	
 	# Look good
 	update_animation()
+	check_out_of_bounds()
 	
 	Session.set_player_position(position)
 
@@ -458,3 +460,21 @@ func update_animation() -> void:
 			display.scale.x = 1
 		else:
 			display.scale.x = -1
+
+func check_out_of_bounds() -> void:
+	var map_used_rect = Session.get_used_rect()
+	
+	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
+	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT
+	var min_y = map_used_rect.position.y - OUT_OF_BOUNDS_BLOCK_COUNT
+	var max_y = map_used_rect.position.y + map_used_rect.size.y + OUT_OF_BOUNDS_BLOCK_COUNT
+	
+	var player_x_normalised = position.x / Settings.tile_size.x
+	var player_y_normalised = position.y / Settings.tile_size.y
+		
+	if player_x_normalised < min_x or player_x_normalised > max_x or \
+	   player_y_normalised < min_y or player_y_normalised > max_y:
+		position.x = last_safe_position.x
+		position.y = last_safe_position.y
+		velocity = Vector2(0, 0)
+		

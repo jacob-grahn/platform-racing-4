@@ -5,11 +5,18 @@ extends Node2D
 var player_id = ""
 var nickname = ""
 var is_guest = true
+var _used_rect: Rect2i = Rect2i(0, 0, 0, 0)
 var _player_position: Vector2 = Vector2.ZERO
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
+	
+func set_used_rect(value: Rect2i) -> void:
+	_used_rect = value
+
+func get_used_rect() -> Rect2i:
+	return _used_rect
 
 func set_player_position(value: Vector2) -> void:
 	_player_position = value

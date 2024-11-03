@@ -49,6 +49,7 @@ func decode_chunks(chunks: Array, tilemap: TileMap, tile_map_mini: TileMap) -> v
 	
 	var window_size = get_viewport().get_visible_rect().size
 	var map_used_rect = tilemap.get_used_rect()
+	Session.set_used_rect(map_used_rect)
 	
 	tile_map_mini.position.y = -(map_used_rect.position.y) * Settings.tile_size.y
 	tile_map_mini.position.x = -(map_used_rect.position.x) * Settings.tile_size.x
