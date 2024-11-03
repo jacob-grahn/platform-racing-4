@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b0153ormkisno"]
 
-[ext_resource type="Texture2D" uid="uid://thuvioj0d2cd" path="res://pages/editor/menu/ResizeTextImage.png" id="1_8356g"]
 [ext_resource type="Script" path="res://pages/game/Minimap.gd" id="1_mju3q"]
+[ext_resource type="Texture2D" uid="uid://cipyuyjn3oorb" path="res://pages/game/PlayerIconImage.png" id="2_i052n"]
 
 [node name="Minimap" type="Control"]
 layout_mode = 3
@@ -14,7 +14,8 @@ script = ExtResource("1_mju3q")
 format = 2
 
 [node name="PlayerIcon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(1, 1)
 layout_mode = 0
-offset_right = 127.0
-offset_bottom = 129.0
-texture = ExtResource("1_8356g")
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("2_i052n")
