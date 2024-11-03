@@ -3,7 +3,8 @@ class_name Arrow
 
 var ArrowActivateEffect: PackedScene = preload("res://tile_effects/arrow_activate_effect/ArrowActivateEffect.tscn")
 var push_force = 75 # used for gliding up/down/left/right
-var push_force_stand = 600 # used for standing, bumps you up into the air
+var push_force_stand_pressed = 3200 # used for standing, bumps you up into the air
+var push_force_stand_idle = 1250
 var push_force_bump = 75 #
 var phantom_push_force_bump = 400
 var phantom_push_force_bump_decay = 0.85
@@ -31,8 +32,10 @@ func push(node: Node2D, tilemap: Node2D, coords: Vector2i, push_dir: Vector2):
 	else:
 		if abs(node.rotation - rotated_push_dir.rotated(PI/2).angle()) < 0.1:
 			if node.is_on_floor():
-				print('extra push')
-				node.velocity += rotated_push_dir * push_force_stand
+				if Input.is_action_pressed("jump"):
+					node.velocity += rotated_push_dir * push_force_stand_pressed
+				else:
+					node.velocity += rotated_push_dir * push_force_stand_idle
 			else:
 				print('phantom')
 				node.velocity += rotated_push_dir * push_force
