@@ -69,11 +69,11 @@ var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
+signal position_changed(x: float, y: float)
 
 func _ready():
 	game = get_parent().get_parent().get_parent().get_parent()
 	last_safe_position = Vector2(position)
-
 
 func _physics_process(delta):
 	if !active:
@@ -249,6 +249,8 @@ func _physics_process(delta):
 	
 	# Look good
 	update_animation()
+	
+	Session.set_player_position(position)
 
 
 # When you try to jump while crouching

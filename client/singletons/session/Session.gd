@@ -5,12 +5,17 @@ extends Node2D
 var player_id = ""
 var nickname = ""
 var is_guest = true
-
+var _player_position: Vector2 = Vector2.ZERO
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
 
+func set_player_position(value: Vector2) -> void:
+	_player_position = value
+
+func get_player_position() -> Vector2:
+	return _player_position
 
 func _request_completed(result, response_code, headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:

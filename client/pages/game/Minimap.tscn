@@ -1,10 +1,20 @@
-[gd_scene format=3 uid="uid://b0153ormkisno"]
+[gd_scene load_steps=3 format=3 uid="uid://b0153ormkisno"]
+
+[ext_resource type="Texture2D" uid="uid://thuvioj0d2cd" path="res://pages/editor/menu/ResizeTextImage.png" id="1_8356g"]
+[ext_resource type="Script" path="res://pages/game/Minimap.gd" id="1_mju3q"]
 
 [node name="Minimap" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1918.0
 offset_bottom = 247.0
+script = ExtResource("1_mju3q")
 
 [node name="TileMapMini" type="TileMap" parent="."]
 format = 2
+
+[node name="PlayerIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 127.0
+offset_bottom = 129.0
+texture = ExtResource("1_8356g")
