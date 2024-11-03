@@ -5,18 +5,28 @@ extends Node2D
 var player_id = ""
 var nickname = ""
 var is_guest = true
-var _used_rect: Rect2i = Rect2i(0, 0, 0, 0)
+var _current_player_layer: String = ""
+var _used_rects: Dictionary = {}
 var _player_position: Vector2 = Vector2.ZERO
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
+
+func set_current_player_layer(value: String) -> void:
+	_current_player_layer = value
+
+func get_current_player_layer() -> String:
+	return _current_player_layer
 	
-func set_used_rect(value: Rect2i) -> void:
-	_used_rect = value
+func set_used_rect(layer_name: String, value: Rect2i) -> void:
+	_used_rects[layer_name] = value
 
 func get_used_rect() -> Rect2i:
-	return _used_rect
+	if _used_rects.has(_current_player_layer):
+		return _used_rects[_current_player_layer]
+	else:
+		return Rect2i(0, 0, 0, 0)
 
 func set_player_position(value: Vector2) -> void:
 	_player_position = value

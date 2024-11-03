@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://pages/game/Game.gd" id="1_cq41v"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="2_dbxag"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://pages/game/BG.tscn" id="2_drtex"]
+[ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="5_bs0oa"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="5_m5d4g"]
-[ext_resource type="PackedScene" uid="uid://b0153ormkisno" path="res://pages/game/Minimap.tscn" id="5_v1j42"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_cq41v")
@@ -35,4 +35,4 @@ offset_right = 219.0
 offset_bottom = 322.0
 text = "Back"
 
-[node name="Minimap" parent="UI" instance=ExtResource("5_v1j42")]
+[node name="Minimaps" parent="UI" instance=ExtResource("5_bs0oa")]

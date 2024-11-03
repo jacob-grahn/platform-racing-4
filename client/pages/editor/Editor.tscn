@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b13rk6odtdct4" path="res://pages/editor/zoom_panel/ZoomPanel.tscn" id="12_iqakr"]
 [ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/editor/save_panel/save_panel.tscn" id="13_2dq10"]
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/load_panel/LoadPanel.tscn" id="13_wy6hl"]
-[ext_resource type="PackedScene" uid="uid://b0153ormkisno" path="res://pages/game/Minimap.tscn" id="16_u2ydi"]
+[ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
@@ -104,9 +104,5 @@ offset_top = -1.0
 offset_right = 1961.0
 offset_bottom = 234.0
 
-[node name="Minimap" parent="UI" instance=ExtResource("16_u2ydi")]
+[node name="Minimaps" parent="UI" instance=ExtResource("16_60hwa")]
 visible = false
-offset_left = 6.0
-offset_top = 1.0
-offset_right = 1924.0
-offset_bottom = 248.0

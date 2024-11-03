@@ -10,7 +10,7 @@ var tiles: Tiles = Tiles.new()
 @onready var back_button = $UI/BackButton
 @onready var level_decoder = $LevelDecoder
 @onready var layers = $Layers
-
+@onready var minimap_container = $UI/Minimaps
 
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)
@@ -47,6 +47,11 @@ func activate():
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
+	
+	Session.set_current_player_layer(start_option.layer_name)
+	for child in minimap_container.get_children():
+		child.visible = child.name == start_option.layer_name	
+	
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")
 	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)

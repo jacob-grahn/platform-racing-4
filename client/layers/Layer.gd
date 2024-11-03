@@ -3,7 +3,7 @@ class_name Layer
 
 @onready var lines: Node2D = $Lines
 @onready var tile_map = $TileMap
-@onready var tile_map_mini: TileMap = get_node("../../UI/Minimap/TileMapMini")
+@onready var minimap_container: Control = get_node("../../UI/Minimaps")
 
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
@@ -11,7 +11,11 @@ var art_scale = 1.0
 
 func init(tiles: Tiles) -> void:
 	tile_map.tile_set = create_tile_set(tiles, true)
-	tile_map_mini.tile_set = create_tile_set(tiles, false)
+	
+	var minimap_tile_set = create_tile_set(tiles, false)	
+	for child in minimap_container.get_children():
+		var tile_map_mini: TileMap = child.get_node("TileMapMini")
+		tile_map_mini.tile_set = minimap_tile_set
 		
 	set_depth(depth)
 

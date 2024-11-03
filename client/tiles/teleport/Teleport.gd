@@ -54,7 +54,11 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	player.position = next_block_position + dist
 	player.set_depth(layer.depth)
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
-
+	
+	Session.set_current_player_layer(next_position.layer_name)
+	var minimap_container = tilemap.get_node("../../../UI/Minimaps")
+	for child in minimap_container.get_children():
+		child.visible = child.name == next_position.layer_name
 
 func is_teleport_throttled(player_name: String, layer_name: String, coords: Vector2i) -> bool:
 	# remove recent teleports older than throttle_ms
