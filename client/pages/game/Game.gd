@@ -22,7 +22,7 @@ func _ready():
 	else:
 		$HTTPRequest.request_completed.connect(self._http_request_completed)
 		if pr2_level_id:
-			var error = $HTTPRequest.request(Helpers.get_base_url() + "/api/pr2/level/" + pr2_level_id)
+			var error = $HTTPRequest.request(Helpers.get_base_url() + "/pr2/level/" + pr2_level_id)
 			if error != OK:
 				push_error("An error occurred in the HTTP request.")
 	

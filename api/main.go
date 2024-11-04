@@ -37,6 +37,7 @@ func main() {
 	// setup routes
 	SetupPollRoutes(router, db)
 	pr2_level_import.SetupPR2LevelImportRoutes(router, db)
+	pr2_level_import.SetupPR2LevelListRoutes(router)
 
 	// listen for requests
 	router.Run(":8080")
