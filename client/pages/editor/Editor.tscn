@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=18 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b13rk6odtdct4" path="res://pages/editor/zoom_panel/ZoomPanel.tscn" id="12_iqakr"]
 [ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/editor/save_panel/save_panel.tscn" id="13_2dq10"]
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/load_panel/LoadPanel.tscn" id="13_wy6hl"]
+[ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/editor/explore_panel/ExplorePanel.tscn" id="14_phb1e"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
 
 [node name="Editor" type="Node2D"]
@@ -35,6 +36,8 @@ zoom = Vector2(0.5, 0.5)
 
 [node name="Penciler" parent="." instance=ExtResource("5_vq0x1")]
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 120
 
@@ -52,8 +55,19 @@ position = Vector2(7, 613)
 visible = false
 position = Vector2(3, -3)
 
+[node name="ExplorePanel" parent="UI" instance=ExtResource("14_phb1e")]
+visible = false
+
 [node name="SavePanel" parent="UI" instance=ExtResource("13_2dq10")]
 visible = false
+
+[node name="Explore" type="Button" parent="UI"]
+offset_left = 962.0
+offset_top = 10.0
+offset_right = 1205.0
+offset_bottom = 90.0
+theme = ExtResource("8_t266g")
+text = "Explore"
 
 [node name="Load" type="Button" parent="UI"]
 offset_left = 1252.0

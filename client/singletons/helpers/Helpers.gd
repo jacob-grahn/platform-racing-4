@@ -12,7 +12,7 @@ func get_base_url() -> String:
 			print("Setting base url hostname: ", hostname)
 		return "https://" + hostname
 		
-	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' ||  OS.has_feature("editor"):
+	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
 		#return 'http://localhost:8080'
 		return 'https://dev.platformracing.com'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
@@ -43,9 +43,9 @@ func _list_saved_levels() -> Array:
 func _set_current_level_name(level_name: String):
 	current_level_name = level_name
 
-func _save_to_file(level: Dictionary, level_name: String = current_level_name):
+func _save_to_file(level: Dictionary, level_name: String = current_level_name) -> String:
 	if level_name == "":
-		return
+		return ""
 	
 	current_level_name = level_name
 	var file_name = _get_level_file_name(level_name)
@@ -56,8 +56,13 @@ func _save_to_file(level: Dictionary, level_name: String = current_level_name):
 	var save_file_path: String = save_dir + file_name
 	# save level to disk
 	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
-	file.store_string(JSON.stringify(level))
+	var json_string = JSON.stringify(level)
+	var compressed_data = gzip_encode(json_string)
+	var encoded_data = Marshalls.raw_to_base64(compressed_data)
+	
+	file.store_string(json_string)
 	file.close()
+	return encoded_data
 	
 func _delete_level(level_name: String = current_level_name) -> void:
 	var file_name = _get_level_file_name(level_name)
@@ -103,3 +108,17 @@ func get_depth(node: Node) -> int:
 	if node is Layer:
 		return node.depth
 	return get_depth(node.get_parent())
+
+func gzip_encode(text: String):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_compression()
+	gzip.put_data(text.to_utf8_buffer())
+	gzip.finish()
+	return gzip.get_data(gzip.get_available_bytes())[1]
+
+func gzip_decode(data):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_decompression()
+	gzip.put_data(data)
+	gzip.finish()
+	return gzip.get_utf8_string(gzip.get_available_bytes())

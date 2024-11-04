@@ -403,3 +403,5 @@ FodyWeavers.xsd
 # project
 build/**
 servers/environments/*.rendered
+
+*.db
