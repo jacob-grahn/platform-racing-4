@@ -72,8 +72,7 @@ func _save_to_file(level: Dictionary, level_name: String = current_level_name) -
 	# save level to disk
 	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
 	var json_string = JSON.stringify(level)
-	var compressed_data = gzip_encode(json_string)
-	var encoded_data = Marshalls.raw_to_base64(compressed_data)
+	var encoded_data = Marshalls.utf8_to_base64(json_string)
 	
 	file.store_string(json_string)
 	file.close()

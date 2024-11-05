@@ -32,6 +32,7 @@ offset_right = 1294.0
 offset_bottom = 612.0
 
 [node name="TinyPanel" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 709.0
 offset_top = 345.0
 offset_right = 1275.0

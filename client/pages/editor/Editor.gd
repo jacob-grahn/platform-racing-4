@@ -131,8 +131,7 @@ func _on_explore_load_completed(result, response_code, headers, body):
 	var level_name = response.get("level_name", "")
 	var level_data = response.get("level_data", "")
 	
-	level_data = Marshalls.base64_to_raw(level_data)
-	level_data = Helpers.gzip_decode(level_data)
+	level_data = Marshalls.base64_to_utf8(level_data)
 	level_data = JSON.parse_string(level_data)
 	Helpers._set_current_level_name(level_name)
 
