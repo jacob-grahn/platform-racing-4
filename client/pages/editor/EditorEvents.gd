@@ -22,7 +22,9 @@ const SET_BACKGROUND = 'set_background'
 
 var events = []
 var redo_events = []
-
+var edit_id_buffer = {}
+var local_edit_id = 0
+var last_send_event: Dictionary = {}
 
 func _ready():
 	get_node("../UI/Cursor").connect("level_event", _on_level_event)
@@ -30,8 +32,14 @@ func _ready():
 	get_node("../UI/LayerPanel").connect("level_event", _on_level_event)
 	get_node("../GameClient").connect("receive_level_event", _on_receive_level_event)
 
-
+func _process(delta):
+	process_edit_id_buffer()
+	
 func _on_level_event(event: Dictionary) -> void:
+	if event == last_send_event:
+		return
+		
+	last_send_event = event
 	print("EditorEvents::_on_level_event ", event)
 	if len(redo_events) > 0:
 		redo_events = []
@@ -40,12 +48,23 @@ func _on_level_event(event: Dictionary) -> void:
 	#emit_signal("level_event", event)
 
 func _on_receive_level_event(event: Dictionary) -> void:
-	print("EditorEvents::_on_receive_level_event ", event)
-	if len(redo_events) > 0:
-		redo_events = []
-	events.push_back(event)
-	emit_signal("level_event", event)
+	print("edit id: ", event.get("edit_id", -1))
+	var edit_id = event.get("edit_id", -1)
+	if edit_id == -1:
+		return
+	edit_id_buffer[int(edit_id)] = event
 
+func process_edit_id_buffer() -> void:
+	while edit_id_buffer.has(local_edit_id):
+		var event = edit_id_buffer[local_edit_id]
+		print("EditorEvents::_on_receive_level_event ", event)
+		if len(redo_events) > 0:
+			redo_events = []
+		events.push_back(event)
+		emit_signal("level_event", event)
+		edit_id_buffer.erase(local_edit_id)
+		local_edit_id += 1
+		
 func undo() -> void:
 	var event = events.pop_back()
 	redo_events.push_back(event)

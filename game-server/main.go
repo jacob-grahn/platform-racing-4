@@ -4,9 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
+
+var editIDCounter int = 0
+var mu sync.Mutex
 
 type Module string
 
@@ -55,6 +59,7 @@ type CharacterUpdate struct {
 }
 
 type LevelEditorUpdate struct {
+	EditId    int        `json:"edit_id"`
 	Type      string     `json:"type"`
 	LayerName string     `json:"layer_name"`
 	Position  Vector2    `json:"position"`
@@ -154,6 +159,16 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 			clientState.ID = *update.ID
 		} else {
 			update.ID = &clientState.ID
+		}
+
+		if update.Module == EditorModule {
+			mu.Lock()
+			if update.Editor == nil {
+				update.Editor = &LevelEditorUpdate{}
+			}
+			update.Editor.EditId = editIDCounter
+			editIDCounter++
+			mu.Unlock()
 		}
 
 		// send this update off to be sent
