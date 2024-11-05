@@ -14,6 +14,7 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 	var properties = level.get("properties", {})
 	bg.set_bg(properties.get("background", ""))
 	Jukebox.play(properties.get("music", ""))
+	print("decode: " , level)
 	
 	var current_player_layer = Session.get_current_player_layer()
 	for encoded_layer in level.layers:

@@ -8,11 +8,18 @@ var is_guest = true
 var _current_player_layer: String = ""
 var _used_rects: Dictionary = {}
 var _player_position: Vector2 = Vector2.ZERO
+var _local_edit_id = 0
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
 
+func set_local_edit_id(value: int) -> void:
+	_local_edit_id = value
+
+func get_local_edit_id() -> int:
+	return _local_edit_id
+	
 func set_current_player_layer(value: String) -> void:
 	_current_player_layer = value
 

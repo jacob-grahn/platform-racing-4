@@ -18,6 +18,7 @@ var default_level: Dictionary = {
 @onready var clear = $UI/Clear
 @onready var level_encoder = $LevelEncoder
 @onready var level_decoder = $LevelDecoder
+@onready var game_client = $GameClient
 @onready var editor_menu = $UI/EditorMenu
 @onready var layers = $Layers
 @onready var layer_panel = $UI/LayerPanel
@@ -38,6 +39,7 @@ func _ready():
 	clear.connect("pressed", _on_clear_pressed)
 	load_panel.connect("level_load", _on_level_load)
 	explore_panel.connect("explore_load", _on_explore_load)
+	game_client.connect("request_editor_load", _on_request_editor_load)
 	
 	if Editor.current_level:
 		level_decoder.decode(Editor.current_level, true)
@@ -97,6 +99,14 @@ func _on_level_load(level_name = ""):
 	level_decoder.decode(selected_level, true)
 	layers.init(tiles)
 
+func _on_request_editor_load():
+	Helpers._set_current_level_name("")
+	layers.clear()
+	tiles.clear()
+	await get_tree().create_timer(0.1).timeout
+	level_decoder.decode(Editor.current_level, true)
+	layers.init(tiles)
+
 func _on_explore_load(level_id):
 	var url = Helpers.get_base_url() + "/level/" + str(level_id)
 	var error = http_request.request(url)
@@ -120,7 +130,6 @@ func _on_explore_load_completed(result, response_code, headers, body):
 	
 	var level_name = response.get("level_name", "")
 	var level_data = response.get("level_data", "")
-	print("data: " + level_data)
 	
 	level_data = Marshalls.base64_to_raw(level_data)
 	level_data = Helpers.gzip_decode(level_data)

@@ -1,23 +1,30 @@
 extends Node2D
 signal receive_level_event
+signal request_editor_load
 
 const OPEN = "open"
 const CLOSED = "closed"
 
-var websocket_url = "ws://localhost:8081/ws"
+var websocket_url = Helpers.get_base_ws_url()
 var is_live_editing = false
 var current_module = "OnlineModule"
 var is_host = false
-var username = "xue"
+var is_requesting_editor_update = false
+var username = generate_username()
 var room = ""
 var target_state = CLOSED
 var socket: WebSocketPeer
 var connect_attempt_count = 0
 var send_queue = []
+
+var cached_member_id_list: Array[String] = []
+var cached_host_id = ""
+
 @onready var timer: Timer = $Timer
 @onready var editor_events: Node2D = get_node("../EditorEvents")
 @onready var popup_panel: Control = $"../UI/PopupPanel"
 @onready var now_editing_panel: Node2D = $"../UI/NowEditingPanel"
+@onready var level_encoder: Node2D = $"../LevelEncoder"
 
 func _ready() -> void:
 	timer.timeout.connect(_attempt_connect)
@@ -112,27 +119,88 @@ func _process(delta: float) -> void:
 	# WebSocketPeer.STATE_OPEN means the socket is connected and ready to send and receive data.
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
-			print("Sending: ", update)
 			socket.send_text(JSON.stringify(update))
 			send_queue = []
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_utf8()
-			print("Got data from server: ", packet)
 			
 			var parsed_packet = JSON.parse_string(packet)
 			
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
+				if is_live_editing:
+					return
+					
 				popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
 			elif parsed_packet.error_message == "RoomExistsErrorMessage":
+				if is_live_editing:
+					return
+					
 				popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
 			
-			if parsed_packet.module == "JoinSuccessModule":
+			if parsed_packet.module == "ResponseEditorModule":
+				if !is_requesting_editor_update:
+					return
+				
+				is_requesting_editor_update = false
 				is_live_editing = true
-				now_editing_panel.join_room(parsed_packet.room)
+				var request_editor = parsed_packet.request_editor
+				Session.set_local_edit_id(request_editor.edit_id)
+				
+				var level_data = Marshalls.base64_to_utf8(request_editor.level_data)
+				level_data = JSON.parse_string(level_data)
+				
+				Editor.current_level = level_data
+				emit_signal("request_editor_load")
+				
+				now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
 				popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
+			elif parsed_packet.module == "RequestEditorModule":
+				if !is_host:
+					return
+				
+				var json_string = JSON.stringify(level_encoder.encode())
+				var encoded_data = Marshalls.utf8_to_base64(json_string)
+	
+				var data = {
+					"module": "ResponseEditorModule",
+					"id": username,
+					"ms": 5938,
+					"room" : room,
+					"ret": false,
+					"request_editor": {
+						"level_data": encoded_data,
+						"edit_id": Session.get_local_edit_id()
+					}
+				}
+				send_queue.push_back(data)
+			elif parsed_packet.module == "JoinSuccessModule":
+				now_editing_panel.add_member(parsed_packet.id)
+				if is_host:
+					return
+					
+				is_requesting_editor_update = true
+				var data = {
+					"module": "RequestEditorModule",
+					"id": username,
+					"ms": 5938,
+					"room" : room,
+					"ret": false,
+				}
+				
+				for member_id in parsed_packet.member_id_list:
+					cached_member_id_list.append(member_id)
+				cached_host_id =  parsed_packet.host_id
+				
+				send_queue.push_back(data)
 			elif parsed_packet.module == "HostSuccessModule":
+				if is_host:
+					return
+					
+				Session.set_local_edit_id(0)
 				is_live_editing = true
-				now_editing_panel.join_room(parsed_packet.room)
+				is_host = true
+				var member_id_list: Array[String] = [parsed_packet.id]
+				now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
 				popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
 				emit_signal("receive_level_event", parsed_packet.editor)
@@ -151,3 +219,11 @@ func _process(delta: float) -> void:
 		_clear()
 		if target_state == OPEN:
 			_retry_connect()
+
+func generate_username() -> String:
+	var adjectives = ["Brave", "Clever", "Eager", "Mighty", "Swift", "Wise"]
+	var nouns = ["Tiger", "Falcon", "Wizard", "Knight", "Phoenix", "Ranger"]
+	var adjective = adjectives[randi() % adjectives.size()]
+	var noun = nouns[randi() % nouns.size()]
+	var number = str(randi() % 1000) 
+	return adjective + noun + number

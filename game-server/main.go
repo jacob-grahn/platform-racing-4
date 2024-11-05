@@ -4,24 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"slices"
 	"sync"
 
 	"github.com/gorilla/websocket"
 )
 
-var editIDCounter int = 0
+var roomEditCounters = make(map[string]int)
 var mu sync.Mutex
 
 type Module string
 
 const (
-	OnlineModule      Module = "OnlineModule"
-	EditorModule      Module = "EditorModule"
-	JoinEditorModule  Module = "JoinEditorModule"
-	HostEditorModule  Module = "HostEditorModule"
-	JoinSuccessModule Module = "JoinSuccessModule"
-	HostSuccessModule Module = "HostSuccessModule"
+	OnlineModule         Module = "OnlineModule"
+	EditorModule         Module = "EditorModule"
+	JoinEditorModule     Module = "JoinEditorModule"
+	HostEditorModule     Module = "HostEditorModule"
+	JoinSuccessModule    Module = "JoinSuccessModule"
+	HostSuccessModule    Module = "HostSuccessModule"
+	RequestEditorModule  Module = "RequestEditorModule"
+	ResponseEditorModule Module = "ResponseEditorModule"
 )
 
 type ErrorMessage string
@@ -38,17 +39,20 @@ type ClientState struct {
 }
 
 type Update struct {
-	Module       string                 `json:"module"`                  // module name
-	ID           *string                `json:"id,omitempty"`            // user id
-	MS           int                    `json:"ms"`                      // client time in milliseconds since level started
-	Pos          *PositionUpdate        `json:"pos,omitempty"`           // position
-	Val          map[string]interface{} `json:"val,omitempty"`           // property values
-	Tile         []TileUpdate           `json:"tile,omitempty"`          // tile updates
-	Char         *CharacterUpdate       `json:"char,omitempty"`          // character values, stats, look, etc
-	Room         *string                `json:"room,omitempty"`          // used to set ClientState.Room, client will then only recieve updates to that room
-	Ret          *bool                  `json:"ret,omitempty"`           // if true, return this message to the sender
-	Editor       *LevelEditorUpdate     `json:"editor,omitempty"`        // editor updates for multiplayer level editor
-	ErrorMessage string                 `json:"error_message,omitempty"` // error message
+	Module        string                 `json:"module"`                   // module name
+	ID            *string                `json:"id,omitempty"`             // user id
+	MS            int                    `json:"ms"`                       // client time in milliseconds since level started
+	Pos           *PositionUpdate        `json:"pos,omitempty"`            // position
+	Val           map[string]interface{} `json:"val,omitempty"`            // property values
+	Tile          []TileUpdate           `json:"tile,omitempty"`           // tile updates
+	Char          *CharacterUpdate       `json:"char,omitempty"`           // character values, stats, look, etc
+	Room          *string                `json:"room,omitempty"`           // used to set ClientState.Room, client will then only recieve updates to that room
+	Ret           *bool                  `json:"ret,omitempty"`            // if true, return this message to the sender
+	Editor        *LevelEditorUpdate     `json:"editor,omitempty"`         // editor updates for multiplayer level editor
+	RequestEditor *RequestEditorUpdate   `json:"request_editor,omitempty"` // request to join a room
+	HostID        *string                `json:"host_id,omitempty"`        // host id
+	MemberIDList  []string               `json:"member_id_list,omitempty"` // list of member ids in a room
+	ErrorMessage  string                 `json:"error_message,omitempty"`  // error message
 }
 
 type PositionUpdate struct {
@@ -88,6 +92,11 @@ type LevelEditorUpdate struct {
 	Depth     int        `json:"depth"`
 }
 
+type RequestEditorUpdate struct {
+	LevelData string `json:"level_data"`
+	EditId    int    `json:"edit_id"`
+}
+
 type Vector2 struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
@@ -114,7 +123,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-var roomNames = []string{}
+var rooms = []Room{}
 var clients = make(map[*websocket.Conn]*ClientState)
 var sendQueue = make(chan Update)
 
@@ -166,24 +175,60 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 
 		update.ErrorMessage = string(EmptyErrorMessage)
 		if update.Module == string(JoinEditorModule) {
-			if !slices.Contains(roomNames, *update.Room) {
+			isRoomFound := false
+			foundRoom := Room{}
+
+			for i := range rooms {
+				if rooms[i].Name == *update.Room {
+					rooms[i].MembersID = append(rooms[i].MembersID, *update.ID)
+					update.Module = string(JoinSuccessModule)
+					isRoomFound = true
+					foundRoom = rooms[i]
+					break
+				}
+			}
+
+			if !isRoomFound {
 				update.ErrorMessage = string(RoomNotFoundErrorMessage)
 				sendQueue <- update
 				continue
 			}
 			update.Module = string(JoinSuccessModule)
+			update.MemberIDList = foundRoom.MembersID
+			update.HostID = &foundRoom.HostID
 		} else if update.Module == string(HostEditorModule) {
 			if update.Room == nil {
 				update.ErrorMessage = string(RoomNotFoundErrorMessage)
 				sendQueue <- update
 				continue
-			} else if slices.Contains(roomNames, *update.Room) {
-				update.ErrorMessage = string(RoomExistsErrorMessage)
-				sendQueue <- update
+			}
+
+			isRoomFound := false
+			for i := range rooms {
+				if rooms[i].Name == *update.Room {
+					update.ErrorMessage = string(RoomExistsErrorMessage)
+					sendQueue <- update
+					isRoomFound = true
+					break
+				}
+			}
+
+			if isRoomFound {
 				continue
 			}
-			roomNames = append(roomNames, *update.Room)
+
+			newroom := Room{
+				Name:      *update.Room,
+				HostID:    *update.ID,
+				MembersID: []string{*update.ID},
+			}
+			rooms = append(rooms, newroom)
 			update.Module = string(HostSuccessModule)
+		} else if update.Module == string(EditorModule) {
+			if update.Editor == nil {
+				update.Editor = &LevelEditorUpdate{}
+			}
+			assignEditID(update)
 		}
 
 		// clientState stores metadata tied to this connection
@@ -204,16 +249,6 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 			update.ID = &clientState.ID
 		}
 
-		if update.Module == string(EditorModule) {
-			mu.Lock()
-			if update.Editor == nil {
-				update.Editor = &LevelEditorUpdate{}
-			}
-			update.Editor.EditId = editIDCounter
-			editIDCounter++
-			mu.Unlock()
-		}
-
 		// send this update off to be sent
 		sendQueue <- update
 	}
@@ -232,6 +267,8 @@ func handleMessages() {
 		if update.ID == nil {
 			continue
 		}
+
+		fmt.Println("Sending update:", update)
 
 		// loop through each client
 		for client, clientState := range clients {
@@ -255,4 +292,16 @@ func handleMessages() {
 			}
 		}
 	}
+}
+
+func assignEditID(update Update) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if _, exists := roomEditCounters[*update.Room]; !exists {
+		roomEditCounters[*update.Room] = 0
+	}
+
+	update.Editor.EditId = roomEditCounters[*update.Room]
+	roomEditCounters[*update.Room]++
 }
