@@ -2,6 +2,7 @@ extends Node2D
 class_name EditorEvents
 
 signal level_event
+signal send_level_event
 
 # control events, switching tools, swtiching selected block, etc
 const SELECT_TOOL = 'select_tool'
@@ -27,6 +28,7 @@ func _ready():
 	get_node("../UI/Cursor").connect("level_event", _on_level_event)
 	get_node("../UI/EditorMenu").connect("level_event", _on_level_event)
 	get_node("../UI/LayerPanel").connect("level_event", _on_level_event)
+	get_node("../GameClient").connect("receive_level_event", _on_receive_level_event)
 
 
 func _on_level_event(event: Dictionary) -> void:
@@ -34,8 +36,15 @@ func _on_level_event(event: Dictionary) -> void:
 	if len(redo_events) > 0:
 		redo_events = []
 	events.push_back(event)
-	emit_signal("level_event", event)
+	emit_signal("send_level_event", event)
+	#emit_signal("level_event", event)
 
+func _on_receive_level_event(event: Dictionary) -> void:
+	print("EditorEvents::_on_receive_level_event ", event)
+	if len(redo_events) > 0:
+		redo_events = []
+	events.push_back(event)
+	emit_signal("level_event", event)
 
 func undo() -> void:
 	var event = events.pop_back()

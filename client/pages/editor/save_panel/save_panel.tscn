@@ -61,6 +61,7 @@ theme = ExtResource("2_8272o")
 text = "50815"
 
 [node name="PublishLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 981.0
 offset_top = 438.0
 offset_right = 1119.0

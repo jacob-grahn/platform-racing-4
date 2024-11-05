@@ -13,8 +13,8 @@ func get_base_url() -> String:
 		return "https://" + hostname
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
-		#return 'http://localhost:8080'
-		return 'https://dev.platformracing.com'
+		return 'http://localhost:8080'
+		#return 'https://dev.platformracing.com'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
 		return 'https://dev.platformracing.com'
 	else:

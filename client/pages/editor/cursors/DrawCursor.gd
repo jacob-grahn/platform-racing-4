@@ -45,12 +45,18 @@ func on_mouse_up():
 		# Simplify the line
 		var simplified_points = douglas_peucker(current_line.points, optimization_epsilon)
 		
-		# Save the line
+		var point_dicts = []
+		for point in simplified_points:
+			point_dicts.append({"x": point.x, "y": point.y})
+
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LINE,
 			"layer_name": layers.get_target_layer(),
-			"position": current_line.position,
-			"points": simplified_points
+			"position": {
+				"x": current_line.position.x,
+				"y": current_line.position.y
+			},
+			"points": point_dicts
 		})
 		
 		# Remove the temporary line

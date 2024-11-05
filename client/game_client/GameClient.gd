@@ -1,4 +1,5 @@
 extends Node2D
+signal receive_level_event
 
 const OPEN = "open"
 const CLOSED = "closed"
@@ -10,12 +11,23 @@ var socket: WebSocketPeer
 var connect_attempt_count = 0
 var send_queue = []
 @onready var timer: Timer = $Timer
-
+@onready var editor_events: Node2D = get_node("../EditorEvents")
 
 func _ready() -> void:
 	timer.timeout.connect(_attempt_connect)
-	join("ws://localhost:8080/ws", "mars")
+	join("ws://localhost:8081/ws", "mars")
+	editor_events.connect("send_level_event", _on_send_level_event)
 	
+func _on_send_level_event(event: Dictionary) -> void:
+	var data = {
+		"module": "EditorModule",
+		"id": "1",
+		"ms": 5938,
+		"room" : room,
+		"ret": true,
+		"editor": event
+	}
+	send_queue.push_back(data)
 	
 func join(url: String, room_name: String) -> void:
 	_clear()
@@ -57,6 +69,7 @@ func _attempt_connect() -> void:
 	
 	# Send data.
 	var data = {
+		"module": "OnlineModule",
 		"id": "1",
 		"ms": 5938,
 		"room" : room,
@@ -95,7 +108,12 @@ func _process(delta: float) -> void:
 			socket.send_text(JSON.stringify(update))
 			send_queue = []
 		while socket.get_available_packet_count():
-			print("Got data from server: ", socket.get_packet().get_string_from_utf8())
+			var packet = socket.get_packet().get_string_from_utf8()
+			print("Got data from server: ", packet)
+			
+			var parsed_packet = JSON.parse_string(packet)
+			if parsed_packet.module == "EditorModule":
+				emit_signal("receive_level_event", parsed_packet.editor)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.

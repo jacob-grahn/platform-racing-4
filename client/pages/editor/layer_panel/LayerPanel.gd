@@ -71,7 +71,6 @@ func _new_pressed():
 		"type": EditorEvents.ADD_LAYER,
 		"name": new_name
 	})
-	call_deferred("render")
 
 
 func _delete_pressed():
@@ -79,7 +78,6 @@ func _delete_pressed():
 		"type": EditorEvents.DELETE_LAYER,
 		"name": layers.get_target_layer()
 	})
-	call_deferred("render")
 
 
 func _row_pressed(layer_name: String):

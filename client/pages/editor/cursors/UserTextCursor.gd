@@ -19,7 +19,10 @@ func on_mouse_down():
 	emit_signal("level_event", {
 		"type": EditorEvents.ADD_USERTEXT,
 		"layer_name": layers.get_target_layer(),
-		"position": mouse_position.round(),
+		"position": {
+			"x": mouse_position.round().x,
+			"y": mouse_position.round().y
+		},
 		"usertext": "Text!",
 		"font": usertextbox_font,
 		"font_size": usertextbox_font_size

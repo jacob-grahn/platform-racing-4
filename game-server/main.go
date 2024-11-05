@@ -1,10 +1,18 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/gorilla/websocket"
+)
+
+type Module string
+
+const (
+	OnlineModule Module = "OnlineModule"
+	EditorModule Module = "EditorModule"
 )
 
 type ClientState struct {
@@ -13,14 +21,16 @@ type ClientState struct {
 }
 
 type Update struct {
-	ID   *string                `json:"id,omitempty"`   // user id
-	MS   int                    `json:"ms"`             // client time in milliseconds since level started
-	Pos  *PositionUpdate        `json:"pos,omitempty"`  // position
-	Val  map[string]interface{} `json:"val,omitempty"`  // property values
-	Tile []TileUpdate           `json:"tile,omitempty"` // tile updates
-	Char *CharacterUpdate       `json:"char,omitempty"` // character values, stats, look, etc
-	Room *string                `json:"room,omitempty"` // used to set ClientState.Room, client will then only recieve updates to that room
-	Ret  *bool                  `json:"ret,omitempty"`  // if true, return this message to the sender
+	Module Module                 `json:"module"`           // module name
+	ID     *string                `json:"id,omitempty"`     // user id
+	MS     int                    `json:"ms"`               // client time in milliseconds since level started
+	Pos    *PositionUpdate        `json:"pos,omitempty"`    // position
+	Val    map[string]interface{} `json:"val,omitempty"`    // property values
+	Tile   []TileUpdate           `json:"tile,omitempty"`   // tile updates
+	Char   *CharacterUpdate       `json:"char,omitempty"`   // character values, stats, look, etc
+	Room   *string                `json:"room,omitempty"`   // used to set ClientState.Room, client will then only recieve updates to that room
+	Ret    *bool                  `json:"ret,omitempty"`    // if true, return this message to the sender
+	Editor *LevelEditorUpdate     `json:"editor,omitempty"` // editor updates for multiplayer level editor
 }
 
 type PositionUpdate struct {
@@ -44,12 +54,37 @@ type CharacterUpdate struct {
 	Name int `json:"name"`
 }
 
+type LevelEditorUpdate struct {
+	Type      string     `json:"type"`
+	LayerName string     `json:"layer_name"`
+	Position  Vector2    `json:"position"`
+	UserText  string     `json:"usertext"`
+	Font      string     `json:"font"`
+	FontSize  int        `json:"font_size"`
+	Coords    Vector2i   `json:"coords"`
+	BlockID   int        `json:"block_id"`
+	Points    []Vector2i `json:"points"`
+	Name      string     `json:"name"`
+	Rotation  int        `json:"rotation"`
+	Depth     int        `json:"depth"`
+}
+
+type Vector2 struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+}
+
+type Vector2i struct {
+	X int `json:"x"`
+	Y int `json:"y"`
+}
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
 		// origin := r.Header.Get("Origin")
-		// return origin == "http://127.0.0.1:8080" || origin == "https://platformracing.com" || origin == "https://dev.platformracing.com"
+		// return origin == "http://127.0.0.1:8081" || origin == "https://platformracing.com" || origin == "https://dev.platformracing.com"
 		return true // allow all origins
 	},
 }
@@ -63,8 +98,8 @@ func main() {
 
 	go handleMessages()
 
-	fmt.Println("PR4 Game Server started on :8080")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("PR4 Game Server started on :8081")
+	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
@@ -86,9 +121,19 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		var update Update
-		err := conn.ReadJSON(&update)
+		_, message, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("Invalid JSON recieved:", err)
+			fmt.Println("Error reading message:", err)
+			delete(clients, conn)
+			return
+		}
+
+		jsonString := string(message)
+		fmt.Println("Received JSON as string:", jsonString)
+
+		err = json.Unmarshal(message, &update)
+		if err != nil {
+			fmt.Println("Invalid JSON received:", err)
 			delete(clients, conn)
 			return
 		}

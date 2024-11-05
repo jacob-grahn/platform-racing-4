@@ -33,7 +33,10 @@ func on_drag():
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_TILE,
 			"layer_name": layers.get_target_layer(),
-			"coords": coords,
+			"coords": {
+				"x": coords.x,
+				"y": coords.y
+			},
 			"block_id": block_id,
 		})
 
