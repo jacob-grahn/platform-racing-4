@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://pages/editor/explore_panel/ExplorePanel.gd" id="1_wkxf3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_a8s5x"]
 
-[node name="ExplorePanel" type="Node2D"]
+[node name="NowEditingPanel" type="Node2D"]
 script = ExtResource("1_wkxf3")
 
 [node name="BigPanel" type="Panel" parent="."]

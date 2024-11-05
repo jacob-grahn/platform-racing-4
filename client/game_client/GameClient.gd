@@ -4,7 +4,11 @@ signal receive_level_event
 const OPEN = "open"
 const CLOSED = "closed"
 
-var websocket_url = ""
+var websocket_url = "ws://localhost:8081/ws"
+var is_live_editing = false
+var current_module = "OnlineModule"
+var is_host = false
+var username = "xue"
 var room = ""
 var target_state = CLOSED
 var socket: WebSocketPeer
@@ -12,27 +16,36 @@ var connect_attempt_count = 0
 var send_queue = []
 @onready var timer: Timer = $Timer
 @onready var editor_events: Node2D = get_node("../EditorEvents")
+@onready var popup_panel: Control = $"../UI/PopupPanel"
+@onready var now_editing_panel: Node2D = $"../UI/NowEditingPanel"
 
 func _ready() -> void:
 	timer.timeout.connect(_attempt_connect)
-	join("ws://localhost:8081/ws", "mars")
+	
 	editor_events.connect("send_level_event", _on_send_level_event)
 	
 func _on_send_level_event(event: Dictionary) -> void:
+	if !is_live_editing:
+		return
+		
 	var data = {
 		"module": "EditorModule",
-		"id": "1",
+		"id": username,
 		"ms": 5938,
 		"room" : room,
 		"ret": true,
 		"editor": event
 	}
 	send_queue.push_back(data)
-	
-func join(url: String, room_name: String) -> void:
+
+func join(room_name: String, is_host_requested: bool) -> void:
+	if is_host_requested:
+		current_module = "HostEditorModule"
+	else:
+		current_module = "JoinEditorModule"
+		
 	_clear()
 	connect_attempt_count = 0
-	websocket_url = url
 	room = room_name
 	target_state = OPEN
 	_attempt_connect()
@@ -69,16 +82,10 @@ func _attempt_connect() -> void:
 	
 	# Send data.
 	var data = {
-		"module": "OnlineModule",
-		"id": "1",
+		"module": current_module,
+		"id": username,
 		"ms": 5938,
 		"room" : room,
-		"pos": {
-			"x": 1,
-			"y": 2,
-			"vx": 3,
-			"vy": 4
-		},
 		"ret": true
 	}
 	send_queue.push_back(data)
@@ -105,6 +112,7 @@ func _process(delta: float) -> void:
 	# WebSocketPeer.STATE_OPEN means the socket is connected and ready to send and receive data.
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
+			print("Sending: ", update)
 			socket.send_text(JSON.stringify(update))
 			send_queue = []
 		while socket.get_available_packet_count():
@@ -112,7 +120,21 @@ func _process(delta: float) -> void:
 			print("Got data from server: ", packet)
 			
 			var parsed_packet = JSON.parse_string(packet)
-			if parsed_packet.module == "EditorModule":
+			
+			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
+				popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
+			elif parsed_packet.error_message == "RoomExistsErrorMessage":
+				popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
+			
+			if parsed_packet.module == "JoinSuccessModule":
+				is_live_editing = true
+				now_editing_panel.join_room(parsed_packet.room)
+				popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
+			elif parsed_packet.module == "HostSuccessModule":
+				is_live_editing = true
+				now_editing_panel.join_room(parsed_packet.room)
+				popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
+			elif parsed_packet.module == "EditorModule":
 				emit_signal("receive_level_event", parsed_packet.editor)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.

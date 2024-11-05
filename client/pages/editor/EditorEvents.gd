@@ -44,8 +44,12 @@ func _on_level_event(event: Dictionary) -> void:
 	if len(redo_events) > 0:
 		redo_events = []
 	events.push_back(event)
-	emit_signal("send_level_event", event)
+	
+	# Local level editor change -> Needed to reduce feeling of lag
 	#emit_signal("level_event", event)
+	
+	# Online level editor change -> Server authority to decide actual block placement
+	emit_signal("send_level_event", event)
 
 func _on_receive_level_event(event: Dictionary) -> void:
 	print("edit id: ", event.get("edit_id", -1))

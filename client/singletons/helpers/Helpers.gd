@@ -122,3 +122,16 @@ func gzip_decode(data):
 	gzip.put_data(data)
 	gzip.finish()
 	return gzip.get_utf8_string(gzip.get_available_bytes())
+
+func generate_uuidv4() -> String:
+	var uuid = []
+	for i in range(16):
+		uuid.append(randi() % 256)
+
+	uuid[6] = (uuid[6] & 0x0F) | 0x40
+	uuid[8] = (uuid[8] & 0x3F) | 0x80
+	
+	return format_uuid(uuid)
+
+func format_uuid(uuid: Array) -> String:
+	return "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x" % uuid
