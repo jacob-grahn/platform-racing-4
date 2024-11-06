@@ -27,6 +27,7 @@ func on_drag():
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 	var coords = tilemap.local_to_map(mouse_position)
+	
 	var atlas_coords = Helpers.to_atlas_coords(block_id)
 	var existing_atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	if atlas_coords != existing_atlas_coords:

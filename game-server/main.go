@@ -26,6 +26,7 @@ const (
 	ResponseEditorModule Module = "ResponseEditorModule"
 	RequestRoomModule    Module = "RequestRoomModule"
 	ResponseRoomModule   Module = "ResponseRoomModule"
+	CursorEditorModule   Module = "CursorEditorModule"
 )
 
 const (
@@ -52,9 +53,15 @@ type Update struct {
 	Ret           *bool                  `json:"ret,omitempty"`
 	Editor        *LevelEditorUpdate     `json:"editor,omitempty"`
 	RequestEditor *RequestEditorUpdate   `json:"request_editor,omitempty"`
+	CursorUpdate  *CursorUpdate          `json:"cursor_update,omitempty"`
 	HostID        *string                `json:"host_id,omitempty"`
 	MemberIDList  []string               `json:"member_id_list,omitempty"`
 	ErrorMessage  string                 `json:"error_message,omitempty"`
+}
+
+type CursorUpdate struct {
+	Coords Vector2 `json:"coords"`
+	Layer  string  `json:"layer"`
 }
 
 type PositionUpdate struct {

@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4hk6wjfpkok6"]
+
+[ext_resource type="Script" path="res://pages/editor/cursors/EditorCursor.gd" id="1_i2oik"]
+[ext_resource type="Texture2D" uid="uid://g6lw526cxl3h" path="res://pages/editor/cursors/cursor.png" id="2_nvx0b"]
+
+[node name="EditorCursor" type="Node2D"]
+script = ExtResource("1_i2oik")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(31, 33)
+texture = ExtResource("2_nvx0b")
+
+[node name="NamePanel" type="Panel" parent="."]
+offset_left = -96.0
+offset_top = -60.0
+offset_right = 126.0
+offset_bottom = -6.0
+
+[node name="NameLabel" type="Label" parent="NamePanel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 7.0
+offset_right = 228.0
+offset_bottom = 56.0
+text = "Player1wwwdwd"
+text_overrun_behavior = 1

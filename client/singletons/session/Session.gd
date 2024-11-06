@@ -30,15 +30,15 @@ func get_current_scene_name() -> String:
 	
 func set_current_player_layer(value: String) -> void:
 	_current_player_layer = value
+
+func get_current_player_layer() -> String:
+	return _current_player_layer
 	
 func get_username() -> String:
 	return _username
 	
 func set_username(value: String) -> void:
 	_username = value
-
-func get_current_player_layer() -> String:
-	return _current_player_layer
 	
 func set_used_rect(layer_name: String, value: Rect2i) -> void:
 	_used_rects[layer_name] = value

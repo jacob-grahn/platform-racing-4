@@ -20,18 +20,24 @@ var isFirstOpenEditor = true
 var cached_member_id_list: Array[String] = []
 var cached_host_id = ""
 
-@onready var timer: Timer = $Timer
+@onready var connect_timer: Timer = $ConnectTimer
+@onready var cursor_timer: Timer = $CursorTimer
 var popup_panel: Control = null
 var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
+var layers: Node2D = null
+var editor_cursors: Node2D = null
 
 func _ready() -> void:
-	timer.timeout.connect(_attempt_connect)
+	connect_timer.timeout.connect(_attempt_connect)
+	cursor_timer.timeout.connect(_send_cursor_update)
 	
 func _on_connect_editor() -> void:
 	popup_panel = $"../EDITOR/UI/PopupPanel"
 	editor_events = $"../EDITOR/EditorEvents"
 	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
+	layers = $"../EDITOR/Layers"
+	editor_cursors = $"../EDITOR/EditorCursorLayer/EditorCursors"
 	editor_events.connect("send_level_event", _on_send_level_event)
 	
 	if !isFirstOpenEditor:
@@ -79,11 +85,36 @@ func close() -> void:
 
 
 func _clear() -> void:
-	timer.stop()
+	connect_timer.stop()
 	if socket && socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		socket.close()
 	socket = null
 
+func _send_cursor_update() -> void:
+	if is_live_editing and layers:
+		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+		if !layer:
+			return
+			
+		var tilemap: TileMap = layer.get_node("TileMap")
+		var camera: Camera2D = get_viewport().get_camera_2d()
+		var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+		
+		var data = {
+			"module": "CursorEditorModule",
+			"id": Session.get_username(),
+			"ms": 5938,
+			"room" : room,
+			"ret": true,
+			"cursor_update": {
+				"coords": {
+					"x": mouse_position.x,
+					"y": mouse_position.y
+				},
+				"layer": layers.get_target_layer()
+			}
+		}
+		send_queue.push_back(data)
 
 # Initiate connection to the given URL.
 func _attempt_connect() -> void:
@@ -97,7 +128,7 @@ func _attempt_connect() -> void:
 			_retry_connect()
 		return
 	
-	timer.stop()
+	connect_timer.stop()
 	
 	# Wait for the socket to connect.
 	# await get_tree().create_timer(1).timeout
@@ -114,8 +145,8 @@ func _attempt_connect() -> void:
 
 
 func _retry_connect() -> void:
-	timer.wait_time = connect_attempt_count + 1
-	timer.start()
+	connect_timer.wait_time = connect_attempt_count + 1
+	connect_timer.start()
 
 
 func _process(delta: float) -> void:
@@ -135,10 +166,11 @@ func _process(delta: float) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
 			socket.send_text(JSON.stringify(update))
+			#print("send ws: ", JSON.stringify(update))
 			send_queue.clear()
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_utf8()
-			
+			#print("receive ws: ", packet)
 			var parsed_packet = JSON.parse_string(packet)
 			
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
@@ -156,6 +188,7 @@ func _process(delta: float) -> void:
 			
 			if parsed_packet.module == "ResponseEditorModule":
 				is_live_editing = true
+				cursor_timer.start()
 				var request_editor = parsed_packet.request_editor
 				Session.set_local_edit_id(request_editor.edit_id)
 				
@@ -167,6 +200,10 @@ func _process(delta: float) -> void:
 				
 				if now_editing_panel:
 					now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
+				
+				if editor_cursors:
+					for member_id in cached_member_id_list:
+						editor_cursors.add_new_cursor(member_id)
 				
 				if popup_panel:
 					popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
@@ -197,6 +234,11 @@ func _process(delta: float) -> void:
 				if now_editing_panel:
 					now_editing_panel.add_member(parsed_packet.id)
 				if is_host:
+					if !editor_cursors:
+						return
+						
+					for member_id in parsed_packet.member_id_list:
+						editor_cursors.add_new_cursor(member_id)
 					return
 					
 				var data = {
@@ -218,6 +260,7 @@ func _process(delta: float) -> void:
 					
 				Session.set_local_edit_id(0)
 				is_live_editing = true
+				cursor_timer.start()
 				is_host = true
 				var member_id_list: Array[String] = [parsed_packet.id]
 				
@@ -235,9 +278,20 @@ func _process(delta: float) -> void:
 				var member_id_list: Array[String] = []
 				for member_id in parsed_packet.member_id_list:
 					member_id_list.append(member_id)
+					
+					if editor_cursors:
+						editor_cursors.add_new_cursor(member_id)
 				
 				if now_editing_panel:
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.host_id)
+			elif parsed_packet.module == "CursorEditorModule":
+				if editor_cursors:
+					var cursor_update = parsed_packet.cursor_update
+					editor_cursors.update_cursor_position(
+						parsed_packet.id, 
+						Vector2(cursor_update.coords.x, cursor_update.coords.y), 
+						cursor_update.layer
+					)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.
