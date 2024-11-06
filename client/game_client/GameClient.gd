@@ -9,7 +9,6 @@ var websocket_url = Helpers.get_base_ws_url()
 var is_live_editing = false
 var current_module = "OnlineModule"
 var is_host = false
-var username = generate_username()
 var room = ""
 var target_state = CLOSED
 var socket: WebSocketPeer
@@ -38,7 +37,7 @@ func _on_connect_editor() -> void:
 	if !isFirstOpenEditor:
 		var data_room = {
 			"module": "RequestRoomModule",
-			"id": username,
+			"id": Session.get_username(),
 			"ms": 5938,
 			"room" : room,
 			"ret": true,
@@ -53,7 +52,7 @@ func _on_send_level_event(event: Dictionary) -> void:
 		
 	var data = {
 		"module": "EditorModule",
-		"id": username,
+		"id": Session.get_username(),
 		"ms": 5938,
 		"room" : room,
 		"ret": true,
@@ -106,7 +105,7 @@ func _attempt_connect() -> void:
 	# Send data.
 	var data = {
 		"module": current_module,
-		"id": username,
+		"id": Session.get_username(),
 		"ms": 5938,
 		"room" : room,
 		"ret": true
@@ -184,7 +183,7 @@ func _process(delta: float) -> void:
 	
 				var data = {
 					"module": "ResponseEditorModule",
-					"id": username,
+					"id": Session.get_username(),
 					"ms": 5938,
 					"room" : room,
 					"ret": false,
@@ -202,7 +201,7 @@ func _process(delta: float) -> void:
 					
 				var data = {
 					"module": "RequestEditorModule",
-					"id": username,
+					"id": Session.get_username(),
 					"ms": 5938,
 					"room" : room,
 					"ret": false,
@@ -258,11 +257,3 @@ func _process(delta: float) -> void:
 	if Session.get_current_scene_name() == "EDITOR":
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
-
-func generate_username() -> String:
-	var adjectives = ["Brave", "Clever", "Eager", "Mighty", "Swift", "Wise"]
-	var nouns = ["Tiger", "Falcon", "Wizard", "Knight", "Phoenix", "Ranger"]
-	var adjective = adjectives[randi() % adjectives.size()]
-	var noun = nouns[randi() % nouns.size()]
-	var number = str(randi() % 1000) 
-	return adjective + noun + number

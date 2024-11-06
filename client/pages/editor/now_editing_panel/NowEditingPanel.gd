@@ -55,8 +55,12 @@ func render(member_id_list: Array[String], host_id: String) -> void:
 	var host_row = NOW_EDITING_ROW.instantiate()
 	host_row.position.y = row_holder.get_child_count() * 50
 	host_row.get_node("Label").text = host_id + "(HOST)"
-	var button = host_row.get_node("Button")
-	button.button_pressed = true
+	
+	if host_id == Session.get_username():
+		host_row.get_node("Label").text += "(ME)"
+	
+	var host_button = host_row.get_node("Button")
+	host_button.button_pressed = true
 	row_holder.add_child(host_row)
 	
 	for member_id in member_id_list:
@@ -65,5 +69,12 @@ func render(member_id_list: Array[String], host_id: String) -> void:
 			
 		var row = NOW_EDITING_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
-		row.get_node("Label").text = member_id
+		
+		if member_id == Session.get_username():
+			row.get_node("Label").text = member_id + "(ME)"
+		else:
+			row.get_node("Label").text = member_id
+		
+		var button = host_row.get_node("Button")
+		button.button_pressed = false
 		row_holder.add_child(row)

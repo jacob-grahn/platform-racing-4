@@ -39,6 +39,6 @@ layout_mode = 2
 offset_left = 19.0
 offset_top = 5.0
 offset_right = 387.0
-offset_bottom = 45.0
+offset_bottom = 86.0
 theme = ExtResource("1_v1i6j")
 text = "First"

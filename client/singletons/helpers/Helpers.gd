@@ -149,3 +149,11 @@ func generate_uuidv4() -> String:
 
 func format_uuid(uuid: Array) -> String:
 	return "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x" % uuid
+
+func generate_username() -> String:
+	var adjectives = ["Bold", "Fast", "Keen", "Wise", "Nimble", "Vast"]
+	var nouns = ["Fox", "Hawk", "Mage", "Wolf", "Drake", "Scout"]
+	var adjective = adjectives[randi() % adjectives.size()]
+	var noun = nouns[randi() % nouns.size()]
+	var number = str(randi() % 100)  # Limit to two digits to keep it shorter
+	return adjective + noun + number
