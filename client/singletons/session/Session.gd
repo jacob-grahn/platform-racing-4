@@ -5,6 +5,7 @@ extends Node2D
 var player_id = ""
 var nickname = ""
 var is_guest = true
+var _current_scene_name: String = ""
 var _current_player_layer: String = ""
 var _used_rects: Dictionary = {}
 var _player_position: Vector2 = Vector2.ZERO
@@ -19,6 +20,12 @@ func set_local_edit_id(value: int) -> void:
 
 func get_local_edit_id() -> int:
 	return _local_edit_id
+	
+func set_current_scene_name(value: String) -> void:
+	_current_scene_name = value
+
+func get_current_scene_name() -> String:
+	return _current_scene_name
 	
 func set_current_player_layer(value: String) -> void:
 	_current_player_layer = value

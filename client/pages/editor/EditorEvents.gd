@@ -4,6 +4,8 @@ class_name EditorEvents
 signal level_event
 signal send_level_event
 
+@onready var game_client: Node2D = get_node("/root/Main/GameClient")
+
 # control events, switching tools, swtiching selected block, etc
 const SELECT_TOOL = 'select_tool'
 const SELECT_BLOCK = 'select_block'
@@ -30,7 +32,7 @@ func _ready():
 	get_node("../UI/Cursor").connect("level_event", _on_level_event)
 	get_node("../UI/EditorMenu").connect("level_event", _on_level_event)
 	get_node("../UI/LayerPanel").connect("level_event", _on_level_event)
-	get_node("../GameClient").connect("receive_level_event", _on_receive_level_event)
+	get_node("/root/Main/GameClient").connect("receive_level_event", _on_receive_level_event)
 
 func _process(delta):
 	process_edit_id_buffer()
@@ -55,7 +57,6 @@ func _on_receive_level_event(event: Dictionary) -> void:
 	var edit_id = event.get("edit_id", -1)
 	if edit_id == -1:
 		return
-	print("edit!!: ", edit_id)
 	edit_id_buffer[int(edit_id)] = event
 
 func process_edit_id_buffer() -> void:

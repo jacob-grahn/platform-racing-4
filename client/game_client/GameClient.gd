@@ -9,27 +9,43 @@ var websocket_url = Helpers.get_base_ws_url()
 var is_live_editing = false
 var current_module = "OnlineModule"
 var is_host = false
-var is_requesting_editor_update = false
 var username = generate_username()
 var room = ""
 var target_state = CLOSED
 var socket: WebSocketPeer
 var connect_attempt_count = 0
 var send_queue = []
+var edit_event_buffer = []
+var isFirstOpenEditor = true
 
 var cached_member_id_list: Array[String] = []
 var cached_host_id = ""
 
 @onready var timer: Timer = $Timer
-@onready var editor_events: Node2D = get_node("../EditorEvents")
-@onready var popup_panel: Control = $"../UI/PopupPanel"
-@onready var now_editing_panel: Node2D = $"../UI/NowEditingPanel"
-@onready var level_encoder: Node2D = $"../LevelEncoder"
+var popup_panel: Control = null
+var editor_events: Node2D = null
+var now_editing_panel: Node2D = null
 
 func _ready() -> void:
 	timer.timeout.connect(_attempt_connect)
 	
+func _on_connect_editor() -> void:
+	popup_panel = $"../EDITOR/UI/PopupPanel"
+	editor_events = $"../EDITOR/EditorEvents"
+	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
 	editor_events.connect("send_level_event", _on_send_level_event)
+	
+	if !isFirstOpenEditor:
+		var data_room = {
+			"module": "RequestRoomModule",
+			"id": username,
+			"ms": 5938,
+			"room" : room,
+			"ret": true,
+		}
+		send_queue.push_back(data_room)
+	
+	isFirstOpenEditor = false
 	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
@@ -120,7 +136,7 @@ func _process(delta: float) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
 			socket.send_text(JSON.stringify(update))
-			send_queue = []
+			send_queue.clear()
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_utf8()
 			
@@ -129,19 +145,17 @@ func _process(delta: float) -> void:
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
 				if is_live_editing:
 					return
-					
-				popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
+				
+				if popup_panel:
+					popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
 			elif parsed_packet.error_message == "RoomExistsErrorMessage":
 				if is_live_editing:
 					return
-					
-				popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
+				
+				if popup_panel:
+					popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
 			
 			if parsed_packet.module == "ResponseEditorModule":
-				if !is_requesting_editor_update:
-					return
-				
-				is_requesting_editor_update = false
 				is_live_editing = true
 				var request_editor = parsed_packet.request_editor
 				Session.set_local_edit_id(request_editor.edit_id)
@@ -152,12 +166,19 @@ func _process(delta: float) -> void:
 				Editor.current_level = level_data
 				emit_signal("request_editor_load")
 				
-				now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
-				popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
+				if now_editing_panel:
+					now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
+				
+				if popup_panel:
+					popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
 			elif parsed_packet.module == "RequestEditorModule":
 				if !is_host:
 					return
 				
+				var level_encoder: Node2D = $"../EDITOR/LevelEncoder"
+				if !level_encoder:
+					return
+					
 				var json_string = JSON.stringify(level_encoder.encode())
 				var encoded_data = Marshalls.utf8_to_base64(json_string)
 	
@@ -174,11 +195,11 @@ func _process(delta: float) -> void:
 				}
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
-				now_editing_panel.add_member(parsed_packet.id)
+				if now_editing_panel:
+					now_editing_panel.add_member(parsed_packet.id)
 				if is_host:
 					return
 					
-				is_requesting_editor_update = true
 				var data = {
 					"module": "RequestEditorModule",
 					"id": username,
@@ -200,10 +221,24 @@ func _process(delta: float) -> void:
 				is_live_editing = true
 				is_host = true
 				var member_id_list: Array[String] = [parsed_packet.id]
-				now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
-				popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
+				
+				if now_editing_panel:
+					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
+				
+				if popup_panel:
+					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
-				emit_signal("receive_level_event", parsed_packet.editor)
+				if Session.get_current_scene_name() != "EDITOR":
+					edit_event_buffer.append(parsed_packet.editor)
+				else:
+					emit_signal("receive_level_event", parsed_packet.editor)
+			elif parsed_packet.module == "ResponseRoomModule":
+				var member_id_list: Array[String] = []
+				for member_id in parsed_packet.member_id_list:
+					member_id_list.append(member_id)
+				
+				if now_editing_panel:
+					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.host_id)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.
@@ -219,6 +254,10 @@ func _process(delta: float) -> void:
 		_clear()
 		if target_state == OPEN:
 			_retry_connect()
+	
+	if Session.get_current_scene_name() == "EDITOR":
+		for packet in edit_event_buffer:
+			emit_signal("receive_level_event", packet)
 
 func generate_username() -> String:
 	var adjectives = ["Brave", "Clever", "Eager", "Mighty", "Swift", "Wise"]

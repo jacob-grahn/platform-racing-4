@@ -12,7 +12,6 @@ func _ready():
 
 
 func _on_level_event(event: Dictionary) -> void:
-	print("final: ", event)
 	if event.type == EditorEvents.SET_TILE:
 		var tilemap: TileMap = layers.get_node(event.layer_name + "/TileMap")
 		var coords = Vector2i(event.coords.x, event.coords.y)

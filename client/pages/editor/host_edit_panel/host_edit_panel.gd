@@ -3,7 +3,7 @@ extends Control
 @onready var host_button = $HostButton
 @onready var close_button = $CloseButton
 @onready var title_edit: TextEdit = $TitleEdit
-@onready var game_client: Node2D = $"../../GameClient"
+@onready var game_client: Node2D = get_node("/root/Main/GameClient")
 
 func _ready():
 	title_edit.text = Helpers.generate_uuidv4()

@@ -3,7 +3,7 @@ extends Control
 @onready var join_button = $JoinButton
 @onready var close_button: Button = $CloseButton
 @onready var title_edit: TextEdit = $TitleEdit
-@onready var game_client: Node2D = $"../../GameClient"
+@onready var game_client: Node2D = get_node("/root/Main/GameClient")
 
 func _ready():
 	self.visible = false

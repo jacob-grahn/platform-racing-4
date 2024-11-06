@@ -1,9 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=22 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/EditorEvents.tscn" id="3_05sia"]
-[ext_resource type="PackedScene" uid="uid://bwwo6vst6ni17" path="res://game_client/GameClient.tscn" id="4_6qk1q"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://pages/editor/cursors/Cursor.tscn" id="4_pnfuv"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="4_qc07n"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://pages/game/BG.tscn" id="4_xutd4"]
@@ -30,8 +29,6 @@ script = ExtResource("1_qeoq7")
 zoom = Vector2(0.5, 0.5)
 
 [node name="EditorEvents" parent="." instance=ExtResource("3_05sia")]
-
-[node name="GameClient" parent="." instance=ExtResource("4_6qk1q")]
 
 [node name="BG" parent="." instance=ExtResource("4_xutd4")]
 
@@ -77,7 +74,6 @@ visible = false
 visible = false
 
 [node name="PopupPanel" parent="UI" instance=ExtResource("20_80w27")]
-visible = false
 
 [node name="Explore" type="Button" parent="UI"]
 offset_left = 962.0

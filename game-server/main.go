@@ -23,6 +23,8 @@ const (
 	HostSuccessModule    Module = "HostSuccessModule"
 	RequestEditorModule  Module = "RequestEditorModule"
 	ResponseEditorModule Module = "ResponseEditorModule"
+	RequestRoomModule    Module = "RequestRoomModule"
+	ResponseRoomModule   Module = "ResponseRoomModule"
 )
 
 type ErrorMessage string
@@ -41,6 +43,7 @@ type ClientState struct {
 type Update struct {
 	Module        string                 `json:"module"`                   // module name
 	ID            *string                `json:"id,omitempty"`             // user id
+	TargetUserID  *string                `json:"target_user_id,omitempty"` // target user id
 	MS            int                    `json:"ms"`                       // client time in milliseconds since level started
 	Pos           *PositionUpdate        `json:"pos,omitempty"`            // position
 	Val           map[string]interface{} `json:"val,omitempty"`            // property values
@@ -156,6 +159,25 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		var update Update
+
+		// clientState stores metadata tied to this connection
+		clientState := clients[conn]
+
+		// persist room so it does not need to be sent with every request
+		if update.Room != nil {
+			clientState.Room = *update.Room
+		} else {
+			update.Room = &clientState.Room
+		}
+
+		// perist user id so it does not need to be sent with every request
+		// todo: this field should not be set by the client, but fetched from session
+		if update.ID != nil {
+			clientState.ID = *update.ID
+		} else {
+			update.ID = &clientState.ID
+		}
+
 		_, message, err := conn.ReadMessage()
 		if err != nil {
 			fmt.Println("Error reading message:", err)
@@ -190,6 +212,7 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 
 			if !isRoomFound {
 				update.ErrorMessage = string(RoomNotFoundErrorMessage)
+				update.TargetUserID = update.ID
 				sendQueue <- update
 				continue
 			}
@@ -197,6 +220,7 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 			update.MemberIDList = foundRoom.MembersID
 			update.HostID = &foundRoom.HostID
 		} else if update.Module == string(HostEditorModule) {
+			update.TargetUserID = update.ID
 			if update.Room == nil {
 				update.ErrorMessage = string(RoomNotFoundErrorMessage)
 				sendQueue <- update
@@ -224,29 +248,33 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 			}
 			rooms = append(rooms, newroom)
 			update.Module = string(HostSuccessModule)
+		} else if update.Module == string(RequestRoomModule) {
+			isRoomFound := false
+			foundRoom := Room{}
+
+			for i := range rooms {
+				if rooms[i].Name == *update.Room {
+					update.Module = string(JoinSuccessModule)
+					isRoomFound = true
+					foundRoom = rooms[i]
+					break
+				}
+			}
+
+			if !isRoomFound {
+				update.ErrorMessage = string(RoomNotFoundErrorMessage)
+				update.TargetUserID = update.ID
+				sendQueue <- update
+				continue
+			}
+			update.Module = string(ResponseRoomModule)
+			update.MemberIDList = foundRoom.MembersID
+			update.HostID = &foundRoom.HostID
 		} else if update.Module == string(EditorModule) {
 			if update.Editor == nil {
 				update.Editor = &LevelEditorUpdate{}
 			}
 			assignEditID(update)
-		}
-
-		// clientState stores metadata tied to this connection
-		clientState := clients[conn]
-
-		// persist room so it does not need to be sent with every request
-		if update.Room != nil {
-			clientState.Room = *update.Room
-		} else {
-			update.Room = &clientState.Room
-		}
-
-		// perist user id so it does not need to be sent with every request
-		// todo: this field should not be set by the client, but fetched from session
-		if update.ID != nil {
-			clientState.ID = *update.ID
-		} else {
-			update.ID = &clientState.ID
 		}
 
 		// send this update off to be sent
@@ -268,10 +296,12 @@ func handleMessages() {
 			continue
 		}
 
-		fmt.Println("Sending update:", update)
-
 		// loop through each client
 		for client, clientState := range clients {
+			// skip this client if this is meant for a specific user and it is not this user
+			if update.TargetUserID != nil && *update.TargetUserID != clientState.ID {
+				continue
+			}
 
 			// skip this client if it is not in the target room
 			if clientState.Room != *update.Room && update.ErrorMessage == string(EmptyErrorMessage) {
