@@ -9,4 +9,4 @@ script = ExtResource("1_gj7qt")
 one_shot = true
 
 [node name="CursorTimer" type="Timer" parent="."]
-wait_time = 0.3
+wait_time = 0.1

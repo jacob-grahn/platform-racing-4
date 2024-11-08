@@ -6,6 +6,7 @@ const LAYER = preload("res://layers/Layer.tscn")
 @onready var layer_panel: Node2D = get_node("../UI/LayerPanel")
 @onready var bg: Node2D = get_node("../BG")
 @onready var editor_events: Node2D = get_node("../EditorEvents")
+@onready var edit_cursors: Node2D = get_node("../EditorCursorLayer/EditorCursors")
 
 func _ready():
 	editor_events.connect("level_event", _on_level_event)

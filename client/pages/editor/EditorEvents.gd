@@ -26,7 +26,9 @@ var events = []
 var redo_events = []
 var edit_id_buffer = {}
 
+var last_processed_edit_id = -1
 var last_send_event: Dictionary = {}
+var processing_edit_id = false
 
 func _ready():
 	get_node("../UI/Cursor").connect("level_event", _on_level_event)
@@ -35,7 +37,10 @@ func _ready():
 	get_node("/root/Main/GameClient").connect("receive_level_event", _on_receive_level_event)
 
 func _process(delta):
-	process_edit_id_buffer()
+	if not processing_edit_id:
+		processing_edit_id = true
+		process_edit_id_buffer()
+		processing_edit_id = false
 	
 func _on_level_event(event: Dictionary) -> void:
 	if event == last_send_event:
@@ -47,11 +52,12 @@ func _on_level_event(event: Dictionary) -> void:
 		redo_events = []
 	events.push_back(event)
 	
-	# Local level editor change -> Needed to reduce feeling of lag
-	emit_signal("level_event", event)
-	
-	# Online level editor change -> Server authority to decide actual block placement
-	emit_signal("send_level_event", event)
+	if !game_client.is_live_editing:
+		# Single-player level editor
+		emit_signal("level_event", event)
+	else:
+		# Muti-player level editor
+		emit_signal("send_level_event", event)
 
 func _on_receive_level_event(event: Dictionary) -> void:
 	var edit_id = event.get("edit_id", -1)
@@ -62,6 +68,12 @@ func _on_receive_level_event(event: Dictionary) -> void:
 func process_edit_id_buffer() -> void:
 	var local_edit_id = Session.get_local_edit_id()
 	while edit_id_buffer.has(local_edit_id):
+		if local_edit_id < last_processed_edit_id:
+			edit_id_buffer.erase(local_edit_id)
+			local_edit_id += 1
+			continue
+		
+		last_processed_edit_id = local_edit_id
 		var event = edit_id_buffer[local_edit_id]
 		print("EditorEvents::_on_receive_level_event ", event)
 		if len(redo_events) > 0:
@@ -69,7 +81,12 @@ func process_edit_id_buffer() -> void:
 		events.push_back(event)
 		emit_signal("level_event", event)
 		edit_id_buffer.erase(local_edit_id)
-		Session.set_local_edit_id(Session.get_local_edit_id() + 1)
+		
+		local_edit_id += 1
+		
+	processing_edit_id = false
+	
+	Session.set_local_edit_id(local_edit_id)
 		
 func undo() -> void:
 	var event = events.pop_back()

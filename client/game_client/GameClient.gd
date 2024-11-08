@@ -2,6 +2,9 @@ extends Node2D
 signal receive_level_event
 signal request_editor_load
 
+@export var SPLIT_SCREEN_STYLE := VERTICAL
+@export var USE_RATIO := true
+
 const OPEN = "open"
 const CLOSED = "closed"
 
@@ -31,6 +34,7 @@ var editor_cursors: Node2D = null
 func _ready() -> void:
 	connect_timer.timeout.connect(_attempt_connect)
 	cursor_timer.timeout.connect(_send_cursor_update)
+	allow_multiple_instances()
 	
 func _on_connect_editor() -> void:
 	popup_panel = $"../EDITOR/UI/PopupPanel"
@@ -51,11 +55,13 @@ func _on_connect_editor() -> void:
 		send_queue.push_back(data_room)
 	
 	isFirstOpenEditor = false
+	editor_cursors.add_new_cursor(Session.get_username())
 	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
 		return
-		
+	
+	event.user_id = Session.get_username()
 	var data = {
 		"module": "EditorModule",
 		"id": Session.get_username(),
@@ -111,7 +117,8 @@ func _send_cursor_update() -> void:
 					"x": mouse_position.x,
 					"y": mouse_position.y
 				},
-				"layer": layers.get_target_layer()
+				"layer": layers.get_target_layer(),
+				"block_id": Session.get_current_block_id()
 			}
 		}
 		send_queue.push_back(data)
@@ -150,7 +157,15 @@ func _retry_connect() -> void:
 
 
 func _process(delta: float) -> void:
-	
+	if layers:
+		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+		if layer:
+			var tilemap: TileMap = layer.get_node("TileMap")
+			var camera: Camera2D = get_viewport().get_camera_2d()
+			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+			if editor_cursors:
+				editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
+		
 	# only proceed if socket exists
 	if !socket:
 		return
@@ -166,24 +181,24 @@ func _process(delta: float) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
 			socket.send_text(JSON.stringify(update))
-			#print("send ws: ", JSON.stringify(update))
+			#print("send ws (", Session.get_username(), ") :", JSON.stringify(update))
 			send_queue.clear()
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_utf8()
-			#print("receive ws: ", packet)
+			#print("receive ws (", Session.get_username(), ") :", packet)
 			var parsed_packet = JSON.parse_string(packet)
 			
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
 				if is_live_editing:
 					return
 				
-				if popup_panel:
+				if popup_panel && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
 			elif parsed_packet.error_message == "RoomExistsErrorMessage":
 				if is_live_editing:
 					return
 				
-				if popup_panel:
+				if popup_panel && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
 			
 			if parsed_packet.module == "ResponseEditorModule":
@@ -204,6 +219,7 @@ func _process(delta: float) -> void:
 				if editor_cursors:
 					for member_id in cached_member_id_list:
 						editor_cursors.add_new_cursor(member_id)
+					cached_member_id_list.clear()
 				
 				if popup_panel:
 					popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
@@ -221,9 +237,10 @@ func _process(delta: float) -> void:
 				var data = {
 					"module": "ResponseEditorModule",
 					"id": Session.get_username(),
+					"target_user_id": parsed_packet.id,
 					"ms": 5938,
 					"room" : room,
-					"ret": false,
+					"ret": true,
 					"request_editor": {
 						"level_data": encoded_data,
 						"edit_id": Session.get_local_edit_id()
@@ -233,7 +250,7 @@ func _process(delta: float) -> void:
 			elif parsed_packet.module == "JoinSuccessModule":
 				if now_editing_panel:
 					now_editing_panel.add_member(parsed_packet.id)
-				if is_host:
+				if is_host or parsed_packet.id != Session.get_username():
 					if !editor_cursors:
 						return
 						
@@ -246,7 +263,7 @@ func _process(delta: float) -> void:
 					"id": Session.get_username(),
 					"ms": 5938,
 					"room" : room,
-					"ret": false,
+					"ret": true,
 				}
 				
 				for member_id in parsed_packet.member_id_list:
@@ -255,6 +272,9 @@ func _process(delta: float) -> void:
 				
 				send_queue.push_back(data)
 			elif parsed_packet.module == "HostSuccessModule":
+				if parsed_packet.id != Session.get_username():
+					return
+					
 				if is_host:
 					return
 					
@@ -266,13 +286,16 @@ func _process(delta: float) -> void:
 				
 				if now_editing_panel:
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
-				
-				if popup_panel:
+					
+				if popup_panel && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
 				if Session.get_current_scene_name() != "EDITOR":
 					edit_event_buffer.append(parsed_packet.editor)
 				else:
+					if parsed_packet.editor.user_id != Session.get_username():
+						# Give the illusion that the remote cursor appears same time as the block
+						await get_tree().create_timer(1).timeout
 					emit_signal("receive_level_event", parsed_packet.editor)
 			elif parsed_packet.module == "ResponseRoomModule":
 				var member_id_list: Array[String] = []
@@ -287,10 +310,11 @@ func _process(delta: float) -> void:
 			elif parsed_packet.module == "CursorEditorModule":
 				if editor_cursors:
 					var cursor_update = parsed_packet.cursor_update
-					editor_cursors.update_cursor_position(
+					editor_cursors.update_cursor_position_remote(
 						parsed_packet.id, 
 						Vector2(cursor_update.coords.x, cursor_update.coords.y), 
-						cursor_update.layer
+						cursor_update.layer,
+						cursor_update.block_id
 					)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
@@ -311,3 +335,44 @@ func _process(delta: float) -> void:
 	if Session.get_current_scene_name() == "EDITOR":
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
+
+func allow_multiple_instances():
+	var screen_count = 3
+	
+	for i in screen_count:
+		var screen_rect = DisplayServer.screen_get_usable_rect(i)
+		var screen_ratio = screen_rect.size.aspect()
+		if SPLIT_SCREEN_STYLE == HORIZONTAL:
+			get_window().size.x = screen_rect.size.x / 2
+			get_window().size.y = get_window().size.x / screen_ratio if USE_RATIO else screen_rect.size.y
+			get_window().position.y = screen_rect.position.y
+		else:
+			get_window().size.y = screen_rect.size.y / 2
+			get_window().size.x = get_window().size.y * screen_ratio if USE_RATIO else screen_rect.size.x - 100
+			get_window().position.x = screen_rect.position.x
+			
+
+		if OS.has_feature("server"):
+			get_window().position.x = screen_rect.size.x / 2
+			get_window().position.y = screen_rect.position.y
+			get_window().size.y = screen_rect.size.y 
+		# tl: top left, tr: top right, bl: bottom left, br: bottom right
+		elif OS.has_feature("tl"):
+			get_window().position = screen_rect.position
+			get_window().position.y += 50
+		elif OS.has_feature("bl"):
+			get_window().position.y = screen_rect.size.y / 2
+			get_window().position.y += 50
+		elif OS.has_feature("tr"):
+			get_window().position.x = screen_rect.size.x / 2
+			get_window().position.y = screen_rect.position.y
+		elif OS.has_feature("br"):
+			get_window().position.x = screen_rect.size.x / 2 - 1000
+			get_window().position.y =  screen_rect.size.y / 2
+
+		#elif SPLIT_SCREEN_STYLE == HORIZONTAL:
+			#get_window().position.x = screen_rect.size.x / 2
+		#else:
+			#get_window().position.y = screen_rect.size.y / 2
+				
+		#var args = OS.get_cmdline_user_args()

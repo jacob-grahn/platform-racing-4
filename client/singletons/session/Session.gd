@@ -11,11 +11,18 @@ var _username: String = Helpers.generate_username()
 var _used_rects: Dictionary = {}
 var _player_position: Vector2 = Vector2.ZERO
 var _local_edit_id = 0
+var _current_block_id = 0
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
 
+func set_current_block_id(value: int) -> void:
+	_current_block_id = value
+
+func get_current_block_id() -> int:
+	return _current_block_id
+	
 func set_local_edit_id(value: int) -> void:
 	_local_edit_id = value
 

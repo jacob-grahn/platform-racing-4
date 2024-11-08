@@ -15,6 +15,7 @@ func _on_control_event(event: Dictionary) -> void:
 	print("BlockCursor::_on_control_event", event)
 	if event.type == EditorEvents.SELECT_BLOCK:
 		block_id = event.block_id
+		Session.set_current_block_id(event.block_id)
 
 
 func on_mouse_down():
