@@ -30,11 +30,14 @@ var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
 var layers: Node2D = null
 var editor_cursors: Node2D = null
+var is_scale_multiple_instances = false
 
 func _ready() -> void:
 	connect_timer.timeout.connect(_attempt_connect)
 	cursor_timer.timeout.connect(_send_cursor_update)
-	allow_multiple_instances()
+	
+	if is_scale_multiple_instances:
+		scale_multiple_instances()
 	
 func _on_connect_editor() -> void:
 	popup_panel = $"../EDITOR/UI/PopupPanel"
@@ -97,7 +100,7 @@ func _clear() -> void:
 	socket = null
 
 func _send_cursor_update() -> void:
-	if is_live_editing and layers:
+	if is_live_editing && layers && is_instance_valid(layers):
 		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 		if !layer:
 			return
@@ -157,13 +160,13 @@ func _retry_connect() -> void:
 
 
 func _process(delta: float) -> void:
-	if layers:
+	if layers && is_instance_valid(layers):
 		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 		if layer:
 			var tilemap: TileMap = layer.get_node("TileMap")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
-			if editor_cursors:
+			if editor_cursors && is_instance_valid(editor_cursors):
 				editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
 		
 	# only proceed if socket exists
@@ -192,13 +195,13 @@ func _process(delta: float) -> void:
 				if is_live_editing:
 					return
 				
-				if popup_panel && parsed_packet.id == Session.get_username():
+				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
 			elif parsed_packet.error_message == "RoomExistsErrorMessage":
 				if is_live_editing:
 					return
 				
-				if popup_panel && parsed_packet.id == Session.get_username():
+				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
 			
 			if parsed_packet.module == "ResponseEditorModule":
@@ -213,15 +216,15 @@ func _process(delta: float) -> void:
 				Editor.current_level = level_data
 				emit_signal("request_editor_load")
 				
-				if now_editing_panel:
+				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
 				
-				if editor_cursors:
+				if editor_cursors && is_instance_valid(editor_cursors):
 					for member_id in cached_member_id_list:
 						editor_cursors.add_new_cursor(member_id)
 					cached_member_id_list.clear()
 				
-				if popup_panel:
+				if popup_panel && is_instance_valid(popup_panel):
 					popup_panel.initialize("Join Success", "You have successfully joined the room: " + parsed_packet.room)
 			elif parsed_packet.module == "RequestEditorModule":
 				if !is_host:
@@ -248,10 +251,10 @@ func _process(delta: float) -> void:
 				}
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
-				if now_editing_panel:
+				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.add_member(parsed_packet.id)
 				if is_host or parsed_packet.id != Session.get_username():
-					if !editor_cursors:
+					if !editor_cursors || !is_instance_valid(editor_cursors):
 						return
 						
 					for member_id in parsed_packet.member_id_list:
@@ -284,10 +287,10 @@ func _process(delta: float) -> void:
 				is_host = true
 				var member_id_list: Array[String] = [parsed_packet.id]
 				
-				if now_editing_panel:
+				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
 					
-				if popup_panel && parsed_packet.id == Session.get_username():
+				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
 				if Session.get_current_scene_name() != "EDITOR":
@@ -302,13 +305,13 @@ func _process(delta: float) -> void:
 				for member_id in parsed_packet.member_id_list:
 					member_id_list.append(member_id)
 					
-					if editor_cursors:
+					if editor_cursors && is_instance_valid(editor_cursors):
 						editor_cursors.add_new_cursor(member_id)
 				
-				if now_editing_panel:
+				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.host_id)
 			elif parsed_packet.module == "CursorEditorModule":
-				if editor_cursors:
+				if editor_cursors && is_instance_valid(editor_cursors):
 					var cursor_update = parsed_packet.cursor_update
 					editor_cursors.update_cursor_position_remote(
 						parsed_packet.id, 
@@ -336,7 +339,7 @@ func _process(delta: float) -> void:
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
 
-func allow_multiple_instances():
+func scale_multiple_instances():
 	var screen_count = 3
 	
 	for i in screen_count:
