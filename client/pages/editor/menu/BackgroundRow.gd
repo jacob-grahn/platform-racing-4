@@ -17,7 +17,6 @@ func _ready():
 
 
 func _click_bg(bg_id: String):
-	print("clicked ", bg_id)
 	emit_signal("level_event", {
 		"type": EditorEvents.SET_BACKGROUND,
 		"bg": bg_id

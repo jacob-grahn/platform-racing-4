@@ -5,6 +5,21 @@ var hostname: String = ""
 var save_dir: String = "user://editor"
 var current_level_name: String = "first"
 
+func get_base_ws_url() -> String:
+	if OS.has_feature('web'):
+		if !hostname:
+			hostname = JavaScriptBridge.eval('window.location.hostname')
+			print("Setting base url hostname: ", hostname)
+		return "ws://" + hostname
+		
+	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
+		#return 'ws://localhost:8081/ws'
+		return 'ws://dev.platformracing.com/ws'
+	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
+		return 'ws://dev.platformracing.com/ws'
+	else:
+		return 'ws://platformracing.com/ws'
+		
 func get_base_url() -> String:
 	if OS.has_feature('web'):
 		if !hostname:
@@ -12,16 +27,13 @@ func get_base_url() -> String:
 			print("Setting base url hostname: ", hostname)
 		return "https://" + hostname
 		
-	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' ||  OS.has_feature("editor"):
-		# return 'http://localhost:8080'
+	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
+		#return 'http://localhost:8080'
 		return 'https://dev.platformracing.com'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
 		return 'https://dev.platformracing.com'
 	else:
 		return 'https://platformracing.com'
-
-func get_online_url() -> String:
-	return 'https://pr2hub.com'
 
 func _get_current_level_name() -> String:
 	return current_level_name
@@ -46,9 +58,9 @@ func _list_saved_levels() -> Array:
 func _set_current_level_name(level_name: String):
 	current_level_name = level_name
 
-func _save_to_file(level: Dictionary, level_name: String = current_level_name):
+func _save_to_file(level: Dictionary, level_name: String = current_level_name) -> String:
 	if level_name == "":
-		return
+		return ""
 	
 	current_level_name = level_name
 	var file_name = _get_level_file_name(level_name)
@@ -59,8 +71,12 @@ func _save_to_file(level: Dictionary, level_name: String = current_level_name):
 	var save_file_path: String = save_dir + file_name
 	# save level to disk
 	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
-	file.store_string(JSON.stringify(level))
+	var json_string = JSON.stringify(level)
+	var encoded_data = Marshalls.utf8_to_base64(json_string)
+	
+	file.store_string(json_string)
 	file.close()
+	return encoded_data
 	
 func _delete_level(level_name: String = current_level_name) -> void:
 	var file_name = _get_level_file_name(level_name)
@@ -106,3 +122,38 @@ func get_depth(node: Node) -> int:
 	if node is Layer:
 		return node.depth
 	return get_depth(node.get_parent())
+
+func gzip_encode(text: String):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_compression()
+	gzip.put_data(text.to_utf8_buffer())
+	gzip.finish()
+	return gzip.get_data(gzip.get_available_bytes())[1]
+
+func gzip_decode(data):
+	var gzip = StreamPeerGZIP.new()
+	gzip.start_decompression()
+	gzip.put_data(data)
+	gzip.finish()
+	return gzip.get_utf8_string(gzip.get_available_bytes())
+
+func generate_uuidv4() -> String:
+	var uuid = []
+	for i in range(16):
+		uuid.append(randi() % 256)
+
+	uuid[6] = (uuid[6] & 0x0F) | 0x40
+	uuid[8] = (uuid[8] & 0x3F) | 0x80
+	
+	return format_uuid(uuid)
+
+func format_uuid(uuid: Array) -> String:
+	return "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x" % uuid
+
+func generate_username() -> String:
+	var adjectives = ["Bold", "Fast", "Keen", "Wise", "Nimble", "Vast"]
+	var nouns = ["Fox", "Hawk", "Mage", "Wolf", "Drake", "Scout"]
+	var adjective = adjectives[randi() % adjectives.size()]
+	var noun = nouns[randi() % nouns.size()]
+	var number = str(randi() % 100)  # Limit to two digits to keep it shorter
+	return adjective + noun + number

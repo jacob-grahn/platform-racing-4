@@ -5,5 +5,8 @@
 [node name="GameClient" type="Node2D"]
 script = ExtResource("1_gj7qt")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="ConnectTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CursorTimer" type="Timer" parent="."]
+wait_time = 0.1

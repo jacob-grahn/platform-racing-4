@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=23 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
@@ -11,11 +11,17 @@
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="7_kmgse"]
 [ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/menu/EditorMenu.tscn" id="8_c5wg3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="8_t266g"]
+[ext_resource type="PackedScene" uid="uid://cxcg4h4nj2njc" path="res://pages/editor/cursors/EditorCursors.tscn" id="9_lq772"]
 [ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://pages/editor/layer_panel/LayerPanel.tscn" id="11_vx1vu"]
 [ext_resource type="PackedScene" uid="uid://b13rk6odtdct4" path="res://pages/editor/zoom_panel/ZoomPanel.tscn" id="12_iqakr"]
 [ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/editor/save_panel/save_panel.tscn" id="13_2dq10"]
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/load_panel/LoadPanel.tscn" id="13_wy6hl"]
+[ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/editor/explore_panel/ExplorePanel.tscn" id="14_phb1e"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
+[ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/editor/now_editing_panel/NowEditingPanel.tscn" id="16_pxfrf"]
+[ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://pages/editor/join_edit_panel/join_edit_panel.tscn" id="17_uxanp"]
+[ext_resource type="PackedScene" uid="uid://buc3eqhfknkqg" path="res://pages/editor/host_edit_panel/host_edit_panel.tscn" id="18_80l66"]
+[ext_resource type="PackedScene" uid="uid://bxc2pu2q611e0" path="res://pages/editor/popup_panel/popup_panel.tscn" id="20_80w27"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_qeoq7")
@@ -35,6 +41,14 @@ zoom = Vector2(0.5, 0.5)
 
 [node name="Penciler" parent="." instance=ExtResource("5_vq0x1")]
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="EditorCursorLayer" type="CanvasLayer" parent="."]
+layer = 100
+follow_viewport_enabled = true
+
+[node name="EditorCursors" parent="EditorCursorLayer" instance=ExtResource("9_lq772")]
+
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 120
 
@@ -52,8 +66,29 @@ position = Vector2(7, 613)
 visible = false
 position = Vector2(3, -3)
 
+[node name="ExplorePanel" parent="UI" instance=ExtResource("14_phb1e")]
+visible = false
+
+[node name="NowEditingPanel" parent="UI" instance=ExtResource("16_pxfrf")]
+
+[node name="JoinEditPanel" parent="UI" instance=ExtResource("17_uxanp")]
+visible = false
+
+[node name="HostEditPanel" parent="UI" instance=ExtResource("18_80l66")]
+visible = false
+
 [node name="SavePanel" parent="UI" instance=ExtResource("13_2dq10")]
 visible = false
+
+[node name="PopupPanel" parent="UI" instance=ExtResource("20_80w27")]
+
+[node name="Explore" type="Button" parent="UI"]
+offset_left = 962.0
+offset_top = 10.0
+offset_right = 1205.0
+offset_bottom = 90.0
+theme = ExtResource("8_t266g")
+text = "Explore"
 
 [node name="Load" type="Button" parent="UI"]
 offset_left = 1252.0
@@ -106,3 +141,5 @@ offset_bottom = 234.0
 
 [node name="Minimaps" parent="UI" instance=ExtResource("16_60hwa")]
 visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

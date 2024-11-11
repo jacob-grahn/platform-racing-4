@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jacob-grahn/platform-racing-4/api/internal/pr2_level_import"
@@ -13,7 +14,7 @@ func setupDatabase() *gorm.DB {
 	// Get the DB path from the environment variable or use the default value
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
-		dbPath = "/tmp/pr4-api.db" // Default value if environment variable is not set
+		dbPath = filepath.Join(".", "pr4-api.db") // Use current directory as default
 	}
 
 	// Open the db
@@ -21,7 +22,7 @@ func setupDatabase() *gorm.DB {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.AutoMigrate(&PollVote{})
+	db.AutoMigrate(&PollVote{}, &UserLevel{})
 	return db
 }
 
@@ -36,7 +37,9 @@ func main() {
 
 	// setup routes
 	SetupPollRoutes(router, db)
+	SetupLevelRoutes(router, db)
 	pr2_level_import.SetupPR2LevelImportRoutes(router, db)
+	pr2_level_import.SetupPR2LevelListRoutes(router)
 
 	// listen for requests
 	router.Run(":8080")

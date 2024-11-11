@@ -37,7 +37,7 @@ func close() -> void:
 	self.visible = false
 
 func perform_paginated_request() -> void:
-	var url = Helpers.get_online_url() + "/files/lists/" + level_tab_name + "/" + str(current_page)
+	var url = Helpers.get_base_url() + "/files/lists/" + level_tab_name + "/" + str(current_page)
 	var error = $HTTPRequest.request(url)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
@@ -51,7 +51,6 @@ func _http_request_completed(_result, _response_code, _headers, body):
 		return
 
 	if response.levels.size() == 0:
-		print("No more levels to load.")
 		return
 	
 	render(response.levels)
@@ -59,7 +58,6 @@ func _http_request_completed(_result, _response_code, _headers, body):
 	perform_paginated_request()
 	
 func render(levels: Array) -> void:
-	
 	for level_data in levels:
 		var row = LEVEL_ROW.instantiate()
 		row_holder.add_child(row)

@@ -5,19 +5,47 @@ extends Node2D
 var player_id = ""
 var nickname = ""
 var is_guest = true
+var _current_scene_name: String = ""
 var _current_player_layer: String = ""
+var _username: String = Helpers.generate_username()
 var _used_rects: Dictionary = {}
 var _player_position: Vector2 = Vector2.ZERO
+var _local_edit_id = 0
+var _current_block_id = 0
 
 func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
 
+func set_current_block_id(value: int) -> void:
+	_current_block_id = value
+
+func get_current_block_id() -> int:
+	return _current_block_id
+	
+func set_local_edit_id(value: int) -> void:
+	_local_edit_id = value
+
+func get_local_edit_id() -> int:
+	return _local_edit_id
+	
+func set_current_scene_name(value: String) -> void:
+	_current_scene_name = value
+
+func get_current_scene_name() -> String:
+	return _current_scene_name
+	
 func set_current_player_layer(value: String) -> void:
 	_current_player_layer = value
 
 func get_current_player_layer() -> String:
 	return _current_player_layer
+	
+func get_username() -> String:
+	return _username
+	
+func set_username(value: String) -> void:
+	_username = value
 	
 func set_used_rect(layer_name: String, value: Rect2i) -> void:
 	_used_rects[layer_name] = value

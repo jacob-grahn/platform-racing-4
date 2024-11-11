@@ -43,22 +43,40 @@ horizontal_alignment = 2
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 691.0
-offset_top = 424.0
-offset_right = 803.0
-offset_bottom = 473.0
+offset_left = 704.0
+offset_top = 366.0
+offset_right = 816.0
+offset_bottom = 415.0
 theme_override_font_sizes/font_size = 30
 text = "Title"
 horizontal_alignment = 2
 
 [node name="TitleEdit" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 818.0
-offset_top = 414.0
-offset_right = 1222.0
-offset_bottom = 477.0
+offset_left = 831.0
+offset_top = 356.0
+offset_right = 1235.0
+offset_bottom = 419.0
 theme = ExtResource("2_8272o")
 text = "50815"
+
+[node name="PublishLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 981.0
+offset_top = 438.0
+offset_right = 1119.0
+offset_bottom = 487.0
+theme_override_font_sizes/font_size = 30
+text = "Publish?"
+
+[node name="PublishCheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 823.0
+offset_top = 433.0
+offset_right = 967.0
+offset_bottom = 481.0
+tooltip_text = "Publish your level to be visible in \"Explore\" tab in level editor by other palyers!"
+button_pressed = true
 
 [node name="SaveButton" type="Button" parent="."]
 layout_mode = 1
@@ -84,3 +102,7 @@ offset_right = 1193.0
 offset_bottom = 580.0
 theme = ExtResource("2_8272o")
 text = "Back"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="toggled" from="PublishCheckBox" to="." method="_on_publish_check_box_toggled"]

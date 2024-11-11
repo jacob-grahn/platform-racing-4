@@ -1,10 +1,38 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
+)
+
+var roomEditCounters = make(map[string]int)
+var mu sync.Mutex
+
+type Module string
+type ErrorMessage string
+
+const (
+	OnlineModule         Module = "OnlineModule"
+	EditorModule         Module = "EditorModule"
+	JoinEditorModule     Module = "JoinEditorModule"
+	HostEditorModule     Module = "HostEditorModule"
+	JoinSuccessModule    Module = "JoinSuccessModule"
+	HostSuccessModule    Module = "HostSuccessModule"
+	RequestEditorModule  Module = "RequestEditorModule"
+	ResponseEditorModule Module = "ResponseEditorModule"
+	RequestRoomModule    Module = "RequestRoomModule"
+	ResponseRoomModule   Module = "ResponseRoomModule"
+	CursorEditorModule   Module = "CursorEditorModule"
+)
+
+const (
+	EmptyErrorMessage        ErrorMessage = "EmptyErrorMessage"
+	RoomNotFoundErrorMessage ErrorMessage = "RoomNotFoundErrorMessage"
+	RoomExistsErrorMessage   ErrorMessage = "RoomExistsErrorMessage"
 )
 
 type ClientState struct {
@@ -13,14 +41,28 @@ type ClientState struct {
 }
 
 type Update struct {
-	ID   *string                `json:"id,omitempty"`   // user id
-	MS   int                    `json:"ms"`             // client time in milliseconds since level started
-	Pos  *PositionUpdate        `json:"pos,omitempty"`  // position
-	Val  map[string]interface{} `json:"val,omitempty"`  // property values
-	Tile []TileUpdate           `json:"tile,omitempty"` // tile updates
-	Char *CharacterUpdate       `json:"char,omitempty"` // character values, stats, look, etc
-	Room *string                `json:"room,omitempty"` // used to set ClientState.Room, client will then only recieve updates to that room
-	Ret  *bool                  `json:"ret,omitempty"`  // if true, return this message to the sender
+	Module        string                 `json:"module"`
+	ID            string                 `json:"id"`
+	TargetUserID  string                 `json:"target_user_id"`
+	MS            int                    `json:"ms"`
+	Pos           *PositionUpdate        `json:"pos"`
+	Val           map[string]interface{} `json:"val"`
+	Tile          []TileUpdate           `json:"tile"`
+	Char          *CharacterUpdate       `json:"char"`
+	Room          string                 `json:"room"`
+	Ret           bool                   `json:"ret"`
+	Editor        *LevelEditorUpdate     `json:"editor"`
+	RequestEditor *RequestEditorUpdate   `json:"request_editor"`
+	CursorUpdate  *CursorUpdate          `json:"cursor_update"`
+	HostID        string                 `json:"host_id"`
+	MemberIDList  []string               `json:"member_id_list"`
+	ErrorMessage  string                 `json:"error_message"`
+}
+
+type CursorUpdate struct {
+	Coords  Vector2 `json:"coords"`
+	Layer   string  `json:"layer"`
+	BlockId int     `json:"block_id"`
 }
 
 type PositionUpdate struct {
@@ -44,16 +86,53 @@ type CharacterUpdate struct {
 	Name int `json:"name"`
 }
 
+type LevelEditorUpdate struct {
+	EditId    int        `json:"edit_id"`
+	UserId    string     `json:"user_id"`
+	Type      string     `json:"type"`
+	LayerName string     `json:"layer_name"`
+	Position  Vector2    `json:"position"`
+	UserText  string     `json:"usertext"`
+	Font      string     `json:"font"`
+	FontSize  int        `json:"font_size"`
+	Coords    Vector2i   `json:"coords"`
+	BlockID   int        `json:"block_id"`
+	Points    []Vector2i `json:"points"`
+	Name      string     `json:"name"`
+	Rotation  int        `json:"rotation"`
+	Depth     int        `json:"depth"`
+}
+
+type RequestEditorUpdate struct {
+	LevelData string `json:"level_data"`
+	EditId    int    `json:"edit_id"`
+}
+
+type Vector2 struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+}
+
+type Vector2i struct {
+	X int `json:"x"`
+	Y int `json:"y"`
+}
+
+type Room struct {
+	Name      string
+	HostID    string
+	MembersID []string
+}
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
-		// origin := r.Header.Get("Origin")
-		// return origin == "http://127.0.0.1:8080" || origin == "https://platformracing.com" || origin == "https://dev.platformracing.com"
 		return true // allow all origins
 	},
 }
 
+var rooms = []Room{}
 var clients = make(map[*websocket.Conn]*ClientState)
 var sendQueue = make(chan Update)
 
@@ -63,8 +142,8 @@ func main() {
 
 	go handleMessages()
 
-	fmt.Println("PR4 Game Server started on :8080")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("PR4 Game Server started on :8081")
+	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
@@ -86,34 +165,176 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		var update Update
-		err := conn.ReadJSON(&update)
+		clientState := clients[conn]
+		_, message, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("Invalid JSON recieved:", err)
+			fmt.Println("Error reading message:", err)
 			delete(clients, conn)
 			return
 		}
 
-		// clientState stores metadata tied to this connection
-		clientState := clients[conn]
-
-		// persist room so it does not need to be sent with every request
-		if update.Room != nil {
-			clientState.Room = *update.Room
-		} else {
-			update.Room = &clientState.Room
+		if err := json.Unmarshal(message, &update); err != nil {
+			fmt.Println("Invalid JSON received:", err)
+			delete(clients, conn)
+			return
 		}
 
-		// perist user id so it does not need to be sent with every request
-		// todo: this field should not be set by the client, but fetched from session
-		if update.ID != nil {
-			clientState.ID = *update.ID
-		} else {
-			update.ID = &clientState.ID
-		}
+		// Persist room and user ID across messages
+		persistClientState(&update, clientState)
 
-		// send this update off to be sent
+		update.ErrorMessage = string(EmptyErrorMessage)
+		handleUpdate(&update)
 		sendQueue <- update
 	}
+}
+
+func persistClientState(update *Update, clientState *ClientState) {
+	// persist room so it does not need to be sent with every request
+	if update.Room != "" {
+		clientState.Room = update.Room
+	} else {
+		update.Room = clientState.Room
+	}
+
+	// perist user id so it does not need to be sent with every request
+	// todo: this field should not be set by the client, but fetched from session
+	if update.ID != "" {
+		clientState.ID = update.ID
+	} else {
+		update.ID = clientState.ID
+	}
+}
+
+func handleUpdate(update *Update) {
+	fmt.Println("Received update: Module(", update.Module+"),  From("+update.ID+")")
+
+	switch Module(update.Module) {
+	case JoinEditorModule:
+		handleJoinEditorModule(update)
+		break
+	case HostEditorModule:
+		handleHostEditorModule(update)
+		update.TargetUserID = update.ID
+		break
+	case RequestEditorModule:
+		handleRequestEditorModule(update)
+		break
+	case ResponseEditorModule:
+		handleResponseEditorModule(update)
+		break
+	case RequestRoomModule:
+		handleRequestRoomModule(update)
+		break
+	case EditorModule:
+		handleEditorModule(update)
+		break
+	}
+}
+
+func handleJoinEditorModule(update *Update) {
+	room, found := findRoom(update.Room)
+	if !found {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	room.MembersID = append(room.MembersID, update.ID)
+
+	update.Module = string(JoinSuccessModule)
+	update.MemberIDList = room.MembersID
+	update.HostID = room.HostID
+}
+
+func handleHostEditorModule(update *Update) {
+	if update.Room == "" {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	if _, exists := findRoom(update.Room); exists {
+		setError(update, RoomExistsErrorMessage, update.ID)
+		return
+	}
+
+	rooms = append(rooms, Room{
+		Name:      update.Room,
+		HostID:    update.ID,
+		MembersID: []string{update.ID},
+	})
+	update.Module = string(HostSuccessModule)
+	update.TargetUserID = update.ID
+}
+
+func handleRequestEditorModule(update *Update) {
+	if update.Room == "" {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	room, found := findRoom(update.Room)
+	if !found {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	update.TargetUserID = room.HostID
+}
+
+func handleResponseEditorModule(update *Update) {
+	if update.Room == "" {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	_, found := findRoom(update.Room)
+	if !found {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+}
+
+func handleRequestRoomModule(update *Update) {
+	room, found := findRoom(update.Room)
+	if !found {
+		setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+	update.Module = string(ResponseRoomModule)
+	update.MemberIDList = room.MembersID
+	update.HostID = room.HostID
+}
+
+func handleEditorModule(update *Update) {
+	if update.Editor == nil {
+		update.Editor = &LevelEditorUpdate{}
+	}
+	assignEditID(update)
+}
+
+func findRoom(roomName string) (*Room, bool) {
+	for i := range rooms {
+		if rooms[i].Name == roomName {
+			return &rooms[i], true
+		}
+	}
+	return nil, false
+}
+
+func setError(update *Update, errorMessage ErrorMessage, targetID string) {
+	update.ErrorMessage = string(errorMessage)
+	update.TargetUserID = targetID
+}
+
+func assignEditID(update *Update) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if _, exists := roomEditCounters[update.Room]; !exists {
+		roomEditCounters[update.Room] = 0
+	}
+
+	update.Editor.EditId = roomEditCounters[update.Room]
+	roomEditCounters[update.Room]++
 }
 
 func handleMessages() {
@@ -121,27 +342,33 @@ func handleMessages() {
 		update := <-sendQueue
 
 		// skip updates if they do not have a room set
-		if update.Room == nil {
+		if update.Room == "" {
 			continue
 		}
 
 		// skip updates if they do not have a user id set
-		if update.ID == nil {
+		if update.ID == "" {
 			continue
 		}
 
 		// loop through each client
 		for client, clientState := range clients {
+			// skip this client if this is meant for a specific user and it is not this user
+			if update.TargetUserID != "" && update.TargetUserID != clientState.ID {
+				continue
+			}
 
 			// skip this client if it is not in the target room
-			if clientState.Room != *update.Room {
+			if clientState.Room != update.Room && update.ErrorMessage == string(EmptyErrorMessage) {
 				continue
 			}
 
 			// do not send an update back to the same client it originated from unless ret=true
-			if clientState.ID == *update.ID && !*update.Ret {
+			if clientState.ID == update.ID && !update.Ret {
 				continue
 			}
+
+			fmt.Println("Sending update: Module(", update.Module+"),  TargetUser("+clientState.ID+")")
 
 			// write the update to the client
 			err := client.WriteJSON(update)
