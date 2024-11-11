@@ -4,13 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"sync"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
-
-var roomEditCounters = make(map[string]int)
-var mu sync.Mutex
 
 type Module string
 type ErrorMessage string
@@ -87,7 +84,6 @@ type CharacterUpdate struct {
 }
 
 type LevelEditorUpdate struct {
-	EditId    int        `json:"edit_id"`
 	UserId    string     `json:"user_id"`
 	Type      string     `json:"type"`
 	LayerName string     `json:"layer_name"`
@@ -101,11 +97,11 @@ type LevelEditorUpdate struct {
 	Name      string     `json:"name"`
 	Rotation  int        `json:"rotation"`
 	Depth     int        `json:"depth"`
+	Timestamp int64      `json:"timestamp"`
 }
 
 type RequestEditorUpdate struct {
 	LevelData string `json:"level_data"`
-	EditId    int    `json:"edit_id"`
 }
 
 type Vector2 struct {
@@ -308,7 +304,7 @@ func handleEditorModule(update *Update) {
 	if update.Editor == nil {
 		update.Editor = &LevelEditorUpdate{}
 	}
-	assignEditID(update)
+	update.Editor.Timestamp = time.Now().UnixMilli()
 }
 
 func findRoom(roomName string) (*Room, bool) {
@@ -323,18 +319,6 @@ func findRoom(roomName string) (*Room, bool) {
 func setError(update *Update, errorMessage ErrorMessage, targetID string) {
 	update.ErrorMessage = string(errorMessage)
 	update.TargetUserID = targetID
-}
-
-func assignEditID(update *Update) {
-	mu.Lock()
-	defer mu.Unlock()
-
-	if _, exists := roomEditCounters[update.Room]; !exists {
-		roomEditCounters[update.Room] = 0
-	}
-
-	update.Editor.EditId = roomEditCounters[update.Room]
-	roomEditCounters[update.Room]++
 }
 
 func handleMessages() {

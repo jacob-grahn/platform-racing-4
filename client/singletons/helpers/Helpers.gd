@@ -13,8 +13,13 @@ func get_base_ws_url() -> String:
 		return "ws://" + hostname
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
+<<<<<<< HEAD
 		#return 'ws://localhost:8081/ws'
 		return 'ws://dev.platformracing.com/api/ws'
+=======
+		return 'ws://localhost:8081/ws'
+		#return 'ws://dev.platformracing.com/ws'
+>>>>>>> d86da4a (Remove lag when multiple people place blocks together in level editor)
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
 		return 'ws://dev.platformracing.com/api/ws'
 	else:
@@ -28,8 +33,13 @@ func get_base_url() -> String:
 		return "https://" + hostname
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
+<<<<<<< HEAD
 		#return 'http://localhost:8080'
 		return 'https://dev.platformracing.com/api'
+=======
+		return 'http://localhost:8080'
+		#return 'https://dev.platformracing.com'
+>>>>>>> d86da4a (Remove lag when multiple people place blocks together in level editor)
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
 		return 'https://dev.platformracing.com/api'
 	else:
