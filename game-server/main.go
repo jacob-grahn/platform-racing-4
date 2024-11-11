@@ -138,8 +138,8 @@ func main() {
 
 	go handleMessages()
 
-	fmt.Println("PR4 Game Server started on :8081")
-	err := http.ListenAndServe(":8081", nil)
+	fmt.Println("PR4 Game Server started on :8080")
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
