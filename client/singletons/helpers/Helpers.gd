@@ -14,11 +14,11 @@ func get_base_ws_url() -> String:
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
 		#return 'ws://localhost:8081/ws'
-		return 'ws://dev.platformracing.com/ws'
+		return 'ws://dev.platformracing.com/gs/ws'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
-		return 'ws://dev.platformracing.com/ws'
+		return 'ws://dev.platformracing.com/gs/ws'
 	else:
-		return 'ws://platformracing.com/ws'
+		return 'ws://platformracing.com/gs/ws'
 		
 func get_base_url() -> String:
 	if OS.has_feature('web'):
@@ -29,11 +29,11 @@ func get_base_url() -> String:
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
 		#return 'http://localhost:8080'
-		return 'https://dev.platformracing.com'
+		return 'https://dev.platformracing.com/api'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
-		return 'https://dev.platformracing.com'
+		return 'https://dev.platformracing.com/api'
 	else:
-		return 'https://platformracing.com'
+		return 'https://platformracing.com/api'
 
 func _get_current_level_name() -> String:
 	return current_level_name

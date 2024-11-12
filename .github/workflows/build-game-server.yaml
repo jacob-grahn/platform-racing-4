@@ -26,7 +26,7 @@ jobs:
           go test .
       - name: Build Image
         run: |
-          cd api
+          cd game-server
           docker build -t pr4 --file Dockerfile .
           if [ "$GITHUB_REF_NAME" == "main" ] || [ "$GITHUB_REF_NAME" == "release" ]; then
             tag="$(date +%F-%H-%M)-$GITHUB_REF_NAME-$GITHUB_SHA"

@@ -208,7 +208,6 @@ func _process(delta: float) -> void:
 				is_live_editing = true
 				cursor_timer.start()
 				var request_editor = parsed_packet.request_editor
-				Session.set_local_edit_id(request_editor.edit_id)
 				
 				var level_data = Marshalls.base64_to_utf8(request_editor.level_data)
 				level_data = JSON.parse_string(level_data)
@@ -246,7 +245,6 @@ func _process(delta: float) -> void:
 					"ret": true,
 					"request_editor": {
 						"level_data": encoded_data,
-						"edit_id": Session.get_local_edit_id()
 					}
 				}
 				send_queue.push_back(data)
@@ -281,7 +279,6 @@ func _process(delta: float) -> void:
 				if is_host:
 					return
 					
-				Session.set_local_edit_id(0)
 				is_live_editing = true
 				cursor_timer.start()
 				is_host = true
@@ -298,7 +295,7 @@ func _process(delta: float) -> void:
 				else:
 					if parsed_packet.editor.user_id != Session.get_username():
 						# Give the illusion that the remote cursor appears same time as the block
-						await get_tree().create_timer(1).timeout
+						await get_tree().create_timer(0.1).timeout
 					emit_signal("receive_level_event", parsed_packet.editor)
 			elif parsed_packet.module == "ResponseRoomModule":
 				var member_id_list: Array[String] = []
