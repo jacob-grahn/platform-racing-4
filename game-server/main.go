@@ -134,7 +134,7 @@ var sendQueue = make(chan Update)
 
 func main() {
 	http.HandleFunc("/health", handleHealth)
-	http.HandleFunc("/ws", handleWS)
+	http.HandleFunc("/gameserver", handleWS)
 
 	go handleMessages()
 
