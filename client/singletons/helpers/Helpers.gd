@@ -9,23 +9,23 @@ func get_base_ws_url() -> String:
 	if OS.has_feature('web'):
 		if !hostname:
 			hostname = JavaScriptBridge.eval('window.location.hostname')
-			print("Setting base url hostname: ", hostname)
-		return "ws://" + hostname
+			print("Setting base ws url hostname: ", hostname)
+		return "wss://" + hostname + "/gameserver"
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
-		#return 'ws://localhost:8081/ws'
-		return 'ws://dev.platformracing.com/gs/ws'
+		#return 'ws://localhost:8081/gameserver'
+		return 'wss://dev.platformracing.com/gameserver'
 	elif '--dev' in OS.get_cmdline_args() || OS.get_environment('PR_ENV') == 'dev':
-		return 'ws://dev.platformracing.com/gs/ws'
+		return 'wss://dev.platformracing.com/gameserver'
 	else:
-		return 'ws://platformracing.com/gs/ws'
+		return 'wss://platformracing.com/gameserver'
 		
 func get_base_url() -> String:
 	if OS.has_feature('web'):
 		if !hostname:
 			hostname = JavaScriptBridge.eval('window.location.hostname')
 			print("Setting base url hostname: ", hostname)
-		return "https://" + hostname
+		return "https://" + hostname + "/api"
 		
 	if '--local' in OS.get_cmdline_args() || OS.is_debug_build() || OS.get_environment('PR_ENV') == 'local' || OS.has_feature("editor"):
 		#return 'http://localhost:8080'
