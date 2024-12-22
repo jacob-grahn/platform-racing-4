@@ -13,8 +13,8 @@ func _ready():
 func _process(delta):
 	_move($Hay4, -delta * 5)
 	_move($Hay3, -delta * 32)
-	_move($Hay2, -delta * 100)
-	_move($Hay1, -delta * 1500)
+	_move($Hay2, -delta * 124)
+	_move($Hay1, -delta * 2000)
 
 
 func _move(node: Node2D, dist: float):
@@ -34,5 +34,4 @@ func _on_size_changed():
 		ratio.x = ratio.y
 	scale = ratio
 	position = window_size / 2
-	$Hay5.position.x = (-position.x / 2) * (1/scale.x) - 2400
-	
+	$Hay5.position.x = (-position.x / 2) * (1/scale.x) - 2600
