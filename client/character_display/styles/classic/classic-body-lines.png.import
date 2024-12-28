@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wspnykd77ljy"
-path="res://.godot/imported/1-head-lines.png-321562e15ef42023070026d4586cb75d.ctex"
+uid="uid://b4fv1if1sj58b"
+path="res://.godot/imported/classic-body-lines.png-fd504aeb4d4beb4d2819a577b3e53219.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character/classic/1-head-lines.png"
-dest_files=["res://.godot/imported/1-head-lines.png-321562e15ef42023070026d4586cb75d.ctex"]
+source_file="res://character_display/styles/classic/classic-body-lines.png"
+dest_files=["res://.godot/imported/classic-body-lines.png-fd504aeb4d4beb4d2819a577b3e53219.ctex"]
 
 [params]
 

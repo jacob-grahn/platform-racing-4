@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eiwx5e5bfghi"
-path="res://.godot/imported/1-body-color.png-f7121d6f597f5c58a90043c458819ca9.ctex"
+uid="uid://x1fnqrmy58b8"
+path="res://.godot/imported/classic-foot-lines.png-f3cf3f5037e6b892714923c2891709aa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character/classic/1-body-color.png"
-dest_files=["res://.godot/imported/1-body-color.png-f7121d6f597f5c58a90043c458819ca9.ctex"]
+source_file="res://character_display/styles/classic/classic-foot-lines.png"
+dest_files=["res://.godot/imported/classic-foot-lines.png-f3cf3f5037e6b892714923c2891709aa.ctex"]
 
 [params]
 

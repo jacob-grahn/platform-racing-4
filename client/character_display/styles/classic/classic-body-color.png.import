@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1xw0it3vckve"
-path="res://.godot/imported/1-head-color.png-71028072a90fc7ddfb0ad1db65582039.ctex"
+uid="uid://eiwx5e5bfghi"
+path="res://.godot/imported/classic-body-color.png-230a6345209bd84b06ebac5e0d45111b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character/classic/1-head-color.png"
-dest_files=["res://.godot/imported/1-head-color.png-71028072a90fc7ddfb0ad1db65582039.ctex"]
+source_file="res://character_display/styles/classic/classic-body-color.png"
+dest_files=["res://.godot/imported/classic-body-color.png-230a6345209bd84b06ebac5e0d45111b.ctex"]
 
 [params]
 
