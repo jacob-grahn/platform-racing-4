@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7adgqavn0stv"]
 
-[ext_resource type="Script" path="res://pages/lobby/level_panel/LevelPanel.gd" id="1_tl1gd"]
-[ext_resource type="PackedScene" uid="uid://cyn14d54c83tf" path="res://pages/lobby/level_panel/LevelTab.tscn" id="2_lnt5f"]
+[ext_resource type="Script" path="res://pages/level_lists/level_panel/LevelPanel.gd" id="1_tl1gd"]
+[ext_resource type="PackedScene" uid="uid://cyn14d54c83tf" path="res://pages/level_lists/level_panel/LevelTab.tscn" id="2_lnt5f"]
 
 [node name="LevelPanel" type="Node2D"]
 script = ExtResource("1_tl1gd")

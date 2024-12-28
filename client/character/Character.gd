@@ -36,7 +36,7 @@ var can_move = true
 var can_jump = true
 var is_crouching = false
 var game: Node2D
-var previous_velocity = Vector2(0 , 0)
+var previous_velocity = Vector2(0, 0)
 var last_collision: KinematicCollision2D
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
@@ -67,7 +67,7 @@ var camera_min_zoom: float = 0.4
 var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 
 # Use this to apply a longer velocity shift
-var phantom_velocity: Vector2 = Vector2(0 , 0)
+var phantom_velocity: Vector2 = Vector2(0, 0)
 var phantom_velocity_decay: float = 0.25
 
 signal position_changed(x: float, y: float)
@@ -373,7 +373,7 @@ func interact_with_solid_tiles() -> bool:
 			game.tiles.on("stand", tile_type, self, tilemap, coords)
 			if game.tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
 				var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tilemap.global_rotation)
-				last_safe_position = centre_safe_block - (Vector2(0,(1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
+				last_safe_position = centre_safe_block - (Vector2(0, (1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
 				var layers = tilemap.get_node("../../")
 				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
@@ -477,4 +477,3 @@ func check_out_of_bounds() -> void:
 		position.x = last_safe_position.x
 		position.y = last_safe_position.y
 		velocity = Vector2(0, 0)
-		

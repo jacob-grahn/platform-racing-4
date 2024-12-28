@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cyn14d54c83tf"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_6htbk"]
-[ext_resource type="Script" path="res://pages/lobby/level_panel/LevelTab.gd" id="1_gkoqg"]
+[ext_resource type="Script" path="res://pages/level_lists/level_panel/LevelTab.gd" id="1_gkoqg"]
 
 [node name="LevelTab" type="TabBar"]
 script = ExtResource("1_gkoqg")
