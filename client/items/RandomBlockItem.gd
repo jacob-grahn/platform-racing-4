@@ -1,8 +1,11 @@
 extends Node2D
+class_name RandomBlockItem
 
 @onready var timer = $Timer
 @onready var tile_atlas = $TileAtlas
 var tile_id: int = 0
+var using: bool = false
+var remove: bool = false
 
 
 func _ready():
@@ -26,11 +29,18 @@ func _set_tile_id(new_tile_id: int) -> void:
 	tile_atlas.region_rect = Rect2i(atlas_position, Settings.tile_size)
 
 
-func use(delta: float) -> bool:
+func activate_item():
+	using = true
 	var tile_map:TileMap = get_node("../../../../TileMap")
 	var global_position = to_global(Vector2(0, 0))
 	var tilemap_position = tile_map.to_local(global_position)
 	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size
 	var atlas_coords: Vector2i = Helpers.to_atlas_coords(tile_id)
 	tile_map.set_cell(0, coords, 0, atlas_coords)
-	return false
+	remove = true
+	
+func still_have_item():
+	if !remove:
+		return true
+	else:
+		return false

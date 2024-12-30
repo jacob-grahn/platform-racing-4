@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv3sujajqjjig"]
+
+[ext_resource type="Script" path="res://items/PortableBlockItem.gd" id="1_c2o3p"]
+[ext_resource type="Texture2D" uid="uid://co5i0jeihdtnd" path="res://items/PortableBlockItem.png" id="1_mf4e7"]
+
+[node name="PortableBlockItem" type="Node2D"]
+script = ExtResource("1_c2o3p")
+
+[node name="PortableBlock" type="Sprite2D" parent="."]
+position = Vector2(50, 15)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("1_mf4e7")
