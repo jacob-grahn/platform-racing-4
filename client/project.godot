@@ -77,7 +77,7 @@ item={
 
 [physics]
 
-2d/default_gravity=2600.0
+2d/default_gravity=2250.0
 
 [rendering]
 
