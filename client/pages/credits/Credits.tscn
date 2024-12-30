@@ -7,10 +7,10 @@
 script = ExtResource("1_8lgq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 36.0
-offset_top = 139.0
-offset_right = 1863.0
-offset_bottom = 1045.0
+offset_left = 566.0
+offset_top = 216.0
+offset_right = 800.0
+offset_bottom = 507.0
 theme = ExtResource("1_hnp8c")
 theme_override_font_sizes/normal_font_size = 24
 text = "--- Contributors ---
@@ -20,30 +20,83 @@ DuckJohnn
 JcNumbers
 ShweetsStuff
 Jeremiah
+Raul
+ShengXue97"
+metadata/_edit_use_anchors_ = true
 
---- Libraries ---
-AudioImport - Gianclgar - https://github.com/Gianclgar/GDScriptAudioImport
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 567.0
+offset_top = 509.0
+offset_right = 869.0
+offset_bottom = 665.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Libraries ---
+AudioImport - Gianclgar - https://github.com/Gianclgar/GDScriptAudioImport"
+metadata/_edit_use_anchors_ = true
 
---- Art ---
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+offset_left = 889.0
+offset_top = 441.0
+offset_right = 1267.0
+offset_bottom = 656.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Art ---
 Kenny Particle Pack - Kenny - https://kenney.nl/assets/particle-pack
-Bounce Block - Nicole Swimley - https://www.linkedin.com/in/nicole-swimley-8b61025
+Bounce Block - Nicole Swimley - https://www.linkedin.com/in/nicole-swimley-8b61025"
+metadata/_edit_use_anchors_ = true
 
---- Music ---
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+offset_left = 889.0
+offset_top = 224.0
+offset_right = 1495.0
+offset_bottom = 439.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Music ---
 Noodletown 4 Remake - Damon Bass - https://open.spotify.com/artist/35EsioXPOMMzLpzHrvHCn3?si=Cqmrf_OZSy-a5ULrm9Y9mQ
-PR1 Future Theme (Penumbra) - Adulock Van Liovick - https://soundcloud.com/adulock77/pr1-future-theme-penumbra
+PR1 Future Theme (Penumbra) - Adulock Van Liovick - https://soundcloud.com/adulock77/pr1-future-theme-penumbra"
+metadata/_edit_use_anchors_ = true
 
---- Sound ---
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+offset_left = 890.0
+offset_top = 734.0
+offset_right = 1051.0
+offset_bottom = 886.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Sound ---"
+metadata/_edit_use_anchors_ = true
 
---- Playtesting ---
+[node name="RichTextLabel6" type="RichTextLabel" parent="."]
+offset_left = 567.0
+offset_top = 666.0
+offset_right = 781.0
+offset_bottom = 793.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Playtesting ---
 JcNumbers
+Raul
+Jeremiah"
+metadata/_edit_use_anchors_ = true
 
---- Moral Support ---
+[node name="RichTextLabel7" type="RichTextLabel" parent="."]
+offset_left = 889.0
+offset_top = 658.0
+offset_right = 1144.0
+offset_bottom = 732.0
+theme = ExtResource("1_hnp8c")
+theme_override_font_sizes/normal_font_size = 24
+text = "--- Moral Support ---
 jbg"
+metadata/_edit_use_anchors_ = true
 
 [node name="Back" type="Button" parent="."]
-offset_left = 34.0
-offset_top = 28.0
-offset_right = 239.0
-offset_bottom = 99.0
+offset_left = 1697.0
+offset_top = 994.0
+offset_right = 1902.0
+offset_bottom = 1065.0
 theme = ExtResource("1_hnp8c")
 text = "Back"
