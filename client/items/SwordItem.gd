@@ -37,7 +37,7 @@ func activate_item():
 		animtimer.start()
 		slash()
 		if scale.x < 0:
-			get_parent().get_parent().velocity.x -= 15000
+			get_parent().get_parent().velocity.x -= 1000
 		else:
 			get_parent().get_parent().velocity.x += 1000
 		get_parent().uses -= 1
