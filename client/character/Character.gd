@@ -1,14 +1,14 @@
 extends CharacterBody2D
 class_name Character
 
-const SPEED = 975.0
-const JUMP_VELOCITY = Vector2(0, -375.0)
-const FASTFALL_VELOCITY = Vector2(0, 65.0)
-const MAXFALL_VELOCITY = 6500.0
-const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 6)
-const TRACTION = 2500
+const SPEED = 490.0
+const JUMP_VELOCITY = Vector2(0, -155.0)
+const FASTFALL_VELOCITY = Vector2(0, 50.0)
+const MAX_VELOCITY = Vector2(4500.0, 3750.0)
+const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 7)
+const TRACTION = 4000
 const FRICTION = 0.1
-const FRICTION_SWIMMING = 4.0
+const FRICTION_SWIMMING = 2
 const LIGHTBREAK_SPEED = 200000.0
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
@@ -20,6 +20,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var camera = $Camera
 @onready var sun_particles = $SunParticles
 @onready var moon_particles = $MoonParticles
+@onready var speed_particles = $SpeedParticles
 @onready var low_area = $LowArea
 @onready var high_area = $HighArea
 @onready var item_holder = $ItemHolder
@@ -31,17 +32,25 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 var active = false
 var control_vector: Vector2
 var jump_timer: float = 0
+var facing: int = 1
 var jumped = false
 var can_move = true
 var can_jump = true
 var is_crouching = false
 var game: Node2D
-var previous_velocity = Vector2(0, 0)
+var previous_velocity = Vector2(0 , 0)
 var last_collision: KinematicCollision2D
 var item: Node2D
 var last_safe_position = Vector2(0, 0)
 var last_safe_layer: Node
 var frozen_timer: float = 0.0
+var shake: float = 0.0
+var sjanim: float = 0.0
+var item_force: = Vector2(0, 0)
+var shielded: bool = false
+var hitstun_duration: float = 0.0
+var hitstun_timer: float = 0.0
+var hurt: bool = false
 var last_velocity: Vector2
 var last_collision_normal: Vector2
 var swimming: bool = false
@@ -67,7 +76,7 @@ var camera_min_zoom: float = 0.4
 var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 
 # Use this to apply a longer velocity shift
-var phantom_velocity: Vector2 = Vector2(0, 0)
+var phantom_velocity: Vector2 = Vector2(0 , 0)
 var phantom_velocity_decay: float = 0.25
 
 signal position_changed(x: float, y: float)
@@ -95,17 +104,41 @@ func _physics_process(delta):
 	else:
 		ice.visible = false
 	
+	if hurt:
+		if hitstun_timer > 0:
+			hitstun_timer -= delta
+		else:
+			hurt = false
+	
 	# Gravity
 	gravity.run(self, delta)
 	
+	# Checks if player is rotating
+	var not_rotating: bool = gravity.not_rotating(delta)
+	
 	# Inputs
 	var control_axis: float = Input.get_axis("left", "right")
+	if !hurt and control_axis < 0:
+		facing = -1
+	elif !hurt and control_axis > 0:
+		facing = 1
 
 	# Super jump
-	super_jump.run(self, delta)
+	if !hurt and not_rotating:
+		super_jump.run(self, delta)
+	
+	# Checks if the item the player is holding is pushing them somewhere
+	if item_holder.item:
+		item_force = item_holder.get_item_force(delta)
+	else:
+		item_force = Vector2(0, 0)
+	var item_force_x = item_force.x * display.scale.x
+	var item_force_y = item_force.y
+	if item_force != Vector2(0, 0):
+		velocity += Vector2(item_force_x, item_force_y).rotated(rotation)
 	
 	# Handle jump.
-	if can_jump and Input.is_action_pressed("jump"):
+	if !hurt and can_jump and Input.is_action_pressed("jump"):
 		
 		if is_crouching:
 			_bump_tile_covering_high_area()
@@ -115,47 +148,57 @@ func _physics_process(delta):
 			jump_timer = JUMP_TIMER_MAX
 	
 	# Handle jump strength/velocity increment
-	if jumped:
+	if not_rotating and jumped:
 		velocity += JUMP_VELOCITY.rotated(rotation) * stats.get_jump_bonus() * (jump_timer / JUMP_TIMER_MAX)
 		jump_timer -= 1
 		if jump_timer <= 0:
 			jumped = false
 			jump_timer = 0
-	# Caps falling velocity.
-	if abs(velocity.y) > MAXFALL_VELOCITY:
-		if velocity.y > 0:
-			velocity.y = MAXFALL_VELOCITY
+			
+	# Caps speed velocity and falling velocity so things don't get too crazy.
+	if abs(velocity.x) > MAX_VELOCITY.x:
+		if velocity.x > 0:
+			velocity.x = MAX_VELOCITY.x
 		else:
-			velocity.y = MAXFALL_VELOCITY * -1
+			velocity.x = MAX_VELOCITY.x * -1
+	if abs(velocity.y) > MAX_VELOCITY.y:
+		if velocity.y > 0:
+			velocity.y = MAX_VELOCITY.y
+		else:
+			velocity.y = MAX_VELOCITY.y * -1
 		
 	# Airborne behavior
-	if not is_on_floor():
+	if not_rotating and not is_on_floor():
 		# Cancel jump early by not pressing jump.
 		if jumped and not Input.is_action_pressed("jump"):
 			jumped = false
 		# Fastfall; if down pressed while not on floor, fall faster
-		if Input.is_action_pressed("down"):
-			velocity += FASTFALL_VELOCITY.rotated(rotation)
-			jumped = false
+		if !hurt and Input.is_action_pressed("down"):
+			if swimming:
+				velocity += (FASTFALL_VELOCITY / 2).rotated(rotation)
+			else:
+				velocity += FASTFALL_VELOCITY.rotated(rotation)
 		# if in liquid, we can swim up
-		if swimming && Input.is_action_pressed("up"):
+		if !hurt and swimming && Input.is_action_pressed("up"):
 			velocity += SWIM_UP_VELOCITY.rotated(rotation) * delta
 		# extra jump is gone after releasing jump button
 		if not jumped:
 			jump_timer = 0
 	
 	# Move left/right
-	if super_jump.is_locking():
-		control_axis = 0
-	if is_crouching:
-		control_axis = control_axis / 2
-	var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
-	if control_axis != 0:
-		if target_velocity.length() > velocity.length():
-			traction *= 0.8
-		velocity = velocity.move_toward(target_velocity, delta * traction)
-	else:
-		velocity = velocity.move_toward(target_velocity, delta * traction * 0.8)
+	if not_rotating:
+		if hurt or super_jump.is_locking():
+			control_axis = 0
+		if !hurt and is_crouching:
+			control_axis = control_axis / 2
+		var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-rotation).y).rotated(rotation)
+		var accel = 0.8 * (stats.get_accel_bonus() / 1.5)
+		if control_axis != 0:
+			if target_velocity.length() > velocity.length():
+				traction *= accel
+			velocity = velocity.move_toward(target_velocity, delta * traction)
+		else:
+			velocity = velocity.move_toward(target_velocity, delta * traction * accel)
 	
 	# Add friction
 	var friction = FRICTION
@@ -230,8 +273,9 @@ func _physics_process(delta):
 			end_lightbreak()
 		
 	# move
-	previous_velocity = velocity
-	move_and_slide()
+	if not_rotating:
+		previous_velocity = velocity
+		move_and_slide()
 	
 	# interact with tiles
 	interact_with_incoporeal_tiles()
@@ -242,8 +286,12 @@ func _physics_process(delta):
 		end_lightbreak()
 	
 	# Use items
-	if Input.is_action_pressed("item"):
-		use_item(delta)
+	if !hurt and Input.is_action_pressed("item"):
+		item_holder.use(delta)
+	
+	# checks if an item has run out of ammo or has been used.
+	if !hurt and item:
+		item_holder.check_item(delta)
 	
 	# Save velocity for a cycle
 	last_velocity = Vector2(velocity)
@@ -315,6 +363,12 @@ func interact_with_incoporeal_tiles():
 			swimming = true
 		game.tiles.on("area", tile.block_id, self, tile.tile_map, tile.coords)
 
+# Stuns the player when they hit a mine
+func hitstun(hitstun: float):
+	if !shielded and !hurt:
+		hitstun_duration = hitstun
+		hitstun_timer = hitstun
+		hurt = true
 
 # Are we in a wall?
 func is_in_solid() -> bool:
@@ -373,7 +427,7 @@ func interact_with_solid_tiles() -> bool:
 			game.tiles.on("stand", tile_type, self, tilemap, coords)
 			if game.tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
 				var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tilemap.global_rotation)
-				last_safe_position = centre_safe_block - (Vector2(0, (1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
+				last_safe_position = centre_safe_block - (Vector2(0,(1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + rotation)
 				var layers = tilemap.get_node("../../")
 				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
@@ -395,43 +449,34 @@ func set_depth(depth: int) -> void:
 	low_area.collision_mask = solid_layer | vapor_layer
 	high_area.collision_mask = solid_layer
 
-
-func set_item(new_item: Node2D) -> void:
-	if item:
-		remove_item()
-	
-	item = new_item
-	item_holder.add_child(item)
-
-
-func remove_item() -> void:
-	if item:
-		item.queue_free()
-		item = null
-
-
-func use_item(delta: float) -> void:
-	if item:
-		var has_more_uses: bool = item.use(delta)
-		if !has_more_uses:
-			remove_item()
-
+func set_item(new_item_id: int) -> void:
+	var item_id = new_item_id
+	item_holder.set_item_id(item_id)
 
 func update_animation() -> void:
 	# face left or right
 	control_vector = Input.get_vector("left", "right", "up", "down")
-	if control_vector.x > 0:
-		display.scale.x = 1
-	if control_vector.x < 0:
-		display.scale.x = -1
+	if !hurt:
+		display.scale.x = facing
+		item_holder.scale.x = facing
+	else:
+		if (hitstun_duration - hitstun_timer) < 0.4:
+			animations.play("hurt_start")
+		elif hitstun_timer > 0.5:
+			animations.play("hurt")
+		else:
+			animations.play("recover")
 	
 	# crouching
-	if is_crouching:
-		animations.play("crawl")
+	if !hurt and is_crouching:
+		if control_vector.x != 0:
+			animations.play("crawl")
+		else:
+			animations.play("crouch")
 		
 	# on ground
-	elif is_on_floor():
-		if super_jump.is_charging():
+	elif !hurt and is_on_floor():
+		if super_jump.is_locking():
 			animations.play("charge")
 		elif control_vector.x != 0:
 			animations.play("run")
@@ -439,27 +484,26 @@ func update_animation() -> void:
 			animations.play("idle")
 			
 	# in the air
-	else:
+	elif !hurt and swimming:
+		animations.play("swim")
+	elif !hurt:
 		animations.play("jump")
 	
 	# super jump charge effect
-	if super_jump.is_fully_charged():
-		display.scale.y = randf_range(0.9, 1.1)
-		if display.scale.x > 0:
-			display.scale.x = randf_range(0.9, 1.7)
-		else:
-			display.scale.x = -randf_range(0.9, 1.7)
-		display.modulate = Color("FFFF00")
-	elif super_jump.is_locking():
-		display.scale.y = randf_range(0.8, 1.1)
-		display.modulate = Color("FFFFAA")
+	shake = super_jump.charge_precentage() / 8
+	sjanim = randf_range(1 - shake, 1 + shake)
+	if super_jump.is_locking():
+		display.scale.y = sjanim
+		display.modulate = Color(1.0, 1.0, 1.0 - super_jump.charge_precentage())
 	else:
-		display.modulate = Color("FFFFFF")
+		display.modulate = Color(1.0, 1.0, 1.0)
 		display.scale.y = 1
-		if display.scale.x > 0:
-			display.scale.x = 1
-		else:
-			display.scale.x = -1
+		shake = 0
+		display.scale.x = facing
+	if item_holder.item:
+		item_holder.item.modulate = display.modulate
+		item_holder.item.scale.y = display.scale.y
+		item_holder.item.scale.x = display.scale.x
 
 func check_out_of_bounds() -> void:
 	var map_used_rect = Session.get_used_rect()
@@ -477,3 +521,4 @@ func check_out_of_bounds() -> void:
 		position.x = last_safe_position.x
 		position.y = last_safe_position.y
 		velocity = Vector2(0, 0)
+		
