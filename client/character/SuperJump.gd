@@ -5,12 +5,14 @@ const CHARGE_TIMER_MAX = 1.5 # in seconds
 const CHARGE_TIMER_MINIMUM_THRESHOLD = 0.5 # in seconds
 
 var charge_timer: float = 0.0
+var sjanim_timer: float = 0.0
 
 
 func run(character: Character, delta: float) -> void:
 	# no super jumps if we're not on the ground
 	if !character.is_on_floor():
 		charge_timer = 0
+		sjanim_timer = 0
 		return
 	
 	# not charging
@@ -18,12 +20,19 @@ func run(character: Character, delta: float) -> void:
 		if charge_timer >= CHARGE_TIMER_MINIMUM_THRESHOLD: 
 			character.velocity += SUPER_JUMP_VELOCITY.rotated(character.rotation) * ((charge_timer - CHARGE_TIMER_MINIMUM_THRESHOLD) / (CHARGE_TIMER_MAX - CHARGE_TIMER_MINIMUM_THRESHOLD))
 		charge_timer = 0
+		sjanim_timer = 0
 		return
 		
 	# charging
 	charge_timer += delta
 	charge_timer = min(charge_timer, CHARGE_TIMER_MAX)
+	if charge_timer >= CHARGE_TIMER_MINIMUM_THRESHOLD:
+		sjanim_timer += delta / CHARGE_TIMER_MAX
+		sjanim_timer = min(sjanim_timer, 1)
 
+
+func charge_precentage():
+	return sjanim_timer
 
 func is_charging():
 	return charge_timer > 0
