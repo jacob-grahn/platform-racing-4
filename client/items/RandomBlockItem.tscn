@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="2_35h6y"]
 
 [node name="RandomBlockItem" type="Node2D"]
+position = Vector2(50, 12.5)
 script = ExtResource("1_wdlih")
 
 [node name="TileAtlas" type="Sprite2D" parent="."]

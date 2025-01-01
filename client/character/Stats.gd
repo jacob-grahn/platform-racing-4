@@ -1,23 +1,29 @@
 class_name Stats
 
-var jump: int = 0
-var speed: int = 0
-var accel: int = 0
-var skill: int = 0
+var jump: int = 50
+var speed: int = 50
+var accel: int = 50
+var skill: int = 50
+var force: int = 0
 
 
 func get_jump_bonus() -> float:
-	return 1 + (jump / 20.0)
+	return 1 + (jump / 50.0)
 
 func get_speed_bonus() -> float:
-	return 1 + (speed / 20.0)
+	return 1 + (speed / 50.0)
 	
 func get_accel_bonus() -> float:
-	return 1 + (accel / 20.0)
+	return 1 + (accel / 50.0)
 
 func get_skill_bonus() -> float:
-	return 1 + (skill / 20.0)
-
+	return 1 + (skill / 50.0)
+	
+func set_force(num: float) -> void:
+	force = num
+	
+func apply_force() -> float:
+	return force
 
 func inc_all(num: int) -> void:
 	jump += num
@@ -28,10 +34,10 @@ func inc_all(num: int) -> void:
 
 
 func enforce_limits() -> void:
-	jump = clamp(jump, -10, 10)
-	speed = clamp(speed, -10, 10)
-	accel = clamp(accel, -10, 10)
-	skill = clamp(skill, -10, 10)
+	jump = clamp(jump, 0, 100)
+	speed = clamp(speed, 0, 100)
+	accel = clamp(accel, 0, 100)
+	skill = clamp(skill, 0, 100)
 
 
 func get_total() -> int:

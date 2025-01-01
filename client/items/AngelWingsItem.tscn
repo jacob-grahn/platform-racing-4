@@ -1,0 +1,200 @@
+[gd_scene load_steps=7 format=3 uid="uid://csnioqb2naahd"]
+
+[ext_resource type="Texture2D" uid="uid://drfxx4goswu6g" path="res://items/AngelWingsItem.png" id="1_1u520"]
+[ext_resource type="Script" path="res://items/AngelWingsItem.gd" id="1_nk4ot"]
+
+[sub_resource type="Animation" id="Animation_phbtj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AngelWing1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AngelWing1:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AngelWing2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AngelWing2:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_g1w3q"]
+resource_name = "flap"
+length = 0.8334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AngelWing2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.233333, 0.3, 0.4, 0.466667, 0.666667, 0.733333, 0.833333),
+"transitions": PackedFloat32Array(1, 0.535887, 0.840896, 0.63728, 1.7411, 0.659754, 0.659754, 1.18921, 1),
+"update": 0,
+"values": [0.0, 0.495674, 0.60912, 0.270526, -0.6353, -0.860447, 0.270526, 0.340339, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AngelWing2:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.433333, 0.566667, 0.666667, 0.733333, 0.833333),
+"transitions": PackedFloat32Array(1, 0.594604, 0.933033, 0.68302, 1.62451, 0.784584, 0.707107, 1.23114, 0.840896),
+"update": 0,
+"values": [0.0, 0.226893, 0.282743, 0.0855211, -0.197222, -0.310669, -0.0558505, 0.0575959, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AngelWing1:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.333333, 0.433333, 0.633333, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 0.535887, 0.554785, 1, 0.659754, 0.615572, 1, 1),
+"update": 0,
+"values": [0.0, 0.680678, 0.794125, -0.340339, -0.453786, 0.111701, 0.15708, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AngelWing1:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.233333, 0.4, 0.5, 0.666667, 0.8),
+"transitions": PackedFloat32Array(1, 0.466516, 0.784584, 1.8025, 0.707107, 1.46409, 0.594604),
+"update": 0,
+"values": [0.0, 0.26529, 0.321141, -0.0174533, -0.0733038, 0.0401426, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_4glpn"]
+resource_name = "idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AngelWing2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AngelWing2:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AngelWing1:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AngelWing1:skew")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3nrjy"]
+_data = {
+"RESET": SubResource("Animation_phbtj"),
+"flap": SubResource("Animation_g1w3q"),
+"idle": SubResource("Animation_4glpn")
+}
+
+[node name="AngelWingsItem" type="Node2D"]
+script = ExtResource("1_nk4ot")
+
+[node name="AngelWing2" type="Node2D" parent="."]
+
+[node name="AngelWing2" type="Sprite2D" parent="AngelWing2"]
+modulate = Color(0.87451, 0.87451, 0.87451, 1)
+position = Vector2(-30, 6)
+rotation = 0.366519
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_1u520")
+
+[node name="AngelWing1" type="Node2D" parent="."]
+
+[node name="AngelWing1" type="Sprite2D" parent="AngelWing1"]
+position = Vector2(-37, 21)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_1u520")
+
+[node name="CooldownTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="AnimationTimer" type="Timer" parent="."]
+wait_time = 0.833
+one_shot = true
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3nrjy")
+}
+autoplay = "idle"
+playback_default_blend_time = 0.2

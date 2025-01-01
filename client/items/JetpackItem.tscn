@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://2qselvbah70w"]
+
+[ext_resource type="Texture2D" uid="uid://sbq5bdju1lwk" path="res://items/JetpackItem.svg" id="1_0cmyq"]
+[ext_resource type="Script" path="res://items/JetpackItem.gd" id="1_u18cl"]
+[ext_resource type="Texture2D" uid="uid://brnxap2faub3c" path="res://item_effects/Exhaust.svg" id="2_mdkoo"]
+[ext_resource type="Texture2D" uid="uid://othejmiqap5u" path="res://item_effects/JetpackFire.svg" id="3_7esll"]
+
+[node name="JetpackItem" type="Node2D"]
+scale = Vector2(1.25, 1.25)
+script = ExtResource("1_u18cl")
+
+[node name="Exhaust1" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.623529, 0.623529, 0.623529, 1)
+z_index = -1
+position = Vector2(-9, 64)
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_mdkoo")
+
+[node name="JetpackFire1" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.623529, 0.623529, 0.623529, 1)
+z_index = -1
+position = Vector2(-9, 32)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_7esll")
+centered = false
+offset = Vector2(-37.5, 0)
+
+[node name="Jetpack1" type="Sprite2D" parent="."]
+self_modulate = Color(0.623529, 0.623529, 0.623529, 1)
+z_index = -1
+position = Vector2(-10, 15)
+texture = ExtResource("1_0cmyq")
+
+[node name="Exhaust2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-29, 70)
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_mdkoo")
+
+[node name="JetpackFire2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-29, 37)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_7esll")
+centered = false
+offset = Vector2(-37.5, 0)
+
+[node name="Jetpack2" type="Sprite2D" parent="."]
+position = Vector2(-30, 21)
+texture = ExtResource("1_0cmyq")

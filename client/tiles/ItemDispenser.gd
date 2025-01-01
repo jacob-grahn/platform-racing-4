@@ -1,7 +1,7 @@
 extends Tile
 class_name ItemDispenser
 
-const RANDOM_BLOCK_ITEM = preload("res://items/RandomBlockItem.tscn")
+var item_id: int = 0
 
 
 func init():
@@ -14,8 +14,8 @@ func dispense_item(player: Node2D, tile_map: TileMap, coords: Vector2i):
 		return
 	
 	# grant an item
-	var item = RANDOM_BLOCK_ITEM.instantiate()
-	player.set_item(item)
+	item_id = randi_range(1, 14)
+	player.set_item(item_id)
 	
 	# deactivate this tile
 	deactivate(tile_map, coords)

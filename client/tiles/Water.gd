@@ -4,4 +4,4 @@ class_name Water
 
 func init():
 	matter_type = Tile.LIQUID
-	is_safe = false
+	is_safe = true
