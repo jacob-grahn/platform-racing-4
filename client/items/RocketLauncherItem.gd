@@ -6,9 +6,11 @@ class_name RocketLauncherItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
+@onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
+var uses: int = 1
 
 
 func _physics_process(delta):
@@ -36,12 +38,12 @@ func activate_item():
 		timer.start()
 		animtimer.start()
 		launch()
-		if scale.x < 0:
-			get_parent().get_parent().velocity.x += 2500
+		if character.display.scale.x < 0:
+			character.velocity.x += 2500
 		else:
-			get_parent().get_parent().velocity.x -= 2500
-	get_parent().uses -= 1
-	if get_parent().uses > 0:
+			character.velocity.x -= 2500
+	uses -= 1
+	if uses > 0:
 		remove = false
 	else:
 		remove = true
@@ -55,7 +57,7 @@ func launch():
 	rocket.dir = 0
 	rocket.spawnpos = global_position
 	rocket.spawnrot = 0
-	rocket.scale.x = scale.x
+	rocket.scale.x = character.display.scale.x
 	main.add_child.call_deferred(rocket)
 
 func _on_timeout():

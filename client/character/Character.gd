@@ -23,11 +23,11 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var speed_particles = $SpeedParticles
 @onready var low_area = $LowArea
 @onready var high_area = $HighArea
-@onready var item_holder = $ItemHolder
+@onready var item_manager = $ItemManager
 @onready var ice = $Ice
 @onready var shield = $Shield
 @onready var display = $Display
-@onready var animations: AnimationPlayer = $Animations
+@onready var animations: AnimationPlayer = $Display/Animations
 
 var active = false
 var control_vector: Vector2
@@ -128,8 +128,8 @@ func _physics_process(delta):
 		super_jump.run(self, delta)
 	
 	# Checks if the item the player is holding is pushing them somewhere
-	if item_holder.item:
-		item_force = item_holder.get_item_force(delta)
+	if item_manager.item:
+		item_force = item_manager.get_item_force(delta)
 	else:
 		item_force = Vector2(0, 0)
 	var item_force_x = item_force.x * display.scale.x
@@ -287,11 +287,11 @@ func _physics_process(delta):
 	
 	# Use items
 	if !hurt and Input.is_action_pressed("item"):
-		item_holder.use(delta)
+		item_manager.use(delta)
 	
 	# checks if an item has run out of ammo or has been used.
 	if !hurt and item:
-		item_holder.check_item(delta)
+		item_manager.check_item(delta)
 	
 	# Save velocity for a cycle
 	last_velocity = Vector2(velocity)
@@ -451,14 +451,13 @@ func set_depth(depth: int) -> void:
 
 func set_item(new_item_id: int) -> void:
 	var item_id = new_item_id
-	item_holder.set_item_id(item_id)
+	item_manager.set_item_id(item_id)
 
 func update_animation() -> void:
 	# face left or right
 	control_vector = Input.get_vector("left", "right", "up", "down")
 	if !hurt:
 		display.scale.x = facing
-		item_holder.scale.x = facing
 	else:
 		if (hitstun_duration - hitstun_timer) < 0.4:
 			animations.play("hurt_start")
@@ -500,10 +499,6 @@ func update_animation() -> void:
 		display.scale.y = 1
 		shake = 0
 		display.scale.x = facing
-	if item_holder.item:
-		item_holder.item.modulate = display.modulate
-		item_holder.item.scale.y = display.scale.y
-		item_holder.item.scale.x = display.scale.x
 
 func check_out_of_bounds() -> void:
 	var map_used_rect = Session.get_used_rect()

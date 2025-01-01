@@ -6,9 +6,11 @@ class_name SwordItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
+@onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
+var uses: int = 3
 
 
 func _physics_process(delta):
@@ -36,12 +38,12 @@ func activate_item():
 		timer.start()
 		animtimer.start()
 		slash()
-		if scale.x < 0:
-			get_parent().get_parent().velocity.x -= 1000
+		if character.display.scale.x < 0:
+			character.velocity.x -= 1000
 		else:
-			get_parent().get_parent().velocity.x += 1000
-		get_parent().uses -= 1
-	if get_parent().uses > 0:
+			character.velocity.x += 1000
+		uses -= 1
+	if uses > 0:
 		remove = false
 	else:
 		remove = true

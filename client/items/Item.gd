@@ -1,5 +1,9 @@
 extends Node2D
-class_name Item
+class_name ItemManager
+
+# kind of a hack so moving animations over to character_display doesn't break this
+# todo: make this better
+@onready var item_holder: Node2D = get_node("../Display/ItemHolder")
 
 const RANDOM_BLOCK_ITEM = preload("res://items/RandomBlockItem.tscn")
 const ANGEL_WINGS_ITEM = preload("res://items/AngelWingsItem.tscn")
@@ -40,21 +44,21 @@ func set_item_id(item_id: int):
 		remove_item()
 	item = null
 	match item_id:
-		0: has_force = false; uses = 1; item = RANDOM_BLOCK_ITEM.instantiate(); add_child(item)
-		1: has_force = true; uses = 3; item = ANGEL_WINGS_ITEM.instantiate(); add_child(item)
-		2: has_force = false; uses = 1; item = BLACK_HOLE_ITEM.instantiate(); add_child(item)
-		3: has_force = false; uses = 3; item = ICE_WAVE_ITEM.instantiate(); add_child(item)
-		4: has_force = true; uses = 1; item = JETPACK_ITEM.instantiate(); add_child(item)
-		5: has_force = false; uses = 3; item = LASER_GUN_ITEM.instantiate(); add_child(item)
-		6: has_force = false; uses = 1; item = LIGHTNING_ITEM.instantiate(); add_child(item)
-		7: has_force = false; uses = 1; item = PORTABLE_BLOCK_ITEM.instantiate(); add_child(item)
-		8: has_force = false; uses = 1; item = PORTABLE_MINE_ITEM.instantiate(); add_child(item)
-		9: has_force = false; uses = 1; item = ROCKET_LAUNCHER_ITEM.instantiate(); add_child(item)
-		10: has_force = false; uses = 1; item = SHIELD_ITEM.instantiate(); add_child(item)
-		11: has_force = true; uses = 1; item = SPEED_BURST_ITEM.instantiate(); add_child(item)
-		12: has_force = true; uses = 1; item = SUPER_JUMP_ITEM.instantiate(); add_child(item)
-		13: has_force = false; uses = 3; item = SWORD_ITEM.instantiate(); add_child(item)
-		14: has_force = false; uses = 1; item = TELEPORT_ITEM.instantiate(); add_child(item)
+		0: has_force = false; uses = 1; item = RANDOM_BLOCK_ITEM.instantiate(); item_holder.add_child(item)
+		1: has_force = true; uses = 3; item = ANGEL_WINGS_ITEM.instantiate(); item_holder.add_child(item)
+		2: has_force = false; uses = 1; item = BLACK_HOLE_ITEM.instantiate(); item_holder.add_child(item)
+		3: has_force = false; uses = 3; item = ICE_WAVE_ITEM.instantiate(); item_holder.add_child(item)
+		4: has_force = true; uses = 1; item = JETPACK_ITEM.instantiate(); item_holder.add_child(item)
+		5: has_force = false; uses = 3; item = LASER_GUN_ITEM.instantiate(); item_holder.add_child(item)
+		6: has_force = false; uses = 1; item = LIGHTNING_ITEM.instantiate(); item_holder.add_child(item)
+		7: has_force = false; uses = 1; item = PORTABLE_BLOCK_ITEM.instantiate(); item_holder.add_child(item)
+		8: has_force = false; uses = 1; item = PORTABLE_MINE_ITEM.instantiate(); item_holder.add_child(item)
+		9: has_force = false; uses = 1; item = ROCKET_LAUNCHER_ITEM.instantiate(); item_holder.add_child(item)
+		10: has_force = false; uses = 1; item = SHIELD_ITEM.instantiate(); item_holder.add_child(item)
+		11: has_force = true; uses = 1; item = SPEED_BURST_ITEM.instantiate(); item_holder.add_child(item)
+		12: has_force = true; uses = 1; item = SUPER_JUMP_ITEM.instantiate(); item_holder.add_child(item)
+		13: has_force = false; uses = 3; item = SWORD_ITEM.instantiate(); item_holder.add_child(item)
+		14: has_force = false; uses = 1; item = TELEPORT_ITEM.instantiate(); item_holder.add_child(item)
 
 func use(delta: float):
 	if uses > 0 and !using:

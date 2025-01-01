@@ -6,16 +6,21 @@ class_name IceWaveItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
+@onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
+var uses: int = 3
+
 
 func _physics_process(delta):
 	check_if_used()
 	_update_animation()
 
+
 func _ready():
 	timer.connect("timeout", _on_timeout)
 	animtimer.connect("timeout", _end_animation)
+
 
 func _update_animation():
 	if animtimer.time_left > 0:
@@ -23,12 +28,15 @@ func _update_animation():
 	else:
 		animations.play("idle")
 
+
 func _end_animation():
 	animations.play("idle")
 
+
 func check_if_used():
-	if get_parent().uses < 1:
+	if uses < 1:
 		remove = true
+
 
 func activate_item():
 	if !using:
@@ -37,7 +45,7 @@ func activate_item():
 		timer.start()
 		animtimer.start()
 		shoot()
-		get_parent().uses -= 1
+		uses -= 1
 
 # ice waves seem to overwrite each other, causing-
 # one of the ice waves to suddenly change direction.
@@ -52,22 +60,24 @@ func shoot():
 	icewave1.dir = 112.5
 	icewave1.spawnpos = global_position
 	icewave1.spawnrot = 112.5
-	icewave1.scale.x = scale.x
+	icewave1.scale.x = character.display.scale.x
 	var icewave2 = projectile.instantiate()
 	main.add_child.call_deferred(icewave2)
 	icewave2.dir = 0
 	icewave2.spawnpos = global_position
 	icewave2.spawnrot = 0
-	icewave2.scale.x = scale.x
+	icewave2.scale.x = character.display.scale.x
 	var icewave3 = projectile.instantiate()
 	main.add_child.call_deferred(icewave3)
 	icewave3.dir = -112.5
 	icewave3.spawnpos = global_position
 	icewave3.spawnrot = -112.5
-	icewave3.scale.x = scale.x
+	icewave3.scale.x = character.display.scale.x
+	
 	
 func _on_timeout():
 	using = false
+
 
 func still_have_item():
 	if !remove:

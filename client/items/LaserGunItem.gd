@@ -6,23 +6,28 @@ class_name LaserGunItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
+@onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
+var uses: int = 3
 
 
 func _physics_process(delta):
 	_update_animation()
 
+
 func _ready():
 	timer.connect("timeout", _on_timeout)
 	animtimer.connect("timeout", _end_animation)
+	
 	
 func _update_animation():
 	if animtimer.time_left > 0:
 		animations.play("shoot")
 	else:
 		animations.play("idle")
+
 
 func _end_animation():
 	animations.play("idle")
@@ -37,12 +42,12 @@ func activate_item():
 		timer.start()
 		animtimer.start()
 		shoot()
-		if scale.x < 0:
-			get_parent().get_parent().velocity.x += 750
+		if character.display.scale.x < 0:
+			character.velocity.x += 750
 		else:
-			get_parent().get_parent().velocity.x -= 750
-	get_parent().uses -= 1
-	if get_parent().uses > 0:
+			character.velocity.x -= 750
+	uses -= 1
+	if uses > 0:
 		remove = false
 	else:
 		remove = true
@@ -56,7 +61,7 @@ func shoot():
 	bullet.dir = 0
 	bullet.spawnpos = global_position
 	bullet.spawnrot = 0
-	bullet.scale.x = scale.x
+	bullet.scale.x = character.display.scale.x
 	main.add_child.call_deferred(bullet)
 
 func _on_timeout():

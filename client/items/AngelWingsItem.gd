@@ -1,19 +1,20 @@
 extends Node2D
 class_name AngelWingsItem
 
-@onready var player = get_parent().get_parent()
+@onready var character = get_node("../../..")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
+var uses: int = 3
 
 func _physics_process(delta):
 	if using:
-		if player.velocity.y >= 0:
-			player.velocity.y = 0
-		if player.velocity.y >= -3000:
+		if character.velocity.y >= 0:
+			character.velocity.y = 0
+		if character.velocity.y >= -3000:
 			boost = Vector2(100, -60)
 		else:
 			boost = Vector2(100, 0)
@@ -32,7 +33,7 @@ func _update_animation():
 		animations.play("idle")
 
 func _end_animation():
-	if (get_parent().uses - 1) < 1:
+	if (uses - 1) < 1:
 		remove = true
 	
 func activate_item():
@@ -49,7 +50,7 @@ func get_force(delta: float):
 		return Vector2(0, 0)
 
 func _on_timeout():
-	get_parent().uses -= 1
+	uses -= 1
 	using = false
 
 func still_have_item():

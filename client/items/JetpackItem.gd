@@ -5,6 +5,7 @@ class_name JetpackItem
 @onready var JetpackFire1 = $JetpackFire1
 @onready var Exhaust2 = $Exhaust2
 @onready var JetpackFire2 = $JetpackFire2
+@onready var character = get_node("../../..")
 var using: bool = false
 var fuelon: bool = false
 var remove: bool = false
@@ -12,14 +13,15 @@ var boost = Vector2(0, 0)
 var timer: int = 0
 var exhaustscale: float = 0.0
 var jetpackfirescale: float = 0.0
+var uses: int = 1
 
 func _physics_process(delta):
 	item_button_pressed()
 	if timer > 0:
 		if fuelon:
-			if get_parent().get_parent().velocity.y < -700:
+			if character.velocity.y < -700:
 				boost = Vector2(0, -40)
-			elif get_parent().get_parent().velocity.y <= 0:
+			elif character.velocity.y <= 0:
 				boost = Vector2(0, -65)
 			else:
 				boost = Vector2(0, -75)
@@ -41,17 +43,17 @@ func _physics_process(delta):
 			Exhaust2.visible = false
 			JetpackFire2.visible = false
 	else:
-		get_parent().uses = 0
+		uses = 0
 		remove = true
 	update_animation()
 
 func _ready():
 	timer = 660
 	jetpackfirescale = 1.0
-	get_parent().uses = 1
+	uses = 1
 
 func item_button_pressed():
-	if !get_parent().get_parent().hurt and Input.is_action_pressed("item"):
+	if !character.hurt and Input.is_action_pressed("item"):
 		using = true
 		fuelon = true
 	else:
