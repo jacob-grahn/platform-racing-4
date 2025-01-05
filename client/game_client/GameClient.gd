@@ -30,6 +30,10 @@ var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
 var layers: Node2D = null
 var editor_cursors: Node2D = null
+var editor_explore_button: Button = null
+var editor_load_button: Button = null
+var editor_save_button: Button = null
+var editor_clear_button: Button = null
 var is_scale_multiple_instances = false
 
 func _ready() -> void:
@@ -45,6 +49,11 @@ func _on_connect_editor() -> void:
 	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
 	layers = $"../EDITOR/Layers"
 	editor_cursors = $"../EDITOR/EditorCursorLayer/EditorCursors"
+	editor_explore_button = $"../EDITOR/UI/Explore"
+	editor_load_button = $"../EDITOR/UI/Load"
+	editor_save_button = $"../EDITOR/UI/Save"
+	editor_clear_button = $"../EDITOR/UI/Clear"
+	
 	editor_events.connect("send_level_event", _on_send_level_event)
 	
 	if !isFirstOpenEditor:
@@ -59,6 +68,7 @@ func _on_connect_editor() -> void:
 	
 	isFirstOpenEditor = false
 	editor_cursors.add_new_cursor(Session.get_username())
+	toggle_editor_buttons(is_live_editing)
 	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
@@ -222,6 +232,7 @@ func _process(delta: float) -> void:
 			
 			if parsed_packet.module == "ResponseEditorModule":
 				is_live_editing = true
+				toggle_editor_buttons(true)
 				cursor_timer.start()
 				var request_editor = parsed_packet.request_editor
 				
@@ -266,7 +277,7 @@ func _process(delta: float) -> void:
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
 				if now_editing_panel && is_instance_valid(now_editing_panel):
-					if parsed_packet.id != Session.get_username():
+					if parsed_packet.id != Session.get_username() && is_live_editing:
 						now_editing_panel.add_member(parsed_packet.id)
 				if is_host or parsed_packet.id != Session.get_username():
 					if !editor_cursors || !is_instance_valid(editor_cursors):
@@ -297,6 +308,7 @@ func _process(delta: float) -> void:
 					return
 					
 				is_live_editing = true
+				toggle_editor_buttons(true)
 				cursor_timer.start()
 				is_host = true
 				var member_id_list: Array[String] = [parsed_packet.id]
@@ -346,6 +358,7 @@ func _process(delta: float) -> void:
 				
 				if isMe:
 					is_live_editing = false
+					toggle_editor_buttons(false)
 					cursor_timer.stop()
 					is_host = false
 					
@@ -381,6 +394,19 @@ func _process(delta: float) -> void:
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
 
+func toggle_editor_buttons(isDiabled: bool):
+	if editor_explore_button && is_instance_valid(editor_explore_button):
+		editor_explore_button.set_disabled(isDiabled)
+	
+	if editor_load_button && is_instance_valid(editor_load_button):
+		editor_load_button.set_disabled(isDiabled)
+	
+	if editor_save_button && is_instance_valid(editor_save_button):
+		editor_save_button.set_disabled(isDiabled)
+	
+	if editor_clear_button && is_instance_valid(editor_clear_button):
+		editor_clear_button.set_disabled(isDiabled)
+	
 func scale_multiple_instances():
 	var screen_count = 3
 	

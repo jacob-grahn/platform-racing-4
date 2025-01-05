@@ -85,6 +85,7 @@ visible = false
 visible = false
 
 [node name="PopupPanel" parent="UI" instance=ExtResource("20_80w27")]
+visible = false
 
 [node name="Explore" type="Button" parent="UI"]
 offset_left = 962.0
