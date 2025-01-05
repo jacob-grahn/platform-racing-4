@@ -131,6 +131,17 @@ func (h *Hub) handleJoinEditorModule(update *Update) {
 
 	update.Module = string(JoinSuccessModule)
 	update.MemberIDList = room.MembersID
+
+	//remove duplicates in MemberIDList
+	m := make(map[string]bool)
+	for _, v := range update.MemberIDList {
+		m[v] = true
+	}
+	update.MemberIDList = []string{}
+	for k := range m {
+		update.MemberIDList = append(update.MemberIDList, k)
+	}
+
 	update.HostID = room.HostID
 }
 

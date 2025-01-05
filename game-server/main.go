@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	ReconnectModule      Module = "ReconnectModule"
 	OnlineModule         Module = "OnlineModule"
 	EditorModule         Module = "EditorModule"
 	JoinEditorModule     Module = "JoinEditorModule"

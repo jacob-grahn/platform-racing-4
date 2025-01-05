@@ -33,7 +33,7 @@ var editor_cursors: Node2D = null
 var is_scale_multiple_instances = false
 
 func _ready() -> void:
-	connect_timer.timeout.connect(_attempt_connect)
+	connect_timer.timeout.connect(_attempt_connect, true)
 	cursor_timer.timeout.connect(_send_cursor_update)
 	
 	if is_scale_multiple_instances:
@@ -85,7 +85,7 @@ func join(room_name: String, is_host_requested: bool) -> void:
 	connect_attempt_count = 0
 	room = room_name
 	target_state = OPEN
-	_attempt_connect()
+	_attempt_connect(false)
 
 
 func close() -> void:
@@ -127,7 +127,7 @@ func _send_cursor_update() -> void:
 		send_queue.push_back(data)
 
 # Initiate connection to the given URL.
-func _attempt_connect() -> void:
+func _attempt_connect(isReconnect: bool) -> void:
 	print("_attempt_connect: ", websocket_url, ", ", room)
 	connect_attempt_count += 1
 	socket = WebSocketPeer.new()
@@ -144,6 +144,9 @@ func _attempt_connect() -> void:
 	# await get_tree().create_timer(1).timeout
 	
 	# Send data.
+	if isReconnect:
+		current_module = "ReconnectModule"
+		
 	var data = {
 		"module": current_module,
 		"id": Session.get_username(),
@@ -190,6 +193,9 @@ func _process(delta: float) -> void:
 			var packet = socket.get_packet().get_string_from_utf8()
 			#print("receive ws (", Session.get_username(), ") :", packet)
 			var parsed_packet = JSON.parse_string(packet)
+			
+			if parsed_packet == null:
+				return
 			
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
 				if is_live_editing:
