@@ -33,7 +33,6 @@ var layers: Node2D = null
 var editor_cursors: Node2D = null
 var editor_explore_button: Button = null
 var editor_load_button: Button = null
-var editor_save_button: Button = null
 var editor_clear_button: Button = null
 var is_scale_multiple_instances = false
 
@@ -53,7 +52,6 @@ func _on_connect_editor() -> void:
 	editor_cursors = $"../EDITOR/EditorCursorLayer/EditorCursors"
 	editor_explore_button = $"../EDITOR/UI/Explore"
 	editor_load_button = $"../EDITOR/UI/Load"
-	editor_save_button = $"../EDITOR/UI/Save"
 	editor_clear_button = $"../EDITOR/UI/Clear"
 	
 	editor_events.connect("send_level_event", _on_send_level_event)
@@ -402,9 +400,6 @@ func toggle_editor_buttons(isDiabled: bool):
 	
 	if editor_load_button && is_instance_valid(editor_load_button):
 		editor_load_button.set_disabled(isDiabled)
-	
-	if editor_save_button && is_instance_valid(editor_save_button):
-		editor_save_button.set_disabled(isDiabled)
 	
 	if editor_clear_button && is_instance_valid(editor_clear_button):
 		editor_clear_button.set_disabled(isDiabled)
