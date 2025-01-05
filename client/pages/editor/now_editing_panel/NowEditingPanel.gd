@@ -10,16 +10,17 @@ var member_id_list: Array[String] = []
 
 @onready var row_holder = $ScrollContainer/RowHolder
 @onready var host_button = $HostButton
-@onready var join_button = $JoinButton
+@onready var join_quit_button = $JoinQuitButton
 @onready var RoomEdit = $RoomEdit
 @onready var http_request = $HTTPRequest
 @onready var host_edit_panel = $"../HostEditPanel"
 @onready var join_edit_panel = $"../JoinEditPanel"
+@onready var quit_edit_panel = $"../QuitEditPanel"
 @onready var offline_label: Label = $OfflineLabel
 
 func _ready():
 	host_button.pressed.connect(_host_pressed)
-	join_button.pressed.connect(_join_pressed)
+	join_quit_button.pressed.connect(_join_quit_pressed)
 	
 func clear() -> void:
 	for child in row_holder.get_children():
@@ -28,13 +29,30 @@ func clear() -> void:
 func _host_pressed():
 	host_edit_panel.initialize()
 	
-func _join_pressed():
-	join_edit_panel.initialize()
+func _join_quit_pressed():
+	if is_live_editing:
+		quit_edit_panel.initialize(RoomEdit.text)
+	else:
+		join_edit_panel.initialize()
+
+func quit_room(isMe: bool, member_id_list_input: Array[String], host_id: String):
+	if isMe:
+		is_live_editing = false
+		RoomEdit.text = ""
+		host_button.disabled = false
+		join_quit_button.text = "Join"
+		offline_label.visible = true
+		member_id_list = []
+		clear()
+	else:
+		member_id_list = member_id_list_input
+		render(member_id_list, host_id)
 	
 func join_room(room: String, member_id_list_input: Array[String], host_id: String):
+	is_live_editing = true
 	RoomEdit.text = room
 	host_button.disabled = true
-	join_button.disabled = true
+	join_quit_button.text = "Quit"
 	offline_label.visible = false
 	member_id_list = member_id_list_input
 	render(member_id_list, host_id)

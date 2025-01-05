@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5m28uva2sq6k"]
+
+[ext_resource type="Script" path="res://pages/editor/quit_edit_panel/quit_edit_panel.gd" id="1_cxpor"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_4lfod"]
+
+[node name="QuitEditPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 21.0
+offset_right = 46.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cxpor")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
+offset_left = -125.0
+offset_top = -115.0
+offset_right = 2068.0
+offset_bottom = 1194.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1294.0
+offset_bottom = 576.0
+
+[node name="QuitEditLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 729.0
+offset_top = 280.0
+offset_right = 1266.0
+offset_bottom = 355.0
+theme_override_font_sizes/font_size = 30
+text = "-- Are you sure you want to leave this room? --"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 701.0
+offset_top = 381.0
+offset_right = 813.0
+offset_bottom = 430.0
+theme_override_font_sizes/font_size = 30
+text = "Room"
+horizontal_alignment = 2
+
+[node name="TitleEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 828.0
+offset_top = 371.0
+offset_right = 1232.0
+offset_bottom = 434.0
+theme = ExtResource("2_4lfod")
+placeholder_text = "Room ID"
+editable = false
+
+[node name="ConfirmButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 455.0
+offset_right = 961.0
+offset_bottom = 526.0
+theme = ExtResource("2_4lfod")
+text = "Confirm"
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1015.0
+offset_top = 455.0
+offset_right = 1224.0
+offset_bottom = 526.0
+theme = ExtResource("2_4lfod")
+text = "Close"

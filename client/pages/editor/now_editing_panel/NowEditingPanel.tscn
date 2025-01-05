@@ -48,7 +48,7 @@ theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Host"
 
-[node name="JoinButton" type="Button" parent="."]
+[node name="JoinQuitButton" type="Button" parent="."]
 offset_left = 1644.0
 offset_top = 761.0
 offset_right = 1813.0

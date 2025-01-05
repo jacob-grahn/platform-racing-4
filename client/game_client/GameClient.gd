@@ -75,6 +75,16 @@ func _on_send_level_event(event: Dictionary) -> void:
 	}
 	send_queue.push_back(data)
 
+func quit(room_name: String) -> void:
+	var data = {
+		"module": "QuitEditorModule",
+		"id": Session.get_username(),
+		"ms": 5938,
+		"room" : room_name,
+		"ret": true,
+	}
+	send_queue.push_back(data)
+
 func join(room_name: String, is_host_requested: bool) -> void:
 	if is_host_requested:
 		current_module = "HostEditorModule"
@@ -256,7 +266,8 @@ func _process(delta: float) -> void:
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
 				if now_editing_panel && is_instance_valid(now_editing_panel):
-					now_editing_panel.add_member(parsed_packet.id)
+					if parsed_packet.id != Session.get_username():
+						now_editing_panel.add_member(parsed_packet.id)
 				if is_host or parsed_packet.id != Session.get_username():
 					if !editor_cursors || !is_instance_valid(editor_cursors):
 						return
@@ -264,7 +275,7 @@ func _process(delta: float) -> void:
 					for member_id in parsed_packet.member_id_list:
 						editor_cursors.add_new_cursor(member_id)
 					return
-					
+				
 				var data = {
 					"module": "RequestEditorModule",
 					"id": Session.get_username(),
@@ -296,6 +307,9 @@ func _process(delta: float) -> void:
 				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
 					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
+				if !is_live_editing:
+					return
+					
 				if Session.get_current_scene_name() != "EDITOR":
 					edit_event_buffer.append(parsed_packet.editor)
 				else:
@@ -322,6 +336,31 @@ func _process(delta: float) -> void:
 						cursor_update.layer,
 						cursor_update.block_id
 					)
+			elif parsed_packet.module == "QuitSuccessModule":
+				var isMe = (Session.get_username() == parsed_packet.id)
+				#Host might change after someone quit the room
+				if Session.get_username() == parsed_packet.host_id:
+					is_host = true
+				else:
+					is_host = false 
+				
+				if isMe:
+					is_live_editing = false
+					cursor_timer.stop()
+					is_host = false
+					
+				if now_editing_panel && is_instance_valid(now_editing_panel):
+					var member_id_list: Array[String] = []
+					for member_id in parsed_packet.member_id_list:
+						member_id_list.append(member_id)
+						
+					now_editing_panel.quit_room(isMe, member_id_list, parsed_packet.host_id)
+				
+				if editor_cursors && is_instance_valid(editor_cursors):
+					editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
+				
+				if popup_panel && is_instance_valid(popup_panel) && isMe:
+					popup_panel.initialize("Quit Success", "You have successfully left the room: " + parsed_packet.room)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.

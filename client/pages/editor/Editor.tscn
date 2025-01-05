@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=24 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/editor/Editor.gd" id="1_qeoq7"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/EditorCamera.tscn" id="2_ifj8n"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
 [ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/editor/now_editing_panel/NowEditingPanel.tscn" id="16_pxfrf"]
 [ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://pages/editor/join_edit_panel/join_edit_panel.tscn" id="17_uxanp"]
+[ext_resource type="PackedScene" uid="uid://b5m28uva2sq6k" path="res://pages/editor/quit_edit_panel/quit_edit_panel.tscn" id="18_7e3ui"]
 [ext_resource type="PackedScene" uid="uid://buc3eqhfknkqg" path="res://pages/editor/host_edit_panel/host_edit_panel.tscn" id="18_80l66"]
 [ext_resource type="PackedScene" uid="uid://bxc2pu2q611e0" path="res://pages/editor/popup_panel/popup_panel.tscn" id="20_80w27"]
 
@@ -72,6 +73,9 @@ visible = false
 [node name="NowEditingPanel" parent="UI" instance=ExtResource("16_pxfrf")]
 
 [node name="JoinEditPanel" parent="UI" instance=ExtResource("17_uxanp")]
+visible = false
+
+[node name="QuitEditPanel" parent="UI" instance=ExtResource("18_7e3ui")]
 visible = false
 
 [node name="HostEditPanel" parent="UI" instance=ExtResource("18_80l66")]

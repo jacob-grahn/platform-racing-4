@@ -109,6 +109,8 @@ func (h *Hub) handleUpdate(update *Update) {
 	case HostEditorModule:
 		h.handleHostEditorModule(update)
 		update.TargetUserID = update.ID
+	case QuitEditorModule:
+		h.handleQuitEditorModule(update)
 	case RequestEditorModule:
 		h.handleRequestEditorModule(update)
 	case ResponseEditorModule:
@@ -117,6 +119,8 @@ func (h *Hub) handleUpdate(update *Update) {
 		h.handleRequestRoomModule(update)
 	case EditorModule:
 		h.handleEditorModule(update)
+	default:
+		fmt.Println("Unknown module: ", update.Module)
 	}
 }
 
@@ -131,17 +135,6 @@ func (h *Hub) handleJoinEditorModule(update *Update) {
 
 	update.Module = string(JoinSuccessModule)
 	update.MemberIDList = room.MembersID
-
-	//remove duplicates in MemberIDList
-	m := make(map[string]bool)
-	for _, v := range update.MemberIDList {
-		m[v] = true
-	}
-	update.MemberIDList = []string{}
-	for k := range m {
-		update.MemberIDList = append(update.MemberIDList, k)
-	}
-
 	update.HostID = room.HostID
 }
 
@@ -163,6 +156,40 @@ func (h *Hub) handleHostEditorModule(update *Update) {
 	})
 	update.Module = string(HostSuccessModule)
 	update.TargetUserID = update.ID
+}
+
+func (h *Hub) handleQuitEditorModule(update *Update) {
+	room, found := h.findRoom(update.Room)
+	if !found {
+		fmt.Println("room not found: ", update.Room)
+		h.setError(update, RoomNotFoundErrorMessage, update.ID)
+		return
+	}
+
+	for i := range room.MembersID {
+		if room.MembersID[i] == update.ID {
+			room.MembersID = append(room.MembersID[:i], room.MembersID[i+1:]...)
+			break
+		}
+	}
+
+	if room.HostID == update.ID {
+		if len(room.MembersID) > 0 {
+			room.HostID = room.MembersID[0]
+		} else {
+			for i := range h.rooms {
+				if h.rooms[i].Name == update.Room {
+					h.rooms = append(h.rooms[:i], h.rooms[i+1:]...)
+					break
+				}
+			}
+		}
+	}
+
+	update.Module = string(QuitSuccessModule)
+	update.MemberIDList = room.MembersID
+
+	update.HostID = room.HostID
 }
 
 func (h *Hub) handleRequestEditorModule(update *Update) {
