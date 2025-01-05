@@ -26,6 +26,7 @@ var cached_host_id = ""
 @onready var connect_timer: Timer = $ConnectTimer
 @onready var cursor_timer: Timer = $CursorTimer
 var popup_panel: Control = null
+var host_success_panel: Control = null
 var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
 var layers: Node2D = null
@@ -45,6 +46,7 @@ func _ready() -> void:
 	
 func _on_connect_editor() -> void:
 	popup_panel = $"../EDITOR/UI/PopupPanel"
+	host_success_panel = $"../EDITOR/UI/HostSuccessPanel"
 	editor_events = $"../EDITOR/EditorEvents"
 	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
 	layers = $"../EDITOR/Layers"
@@ -316,8 +318,8 @@ func _process(delta: float) -> void:
 				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
 					
-				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
-					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
+				if host_success_panel && is_instance_valid(host_success_panel) && parsed_packet.id == Session.get_username():
+					host_success_panel.initialize(parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
 				if !is_live_editing:
 					return

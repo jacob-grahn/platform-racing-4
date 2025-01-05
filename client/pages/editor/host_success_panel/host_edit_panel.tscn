@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://btvkl4bty00x8"]
+
+[ext_resource type="Script" path="res://pages/editor/host_success_panel/host_edit_panel.gd" id="1_qo2d2"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_nkoy7"]
+
+[node name="HostEditPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 21.0
+offset_right = 46.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qo2d2")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
+offset_left = -125.0
+offset_top = -115.0
+offset_right = 2068.0
+offset_bottom = 1194.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1294.0
+offset_bottom = 576.0
+
+[node name="HostEditLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 795.0
+offset_top = 297.0
+offset_right = 1224.0
+offset_bottom = 346.0
+theme_override_font_sizes/font_size = 30
+text = "-- Share code to collaborate --"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 366.0
+offset_right = 816.0
+offset_bottom = 415.0
+theme_override_font_sizes/font_size = 30
+text = "Code"
+horizontal_alignment = 2
+
+[node name="TitleEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 356.0
+offset_right = 1235.0
+offset_bottom = 419.0
+theme = ExtResource("2_nkoy7")
+text = "long_code!!!"
+
+[node name="HostButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 749.0
+offset_top = 450.0
+offset_right = 954.0
+offset_bottom = 521.0
+theme = ExtResource("2_nkoy7")
+text = "Host"
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1015.0
+offset_top = 449.0
+offset_right = 1224.0
+offset_bottom = 520.0
+theme = ExtResource("2_nkoy7")
+text = "Close"
