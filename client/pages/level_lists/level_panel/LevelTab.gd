@@ -2,7 +2,7 @@ extends TabBar
 
 signal level_load
 
-const LEVEL_ROW = preload("res://pages/lobby/level_panel/LevelRow.tscn")
+const LEVEL_ROW = preload("res://pages/level_lists/level_panel/LevelRow.tscn")
 var selected_level_id = 0
 var current_page: int = 1
 
