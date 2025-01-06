@@ -118,6 +118,17 @@ func _clear() -> void:
 	if socket && socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		socket.close()
 	socket = null
+	
+func _send_chat_message(message: String) -> void:
+	if is_live_editing:
+		var data = {
+			"module": "ChatModule",
+			"id": Session.get_username(),
+			"room" : room,
+			"ret": true,
+			"chat_message": message
+		}
+		send_queue.push_back(data)
 
 func _send_cursor_update() -> void:
 	if is_live_editing && layers && is_instance_valid(layers):
@@ -367,13 +378,17 @@ func _process(delta: float) -> void:
 					for member_id in parsed_packet.member_id_list:
 						member_id_list.append(member_id)
 						
-					now_editing_panel.quit_room(isMe, member_id_list, parsed_packet.host_id)
+					now_editing_panel.quit_room(isMe, parsed_packet.id, member_id_list, parsed_packet.host_id)
 				
 				if editor_cursors && is_instance_valid(editor_cursors):
 					editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
 				
 				if popup_panel && is_instance_valid(popup_panel) && isMe:
 					popup_panel.initialize("Quit Success", "You have successfully left the room: " + parsed_packet.room)
+			elif parsed_packet.module == "ChatModule":
+				if now_editing_panel && is_instance_valid(now_editing_panel):
+					var chat_message = parsed_packet.id + ": " + parsed_packet.chat_message
+					now_editing_panel.chat_receive_message(chat_message)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.

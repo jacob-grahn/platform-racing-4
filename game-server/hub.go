@@ -119,6 +119,8 @@ func (h *Hub) handleUpdate(update *Update) {
 		h.handleRequestRoomModule(update)
 	case EditorModule:
 		h.handleEditorModule(update)
+	case ChatModule:
+		// simply pass the chat message along
 	default:
 		fmt.Println("Unknown module: ", update.Module)
 	}
