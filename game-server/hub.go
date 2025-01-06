@@ -44,6 +44,20 @@ func (h *Hub) run() {
 
 		case client := <-h.unregister:
 			if _, ok := h.clients[client]; ok {
+				_, found := h.findRoom(client.Room)
+				if found {
+					update := &Update{
+						Module:       string(QuitEditorModule),
+						ID:           client.ID,
+						Room:         client.Room,
+						Ret:          true,
+						ErrorMessage: string(EmptyErrorMessage),
+					}
+
+					h.handleQuitEditorModule(update)
+					h.broadcastUpdate(update)
+				}
+
 				delete(h.clients, client)
 				close(client.send)
 			}
@@ -62,40 +76,43 @@ func (h *Hub) run() {
 
 			// do room stuff
 			h.handleUpdate(update)
+			h.broadcastUpdate(update)
+		}
+	}
+}
 
-			for client := range h.clients {
-				// skip this client if this is meant for a specific user and it is not this user
-				if update.TargetUserID != "" && update.TargetUserID != client.ID {
-					continue
-				}
+func (h *Hub) broadcastUpdate(update *Update) {
+	for client := range h.clients {
+		// skip this client if this is meant for a specific user and it is not this user
+		if update.TargetUserID != "" && update.TargetUserID != client.ID {
+			continue
+		}
 
-				// skip this client if it is not in the target room
-				if client.Room != update.Room {
-					continue
-				}
+		// skip this client if it is not in the target room
+		if client.Room != update.Room {
+			continue
+		}
 
-				// do not send an update back to the same client it originated from unless ret=true
-				if client.ID == update.ID && !update.Ret {
-					continue
-				}
+		// do not send an update back to the same client it originated from unless ret=true
+		if client.ID == update.ID && !update.Ret {
+			continue
+		}
 
-				fmt.Println("Sending update: Module(", update.Module+"),  TargetUser("+client.ID+")")
+		fmt.Println("Sending update: Module(", update.Module+"),  TargetUser("+client.ID+")")
 
-				// encode update into a byte array
-				jsonData, err := json.Marshal(update)
-				if err != nil {
-					fmt.Println(err)
-					continue
-				}
+		// encode update into a byte array
+		jsonData, err := json.Marshal(update)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 
-				// write the update to the client
-				select {
-				case client.send <- jsonData:
-				default:
-					close(client.send)
-					delete(h.clients, client)
-				}
-			}
+		// write the update to the client
+		select {
+		case client.send <- jsonData:
+		default:
+			close(client.send)
+			delete(h.clients, client)
 		}
 	}
 }
@@ -166,25 +183,7 @@ func (h *Hub) handleQuitEditorModule(update *Update) {
 		return
 	}
 
-	for i := range room.MembersID {
-		if room.MembersID[i] == update.ID {
-			room.MembersID = append(room.MembersID[:i], room.MembersID[i+1:]...)
-			break
-		}
-	}
-
-	if room.HostID == update.ID {
-		if len(room.MembersID) > 0 {
-			room.HostID = room.MembersID[0]
-		} else {
-			for i := range h.rooms {
-				if h.rooms[i].Name == update.Room {
-					h.rooms = append(h.rooms[:i], h.rooms[i+1:]...)
-					break
-				}
-			}
-		}
-	}
+	h.quitRoom(room, update.ID)
 
 	update.Module = string(QuitSuccessModule)
 	update.MemberIDList = room.MembersID
@@ -236,6 +235,28 @@ func (h *Hub) handleEditorModule(update *Update) {
 		update.Editor = &LevelEditorUpdate{}
 	}
 	update.Editor.Timestamp = time.Now().UnixMilli()
+}
+
+func (h *Hub) quitRoom(room *Room, userID string) {
+	for i := range room.MembersID {
+		if room.MembersID[i] == userID {
+			room.MembersID = append(room.MembersID[:i], room.MembersID[i+1:]...)
+			break
+		}
+	}
+
+	if room.HostID == userID {
+		if len(room.MembersID) > 0 {
+			room.HostID = room.MembersID[0]
+		} else {
+			for i := range h.rooms {
+				if h.rooms[i].Name == room.Name {
+					h.rooms = append(h.rooms[:i], h.rooms[i+1:]...)
+					break
+				}
+			}
+		}
+	}
 }
 
 func (h *Hub) findRoom(roomName string) (*Room, bool) {
