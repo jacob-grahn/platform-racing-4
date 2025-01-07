@@ -1,97 +1,214 @@
-[gd_scene load_steps=3 format=3 uid="uid://u216ejsni2bv"]
+[gd_scene load_steps=5 format=3 uid="uid://u216ejsni2bv"]
 
 [ext_resource type="Script" path="res://pages/editor/now_editing_panel/NowEditingPanel.gd" id="1_54jr2"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_7a5oo"]
+[ext_resource type="Script" path="res://pages/editor/now_editing_panel/ChatScrollContainer.gd" id="3_0vqhh"]
+[ext_resource type="Texture2D" uid="uid://ggb2checdvuh" path="res://pages/editor/now_editing_panel/unread_red_dot.png" id="4_rnkkq"]
 
 [node name="NowEditingPanel" type="Node2D"]
 script = ExtResource("1_54jr2")
 
-[node name="BigPanel" type="Panel" parent="."]
+[node name="TabContainer" type="TabContainer" parent="."]
+offset_left = 1392.0
+offset_top = 234.0
+offset_right = 1882.0
+offset_bottom = 850.0
+current_tab = 0
+
+[node name="Users" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="BigPanel" type="Panel" parent="TabContainer/Users"]
 visible = false
 modulate = Color(1, 1, 1, 0.321569)
+layout_mode = 0
 offset_left = -5.0
-offset_top = 8.0
+offset_top = -39.0
 offset_right = 1915.0
-offset_bottom = 1072.0
+offset_bottom = 1025.0
 
-[node name="MediumPanel" type="Panel" parent="."]
+[node name="MediumPanel" type="Panel" parent="TabContainer/Users"]
+visible = false
 modulate = Color(0, 0, 0, 1)
-offset_left = 1399.0
-offset_top = 269.0
-offset_right = 1879.0
-offset_bottom = 845.0
+layout_mode = 0
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 484.0
+offset_bottom = 581.0
 
-[node name="SmallPanel" type="Panel" parent="."]
+[node name="SmallPanel" type="Panel" parent="TabContainer/Users"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 1441.0
-offset_top = 396.0
-offset_right = 1841.0
-offset_bottom = 826.0
+layout_mode = 0
+offset_left = 44.0
+offset_top = 115.0
+offset_right = 444.0
+offset_bottom = 545.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-offset_left = 1441.0
-offset_top = 395.0
-offset_right = 1849.0
-offset_bottom = 757.0
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 114.0
+offset_right = 452.0
+offset_bottom = 476.0
 horizontal_scroll_mode = 0
 
-[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+[node name="RowHolder" type="VBoxContainer" parent="TabContainer/Users/ScrollContainer"]
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
 
-[node name="HostButton" type="Button" parent="."]
-offset_left = 1455.0
-offset_top = 762.0
-offset_right = 1619.0
-offset_bottom = 814.0
+[node name="HostButton" type="Button" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 481.0
+offset_right = 222.0
+offset_bottom = 533.0
 theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Host"
 
-[node name="JoinButton" type="Button" parent="."]
-offset_left = 1644.0
-offset_top = 761.0
-offset_right = 1813.0
-offset_bottom = 813.0
+[node name="JoinQuitButton" type="Button" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 480.0
+offset_right = 416.0
+offset_bottom = 532.0
 theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Join"
 
-[node name="RoomLabel" type="Label" parent="."]
-offset_left = 1442.0
-offset_top = 339.0
-offset_right = 1550.0
-offset_bottom = 381.0
+[node name="RoomLabel" type="Label" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 58.0
+offset_right = 153.0
+offset_bottom = 100.0
 theme_override_font_sizes/font_size = 30
 text = "Room:"
 horizontal_alignment = 1
 
-[node name="RoomEdit" type="TextEdit" parent="."]
-offset_left = 1545.0
-offset_top = 332.0
-offset_right = 1837.0
-offset_bottom = 383.0
+[node name="RoomEdit" type="TextEdit" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 51.0
+offset_right = 440.0
+offset_bottom = 102.0
 theme = ExtResource("2_7a5oo")
 placeholder_text = "Offline"
 editable = false
 
-[node name="NowEditingLabel" type="Label" parent="."]
-offset_left = 1448.0
-offset_top = 294.0
-offset_right = 1834.0
-offset_bottom = 336.0
+[node name="NowEditingLabel" type="Label" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 13.0
+offset_right = 437.0
+offset_bottom = 55.0
 theme_override_font_sizes/font_size = 30
 text = "-- Now Editing --"
 horizontal_alignment = 1
 
-[node name="OfflineLabel" type="Label" parent="."]
-offset_left = 1447.0
-offset_top = 532.0
-offset_right = 1833.0
-offset_bottom = 607.0
+[node name="OfflineLabel" type="Label" parent="TabContainer/Users"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 251.0
+offset_right = 436.0
+offset_bottom = 326.0
 theme_override_font_sizes/font_size = 30
 text = "-- Host to edit
  together  --"
 horizontal_alignment = 1
 
+[node name="Chat" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="BigPanel" type="Panel" parent="TabContainer/Chat"]
+visible = false
+modulate = Color(1, 1, 1, 0.321569)
+layout_mode = 0
+offset_left = -5.0
+offset_top = -39.0
+offset_right = 1915.0
+offset_bottom = 1025.0
+
+[node name="MediumPanel" type="Panel" parent="TabContainer/Chat"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 9.0
+offset_right = 483.0
+offset_bottom = 585.0
+
+[node name="SmallPanel" type="Panel" parent="TabContainer/Chat"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 31.0
+offset_top = 75.0
+offset_right = 462.0
+offset_bottom = 480.0
+
+[node name="TitleLabel" type="Label" parent="TabContainer/Chat"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 34.0
+offset_right = 438.0
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 30
+text = "-- Chat --"
+horizontal_alignment = 1
+
+[node name="OfflineLabel" type="Label" parent="TabContainer/Chat"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 235.0
+offset_right = 438.0
+offset_bottom = 310.0
+theme_override_font_sizes/font_size = 30
+text = "-- Offline  --"
+horizontal_alignment = 1
+
+[node name="MessageEdit" type="LineEdit" parent="TabContainer/Chat"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 487.0
+offset_right = 286.0
+offset_bottom = 558.0
+placeholder_text = "Message"
+max_length = 200
+clear_button_enabled = true
+
+[node name="SendButton" type="Button" parent="TabContainer/Chat"]
+layout_mode = 0
+offset_left = 299.0
+offset_top = 495.0
+offset_right = 464.0
+offset_bottom = 547.0
+theme = ExtResource("2_7a5oo")
+theme_override_font_sizes/font_size = 16
+text = "Send"
+
+[node name="ChatScrollContainer" type="ScrollContainer" parent="TabContainer/Chat"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 80.0
+offset_right = 461.0
+offset_bottom = 474.0
+horizontal_scroll_mode = 0
+script = ExtResource("3_0vqhh")
+
+[node name="RowHolder" type="VBoxContainer" parent="TabContainer/Chat/ChatScrollContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="UnreadDot" type="Sprite2D" parent="."]
+position = Vector2(1593, 234)
+scale = Vector2(0.678571, 0.696429)
+texture = ExtResource("4_rnkkq")
+
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_container_tab_changed"]
+[connection signal="text_changed" from="TabContainer/Chat/MessageEdit" to="." method="_on_message_edit_text_changed"]
+[connection signal="text_submitted" from="TabContainer/Chat/MessageEdit" to="." method="_on_message_edit_text_submitted"]

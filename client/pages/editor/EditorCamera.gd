@@ -12,6 +12,10 @@ func _ready():
 
 
 func _process(delta):
+	var focus_owner = get_viewport().gui_get_focus_owner()
+	if focus_owner and (focus_owner is LineEdit or focus_owner is TextEdit):
+		return
+		
 	set_zoom(Vector2(0.5 * camera_zoom, 0.5 * camera_zoom))
 	var control_vector = Input.get_vector("left", "right", "up", "down")
 	if Input.is_key_pressed(KEY_CTRL):

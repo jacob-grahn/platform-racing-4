@@ -26,14 +26,18 @@ var cached_host_id = ""
 @onready var connect_timer: Timer = $ConnectTimer
 @onready var cursor_timer: Timer = $CursorTimer
 var popup_panel: Control = null
+var host_success_panel: Control = null
 var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
 var layers: Node2D = null
 var editor_cursors: Node2D = null
+var editor_explore_button: Button = null
+var editor_load_button: Button = null
+var editor_clear_button: Button = null
 var is_scale_multiple_instances = false
 
 func _ready() -> void:
-	connect_timer.timeout.connect(_attempt_connect)
+	connect_timer.timeout.connect(_attempt_connect, true)
 	cursor_timer.timeout.connect(_send_cursor_update)
 	
 	if is_scale_multiple_instances:
@@ -41,10 +45,15 @@ func _ready() -> void:
 	
 func _on_connect_editor() -> void:
 	popup_panel = $"../EDITOR/UI/PopupPanel"
+	host_success_panel = $"../EDITOR/UI/HostSuccessPanel"
 	editor_events = $"../EDITOR/EditorEvents"
 	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
 	layers = $"../EDITOR/Layers"
 	editor_cursors = $"../EDITOR/EditorCursorLayer/EditorCursors"
+	editor_explore_button = $"../EDITOR/UI/Explore"
+	editor_load_button = $"../EDITOR/UI/Load"
+	editor_clear_button = $"../EDITOR/UI/Clear"
+	
 	editor_events.connect("send_level_event", _on_send_level_event)
 	
 	if !isFirstOpenEditor:
@@ -59,6 +68,7 @@ func _on_connect_editor() -> void:
 	
 	isFirstOpenEditor = false
 	editor_cursors.add_new_cursor(Session.get_username())
+	toggle_editor_buttons(is_live_editing)
 	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
@@ -75,6 +85,16 @@ func _on_send_level_event(event: Dictionary) -> void:
 	}
 	send_queue.push_back(data)
 
+func quit(room_name: String) -> void:
+	var data = {
+		"module": "QuitEditorModule",
+		"id": Session.get_username(),
+		"ms": 5938,
+		"room" : room_name,
+		"ret": true,
+	}
+	send_queue.push_back(data)
+
 func join(room_name: String, is_host_requested: bool) -> void:
 	if is_host_requested:
 		current_module = "HostEditorModule"
@@ -85,7 +105,7 @@ func join(room_name: String, is_host_requested: bool) -> void:
 	connect_attempt_count = 0
 	room = room_name
 	target_state = OPEN
-	_attempt_connect()
+	_attempt_connect(false)
 
 
 func close() -> void:
@@ -98,6 +118,17 @@ func _clear() -> void:
 	if socket && socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		socket.close()
 	socket = null
+	
+func _send_chat_message(message: String) -> void:
+	if is_live_editing:
+		var data = {
+			"module": "ChatModule",
+			"id": Session.get_username(),
+			"room" : room,
+			"ret": true,
+			"chat_message": message
+		}
+		send_queue.push_back(data)
 
 func _send_cursor_update() -> void:
 	if is_live_editing && layers && is_instance_valid(layers):
@@ -127,7 +158,7 @@ func _send_cursor_update() -> void:
 		send_queue.push_back(data)
 
 # Initiate connection to the given URL.
-func _attempt_connect() -> void:
+func _attempt_connect(isReconnect: bool) -> void:
 	print("_attempt_connect: ", websocket_url, ", ", room)
 	connect_attempt_count += 1
 	socket = WebSocketPeer.new()
@@ -144,6 +175,9 @@ func _attempt_connect() -> void:
 	# await get_tree().create_timer(1).timeout
 	
 	# Send data.
+	if isReconnect:
+		current_module = "ReconnectModule"
+		
 	var data = {
 		"module": current_module,
 		"id": Session.get_username(),
@@ -191,6 +225,9 @@ func _process(delta: float) -> void:
 			#print("receive ws (", Session.get_username(), ") :", packet)
 			var parsed_packet = JSON.parse_string(packet)
 			
+			if parsed_packet == null:
+				return
+			
 			if parsed_packet.error_message == "RoomNotFoundErrorMessage":
 				if is_live_editing:
 					return
@@ -206,6 +243,7 @@ func _process(delta: float) -> void:
 			
 			if parsed_packet.module == "ResponseEditorModule":
 				is_live_editing = true
+				toggle_editor_buttons(true)
 				cursor_timer.start()
 				var request_editor = parsed_packet.request_editor
 				
@@ -250,7 +288,8 @@ func _process(delta: float) -> void:
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
 				if now_editing_panel && is_instance_valid(now_editing_panel):
-					now_editing_panel.add_member(parsed_packet.id)
+					if parsed_packet.id != Session.get_username() && is_live_editing:
+						now_editing_panel.add_member(parsed_packet.id)
 				if is_host or parsed_packet.id != Session.get_username():
 					if !editor_cursors || !is_instance_valid(editor_cursors):
 						return
@@ -258,7 +297,7 @@ func _process(delta: float) -> void:
 					for member_id in parsed_packet.member_id_list:
 						editor_cursors.add_new_cursor(member_id)
 					return
-					
+				
 				var data = {
 					"module": "RequestEditorModule",
 					"id": Session.get_username(),
@@ -280,6 +319,7 @@ func _process(delta: float) -> void:
 					return
 					
 				is_live_editing = true
+				toggle_editor_buttons(true)
 				cursor_timer.start()
 				is_host = true
 				var member_id_list: Array[String] = [parsed_packet.id]
@@ -287,9 +327,12 @@ func _process(delta: float) -> void:
 				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
 					
-				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
-					popup_panel.initialize("Host Success", "You have successfully hosted the room: " + parsed_packet.room)
+				if host_success_panel && is_instance_valid(host_success_panel) && parsed_packet.id == Session.get_username():
+					host_success_panel.initialize(parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
+				if !is_live_editing:
+					return
+					
 				if Session.get_current_scene_name() != "EDITOR":
 					edit_event_buffer.append(parsed_packet.editor)
 				else:
@@ -316,6 +359,36 @@ func _process(delta: float) -> void:
 						cursor_update.layer,
 						cursor_update.block_id
 					)
+			elif parsed_packet.module == "QuitSuccessModule":
+				var isMe = (Session.get_username() == parsed_packet.id)
+				#Host might change after someone quit the room
+				if Session.get_username() == parsed_packet.host_id:
+					is_host = true
+				else:
+					is_host = false 
+				
+				if isMe:
+					is_live_editing = false
+					toggle_editor_buttons(false)
+					cursor_timer.stop()
+					is_host = false
+					
+				if now_editing_panel && is_instance_valid(now_editing_panel):
+					var member_id_list: Array[String] = []
+					for member_id in parsed_packet.member_id_list:
+						member_id_list.append(member_id)
+						
+					now_editing_panel.quit_room(isMe, parsed_packet.id, member_id_list, parsed_packet.host_id)
+				
+				if editor_cursors && is_instance_valid(editor_cursors):
+					editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
+				
+				if popup_panel && is_instance_valid(popup_panel) && isMe:
+					popup_panel.initialize("Quit Success", "You have successfully left the room: " + parsed_packet.room)
+			elif parsed_packet.module == "ChatModule":
+				if now_editing_panel && is_instance_valid(now_editing_panel):
+					var chat_message = parsed_packet.id + ": " + parsed_packet.chat_message
+					now_editing_panel.chat_receive_message(chat_message)
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.
@@ -336,6 +409,16 @@ func _process(delta: float) -> void:
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
 
+func toggle_editor_buttons(isDiabled: bool):
+	if editor_explore_button && is_instance_valid(editor_explore_button):
+		editor_explore_button.set_disabled(isDiabled)
+	
+	if editor_load_button && is_instance_valid(editor_load_button):
+		editor_load_button.set_disabled(isDiabled)
+	
+	if editor_clear_button && is_instance_valid(editor_clear_button):
+		editor_clear_button.set_disabled(isDiabled)
+	
 func scale_multiple_instances():
 	var screen_count = 3
 	

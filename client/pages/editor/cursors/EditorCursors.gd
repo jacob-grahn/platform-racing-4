@@ -22,6 +22,18 @@ func add_new_cursor(userID: String):
 	cursor.initialise(userID)
 	position_history[userID] = []
 
+func remove_cursor(myUserID: String, removeUserID: String):
+	for child in get_children():
+		if child.name == myUserID:
+			continue
+		
+		if myUserID == removeUserID:
+			child.queue_free()
+			continue
+			
+		if child.name == removeUserID:
+			child.queue_free()
+
 func update_cursor_position_local(pos: Vector2, block_id: int):
 	var cursor = get_children()[0]
 	cursor.position = pos

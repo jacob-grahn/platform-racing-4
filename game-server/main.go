@@ -8,17 +8,21 @@ import (
 )
 
 const (
+	ReconnectModule      Module = "ReconnectModule"
 	OnlineModule         Module = "OnlineModule"
 	EditorModule         Module = "EditorModule"
 	JoinEditorModule     Module = "JoinEditorModule"
 	HostEditorModule     Module = "HostEditorModule"
+	QuitEditorModule     Module = "QuitEditorModule"
 	JoinSuccessModule    Module = "JoinSuccessModule"
 	HostSuccessModule    Module = "HostSuccessModule"
+	QuitSuccessModule    Module = "QuitSuccessModule"
 	RequestEditorModule  Module = "RequestEditorModule"
 	ResponseEditorModule Module = "ResponseEditorModule"
 	RequestRoomModule    Module = "RequestRoomModule"
 	ResponseRoomModule   Module = "ResponseRoomModule"
 	CursorEditorModule   Module = "CursorEditorModule"
+	ChatModule           Module = "ChatModule"
 )
 
 const (
@@ -46,6 +50,7 @@ type Update struct {
 	CursorUpdate  *CursorUpdate          `json:"cursor_update"`
 	HostID        string                 `json:"host_id"`
 	MemberIDList  []string               `json:"member_id_list"`
+	ChatMessage   string                 `json:"chat_message"`
 	ErrorMessage  string                 `json:"error_message"`
 }
 
