@@ -29,3 +29,10 @@ offset_top = 547.0
 offset_right = 1666.0
 offset_bottom = 618.0
 text = "Head"
+
+[node name="RandomizeButton" type="Button" parent="."]
+offset_left = 723.0
+offset_top = 728.0
+offset_right = 1028.0
+offset_bottom = 799.0
+text = "Randomize!"

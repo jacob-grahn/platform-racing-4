@@ -3,13 +3,13 @@ extends SliderRow
 signal level_event
 
 const BACKGROUND_BUTTON: PackedScene = preload("res://pages/editor/menu/BackgroundButton.tscn")
-
+const BACKGROUND_IDS := ["field", "desert", "dots", "generic", "lake", "skyscraper", "space"]
 
 func _ready():
 	super._ready()
 	
 	# Add background buttons
-	for id in BackgroundsLoader.get_ids():
+	for id in BACKGROUND_IDS:
 		var bg_button = BACKGROUND_BUTTON.instantiate()
 		add_slider(bg_button)
 		bg_button.set_bg(id)

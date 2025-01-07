@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 Jukebox="*res://singletons/jukebox/Jukebox.tscn"
 Helpers="*res://singletons/helpers/Helpers.tscn"
 Session="*res://singletons/session/Session.tscn"
-BackgroundsLoader="*res://singletons/BackgroundsLoader.gd"
+CachingLoader="*res://singletons/CachingLoader.gd"
 
 [display]
 

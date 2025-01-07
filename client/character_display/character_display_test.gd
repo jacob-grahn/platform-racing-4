@@ -3,17 +3,16 @@ extends Node2D
 @onready var head_color_picker_button: ColorPickerButton = $HeadColorPickerButton
 @onready var body_color_picker_button: ColorPickerButton = $BodyColorPickerButton
 @onready var feet_color_picker_button: ColorPickerButton = $FeetColorPickerButton
+@onready var randomize_button: Button = $RandomizeButton
 @onready var character_display: CharacterDisplay = $CharacterDisplay
 
 
 func _ready() -> void:
-	head_color_picker_button.color = _random_color()
-	body_color_picker_button.color = _random_color()
-	feet_color_picker_button.color = _random_color()
 	head_color_picker_button.color_changed.connect(_color_changed)
 	body_color_picker_button.color_changed.connect(_color_changed)
 	feet_color_picker_button.color_changed.connect(_color_changed)
-	_render()
+	randomize_button.pressed.connect(_randomize_button_pressed)
+	_randomize()
 
 
 # update character display with selected config from ui
@@ -44,3 +43,14 @@ func _random_color() -> Color:
 		randf(),
 		randf()
 	)
+
+
+func _randomize_button_pressed() -> void:
+	_randomize()
+
+
+func _randomize() -> void:
+	head_color_picker_button.color = _random_color()
+	body_color_picker_button.color = _random_color()
+	feet_color_picker_button.color = _random_color()
+	_render()
