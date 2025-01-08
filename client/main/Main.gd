@@ -1,6 +1,7 @@
 extends Control
 class_name Main
 
+static var FILE_URL = "https://files.platformracing.com"
 const CREDITS = preload("res://pages/credits/Credits.tscn")
 const EDITOR = preload("res://pages/editor/Editor.tscn")
 const GAME = preload("res://pages/game/Game.tscn")

@@ -20,7 +20,8 @@ func load_file(url: String) -> PackedByteArray:
 	# Download!
 	print("CachingLoader - Downloading: %s" % url)
 	bytes = await _load_from_web(url)
-	_add_to_cache(url, bytes)
+	if bytes.size() > 0:
+		_add_to_cache(url, bytes)
 	_memory[url] = bytes
 	return bytes
 
@@ -32,6 +33,8 @@ func load_texture(url: String) -> Texture2D:
 		image.load_jpg_from_buffer(bytes)
 	elif url.ends_with(".png"):
 		image.load_png_from_buffer(bytes)
+	elif url.ends_with(".webp"):
+		image.load_webp_from_buffer(bytes)
 	else:
 		print("CachingLoader - Unknown image format: %s" % url)
 		return null
@@ -78,7 +81,7 @@ func _load_from_web(url: String) -> PackedByteArray:
 	var body = result[3]
 	http_request.queue_free()
 
-	if response_code != HTTPRequest.RESULT_SUCCESS:
+	if response_code != 200:
 		print(url + " couldn't be downloaded. Response code: " + str(response_code))
 		return []
 
