@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://drte7oh0s26io"]
+
+[ext_resource type="Texture2D" uid="uid://pwd7k2oybjs6" path="res://item_effects/PortableBlockLightMask.png" id="1_xurx3"]
+
+[node name="PortableBlockLightMask" type="Node2D"]
+
+[node name="PortableBlockLightMask" type="Sprite2D" parent="."]
+position = Vector2(3.05176e-05, 1.52588e-05)
+texture = ExtResource("1_xurx3")
