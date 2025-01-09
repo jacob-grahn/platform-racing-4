@@ -57,7 +57,7 @@ func slash():
 	slash.dir = 0
 	slash.spawnpos = global_position
 	slash.spawnrot = 0
-	slash.scale.x = scale.x
+	slash.scale.x = character.display.scale.x
 	main.add_child.call_deferred(slash)
 
 func _on_timeout():

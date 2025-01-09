@@ -56,7 +56,7 @@ func set_item_id(item_id: int):
 		9: has_force = false; uses = 1; item = ROCKET_LAUNCHER_ITEM.instantiate(); item_holder.add_child(item)
 		10: has_force = false; uses = 1; item = SHIELD_ITEM.instantiate(); item_holder.add_child(item)
 		11: has_force = true; uses = 1; item = SPEED_BURST_ITEM.instantiate(); item_holder.add_child(item)
-		12: has_force = true; uses = 1; item = SUPER_JUMP_ITEM.instantiate(); item_holder.add_child(item)
+		12: has_force = false; uses = 1; item = SUPER_JUMP_ITEM.instantiate(); item_holder.add_child(item)
 		13: has_force = false; uses = 3; item = SWORD_ITEM.instantiate(); item_holder.add_child(item)
 		14: has_force = false; uses = 1; item = TELEPORT_ITEM.instantiate(); item_holder.add_child(item)
 
