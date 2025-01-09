@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc3ilkwy8v6pc"]
-
-[ext_resource type="Texture2D" uid="uid://nte07xafsr3r" path="res://item_effects/PortableMineLightMask.png" id="1_n5m6m"]
-
-[node name="PortableMineLightMask" type="Node2D"]
-
-[node name="PortableMineLightMask" type="Sprite2D" parent="."]
-texture = ExtResource("1_n5m6m")
