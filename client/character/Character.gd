@@ -74,6 +74,8 @@ var camera_zoom_speed: float = 0.6
 var camera_max_zoom: float = 0.5
 var camera_min_zoom: float = 0.4
 var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
+var camera_pos: Vector2 = Vector2(0,0)
+var camera_pos_smoothing: float = 0.25 # lower values take longer for camera to adjust to player position. 0 takes infinite amount of time, 1 adjusts instantly.
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -292,6 +294,12 @@ func _physics_process(delta):
 	# checks if an item has run out of ammo or has been used.
 	if !hurt and item:
 		item_manager.check_item(delta)
+
+	# camera position smoothing
+	var actual_Weight = 1-pow(1-camera_pos_smoothing,delta*30); # I know 30 is a magic number but idk what else to do with it
+	camera_pos = lerp(camera_pos,position,actual_Weight)
+	camera.offset.x = camera_pos.x - position.x
+	camera.offset.y = camera_pos.y - position.y
 	
 	# Save velocity for a cycle
 	last_velocity = Vector2(velocity)
