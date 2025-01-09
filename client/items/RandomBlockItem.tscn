@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="2_35h6y"]
 
 [node name="RandomBlockItem" type="Node2D"]
-position = Vector2(50, 12.5)
+position = Vector2(50, 15)
 script = ExtResource("1_wdlih")
 
 [node name="TileAtlas" type="Sprite2D" parent="."]
-scale = Vector2(-0.5, 0.5)
+scale = Vector2(0.45, 0.45)
 texture = ExtResource("2_35h6y")
 region_enabled = true
 region_rect = Rect2(0, 0, 128, 128)

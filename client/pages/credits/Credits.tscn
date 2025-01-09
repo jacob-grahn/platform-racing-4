@@ -10,7 +10,7 @@ script = ExtResource("1_8lgq6")
 offset_left = 566.0
 offset_top = 216.0
 offset_right = 800.0
-offset_bottom = 507.0
+offset_bottom = 511.0
 theme = ExtResource("1_hnp8c")
 theme_override_font_sizes/normal_font_size = 24
 text = "--- Contributors ---
@@ -21,7 +21,8 @@ JcNumbers
 ShweetsStuff
 Jeremiah
 Raul
-ShengXue97"
+ShengXue97
+ThePizza1k"
 metadata/_edit_use_anchors_ = true
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]

@@ -1,6 +1,7 @@
 extends Node2D
 class_name SuperJumpItem
 
+@onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -23,15 +24,8 @@ func check_if_used():
 func activate_item():
 	if !using:
 		using = true
+		character.velocity.y -= 5000
 		uses -= 1
-
-
-func get_force(delta: float):
-	if using:
-		return Vector2(0, -5000)
-	else:
-		return Vector2(0, 0)
-
 
 func still_have_item():
 	if !remove:

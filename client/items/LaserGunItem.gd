@@ -1,12 +1,12 @@
 extends Node2D
 class_name LaserGunItem
 
-@onready var main = get_tree().get_root()
 @onready var projectile = load("res://item_effects/LaserBullet.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 @onready var character = get_node("../../..")
+@onready var spawn = get_node("../../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -62,7 +62,7 @@ func shoot():
 	bullet.spawnpos = global_position
 	bullet.spawnrot = 0
 	bullet.scale.x = character.display.scale.x
-	main.add_child.call_deferred(bullet)
+	spawn.add_child.call_deferred(bullet)
 
 func _on_timeout():
 	using = false

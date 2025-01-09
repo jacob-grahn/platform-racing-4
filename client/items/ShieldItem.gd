@@ -1,7 +1,8 @@
 extends Node2D
 class_name ShieldItem
 
-@onready var shield = get_node("../../../Shield")
+# @onready var shield = get_node("../../../Shield")
+@onready var Shield = $Shield
 @onready var character = get_node("../../..")
 var using: bool = false
 var remove: bool = false
@@ -11,7 +12,7 @@ var uses: int = 1
 
 func _ready():
 	timer = 10.0
-	shield.visible = false
+	Shield.visible = false
 	
 	
 func _physics_process(delta):
@@ -32,7 +33,7 @@ func check_if_used():
 func activate_item():
 	if !using:
 		using = true
-		shield.visible = true
+		Shield.visible = true
 		character.shielded = true
 
 
