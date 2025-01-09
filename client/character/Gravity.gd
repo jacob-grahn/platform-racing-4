@@ -6,7 +6,7 @@ var gravity_rotated: Vector2 = Vector2(gravity)
 var base_up_direction = Vector2(0, -1)
 var rotation: float = 0
 var target_rotation: float = 0
-var rotate_speed: float = 0.05
+var rotate_speed: float = 0.025
 var rotation_sync: bool = true
 
 
