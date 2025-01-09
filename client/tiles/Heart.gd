@@ -9,4 +9,4 @@ func init():
 
 
 func shield(player: Node2D, tile_map: TileMap, coords: Vector2i):
-	player.shield.activate()
+	player.invincibility.activate()
