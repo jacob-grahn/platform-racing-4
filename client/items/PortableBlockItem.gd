@@ -21,7 +21,6 @@ func check_if_used():
 func activate_item():
 	if !using:
 		using = true
-		use_block()
 		uses -= 1
 
 # unused at the moment, need to figure why the animation is not spawning at the player
