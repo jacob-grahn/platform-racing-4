@@ -112,8 +112,6 @@ script = ExtResource("1_phdif")
 position = Vector2(0, -100)
 ignore_rotation = false
 zoom = Vector2(0.1, 0.1)
-position_smoothing_enabled = true
-position_smoothing_speed = 17.5
 
 [node name="Light" type="PointLight2D" parent="."]
 visible = false
