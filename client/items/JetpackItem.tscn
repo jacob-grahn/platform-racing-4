@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://othejmiqap5u" path="res://item_effects/JetpackFire.svg" id="3_7esll"]
 
 [node name="JetpackItem" type="Node2D"]
-scale = Vector2(1.25, 1.25)
+scale = Vector2(1.125, 1.125)
 script = ExtResource("1_u18cl")
 
 [node name="Exhaust1" type="Sprite2D" parent="."]
@@ -36,19 +36,19 @@ texture = ExtResource("1_0cmyq")
 
 [node name="Exhaust2" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(-29, 70)
+position = Vector2(-22, 67)
 rotation = 1.5708
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_mdkoo")
 
 [node name="JetpackFire2" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(-29, 37)
+position = Vector2(-22, 34)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_7esll")
 centered = false
 offset = Vector2(-37.5, 0)
 
 [node name="Jetpack2" type="Sprite2D" parent="."]
-position = Vector2(-30, 21)
+position = Vector2(-23, 18)
 texture = ExtResource("1_0cmyq")

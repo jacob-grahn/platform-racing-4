@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bveu5vxdnanpc"
-path="res://.godot/imported/BlackHole15.png-161b6823a87e389af437368ca900ec06.ctex"
+uid="uid://d2t1qqip08oqx"
+path="res://.godot/imported/EggSpots.svg-ed97f1d53e904b11dde2e3c65e639a05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://item_effects/BlackHole15.png"
-dest_files=["res://.godot/imported/BlackHole15.png-161b6823a87e389af437368ca900ec06.ctex"]
+source_file="res://tiles/egg/EggSpots.svg"
+dest_files=["res://.godot/imported/EggSpots.svg-ed97f1d53e904b11dde2e3c65e639a05.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

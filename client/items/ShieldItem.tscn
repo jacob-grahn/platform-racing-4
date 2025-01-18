@@ -92,7 +92,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 30.0
 }]
 
 [node name="ShieldItem" type="Node2D"]
@@ -109,5 +109,5 @@ position = Vector2(8, 11)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_f1lnx")
 autoplay = "default"
-frame_progress = 0.358277
-speed_scale = 8.0
+frame = 2
+frame_progress = 0.850844

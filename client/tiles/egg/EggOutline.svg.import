@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v4r524f1k43"
-path="res://.godot/imported/BlackHole9.png-0da8ce53477f97ae96da3209d4890de9.ctex"
+uid="uid://b8htaupqlayja"
+path="res://.godot/imported/EggOutline.svg-8b2bb65d1651b1d96c7f286f4172fd12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://item_effects/BlackHole9.png"
-dest_files=["res://.godot/imported/BlackHole9.png-0da8ce53477f97ae96da3209d4890de9.ctex"]
+source_file="res://tiles/egg/EggOutline.svg"
+dest_files=["res://.godot/imported/EggOutline.svg-8b2bb65d1651b1d96c7f286f4172fd12.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

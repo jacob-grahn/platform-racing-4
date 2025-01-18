@@ -25,7 +25,7 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var high_area = $HighArea
 @onready var item_manager = $ItemManager
 @onready var ice = $Ice
-@onready var shield = $Shield
+@onready var invincibility = $Invincibility
 @onready var display = $Display
 @onready var animations: AnimationPlayer = $Display/Animations
 
@@ -51,6 +51,7 @@ var shielded: bool = false
 var hitstun_duration: float = 0.0
 var hitstun_timer: float = 0.0
 var hurt: bool = false
+var frozen: bool = false
 var last_velocity: Vector2
 var last_collision_normal: Vector2
 var swimming: bool = false
@@ -99,12 +100,16 @@ func _physics_process(delta):
 	
 	# frozen timer
 	var traction = TRACTION
-	if frozen_timer >= 0:
+	if frozen and frozen_timer >= 0:
 		frozen_timer -= delta
 		ice.visible = true
+		ice.modulate.a = ((1 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
+		ice.scale.y = ((0.65 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
+		display.modulate = Color(1.0 - ice.modulate.a, 1.0 - ice.modulate.a, 1.0)
 		traction = TRACTION / 10.0
 	else:
 		ice.visible = false
+		frozen = false
 	
 	if hurt:
 		if hitstun_timer > 0:
@@ -329,7 +334,8 @@ func _bump_tile_covering_high_area() -> void:
 
 
 func freeze():
-	frozen_timer = 1.0 / stats.get_skill_bonus()
+	frozen = true
+	frozen_timer = 3.0 / stats.get_skill_bonus()
 
 
 func end_lightbreak():
@@ -376,6 +382,8 @@ func hitstun(hitstun: float):
 	if !shielded and !hurt:
 		hitstun_duration = hitstun
 		hitstun_timer = hitstun
+		frozen_timer = 0
+		frozen = false
 		hurt = true
 
 # Are we in a wall?
@@ -473,6 +481,11 @@ func update_animation() -> void:
 			animations.play("hurt")
 		else:
 			animations.play("recover")
+			
+	if frozen:
+		animations.set_speed_scale(1 - ice.modulate.a)
+	else:
+		animations.set_speed_scale(1)
 	
 	# crouching
 	if !hurt and is_crouching:

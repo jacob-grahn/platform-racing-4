@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/CharacterHitbox.tscn" id="2_qkr1y"]
 [ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
 [ext_resource type="Texture2D" uid="uid://bs0lhbp2sf24" path="res://character/star_08.png" id="4_q6p6r"]
-[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="5_33c0d"]
 [ext_resource type="Texture2D" uid="uid://bi8oq3hpy1y68" path="res://item_effects/SpeedParticle.png" id="6_2qvqd"]
 [ext_resource type="PackedScene" uid="uid://bxox6butkxpwh" path="res://character/Shield.tscn" id="6_rt6gv"]
+[ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/Ice.svg" id="7_l8eep"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
 [ext_resource type="Script" path="res://items/Item.gd" id="14_rudt7"]
 
@@ -151,15 +151,12 @@ lifetime = 0.75
 fixed_fps = 60
 
 [node name="Ice" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.27451)
-position = Vector2(-1, -101.5)
-scale = Vector2(1, 1.74219)
-texture = ExtResource("5_33c0d")
-region_enabled = true
-region_rect = Rect2(640, 128, 128, 128)
+position = Vector2(-4, 0)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("7_l8eep")
+offset = Vector2(0, -188)
 
-[node name="Shield" parent="." instance=ExtResource("6_rt6gv")]
+[node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
 modulate = Color(1, 1, 1, 0.247059)
 z_index = 1
 position = Vector2(10, -10)
