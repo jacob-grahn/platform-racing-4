@@ -1,68 +1,35 @@
 extends Node2D
 
-signal value_change
+signal editor_camera_zoom_change
 
 @onready var down_button = $DownButton
 @onready var up_button = $UpButton
 @onready var label = $Label
-@onready var camera = $Camera
 
 var text: String = "%"
-var value: int = 4
-var min: int = 1
-var max: int = 7
+var zoom_increment: int = 3
+var min: int = 0
+var max: int = 6
 var step: int = 1
-var camera_zoom: float = 1
+var zoom_amounts: Array = [25, 50, 75, 100, 150, 250, 500] #Zoom amounts listed in percentage.
 
 
 func _ready():
 	up_button.connect("pressed", _on_up_button_pressed)
 	down_button.connect("pressed", _on_down_button_pressed)
-	_render()
 
 
 func _on_up_button_pressed():
-	value += step
+	zoom_increment += step
 	_on_change()
 
 
 func _on_down_button_pressed():
-	value -= step
+	zoom_increment -= step
 	_on_change()
 
 
 func _on_change():
-	value = clamp(value, min, max)
-	emit_signal("value_change", value)
-	_render()
-
-
-func _render():
-	match value:
-		1:
-			camera_zoom = 0.25
-			text = "25"
-		2:
-			camera_zoom = 0.5
-			text = "50"
-		3:
-			camera_zoom = 0.75
-			text = "75"
-		4:
-			camera_zoom = 1
-			text = "100"
-		5:
-			camera_zoom = 1.5
-			text = "150"
-		6:
-			camera_zoom = 2.5
-			text = "250"
-		7:
-			camera_zoom = 5
-			text = "500"
-	label.text = str(text) + "%"
-
-
-func set_value(new_value: int) -> void:
-	value = new_value
-	_render()
+	zoom_increment = clamp(zoom_increment, min, max)
+	label.text = str(zoom_amounts[zoom_increment]) + "%"
+	emit_signal("editor_camera_zoom_change", zoom_amounts[zoom_increment] / 100.0)
