@@ -1,50 +1,78 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfsddu7uhkrp5"]
+[gd_scene load_steps=7 format=3 uid="uid://cfsddu7uhkrp5"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_w2du1"]
 [ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://pages/editor/layer_panel/layer_button_group.tres" id="2_o0rem"]
 [ext_resource type="Texture2D" uid="uid://csldj28jkpwjh" path="res://pages/editor/layer_panel/eye.png" id="2_o3boq"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
-bg_color = Color(0.172549, 0.172549, 0.247059, 1)
+[ext_resource type="Texture2D" uid="uid://b3n0l72ku1hs2" path="res://pages/editor/layer_panel/gear.png" id="4_26qbc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
 bg_color = Color(0.24122, 0.241305, 0.336642, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
+bg_color = Color(0.172549, 0.172549, 0.247059, 1)
+
 [node name="LayerRow" type="Control"]
-custom_minimum_size = Vector2(400, 50)
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 400.0
+offset_right = 300.0
 offset_bottom = 50.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-custom_minimum_size = Vector2(400, 50)
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 0
-offset_right = 400.0
+offset_right = 300.0
 offset_bottom = 50.0
 color = Color(0.172549, 0.176471, 0.247059, 1)
 
-[node name="Button" type="Button" parent="."]
+[node name="LabelButton" type="Button" parent="."]
 layout_mode = 0
-offset_right = 400.0
+offset_left = 104.0
+offset_right = 298.0
 offset_bottom = 50.0
 theme = ExtResource("1_w2du1")
-theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+toggle_mode = true
+button_group = ExtResource("2_o0rem")
+
+[node name="VisibleButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 54.0
+offset_right = 104.0
+offset_bottom = 50.0
+theme = ExtResource("1_w2du1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+toggle_mode = true
+button_group = ExtResource("2_o0rem")
+
+[node name="GearButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 52.0
+offset_bottom = 50.0
+theme = ExtResource("1_w2du1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
 button_group = ExtResource("2_o0rem")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_left = 70.0
-offset_top = 3.0
-offset_right = 390.0
-offset_bottom = 43.0
+offset_left = 112.0
+offset_top = 5.0
+offset_right = 292.0
+offset_bottom = 45.0
 theme = ExtResource("1_w2du1")
 text = "Layer 1"
 
 [node name="Eye" type="Sprite2D" parent="."]
-position = Vector2(35, 26)
+position = Vector2(78, 26)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_o3boq")
+
+[node name="Gear" type="Sprite2D" parent="."]
+position = Vector2(27, 26)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_26qbc")

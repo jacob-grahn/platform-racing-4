@@ -9,15 +9,19 @@ const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
 var art_scale = 1.0
 
+
 func init(tiles: Tiles) -> void:
 	tile_map.tile_set = create_tile_set(tiles, true)
 	
-	var minimap_tile_set = create_tile_set(tiles, false)	
-	for child in minimap_container.get_children():
-		var tile_map_mini: TileMap = child.get_node("TileMapMini")
-		tile_map_mini.tile_set = minimap_tile_set
+	# todo: probably this logic should live somewhere else
+	if minimap_container:
+		var minimap_tile_set = create_tile_set(tiles, false)
+		for child in minimap_container.get_children():
+			var tile_map_mini: TileMap = child.get_node("TileMapMini")
+			tile_map_mini.tile_set = minimap_tile_set
 		
 	set_depth(depth)
+
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
@@ -66,6 +70,7 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 		source.get_tile_data(atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID).modulate = Color(1.0, 1.0, 1.0, 0.0)
 	
 	return tile_set
+
 
 func set_depth(_depth: int) -> void:
 	depth = _depth

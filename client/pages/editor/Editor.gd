@@ -52,7 +52,7 @@ func _ready():
 	
 	tiles.init_defaults()
 	layers.init(tiles)
-	layer_panel.set_layers(layers)
+	layer_panel.init(layers)
 	
 	#This code takes the signal from the change zoom UI and uses its value to pass on to the camera to change its zoom.
 	$"UI/ZoomPanel/ZoomControls".editor_camera_zoom_change.connect(Callable($EditorCamera._change_camera_zoom))

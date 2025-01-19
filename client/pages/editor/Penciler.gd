@@ -1,7 +1,5 @@
 extends Node2D
 
-const LAYER = preload("res://layers/Layer.tscn")
-
 @onready var layers: Node2D = get_node("../Layers")
 @onready var layer_panel: Node2D = get_node("../UI/LayerPanel")
 @onready var bg: Node2D = get_node("../BG")
@@ -56,20 +54,11 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ADD_LAYER:
 		print("addlayer: " + event.name)
-		var layer = LAYER.instantiate()
-		layer.name = event.name
-		layer.layer = 10
-		layers.add_child(layer)
-		layer.init(get_parent().tiles)
-		layer_panel.call_deferred("render")
+		layers.add_layer(event.name)
 
 	if event.type == EditorEvents.DELETE_LAYER:
 		print("remlayer: " + event.name)
-		var layer = layers.get_node(event.name)
-		if layer:
-			layers.remove_child(layer)
-			layer.queue_free()
-		layer_panel.call_deferred("render")
+		layers.remove_layer(event.name)
 
 	if event.type == EditorEvents.ADD_USERTEXT:
 		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")

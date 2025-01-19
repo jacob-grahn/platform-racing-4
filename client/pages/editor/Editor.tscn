@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/editor/save_panel/save_panel.tscn" id="13_2dq10"]
 [ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/editor/load_panel/LoadPanel.tscn" id="13_wy6hl"]
 [ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/editor/explore_panel/ExplorePanel.tscn" id="14_phb1e"]
-[ext_resource type="PackedScene" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
+[ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/Minimaps.tscn" id="16_60hwa"]
 [ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/editor/now_editing_panel/NowEditingPanel.tscn" id="16_pxfrf"]
 [ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://pages/editor/join_edit_panel/join_edit_panel.tscn" id="17_uxanp"]
 [ext_resource type="PackedScene" uid="uid://b5m28uva2sq6k" path="res://pages/editor/quit_edit_panel/quit_edit_panel.tscn" id="18_7e3ui"]
@@ -150,5 +150,3 @@ offset_bottom = 234.0
 
 [node name="Minimaps" parent="UI" instance=ExtResource("16_60hwa")]
 visible = false
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

@@ -9,16 +9,16 @@
 script = ExtResource("1_vw7vn")
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 400.0
+offset_right = 300.0
 offset_bottom = 469.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-offset_right = 408.0
+offset_right = 308.0
 offset_bottom = 400.0
 horizontal_scroll_mode = 0
 
 [node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
-custom_minimum_size = Vector2(400, 400)
+custom_minimum_size = Vector2(300, 400)
 layout_mode = 2
 
 [node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
@@ -37,35 +37,29 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="DeleteButton" type="Button" parent="."]
-offset_left = 248.0
+offset_left = 153.0
 offset_top = 405.0
-offset_right = 387.0
+offset_right = 292.0
 offset_bottom = 457.0
 theme = ExtResource("1_qwtjx")
 theme_override_font_sizes/font_size = 16
 text = "X"
 
 [node name="NewButton" type="Button" parent="."]
-offset_left = 14.0
+offset_left = 12.0
 offset_top = 405.0
-offset_right = 150.0
+offset_right = 148.0
 offset_bottom = 457.0
 theme = ExtResource("1_qwtjx")
 theme_override_font_sizes/font_size = 16
 text = "+"
 
-[node name="NewButton" type="Button" parent="NewButton"]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 405.0
-offset_right = 150.0
-offset_bottom = 457.0
-theme = ExtResource("1_qwtjx")
-theme_override_font_sizes/font_size = 16
-text = "+"
+[node name="Popup" type="PopupPanel" parent="."]
+position = Vector2i(310, 0)
+size = Vector2i(470, 150)
 
-[node name="RotationPicker" parent="." instance=ExtResource("4_45vqc")]
-position = Vector2(3, 482)
+[node name="RotationPicker" parent="Popup" instance=ExtResource("4_45vqc")]
+position = Vector2(0, 16)
 
-[node name="DepthPicker" parent="." instance=ExtResource("4_45vqc")]
-position = Vector2(1, 545)
+[node name="DepthPicker" parent="Popup" instance=ExtResource("4_45vqc")]
+position = Vector2(0, 80)
