@@ -17,11 +17,11 @@ func _ready():
 
 
 func _on_back_pressed():
-	Helpers.set_scene("EDITOR")
+	Helpers.set_scene("LEVEL_EDITOR")
 
 
 func init(level: Dictionary):
-	level_decoder.decode(level, false)
+	level_decoder.decode(level, false, layers)
 	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option(layers)
@@ -39,7 +39,7 @@ func init(level: Dictionary):
 	character.set_depth(layer.depth)
 
 func finish():
-	Helpers.set_scene("EDITOR")
+	Helpers.set_scene("LEVEL_EDITOR")
 
 
 func _exit_tree():

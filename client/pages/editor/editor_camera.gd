@@ -6,6 +6,7 @@ var target_zoom = 1.0
 var is_zooming : bool = false
 var camera_speed_multiplier = 1.0
 
+
 func _ready():
 	set_position_smoothing_enabled(true)
 	set_position_smoothing_speed(7)
@@ -16,7 +17,7 @@ func _process(delta):
 	if focus_owner and (focus_owner is LineEdit or focus_owner is TextEdit):
 		return
 		
-	set_zoom(Vector2(0.5 * camera_zoom, 0.5 * camera_zoom))
+	set_zoom(Vector2(camera_zoom, camera_zoom))
 	var control_vector = Input.get_vector("left", "right", "up", "down")
 	if Input.is_key_pressed(KEY_CTRL):
 		camera_speed_multiplier = 2.5
@@ -32,6 +33,6 @@ func _process(delta):
 			is_zooming = false
 
 
-func _change_camera_zoom(new_zoom_value):
+func change_camera_zoom(new_zoom_value):
 	is_zooming = true
 	target_zoom = new_zoom_value

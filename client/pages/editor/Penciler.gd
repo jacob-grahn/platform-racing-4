@@ -1,18 +1,23 @@
 extends Node2D
 
-@onready var layers: Node2D = get_node("../Layers")
+const CLEANUP_INTERVAL = 60  # 600 seconds (1 minutes)
+var last_cleanup_time = 0
+var tile_update_timestamps = {}
+var layers: Layers
+
 @onready var layer_panel: Node2D = get_node("../UI/LayerPanel")
 @onready var bg: Node2D = get_node("../BG")
 @onready var editor_events: Node2D = get_node("../EditorEvents")
 @onready var edit_cursors: Node2D = get_node("../EditorCursorLayer/EditorCursors")
 
-const CLEANUP_INTERVAL = 60  # 600 seconds (1 minutes)
-var last_cleanup_time = 0
-
-var tile_update_timestamps = {}
 
 func _ready():
 	editor_events.connect("level_event", _on_level_event)
+
+
+func init(_layers: Layers) -> void:
+	layers = _layers
+
 
 func _process(delta: float) -> void:
 	var current_time = Time.get_unix_time_from_system()
@@ -20,12 +25,14 @@ func _process(delta: float) -> void:
 		_cleanup_old_timestamps()
 		last_cleanup_time = current_time
 
+
 func _cleanup_old_timestamps() -> void:
 	var current_time = Time.get_unix_time_from_system()
 	for key in tile_update_timestamps.keys():
 		if current_time - tile_update_timestamps[key] > CLEANUP_INTERVAL:
 			tile_update_timestamps.erase(key)
-		
+
+
 func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SET_TILE:
 		var coords = Vector2i(event.coords.x, event.coords.y)
@@ -78,6 +85,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.SET_BACKGROUND:
 		bg.set_bg(event.bg)
+
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var tilemap: TileMap = layers.get_node(event.layer_name + "/TileMap")

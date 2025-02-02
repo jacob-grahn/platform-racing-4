@@ -27,7 +27,6 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var ice = $Ice
 @onready var invincibility = $Invincibility
 @onready var display = $Display
-@onready var animations: AnimationPlayer = $Display/Animations
 
 var active = false
 var control_vector: Vector2
@@ -476,38 +475,38 @@ func update_animation() -> void:
 		display.scale.x = facing
 	else:
 		if (hitstun_duration - hitstun_timer) < 0.4:
-			animations.play("hurt_start")
+			display.play(CharacterDisplay.HURT_START)
 		elif hitstun_timer > 0.5:
-			animations.play("hurt")
+			display.play(CharacterDisplay.HURT)
 		else:
-			animations.play("recover")
+			display.play(CharacterDisplay.RECOVER)
 			
 	if frozen:
-		animations.set_speed_scale(1 - ice.modulate.a)
+		display.set_speed_scale(1 - ice.modulate.a)
 	else:
-		animations.set_speed_scale(1)
+		display.set_speed_scale(1)
 	
 	# crouching
 	if !hurt and is_crouching:
 		if control_vector.x != 0:
-			animations.play("crawl")
+			display.play(CharacterDisplay.CRAWL)
 		else:
-			animations.play("crouch")
+			display.play(CharacterDisplay.CROUCH)
 		
 	# on ground
 	elif !hurt and is_on_floor():
 		if super_jump.is_locking():
-			animations.play("charge")
+			display.play(CharacterDisplay.CHARGE)
 		elif control_vector.x != 0:
-			animations.play("run")
+			display.play(CharacterDisplay.RUN)
 		else:
-			animations.play("idle")
+			display.play(CharacterDisplay.IDLE)
 			
 	# in the air
 	elif !hurt and swimming:
-		animations.play("swim")
+		display.play(CharacterDisplay.SWIM)
 	elif !hurt:
-		animations.play("jump")
+		display.play(CharacterDisplay.JUMP)
 	
 	# super jump charge effect
 	shake = super_jump.charge_precentage() / 8

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dq2sggbwd8s74"]
+
+[node name="CharacterEditor" type="Node2D"]

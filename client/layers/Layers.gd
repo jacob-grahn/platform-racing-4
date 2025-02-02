@@ -1,4 +1,5 @@
 extends Node2D
+class_name Layers
 
 const LAYER = preload("res://layers/Layer.tscn")
 var target_layer: String = ""
@@ -30,12 +31,12 @@ func get_target_layer() -> String:
 
 
 func add_layer(name: String) -> void:
-	print("Layers::add_layer ", name)
 	var layer = LAYER.instantiate()
 	layer.name = name
 	layer.layer = 10
 	add_child(layer)
-	layer.init(tile_config)
+	if tile_config:
+		layer.init(tile_config)
 
 
 func remove_layer(name: String) -> void:

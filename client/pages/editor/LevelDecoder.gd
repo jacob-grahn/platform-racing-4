@@ -2,17 +2,18 @@ extends Node2D
 
 const LAYER = preload("res://layers/Layer.tscn")
 @onready var bg: Node2D = get_node("../BG")
-@onready var layers: Node2D = get_node("../Layers")
 @onready var minimap_container: Control = get_node("../UI/Minimaps")
 
 const MINIMAP_PREFAB = preload("res://pages/game/Minimap.tscn")
 
 var minimap_y_percentage = 0.2
 var minimap_y_padding = 20
-	
-func decode(level: Dictionary, isEditing: bool) -> void:
+
+
+func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	var properties = level.get("properties", {})
-	bg.set_bg(properties.get("background", ""))
+	if bg:
+		bg.set_bg(properties.get("background", ""))
 	Jukebox.play(properties.get("music", ""))
 	
 	var current_player_layer = Session.get_current_player_layer()
@@ -25,10 +26,12 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 		layer.get_node('TileMap').rotation_degrees = encoded_layer.get('rotation', 0)
 		layer.set_depth(encoded_layer.get('depth', 10))
 		
-		var minimap_instance = MINIMAP_PREFAB.instantiate()
-		minimap_instance.name = encoded_layer.name
-		minimap_container.add_child(minimap_instance)
-		minimap_instance.visible = (encoded_layer.name == current_player_layer)
+		var minimap_instance
+		if minimap_container:
+			minimap_instance = MINIMAP_PREFAB.instantiate()
+			minimap_instance.name = encoded_layer.name
+			minimap_container.add_child(minimap_instance)
+			minimap_instance.visible = (encoded_layer.name == current_player_layer)
 		
 		if encoded_layer.get("chunks"):
 			decode_chunks(encoded_layer.name, encoded_layer.chunks, layer.get_node("TileMap"), minimap_instance)
@@ -39,9 +42,11 @@ func decode(level: Dictionary, isEditing: bool) -> void:
 		
 
 func decode_chunks(encoded_layer_name: String, chunks: Array, tilemap: TileMap, minimap_instance: Control) -> void:
-	var tile_map_mini = minimap_instance.get_node("TileMapMini")
-	
-	tile_map_mini.clear()
+	var tile_map_mini
+	if minimap_instance:
+		tile_map_mini = minimap_instance.get_node("TileMapMini")
+		tile_map_mini.clear()
+		
 	for chunk in chunks:
 		for i:int in chunk.data.size():
 			var tile_id:int = chunk.data[i]
@@ -52,23 +57,27 @@ func decode_chunks(encoded_layer_name: String, chunks: Array, tilemap: TileMap, 
 			var atlas_coords = Helpers.to_atlas_coords(tile_id)
 			var alternative_tile = 0
 			tilemap.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
-			tile_map_mini.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
+			if tile_map_mini:
+				tile_map_mini.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
 	
 	var window_size = get_viewport().get_visible_rect().size
 	var map_used_rect = tilemap.get_used_rect()
 	Session.set_used_rect(encoded_layer_name, map_used_rect)
 	
-	tile_map_mini.position.y = -(map_used_rect.position.y) * Settings.tile_size.y
-	tile_map_mini.position.x = -(map_used_rect.position.x) * Settings.tile_size.x
+	if tile_map_mini:
+		tile_map_mini.position.y = -(map_used_rect.position.y) * Settings.tile_size.y
+		tile_map_mini.position.x = -(map_used_rect.position.x) * Settings.tile_size.x
 	
 	var scaleX = window_size.x / (map_used_rect.size.x * Settings.tile_size.x)
 	var scaleY = minimap_y_percentage * window_size.y / (map_used_rect.size.y * Settings.tile_size.y)
 	var effective_scale = min(scaleX, scaleY) * 0.9
 	var emptyX = window_size.x - (map_used_rect.size.x * Settings.tile_size.x * effective_scale)
 	
-	minimap_instance.position.x += emptyX / 2
-	minimap_instance.position.y += minimap_y_padding
-	minimap_instance.scale = Vector2(effective_scale, effective_scale)
+	if minimap_instance:
+		minimap_instance.position.x += emptyX / 2
+		minimap_instance.position.y += minimap_y_padding
+		minimap_instance.scale = Vector2(effective_scale, effective_scale)
+
 
 func decode_lines(objects: Array, holder: Node2D) -> void:
 	for object in objects:

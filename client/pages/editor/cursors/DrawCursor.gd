@@ -5,10 +5,15 @@ signal level_event
 var current_line: Line2D
 var current_point: Vector2i
 var optimization_epsilon: float = 1.0 # bigger = more line optimization
-@onready var layers = get_node("../../../Layers")
+var layers: Layers
+
+
+func init(_layers: Layers) -> void:
+	layers = _layers
 
 
 func on_mouse_down():
+	print("DrawCursor::on_mouse_down")
 	if !current_line:
 		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 		var lines: Node2D = layer.get_node("Lines")

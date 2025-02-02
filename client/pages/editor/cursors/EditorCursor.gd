@@ -5,12 +5,14 @@ extends Node2D
 @onready var cursor_icon = $CursorIcon
 @onready var block_icon = $BlockIcon
 
+
 func initialise(userID: String):
 	name_label.text = userID
 	
 	if userID == Session.get_username():
 		name_panel.hide()
 		cursor_icon.hide()
+
 
 func set_block_icon(block_id: int, tile_width: int = 128, tile_height: int = 128, columns: int = 10) -> void:
 	const erase_block_id = 0

@@ -44,15 +44,15 @@ func _ready() -> void:
 		scale_multiple_instances()
 	
 func _on_connect_editor() -> void:
-	popup_panel = $"../EDITOR/UI/PopupPanel"
-	host_success_panel = $"../EDITOR/UI/HostSuccessPanel"
-	editor_events = $"../EDITOR/EditorEvents"
-	now_editing_panel = $"../EDITOR/UI/NowEditingPanel"
-	layers = $"../EDITOR/Layers"
-	editor_cursors = $"../EDITOR/EditorCursorLayer/EditorCursors"
-	editor_explore_button = $"../EDITOR/UI/Explore"
-	editor_load_button = $"../EDITOR/UI/Load"
-	editor_clear_button = $"../EDITOR/UI/Clear"
+	popup_panel = $"../LEVEL_EDITOR/UI/PopupPanel"
+	host_success_panel = $"../LEVEL_EDITOR/UI/HostSuccessPanel"
+	editor_events = $"../LEVEL_EDITOR/EditorEvents"
+	now_editing_panel = $"../LEVEL_EDITOR/UI/NowEditingPanel"
+	layers = $"../LEVEL_EDITOR/Layers"
+	editor_cursors = $"../LEVEL_EDITOR/EditorCursorLayer/EditorCursors"
+	editor_explore_button = $"../LEVEL_EDITOR/UI/Explore"
+	editor_load_button = $"../LEVEL_EDITOR/UI/Load"
+	editor_clear_button = $"../LEVEL_EDITOR/UI/Clear"
 	
 	editor_events.connect("send_level_event", _on_send_level_event)
 	
@@ -250,7 +250,7 @@ func _process(delta: float) -> void:
 				var level_data = Marshalls.base64_to_utf8(request_editor.level_data)
 				level_data = JSON.parse_string(level_data)
 				
-				Editor.current_level = level_data
+				LevelEditor.current_level = level_data
 				emit_signal("request_editor_load")
 				
 				if now_editing_panel && is_instance_valid(now_editing_panel):
@@ -333,7 +333,7 @@ func _process(delta: float) -> void:
 				if !is_live_editing:
 					return
 					
-				if Session.get_current_scene_name() != "EDITOR":
+				if Session.get_current_scene_name() != "LEVEL_EDITOR":
 					edit_event_buffer.append(parsed_packet.editor)
 				else:
 					if parsed_packet.editor.user_id != Session.get_username():
@@ -405,7 +405,7 @@ func _process(delta: float) -> void:
 		if target_state == OPEN:
 			_retry_connect()
 	
-	if Session.get_current_scene_name() == "EDITOR":
+	if Session.get_current_scene_name() == "LEVEL_EDITOR":
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
 

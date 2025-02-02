@@ -69,6 +69,7 @@ func clear() -> void:
 
 
 func _new_pressed():
+	print("LayerPanel::add layer")
 	var i = layers.get_child_count() + 1
 	var new_name = "Layer " + str(i)
 	while(layers.get_node(new_name)):

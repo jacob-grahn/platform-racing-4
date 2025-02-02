@@ -42,6 +42,10 @@ func load_texture(url: String) -> Texture2D:
 	return texture
 
 
+func inject(url: String, value) -> void:
+	_memory[url] = value
+
+
 func _is_cached(url: String) -> bool:
 	var url_hash = url.md5_text()
 	var path = CACHE_DIR.path_join(url_hash)

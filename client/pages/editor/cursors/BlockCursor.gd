@@ -3,13 +3,17 @@ extends Node2D
 signal level_event
 
 var block_id: int = 0
-@onready var slider_menu: Node2D = get_node("../../EditorMenu")
-@onready var layers = get_node("../../../Layers")
+var layers: Layers
 
 
 func _ready():
-	slider_menu.connect("control_event", _on_control_event)
+	pass
 
+
+func init(slider_menu, _layers) -> void:
+	layers = _layers
+	slider_menu.connect("control_event", _on_control_event)
+	
 
 func _on_control_event(event: Dictionary) -> void:
 	print("BlockCursor::_on_control_event", event)

@@ -4,8 +4,6 @@ class_name EditorEvents
 signal level_event
 signal send_level_event
 
-@onready var game_client: Node2D = get_node("/root/Main/GameClient")
-
 # control events, switching tools, swtiching selected block, etc
 const SELECT_TOOL = 'select_tool'
 const SELECT_BLOCK = 'select_block'
@@ -24,15 +22,19 @@ const SET_BACKGROUND = 'set_background'
 
 var events = []
 var redo_events = []
-
 var last_send_event: Dictionary = {}
+var game_client: Node2D
 
-func _ready():
-	get_node("../UI/Cursor").connect("level_event", _on_level_event)
-	get_node("../UI/EditorMenu").connect("level_event", _on_level_event)
-	get_node("../UI/LayerPanel").connect("level_event", _on_level_event)
-	get_node("/root/Main/GameClient").connect("receive_level_event", _on_receive_level_event)
-	
+
+func init(cursor, editor_menu, layer_panel, _game_client):
+	game_client = _game_client
+	cursor.connect("level_event", _on_level_event)
+	editor_menu.connect("level_event", _on_level_event)
+	layer_panel.connect("level_event", _on_level_event)
+	if game_client:
+		game_client.connect("receive_level_event", _on_receive_level_event)
+
+
 func _on_level_event(event: Dictionary) -> void:
 	if event == last_send_event:
 		return
@@ -43,12 +45,13 @@ func _on_level_event(event: Dictionary) -> void:
 		redo_events = []
 	events.push_back(event)
 	
-	if !game_client.is_live_editing:
+	if !game_client || !game_client.is_live_editing:
 		# Single-player level editor
 		emit_signal("level_event", event)
 	else:
 		# Muti-player level editor
 		emit_signal("send_level_event", event)
+
 
 func _on_receive_level_event(event: Dictionary) -> void:
 	print("EditorEvents::_on_receive_level_event ", event)
@@ -56,7 +59,8 @@ func _on_receive_level_event(event: Dictionary) -> void:
 		redo_events = []
 	events.push_back(event)
 	emit_signal("level_event", event)
-		
+
+
 func undo() -> void:
 	var event = events.pop_back()
 	redo_events.push_back(event)

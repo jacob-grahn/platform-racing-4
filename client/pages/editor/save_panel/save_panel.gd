@@ -31,7 +31,7 @@ func _save_pressed(current_level: Dictionary):
 	if title_edit.text == "":
 		return
 	
-	var encoded_string = Helpers._save_to_file(Editor.current_level, title_edit.text)
+	var encoded_string = Helpers._save_to_file(LevelEditor.current_level, title_edit.text)
 	
 	var post_data = {
 		"level_data": encoded_string,

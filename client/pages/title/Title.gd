@@ -51,4 +51,4 @@ func _credits_pressed():
 
 func _editor_pressed():
 	Game.pr2_level_id = '0'
-	Helpers.set_scene("EDITOR")
+	Helpers.set_scene("LEVEL_EDITOR")

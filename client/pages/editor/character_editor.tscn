@@ -1,0 +1,59 @@
+[gd_scene load_steps=13 format=3 uid="uid://bc0t2mpm7g5p2"]
+
+[ext_resource type="Script" path="res://pages/editor/character_editor.gd" id="1_rv2ev"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/EditorEvents.tscn" id="2_xj8yj"]
+[ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://pages/editor/cursors/Cursor.tscn" id="3_s6f3x"]
+[ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://pages/editor/editor_camera.tscn" id="3_sehmu"]
+[ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="3_uqdsa"]
+[ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://pages/editor/menu/EditorMenu.tscn" id="4_hhash"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/LevelDecoder.tscn" id="4_lb6a5"]
+[ext_resource type="Texture2D" uid="uid://b36h3oox5qxi3" path="res://pages/editor/pr4-character-template.png" id="4_ngwbt"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/Layers.tscn" id="5_5aycx"]
+[ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://pages/editor/LevelEncoder.tscn" id="5_6whrk"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://pages/editor/Penciler.tscn" id="5_qytr1"]
+[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://pages/editor/layer_panel/LayerPanel.tscn" id="6_mhoaf"]
+
+[node name="CharacterEditor" type="Node2D"]
+script = ExtResource("1_rv2ev")
+
+[node name="EditorEvents" parent="." instance=ExtResource("2_xj8yj")]
+
+[node name="LevelDecoder" parent="." instance=ExtResource("4_lb6a5")]
+
+[node name="LevelEncoder" parent="." instance=ExtResource("5_6whrk")]
+
+[node name="Penciler" parent="." instance=ExtResource("5_qytr1")]
+
+[node name="EditorCamera" parent="." instance=ExtResource("3_sehmu")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 512.0
+offset_bottom = 608.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(512, 608)
+render_target_update_mode = 4
+
+[node name="CharacterTemplate" type="Sprite2D" parent="SubViewportContainer/SubViewport"]
+position = Vector2(256, 304)
+texture = ExtResource("4_ngwbt")
+
+[node name="Layers" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_5aycx")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Cursor" parent="UI" instance=ExtResource("3_s6f3x")]
+
+[node name="CharacterDisplay" parent="UI" instance=ExtResource("3_uqdsa")]
+position = Vector2(127, 796)
+
+[node name="CharacterDisplayTimer" type="Timer" parent="UI"]
+wait_time = 3.0
+autostart = true
+
+[node name="EditorMenu" parent="UI" instance=ExtResource("4_hhash")]
+
+[node name="LayerPanel" parent="UI" instance=ExtResource("6_mhoaf")]

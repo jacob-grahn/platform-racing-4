@@ -3,8 +3,12 @@ extends Node2D
 signal level_event
 
 var current_usertextbox: TextEdit
-@onready var layers = get_node("../../../Layers")
+var layers: Layers
 
+
+func init(_layers: Layers) -> void:
+	layers = _layers
+	
 
 func on_mouse_down():
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())

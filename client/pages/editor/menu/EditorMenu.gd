@@ -1,4 +1,5 @@
 extends Node2D
+class_name EditorMenu
 
 signal control_event
 signal level_event
