@@ -27,7 +27,7 @@ func _process(delta):
 	
 	if is_zooming:
 		var factor_to_zoom = target_zoom / camera_zoom
-		camera_zoom = lerp(camera_zoom, target_zoom, factor_to_zoom*delta*5)
+		camera_zoom = lerp(camera_zoom, target_zoom, max(factor_to_zoom, 1/factor_to_zoom)*delta*5)
 		if abs(factor_to_zoom - 1) < 0.001:
 			camera_zoom = target_zoom
 			is_zooming = false
