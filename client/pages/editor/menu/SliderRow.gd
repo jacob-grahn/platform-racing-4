@@ -3,8 +3,8 @@ class_name SliderRow
 
 var step_delay: float = 0.1
 var max_width: float = 100
-var slider_dimensions: Vector2 = Vector2(0, 0)
 var pos: Vector2i = Vector2i(0, 0)
+var default_slider_dimensions = Vector2i(64, 64)
 
 
 func _ready():
@@ -14,14 +14,13 @@ func _ready():
 
 func add_slider(slider: Node) -> void:
 	add_child(slider)
-	slider_dimensions = slider.get_dimensions()
-	position_slider(slider)
+	_position_slider(slider)
 
 
 func get_dimensions() -> Vector2:
 	var dimensions = Vector2(0, 0)
 	for slider in get_children():
-		var slider_dimensions = slider.get_dimensions()
+		var slider_dimensions: Vector2 = _get_slider_dimensions(slider)
 		dimensions.y = max(dimensions.y, (slider.position.y + slider_dimensions.y))
 		dimensions.x = max(dimensions.x, (slider.position.x + slider_dimensions.x))
 	return dimensions
@@ -30,17 +29,25 @@ func get_dimensions() -> Vector2:
 func _on_size_changed():
 	var window_size = get_viewport().get_visible_rect().size
 	max_width = window_size.x
-	position_sliders()
+	_position_sliders()
 
 
-func position_sliders():
+func _position_sliders():
 	pos = Vector2i(0, 0)
 	for slider in get_children():
-		position_slider(slider)
+		_position_slider(slider)
 
 
-func position_slider(slider: Node):
-	var slider_dimensions = slider.get_dimensions()
+func _get_slider_dimensions(slider: Node) -> Vector2:
+	if slider.has_method('get_dimensions'):
+		return slider.get_dimensions()
+	else:
+		return default_slider_dimensions
+	
+
+
+func _position_slider(slider: Node):
+	var slider_dimensions: Vector2 = _get_slider_dimensions(slider)
 	if pos.x + slider_dimensions.x > max_width:
 		pos.x = 0
 		pos.y += slider_dimensions.y

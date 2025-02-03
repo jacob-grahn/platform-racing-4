@@ -5,6 +5,7 @@ signal control_event
 const BLOCK_BUTTON: PackedScene = preload("res://pages/editor/menu/BlockButton.tscn")
 const TEXT_BUTTON: PackedScene = preload("res://pages/editor/menu/SliderTextButton.tscn")
 const MUSIC_SELECTOR: PackedScene = preload("res://pages/editor/menu/music_selector/MusicSelector.tscn")
+const SAVE_BUTTON: PackedScene = preload("res://pages/editor/menu/save-button.tscn")
 var music_selector
 
 func _ready():
@@ -23,6 +24,10 @@ func _ready():
 	music_selector = MUSIC_SELECTOR.instantiate()
 	add_slider(music_selector)
 	music_selector.item_selected.connect(_music_selected)
+	
+	# Add save
+	var save_button = SAVE_BUTTON.instantiate()
+	add_slider(save_button)
 	
 	# Add blocks
 	for i in range(1, 41):
