@@ -36,4 +36,4 @@ func _on_change():
 # 	NOTE - If in future this is changed to allow custom zoom amounts (variable name: zoom_amount), remove the line above and keep the code and comment below.
 #	if (typeof(zoom_amount) == 2 || typeof(zoom_amount) == 3): #Check if integer or float
 #		if not(is_nan(zoom_amount) || is_inf(zoom_amount) || zoom_amount == 0): #Disallow zero, NaN, and infinity (positive or negative)
-#			emit_signal("editor_camera_zoom_change", zoom_amount / 100.0)
+#			emit_signal("editor_camera_zoom_change", 0.5 * zoom_amount / 100.0)
