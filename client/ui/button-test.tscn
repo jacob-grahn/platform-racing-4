@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcg13exdvsc5k"]
+
+[ext_resource type="Texture2D" uid="uid://cmar7iha6xkuu" path="res://ui/reference-from-pr2.png" id="1_1rdbu"]
+
+[node name="ButtonTest" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -42.0
+offset_top = -16.0
+offset_right = 575.0
+offset_bottom = 195.0
+color = Color(0.921569, 0.929412, 0.909804, 1)
+
+[node name="Button" type="Button" parent="."]
+offset_left = 21.0
+offset_right = 107.0
+offset_bottom = 46.0
+text = "Log In"
+
+[node name="Reference-from-pr2" type="Sprite2D" parent="."]
+position = Vector2(243, 23)
+texture = ExtResource("1_1rdbu")
