@@ -40,7 +40,7 @@ func _on_level_event(event: Dictionary) -> void:
 		return
 		
 	last_send_event = event
-	print("EditorEvents::_on_level_event ", event)
+	print("EditorEvents::_on_level_event ", event.type)
 	if len(redo_events) > 0:
 		redo_events = []
 	events.push_back(event)

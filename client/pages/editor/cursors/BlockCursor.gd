@@ -11,6 +11,7 @@ func _ready():
 
 
 func init(slider_menu, _layers) -> void:
+	print("BlockCursor::init")
 	layers = _layers
 	slider_menu.connect("control_event", _on_control_event)
 	

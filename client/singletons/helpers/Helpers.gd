@@ -95,6 +95,7 @@ func _load_from_file(level_name: String = current_level_name):
 	
 	return level
 
+
 func set_scene(scene_name: String) -> Node:
 	return get_node("/root/Main").set_scene(scene_name)
 

@@ -60,6 +60,7 @@ func _ready():
 	layer_panel.init(layers)
 	editor_events.init(cursor, editor_menu, layer_panel, game_client)
 	penciler.init(layers)
+	cursor.init(editor_menu, layers)
 	editor_camera.target_zoom = 0.5
 	editor_camera.change_camera_zoom(0.5)
 	

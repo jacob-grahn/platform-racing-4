@@ -34,6 +34,7 @@ func _cleanup_old_timestamps() -> void:
 
 
 func _on_level_event(event: Dictionary) -> void:
+	print("Penciler::_on_level_event: ", event.type)
 	if event.type == EditorEvents.SET_TILE:
 		var coords = Vector2i(event.coords.x, event.coords.y)
 		var coords_key = str(coords.x) + "_" + str(coords.y)

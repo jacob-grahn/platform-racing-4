@@ -38,7 +38,7 @@ func _http_request_completed(_result, _response_code, _headers, body):
 	if response.get("error", ''):
 		return
 	
-	level_decoder.decode(response, false)
+	level_decoder.decode(response, false, layers)
 	activate()
 
 

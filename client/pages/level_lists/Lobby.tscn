@@ -22,5 +22,32 @@ offset_bottom = 99.0
 theme = ExtResource("1_4b3kv")
 text = "Back"
 
+[node name="SoloButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 28.0
+offset_right = 503.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Solo"
+
+[node name="EditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 28.0
+offset_right = 761.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Editor"
+
+[node name="CreditsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 810.0
+offset_top = 28.0
+offset_right = 1015.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Credits"
+
 [node name="LevelPanel" parent="." instance=ExtResource("3_oq36o")]
 position = Vector2(10, 43)

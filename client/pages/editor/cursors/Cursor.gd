@@ -20,6 +20,7 @@ func _ready():
 
 
 func init(_menu, layers) -> void:
+	print("Cursor::init")
 	menu = _menu
 	
 	block_cursor.init(menu, layers)
