@@ -61,7 +61,7 @@ func activate():
 
 
 func finish():
-	Helpers.set_scene("TITLE")
+	Main.set_scene(Main.TITLE)
 
 
 func _exit_tree():
@@ -70,4 +70,4 @@ func _exit_tree():
 
 
 func _on_back_pressed():
-	Helpers.set_scene("TITLE")
+	Main.set_scene(Main.TITLE)

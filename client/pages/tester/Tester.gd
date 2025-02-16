@@ -17,7 +17,7 @@ func _ready():
 
 
 func _on_back_pressed():
-	Helpers.set_scene("LEVEL_EDITOR")
+	Main.set_scene(Main.LEVEL_EDITOR)
 
 
 func init(level: Dictionary):
@@ -38,8 +38,9 @@ func init(level: Dictionary):
 	player_holder.add_child(character)
 	character.set_depth(layer.depth)
 
+
 func finish():
-	Helpers.set_scene("LEVEL_EDITOR")
+	Main.set_scene(Main.LEVEL_EDITOR)
 
 
 func _exit_tree():

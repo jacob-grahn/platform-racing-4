@@ -81,7 +81,7 @@ func _load_pressed():
 		return
 		
 	Game.pr2_level_id = str(selected_level_id)
-	Helpers.set_scene("GAME")
+	Main.set_scene(Main.GAME)
 	return
 	
 func _row_pressed(level_id: int):

@@ -22,9 +22,9 @@ func _check_session():
 
 
 func _online_pressed():
-	Helpers.set_scene("LOBBY")
+	Main.set_scene(Main.LOBBY)
 	#if Session.is_logged_in():
-		#Helpers.set_scene("LOBBY")
+		#Main.set_scene(Main.LOBBY)
 	#else:
 		#if OS.has_feature('web'):
 			#JavaScriptBridge.eval('window.location.replace("' + Helpers.get_base_url() + '/auth-ui/registration")')

@@ -71,7 +71,7 @@ func _ready():
 func _on_back_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	Helpers._save_to_file(LevelEditor.current_level)
-	Helpers.set_scene("TITLE")
+	Main.set_scene(Main.TITLE)
 
 
 func _on_explore_pressed():
@@ -96,7 +96,7 @@ func _on_save_pressed():
 func _on_test_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	Helpers._save_to_file(LevelEditor.current_level)
-	var tester = Helpers.set_scene("TESTER")
+	var tester = Main.set_scene(Main.TESTER)
 	tester.init(LevelEditor.current_level)
 
 

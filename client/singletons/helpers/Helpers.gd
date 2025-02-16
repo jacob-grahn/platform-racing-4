@@ -96,10 +96,6 @@ func _load_from_file(level_name: String = current_level_name):
 	return level
 
 
-func set_scene(scene_name: String) -> Node:
-	return get_node("/root/Main").set_scene(scene_name)
-
-
 func to_atlas_coords(block_id: int) -> Vector2i:
 	if block_id == 0:
 		return Vector2(-1, -1)
