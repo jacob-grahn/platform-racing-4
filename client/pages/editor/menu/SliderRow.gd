@@ -13,6 +13,8 @@ func _ready():
 
 
 func add_slider(slider: Node) -> void:
+	if slider.has_signal("control_event"):
+		slider.control_event.connect(_on_control_event)
 	add_child(slider)
 	_position_slider(slider)
 
@@ -43,7 +45,6 @@ func _get_slider_dimensions(slider: Node) -> Vector2:
 		return slider.get_dimensions()
 	else:
 		return default_slider_dimensions
-	
 
 
 func _position_slider(slider: Node):
@@ -53,3 +54,7 @@ func _position_slider(slider: Node):
 		pos.y += slider_dimensions.y
 	slider.position = pos
 	pos.x += slider_dimensions.x
+
+
+func _on_control_event(event) -> void:
+	emit_signal("control_event", event)

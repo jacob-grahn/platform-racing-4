@@ -29,6 +29,7 @@ var member_id_list: Array[String] = []
 @onready var chat_message_edit: LineEdit = $TabContainer/Chat/MessageEdit
 @onready var chat_send_button: Button = $TabContainer/Chat/SendButton
 
+
 func _ready():
 	users_host_button.pressed.connect(_users_host_pressed)
 	users_join_quit_button.pressed.connect(_users_join_quit_pressed)
@@ -36,6 +37,16 @@ func _ready():
 	chat_message_edit.editable = false
 	chat_send_button.disabled = true
 	chat_unread_dot.hide()
+
+
+func init(menu) -> void:
+	menu.control_event.connect(_on_control_event)
+
+
+func _on_control_event(event) -> void:
+	if event.type == EditorEvents.ENABLE_COLLAB:
+		visible = event.value
+
 
 func quit_room(isMe: bool, quitUserID: String, member_id_list_input: Array[String], host_id: String):
 	if isMe:

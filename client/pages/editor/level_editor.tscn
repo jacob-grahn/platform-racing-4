@@ -72,6 +72,7 @@ position = Vector2(3, -3)
 visible = false
 
 [node name="NowEditingPanel" parent="UI" instance=ExtResource("16_n6ic7")]
+visible = false
 
 [node name="JoinEditPanel" parent="UI" instance=ExtResource("17_mixqj")]
 visible = false

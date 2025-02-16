@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjuuovcj741ip"
-path="res://.godot/imported/download.png-8aac9ae5fbc308d925897dacfbe08e7d.ctex"
+uid="uid://chlea1whonog7"
+path="res://.godot/imported/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png-ff0de1b6e3a6c6e73b589b8b06d1ae51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pages/editor/menu/download.png"
-dest_files=["res://.godot/imported/download.png-8aac9ae5fbc308d925897dacfbe08e7d.ctex"]
+source_file="res://pages/editor/menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png"
+dest_files=["res://.godot/imported/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png-ff0de1b6e3a6c6e73b589b8b06d1ae51.ctex"]
 
 [params]
 

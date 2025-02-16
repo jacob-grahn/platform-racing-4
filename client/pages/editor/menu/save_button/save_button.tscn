@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bsum6rbghs6q0"]
 
-[ext_resource type="Texture2D" uid="uid://b1qy5olccryn0" path="res://pages/editor/menu/save.png" id="1_p5jeo"]
+[ext_resource type="Texture2D" uid="uid://b1qy5olccryn0" path="res://pages/editor/menu/save_button/save.png" id="1_p5jeo"]
 
 [node name="SaveButton" type="TextureButton"]
 scale = Vector2(0.25, 0.25)

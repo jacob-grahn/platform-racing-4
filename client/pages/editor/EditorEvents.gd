@@ -8,6 +8,7 @@ signal send_level_event
 const SELECT_TOOL = 'select_tool'
 const SELECT_BLOCK = 'select_block'
 const SELECT_LAYER = 'select_layer'
+const ENABLE_COLLAB = 'enable_collab'
 
 # level events, adding blocks, drawing, changeing a setting, etc
 const SET_TILE = 'set_tile'
