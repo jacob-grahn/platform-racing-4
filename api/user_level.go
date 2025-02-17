@@ -9,15 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserLevel struct {
-	ID         string    `gorm:"primaryKey"`
-	LevelData  string    `gorm:"type:text"`
-	CreatorIP  string    `gorm:"index"`
-	LevelName  string    `gorm:"size:100;index"`
-	CreatedAt  time.Time `gorm:"index"`
-	ModifiedAt time.Time `gorm:"index"`
-}
-
 func SetupLevelRoutes(router *gin.Engine, db *gorm.DB) {
 	router.POST("/save_level", func(c *gin.Context) {
 		var input struct {

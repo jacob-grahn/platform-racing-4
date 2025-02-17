@@ -9,14 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type PollVote struct {
-	ID        uint      `gorm:"primaryKey"`
-	Question  string    `gorm:"size:100;index"`
-	Answer    string    `gorm:"size:100;index"`
-	IP        string    `gorm:"index"`
-	CreatedAt time.Time `gorm:"index"`
-}
-
 func getVoteResults(db *gorm.DB, question string) (gin.H, error) {
 	var results []PollVote
 	db.Where("question = ?", question).Find(&results)
