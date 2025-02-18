@@ -11,7 +11,7 @@ import (
 )
 
 func TestAuthRegisterHandler(t *testing.T) {
-	db := setupTestDB()
+	db := setupDatabase(":memory:")
 	router := setupRouter(db)
 
 	// Test successful user creation

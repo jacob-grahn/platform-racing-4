@@ -16,7 +16,7 @@ import (
 
 func setupTestEnvironment() (*gin.Engine, *gorm.DB) {
 	// Set up the in-memory database
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
 		panic("failed to set up test database: " + err.Error())
 	}

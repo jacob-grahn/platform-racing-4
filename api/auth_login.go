@@ -33,8 +33,7 @@ func authLoginHandler(c *gin.Context, db *gorm.DB) {
 	// Fetch user from the database using UserAuth schema
 	var user UserAuth
 	if err := db.Where("nickname = ?", req.Nickname).First(&user).Error; err != nil {
-		logLoginAttempt(db, req.Nickname, false)
-		c.JSON(401, ErrorResponse{Error: "Invalid credentials"})
+		c.JSON(401, ErrorResponse{Error: "Nickname not found"})
 		return
 	}
 
@@ -44,14 +43,28 @@ func authLoginHandler(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
-	// Compare the provided password with the stored hash
-	if err := bcrypt.CompareHashAndPassword([]byte(user.PassHash), []byte(req.Password)); err != nil {
-		logLoginAttempt(db, req.Nickname, false)
+	// Check password or recovery code
+	passwordValid := false
+
+	// Check password
+	if bcrypt.CompareHashAndPassword([]byte(user.PassHash), []byte(req.Password)) == nil {
+		passwordValid = true
+	}
+
+	// Check recovery code
+	if user.RecoveryCode != "" && time.Since(user.RecoveryCodeAt) < 24*time.Hour && bcrypt.CompareHashAndPassword([]byte(user.RecoveryCode), []byte(req.Password)) == nil {
+		passwordValid = true
+	}
+
+	// Fail if neither password nor recovery code is valid
+	if !passwordValid {
+		logLoginAttempt(db, user.ID, false)
 		c.JSON(401, ErrorResponse{Error: "Invalid credentials"})
 		return
 	}
 
-	// Update ActiveAt to the current time
+	// Update user in db
+	user.RecoveryCode = ""
 	user.ActiveAt = time.Now()
 	if err := db.Save(&user).Error; err != nil {
 		c.JSON(500, ErrorResponse{Error: "Failed to update active time"})
@@ -59,7 +72,7 @@ func authLoginHandler(c *gin.Context, db *gorm.DB) {
 	}
 
 	// Log successful login attempt
-	logLoginAttempt(db, req.Nickname, true)
+	logLoginAttempt(db, user.ID, true)
 
 	// Generate a long-lived refresh token
 	refreshToken, err := generateToken(req.Nickname, time.Hour*72, "refresh")
@@ -82,9 +95,9 @@ func authLoginHandler(c *gin.Context, db *gorm.DB) {
 	})
 }
 
-func logLoginAttempt(db *gorm.DB, nickname string, success bool) {
+func logLoginAttempt(db *gorm.DB, user_auth_id uint, success bool) {
 	var attempt LoginAttempt
-	attempt.Nickname = nickname
+	attempt.UserAuthID = user_auth_id
 	attempt.Success = success
 	attempt.Time = time.Now()
 	db.Create(&attempt)
@@ -96,7 +109,7 @@ func logLoginAttempt(db *gorm.DB, nickname string, success bool) {
 func isAccountLocked(db *gorm.DB, userID uint) bool {
 	var count int64
 	oneHourAgo := time.Now().Add(-1 * time.Hour)
-	db.Model(&LoginAttempt{}).Where("user_id = ? AND success = ? AND time > ?", userID, false, oneHourAgo).Count(&count)
+	db.Model(&LoginAttempt{}).Where("user_auth_id = ? AND success = ? AND time > ?", userID, false, oneHourAgo).Count(&count)
 	return count >= 20
 }
 

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jacob-grahn/platform-racing-4/api/internal/pr2_level_import"
@@ -20,8 +21,14 @@ func main() {
 		log.Fatal("JWT_SECRET environment variable is not set")
 	}
 
+	// Read the DB path from the environment variable or use the default value
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = filepath.Join(".", "pr4-api.db") // Use current directory as default
+	}
+
 	// open the db
-	db := setupDatabase()
+	db := setupDatabase(dbPath)
 
 	// router config
 	router := gin.Default()

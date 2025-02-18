@@ -13,7 +13,7 @@ import (
 )
 
 func TestAuthRefreshHandler(t *testing.T) {
-	db := setupTestDB()
+	db := setupDatabase(":memory:")
 	router := setupRouter(db)
 
 	// Create a test user
