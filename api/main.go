@@ -6,12 +6,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jacob-grahn/platform-racing-4/api/internal/pr2_level_import"
+	"gorm.io/gorm"
+)
+
+var (
+	jwtSecret []byte
 )
 
 func main() {
 	// Read JWT_SECRET from the environment
-	jwtSecret := os.Getenv("JWT_SECRET")
-	if jwtSecret == "" {
+	jwtSecret = []byte(os.Getenv("JWT_SECRET"))
+	if len(jwtSecret) == 0 {
 		log.Fatal("JWT_SECRET environment variable is not set")
 	}
 
@@ -28,8 +33,26 @@ func main() {
 	SetupLevelRoutes(router, db)
 	pr2_level_import.SetupPR2LevelImportRoutes(router, db)
 	pr2_level_import.SetupPR2LevelListRoutes(router)
-	SetupAuthRoutes(router, db, []byte(jwtSecret))
+	setupRoutes(router, db)
 
 	// listen for requests
 	router.Run(":8080")
+}
+
+func setupRoutes(router *gin.Engine, db *gorm.DB) {
+	router.POST("/auth/login", func(c *gin.Context) {
+		authLoginHandler(c, db)
+	})
+	router.POST("/auth/refresh", func(c *gin.Context) {
+		authRefreshHandler(c, db)
+	})
+	router.POST("/auth/register", func(c *gin.Context) {
+		authRegisterHandler(c, db)
+	})
+	router.POST("/auth/update-password", func(c *gin.Context) {
+		authUpdatePasswordHandler(c, db)
+	})
+	router.POST("/auth/update-nickname", func(c *gin.Context) {
+		authUpdateNicknameHandler(c, db)
+	})
 }
