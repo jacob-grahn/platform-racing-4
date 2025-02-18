@@ -29,6 +29,7 @@ type UserLevel struct {
 type UserAuth struct {
 	ID        uint      `gorm:"primaryKey"`
 	Nickname  string    `gorm:"size:30;index"`
+	Email     string    `gorm:"size:100"`
 	PassHash  string    `gorm:"size:100;index"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time

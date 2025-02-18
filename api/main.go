@@ -49,10 +49,7 @@ func setupRoutes(router *gin.Engine, db *gorm.DB) {
 	router.POST("/auth/register", func(c *gin.Context) {
 		authRegisterHandler(c, db)
 	})
-	router.POST("/auth/update-password", func(c *gin.Context) {
-		authUpdatePasswordHandler(c, db)
-	})
-	router.POST("/auth/update-nickname", func(c *gin.Context) {
-		authUpdateNicknameHandler(c, db)
+	router.POST("/auth/update", func(c *gin.Context) {
+		authUpdateHandler(c, db)
 	})
 }

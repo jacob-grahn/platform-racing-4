@@ -14,6 +14,7 @@ import (
 type AuthRegisterRequest struct {
 	Nickname string `json:"nickname" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Email    string `json:"email"`
 }
 
 type AuthRegisterResponse struct {
@@ -37,6 +38,11 @@ func authRegisterHandler(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	if req.Email != "" && !isValidEmail(req.Email) {
+		c.JSON(400, ErrorResponse{Error: "Invalid email"})
+		return
+	}
+
 	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -48,6 +54,7 @@ func authRegisterHandler(c *gin.Context, db *gorm.DB) {
 	user := UserAuth{
 		Nickname:  req.Nickname,
 		PassHash:  string(hashedPassword),
+		Email:     req.Email,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		ActiveAt:  time.Now(),
@@ -68,6 +75,11 @@ func isValidPassword(password string) bool {
 func isValidNickname(nickname string) bool {
 	nicknameRegex := regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 	return utf8.RuneCountInString(nickname) >= 3 && nicknameRegex.MatchString(nickname)
+}
+
+func isValidEmail(email string) bool {
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	return emailRegex.MatchString(email)
 }
 
 func generateToken(nickname string, duration time.Duration, tokenType string) (string, error) {
