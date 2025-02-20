@@ -27,6 +27,8 @@ const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
 @onready var ice = $Ice
 @onready var invincibility = $Invincibility
 @onready var display = $Display
+@onready var sjaura = $SuperJumpAura
+@onready var animations: AnimationPlayer = $Display/Animations
 
 var active = false
 var control_vector: Vector2
@@ -75,7 +77,7 @@ var camera_max_zoom: float = 0.5
 var camera_min_zoom: float = 0.4
 var camera_zoom_smoothing: float = 0.1 # smaller is smoother, slower
 var camera_pos: Vector2 = Vector2(0,0)
-var camera_pos_smoothing: float = 0.25 # lower values take longer for camera to adjust to player position. 0 takes infinite amount of time, 1 adjusts instantly.
+var camera_pos_smoothing: float = 0.333 # lower values take longer for camera to adjust to player position. 0 takes infinite amount of time, 1 adjusts instantly.
 
 # Use this to apply a longer velocity shift
 var phantom_velocity: Vector2 = Vector2(0 , 0)
@@ -104,7 +106,7 @@ func _physics_process(delta):
 		ice.visible = true
 		ice.modulate.a = ((1 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
 		ice.scale.y = ((0.65 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
-		display.modulate = Color(1.0 - ice.modulate.a, 1.0 - ice.modulate.a, 1.0)
+		display.modulate = Color(1.0 - (ice.modulate.a / 2), 1.0, 1.0)
 		traction = TRACTION / 10.0
 	else:
 		ice.visible = false
@@ -483,6 +485,8 @@ func update_animation() -> void:
 			
 	if frozen:
 		display.set_speed_scale(1 - ice.modulate.a)
+	elif super_jump.is_locking() and super_jump.charge_precentage() < 1:
+		display.set_speed_scale(1 / super_jump.CHARGE_TIMER_MAX)
 	else:
 		display.set_speed_scale(1)
 	
@@ -496,7 +500,10 @@ func update_animation() -> void:
 	# on ground
 	elif !hurt and is_on_floor():
 		if super_jump.is_locking():
-			display.play(CharacterDisplay.CHARGE)
+			if super_jump.charge_precentage() < 1:
+				display.play(CharacterDisplay.CHARGE)
+			else:
+				display.play(CharacterDisplay.CHARGE_HOLD)
 		elif control_vector.x != 0:
 			display.play(CharacterDisplay.RUN)
 		else:
@@ -513,12 +520,20 @@ func update_animation() -> void:
 	sjanim = randf_range(1 - shake, 1 + shake)
 	if super_jump.is_locking():
 		display.scale.y = sjanim
-		display.modulate = Color(1.0, 1.0, 1.0 - super_jump.charge_precentage())
+		if !frozen:
+			display.modulate.b = 1.0 - super_jump.charge_precentage()
+		sjaura.modulate.a = super_jump.charge_precentage() / 2
+		sjaura.scale.y = super_jump.charge_precentage() / 2
+		if !sjaura.visible:
+			sjaura.visible = true
 	else:
-		display.modulate = Color(1.0, 1.0, 1.0)
+		if sjaura.visible:
+			sjaura.visible = false
+		if !frozen:
+			display.modulate = Color(1.0, 1.0, 1.0)
 		display.scale.y = 1
-		shake = 0
 		display.scale.x = facing
+		shake = 0
 
 func check_out_of_bounds() -> void:
 	var map_used_rect = Session.get_used_rect()

@@ -1,7 +1,7 @@
 extends CollisionShape2D
 
 const HIGH: int = 180
-const LOW: int = 64
+const LOW: int = 32
 
 var mode = "high"
 
