@@ -12,17 +12,16 @@ var gravity: Vector2 = Vector2(0, ProjectSettings.get_setting("physics/2d/defaul
 
 
 func _ready():
+	current_velocity = walk_velocity
 	display.get_node("Egg2/EggColor").self_modulate = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0))
 	display.get_node("Egg2/EggSpots").self_modulate = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0))
 	display.get_node("FootFront/Color").self_modulate = Color(randf_range(0.0, 1.0), randf_range(0.0, 1.0), randf_range(0.0, 1.0))
 	display.get_node("FootBack/Color").self_modulate = display.get_node("FootFront/Color").self_modulate
-	current_velocity = walk_velocity
-	timer.connect("timeout", _on_timeout)
 	animations.play("walk")
 
 
-func _on_timeout():
-	if abs(velocity.x) < walk_velocity / 4:
+func check_collision():
+	if abs(velocity.x) < current_velocity / 4:
 		walk_direction = !walk_direction
 	if walk_direction:
 		velocity.x = -current_velocity
@@ -35,6 +34,7 @@ func _on_timeout():
 func _physics_process(delta):
 	velocity += gravity * delta
 	move_and_slide()
+	check_collision()
 
 func detect_players():
 	var collision: Array = SightArea.get_overlapping_areas()
