@@ -1,12 +1,12 @@
 extends Node2D
 class_name RocketLauncherItem
 
-@onready var main = get_tree().get_root()
 @onready var projectile = load("res://item_effects/Rocket.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 @onready var character = get_node("../../..")
+@onready var spawn = get_node("../../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -58,7 +58,7 @@ func launch():
 	rocket.spawnpos = global_position
 	rocket.spawnrot = 0
 	rocket.scale.x = character.display.scale.x
-	main.add_child.call_deferred(rocket)
+	spawn.add_child.call_deferred(rocket)
 
 func _on_timeout():
 	using = false
