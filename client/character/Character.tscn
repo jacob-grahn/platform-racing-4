@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c4b6khd33tysp"]
+[gd_scene load_steps=29 format=3 uid="uid://c4b6khd33tysp"]
 
 [ext_resource type="Script" path="res://character/Character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple-light.png" id="2_kipoy"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bxox6butkxpwh" path="res://character/Invincibility.tscn" id="6_rt6gv"]
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/Ice.svg" id="7_l8eep"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
+[ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/SuperJumpAura.svg" id="11_r00fj"]
 [ext_resource type="Script" path="res://items/Item.gd" id="14_rudt7"]
 
 [sub_resource type="Curve" id="Curve_7bwiu"]
@@ -150,27 +151,10 @@ texture = ExtResource("6_2qvqd")
 lifetime = 0.75
 fixed_fps = 60
 
-[node name="Ice" type="Sprite2D" parent="."]
-position = Vector2(-4, 0)
-scale = Vector2(0.65, 0.65)
-texture = ExtResource("7_l8eep")
-offset = Vector2(0, -188)
-
-[node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
-modulate = Color(1, 1, 1, 0.247059)
-z_index = 1
-position = Vector2(10, -10)
-scale = Vector2(0.3, 0.3)
-
 [node name="Display" parent="." instance=ExtResource("9_ydu4f")]
-position = Vector2(0, -60)
-
-[node name="ItemManager" type="Node2D" parent="."]
-position = Vector2(-6, -128)
-script = ExtResource("14_rudt7")
 
 [node name="LowArea" type="Area2D" parent="."]
-position = Vector2(0, -50)
+position = Vector2(0, -32)
 collision_layer = 2
 collision_mask = 3
 
@@ -184,3 +168,24 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea"]
 shape = SubResource("CircleShape2D_fase5")
+
+[node name="ItemManager" type="Node2D" parent="."]
+position = Vector2(-6, -128)
+script = ExtResource("14_rudt7")
+
+[node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
+modulate = Color(1, 1, 1, 0.247059)
+z_index = 1
+position = Vector2(10, -10)
+scale = Vector2(0.3, 0.3)
+
+[node name="SuperJumpAura" type="Sprite2D" parent="."]
+scale = Vector2(1.25, 0.5)
+texture = ExtResource("11_r00fj")
+offset = Vector2(0, -74)
+
+[node name="Ice" type="Sprite2D" parent="."]
+position = Vector2(-4, 0)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("7_l8eep")
+offset = Vector2(0, -180)

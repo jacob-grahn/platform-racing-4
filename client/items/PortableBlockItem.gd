@@ -2,17 +2,52 @@ extends Node2D
 class_name PortableBlockItem
 
 @onready var character = get_node("../../..")
-@onready var portableblock = load("res://item_effects/PortableBlock.tscn")
+@onready var spawn = get_node("../../../..")
+@onready var VisualAid = $VisualAid
 var using: bool = false
 var remove: bool = false
 var uses: int = 1
+var portableblock = Node2D
+var tile_id = 0
+var tile_map: TileMap
+var spawn_position: Vector2
+var tilemap_position: Vector2
+var coords: Vector2i
+var atlas_coords: Vector2i
+var below_zero: Vector2
 
 
 func _physics_process(delta):
+	set_block_position()
 	check_if_used()
 
 func _ready():
-	pass
+	portableblock = load("res://item_effects/PortableBlock.tscn")
+	tile_id = 18
+	set_block_position()
+
+func set_block_position():
+	tile_map = get_node("../../../../../TileMap")
+	spawn_position = to_local(Vector2(0, 0))
+	tilemap_position = tile_map.to_local(character.global_position)
+	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size
+	if character.facing > 0 and floor(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+		coords.x = coords.x + 1
+	elif character.facing < 0 and ceil(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+		coords.x = coords.x - 1
+	if round((character.global_position.y + (Settings.tile_size.y / 2)) / Settings.tile_size.y) != round(character.global_position.y / Settings.tile_size.y):
+		coords.y = coords.y - 1
+	atlas_coords = Helpers.to_atlas_coords(tile_id)
+	below_zero = Vector2(1, 1)
+	if character.global_position.x < 0:
+		below_zero.x = -1
+	if character.global_position.y < 0:
+		below_zero.y = -1
+	if !using:
+		VisualAid.global_position = Vector2i((coords.x * Settings.tile_size.x) + ((Settings.tile_size.x / 2) * below_zero.x), (coords.y * Settings.tile_size.y) + ((Settings.tile_size.y / 2) * below_zero.y))
+		VisualAid.global_rotation = 0
+		VisualAid.scale.x = 1
+		VisualAid.scale.y = 1
 
 func check_if_used():
 	if uses < 1:
@@ -21,27 +56,22 @@ func check_if_used():
 func activate_item():
 	if !using:
 		using = true
+		use_block()
 		uses -= 1
 
-# unused at the moment, need to figure why the animation is not spawning at the player
-# and why its not spawning a crumble block.
 func use_block():
-	var tile_map: TileMap = get_node("../../../../TileMap")
-	var global_position = to_global(Vector2(0, 0))
-	var tilemap_position = tile_map.to_local(global_position)
-	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size
-	var tile_id = 18
-	var atlas_coords: Vector2i = Helpers.to_atlas_coords(tile_id)
-	var atlas_position: Vector2i = atlas_coords * Settings.tile_size
+	set_block_position()
 	var block = portableblock.instantiate()
-	block.spawn_tile_id = tile_id
-	block.spawn_tile_map = tile_map
-	block.spawn_position = global_position
-	block.spawn_tilemap_position = tilemap_position
-	block.spawn_coords = coords
-	block.spawn_atlas_coords = atlas_position
-	block.spawn_atlas_position = atlas_position
-	character.add_child.call_deferred(block)
+	block.global_position = VisualAid.global_position
+	block.tile_map = tile_map
+	below_zero = Vector2(0, 0)
+	if character.global_position.x < 0:
+		below_zero.x = -1
+	if character.global_position.y < 0:
+		below_zero.y = -1
+	block.coords = Vector2i(coords.x + below_zero.x, coords.y + below_zero.y)
+	block.atlas_coords = atlas_coords
+	spawn.add_child.call_deferred(block)
 
 func still_have_item():
 	if !remove:

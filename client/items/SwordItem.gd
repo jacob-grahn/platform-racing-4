@@ -1,12 +1,12 @@
 extends Node2D
 class_name SwordItem
 
-@onready var main = get_tree().get_root()
 @onready var swordslash = load("res://item_effects/SwordSlash.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 @onready var character = get_node("../../..")
+@onready var spawn = get_node("../../../..")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -58,7 +58,7 @@ func slash():
 	slash.spawnpos = global_position
 	slash.spawnrot = 0
 	slash.scale.x = character.display.scale.x
-	main.add_child.call_deferred(slash)
+	spawn.add_child.call_deferred(slash)
 
 func _on_timeout():
 	using = false
