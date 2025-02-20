@@ -3,6 +3,7 @@ extends Node2D
 
 const AIRBORN = 'airborn'
 const CHARGE = 'charge'
+const CHARGE_HOLD = 'charge_hold'
 const CRAWL = 'crawl'
 const CROUCH = 'crouch'
 const HURT = 'hurt'
@@ -15,6 +16,7 @@ const SWIM = 'swim'
 const ANIMS = [
 	AIRBORN,
 	CHARGE,
+	CHARGE_HOLD,
 	CRAWL,
 	CROUCH,
 	HURT,
