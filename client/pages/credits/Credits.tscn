@@ -8,7 +8,7 @@ script = ExtResource("1_8lgq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = 566.0
-offset_top = 216.0
+offset_top = 211.0
 offset_right = 800.0
 offset_bottom = 511.0
 theme = ExtResource("1_hnp8c")
