@@ -1,15 +1,15 @@
-extends Node2D
+extends PortableBlockItem
 class_name PortableMineItem
 
-var using: bool = false
-var remove: bool = false
-var uses: int = 1
 
 func _physics_process(delta):
+	set_block_position()
 	check_if_used()
 
 func _ready():
-	pass
+	portableblock = load("res://item_effects/PortableMine.tscn")
+	tile_id = 10
+	set_block_position()
 
 func check_if_used():
 	if uses < 1:
@@ -18,6 +18,7 @@ func check_if_used():
 func activate_item():
 	if !using:
 		using = true
+		use_block()
 		uses -= 1
 
 func still_have_item():

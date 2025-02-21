@@ -32,9 +32,6 @@ func _update_animation():
 func _end_animation():
 	animations.play("idle")
 
-# laser guns shoot ammo but they have no collision-
-# and they don't despawn when you exit the level.
-
 func activate_item():
 	if !using:
 		using = true

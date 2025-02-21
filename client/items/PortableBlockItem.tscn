@@ -7,6 +7,10 @@
 position = Vector2(50, 15)
 script = ExtResource("1_c2o3p")
 
+[node name="VisualAid" type="Sprite2D" parent="."]
+self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
+texture = ExtResource("1_mf4e7")
+
 [node name="PortableBlock" type="Sprite2D" parent="."]
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("1_mf4e7")
