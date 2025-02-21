@@ -7,11 +7,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jacob-grahn/platform-racing-4/api/internal/pr2_level_import"
+	"github.com/ulule/limiter/v3"
+	mgin "github.com/ulule/limiter/v3/drivers/middleware/gin"
+	"github.com/ulule/limiter/v3/drivers/store/memory"
 	"gorm.io/gorm"
 )
 
 var (
-	jwtSecret []byte
+	jwtSecret     []byte
+	mailgunDomain string
+	mailgunAPIKey string
+	mailgunSender string
 )
 
 func main() {
@@ -20,6 +26,11 @@ func main() {
 	if len(jwtSecret) == 0 {
 		log.Fatal("JWT_SECRET environment variable is not set")
 	}
+
+	// Read Mailgun configuration from the environment
+	mailgunDomain = os.Getenv("MAILGUN_DOMAIN")
+	mailgunAPIKey = os.Getenv("MAILGUN_API_KEY")
+	mailgunSender = os.Getenv("MAILGUN_SENDER")
 
 	// Read the DB path from the environment variable or use the default value
 	dbPath := os.Getenv("DB_PATH")
@@ -30,8 +41,15 @@ func main() {
 	// open the db
 	db := setupDatabase(dbPath)
 
+	// Set up rate limiter
+	rate, _ := limiter.NewRateFromFormatted("10-M")
+	store := memory.NewStore()
+	instance := limiter.New(store, rate)
+
 	// router config
 	router := gin.Default()
+	router.Use(mgin.NewMiddleware(instance))
+
 	//router.ForwardedByClientIP = true
 	//router.SetTrustedProxies([]string{"127.0.0.1", "10.0.0.0/8"})
 
@@ -58,5 +76,8 @@ func setupRoutes(router *gin.Engine, db *gorm.DB) {
 	})
 	router.POST("/auth/update", func(c *gin.Context) {
 		authUpdateHandler(c, db)
+	})
+	router.POST("/auth/recover", func(c *gin.Context) {
+		authRecoverHandler(c, db)
 	})
 }
