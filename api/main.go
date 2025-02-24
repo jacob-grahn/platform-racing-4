@@ -15,6 +15,8 @@ import (
 
 var (
 	jwtSecret     []byte
+	jwtIssuer     string
+	jwtAudience   string
 	mailgunDomain string
 	mailgunAPIKey string
 	mailgunSender string
@@ -25,6 +27,18 @@ func main() {
 	jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 	if len(jwtSecret) == 0 {
 		log.Fatal("JWT_SECRET environment variable is not set")
+	}
+
+	// Read JWT_ISSUER from the environment
+	jwtIssuer = os.Getenv("JWT_ISSUER")
+	if len(jwtIssuer) == 0 {
+		log.Fatal("JWT_ISSUER environment variable is not set")
+	}
+
+	// Read JWT_AUDIENCE from the environment
+	jwtAudience = os.Getenv("JWT_AUDIENCE")
+	if len(jwtAudience) == 0 {
+		log.Fatal("JWT_AUDIENCE environment variable is not set")
 	}
 
 	// Read Mailgun configuration from the environment

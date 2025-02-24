@@ -7,6 +7,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -82,11 +83,17 @@ func isValidEmail(email string) bool {
 	return emailRegex.MatchString(email)
 }
 
-func generateToken(nickname string, duration time.Duration, tokenType string) (string, error) {
+func generateToken(user_id uint, nickname string, duration time.Duration, tokenType string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"nickname": nickname,
+		"iss":      jwtIssuer,
+		"sub":      user_id,
+		"aud":      jwtAudience,
 		"exp":      time.Now().Add(duration).Unix(),
+		"nbf":      time.Now().Unix(),
+		"iat":      time.Now().Unix(),
+		"jti":      uuid.New().String(),
 		"type":     tokenType,
+		"nickname": nickname,
 	})
 	return token.SignedString(jwtSecret)
 }

@@ -75,14 +75,14 @@ func authLoginHandler(c *gin.Context, db *gorm.DB) {
 	logLoginAttempt(db, user.ID, true)
 
 	// Generate a long-lived refresh token
-	refreshToken, err := generateToken(req.Nickname, time.Hour*72, "refresh")
+	refreshToken, err := generateToken(user.ID, user.Nickname, time.Hour*72, "refresh")
 	if err != nil {
 		c.JSON(500, ErrorResponse{Error: "Failed to generate refresh token"})
 		return
 	}
 
 	// Generate a short-lived access token
-	accessToken, err := generateToken(req.Nickname, 15*time.Minute, "access")
+	accessToken, err := generateToken(user.ID, user.Nickname, time.Minute*15, "access")
 	if err != nil {
 		c.JSON(500, ErrorResponse{Error: "Failed to generate access token"})
 		return

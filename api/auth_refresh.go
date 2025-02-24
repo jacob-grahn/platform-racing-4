@@ -27,14 +27,19 @@ func authRefreshHandler(c *gin.Context, db *gorm.DB) {
 		return jwtSecret, nil
 	})
 
-	if err != nil || !token.Valid {
-		c.JSON(401, ErrorResponse{Error: "Invalid token"})
+	if err != nil {
+		c.JSON(401, ErrorResponse{Error: fmt.Sprintf("Invalid token: %v", err)})
+		return
+	}
+
+	if !token.Valid {
+		c.JSON(401, ErrorResponse{Error: "Invalid token: not valid"})
 		return
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
-		c.JSON(401, ErrorResponse{Error: "Invalid token"})
+		c.JSON(401, ErrorResponse{Error: "Invalid token claims"})
 		return
 	}
 
@@ -44,10 +49,21 @@ func authRefreshHandler(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// Extract user ID from the token claims
+	user_id, ok := claims["sub"].(float64)
+	if !ok {
+		c.JSON(500, ErrorResponse{Error: "Invalid token subject"})
+		return
+	}
+	if user_id == 0 {
+		c.JSON(500, ErrorResponse{Error: "Invalid token subject"})
+		return
+	}
+
 	// Fetch user from the database using UserAuth schema
 	var user UserAuth
-	if err := db.Where("nickname = ?", claims["nickname"]).First(&user).Error; err != nil {
-		c.JSON(401, ErrorResponse{Error: "Invalid credentials"})
+	if err := db.Where("id = ?", user_id).First(&user).Error; err != nil {
+		c.JSON(401, ErrorResponse{Error: "Invalid token: user not found"})
 		return
 	}
 
@@ -59,7 +75,7 @@ func authRefreshHandler(c *gin.Context, db *gorm.DB) {
 	}
 
 	// Generate a new short-lived access token
-	newAccessToken, err := generateToken(claims["nickname"].(string), 15*time.Minute, "access")
+	newAccessToken, err := generateToken(user.ID, user.Nickname, 15*time.Minute, "access")
 	if err != nil {
 		c.JSON(500, ErrorResponse{Error: "Failed to generate access token"})
 		return
