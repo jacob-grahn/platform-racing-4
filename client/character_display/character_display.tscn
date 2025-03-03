@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://d3ul8rfnnwv3p"]
 
 [ext_resource type="Script" path="res://character_display/character_display.gd" id="1_a0uep"]
-[ext_resource type="Texture2D" uid="uid://chtb6uaw70hao" path="res://character_display/styles/pr4-character-racer.png" id="2_ohmqh"]
+[ext_resource type="Texture2D" uid="uid://chtb6uaw70hao" path="res://character_display/styles/pr4_character_racer.png" id="2_ohmqh"]
 
 [sub_resource type="Animation" id="Animation_5crqw"]
 length = 0.001

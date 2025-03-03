@@ -1,7 +1,7 @@
 extends Tile
 class_name Appear
 
-const APPEAR_EFFECT = preload("res://tiles/appear/AppearEffect.tscn")
+const APPEAR_EFFECT = preload("res://tiles/appear/appear_effect.tscn")
 
 var atlas_coords = Vector2i(9, 3)
 var appear_effects = {} 

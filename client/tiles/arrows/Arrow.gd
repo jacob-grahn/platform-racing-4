@@ -1,7 +1,7 @@
 extends Tile
 class_name Arrow
 
-var ArrowActivateEffect: PackedScene = preload("res://tile_effects/arrow_activate_effect/ArrowActivateEffect.tscn")
+var ArrowActivateEffect: PackedScene = preload("res://tile_effects/arrow_activate_effect/arrow_activate_effect.tscn")
 var horizontal_push_force = 125 # used for gliding left/right
 var vertical_push_force = 110 # used for gliding up/down
 var push_force = 110 # used for gliding the player after the push_force is decided

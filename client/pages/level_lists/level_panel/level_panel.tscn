@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7adgqavn0stv"]
+
+[ext_resource type="Script" path="res://pages/level_lists/level_panel/level_panel.gd" id="1_tl1gd"]
+[ext_resource type="PackedScene" uid="uid://cyn14d54c83tf" path="res://pages/level_lists/level_panel/level_tab.tscn" id="2_lnt5f"]
+
+[node name="LevelPanel" type="Node2D"]
+script = ExtResource("1_tl1gd")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.321569)
+offset_left = -5.0
+offset_top = 63.0
+offset_right = 1915.0
+offset_bottom = 1026.0
+
+[node name="MediumPanel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 129.0
+offset_top = 255.0
+offset_right = 1837.0
+offset_bottom = 992.0
+
+[node name="Top Panel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 132.0
+offset_top = 174.0
+offset_right = 1834.0
+offset_bottom = 237.0
+
+[node name="TabContainer" type="TabContainer" parent="."]
+offset_left = 95.0
+offset_top = 78.0
+offset_right = 1860.0
+offset_bottom = 1011.0
+current_tab = 0
+
+[node name="Campaign" parent="TabContainer" instance=ExtResource("2_lnt5f")]
+layout_mode = 2
+
+[node name="All Time Best" parent="TabContainer" instance=ExtResource("2_lnt5f")]
+visible = false
+layout_mode = 2
+level_tab_name = "best"
+metadata/_tab_index = 1
+
+[node name="Week\'s Best" parent="TabContainer" instance=ExtResource("2_lnt5f")]
+visible = false
+layout_mode = 2
+level_tab_name = "best_week"
+metadata/_tab_index = 2
+
+[node name="Newest" parent="TabContainer" instance=ExtResource("2_lnt5f")]
+visible = false
+layout_mode = 2
+level_tab_name = "newest"
+metadata/_tab_index = 3

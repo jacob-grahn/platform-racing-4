@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://brnxap2faub3c"
-path="res://.godot/imported/Exhaust.svg-059b2094b925b7b8ac98f77ef4a319f8.ctex"
+path="res://.godot/imported/exhaust.svg-f938de4106b9213206700a18e8709be9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://item_effects/Exhaust.svg"
-dest_files=["res://.godot/imported/Exhaust.svg-059b2094b925b7b8ac98f77ef4a319f8.ctex"]
+source_file="res://item_effects/exhaust.svg"
+dest_files=["res://.godot/imported/exhaust.svg-f938de4106b9213206700a18e8709be9.ctex"]
 
 [params]
 

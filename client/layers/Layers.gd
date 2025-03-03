@@ -1,7 +1,7 @@
 extends Node2D
 class_name Layers
 
-const LAYER = preload("res://layers/Layer.tscn")
+const LAYER = preload("res://layers/layer.tscn")
 var target_layer: String = ""
 var tile_config: Tiles
 

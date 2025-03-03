@@ -1,7 +1,7 @@
 extends Node2D
 class_name Game
 
-const CHARACTER = preload("res://character/Character.tscn")
+const CHARACTER = preload("res://character/character.tscn")
 
 static var pr2_level_id
 static var game: Game

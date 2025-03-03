@@ -1,7 +1,7 @@
 extends Tile
 class_name Gear
 
-var RotationController = preload("res://tiles/gear/RotationController.gd")
+var RotationController = preload("res://tiles/gear/rotation_controller.gd")
 
 func init():
 	is_safe = false

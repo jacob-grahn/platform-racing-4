@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cil8qhe2uvm10"]
-
-[ext_resource type="Script" path="res://pages/editor/menu/BackgroundRow.gd" id="1_2h3il"]
-
-[node name="BackgroundRow" type="Node2D"]
-script = ExtResource("1_2h3il")

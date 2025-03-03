@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_4b3kv"]
 [ext_resource type="Script" path="res://pages/level_lists/lobby.gd" id="1_aqp3w"]
-[ext_resource type="PackedScene" uid="uid://b7adgqavn0stv" path="res://pages/level_lists/level_panel/LevelPanel.tscn" id="3_oq36o"]
+[ext_resource type="PackedScene" uid="uid://b7adgqavn0stv" path="res://pages/level_lists/level_panel/level_panel.tscn" id="3_oq36o"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3

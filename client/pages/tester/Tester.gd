@@ -1,6 +1,6 @@
 extends Node2D
 
-const CHARACTER = preload("res://character/Character.tscn")
+const CHARACTER = preload("res://character/character.tscn")
 
 @onready var layers = $Layers
 @onready var level_decoder = $LevelDecoder

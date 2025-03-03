@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=3 uid="uid://dns831c4ggmtw"]
+
+[ext_resource type="Script" path="res://item_effects/black_hole.gd" id="1_1ej34"]
+[ext_resource type="Texture2D" uid="uid://cth35wxod0y4f" path="res://item_effects/black_hole_1.png" id="1_kwytd"]
+[ext_resource type="Texture2D" uid="uid://bm5bvoom8myje" path="res://item_effects/black_hole_2.png" id="2_7p2ie"]
+[ext_resource type="Texture2D" uid="uid://cs7txbdwvdm6o" path="res://item_effects/black_hole_3.png" id="3_ysk3y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g7jpm"]
+radius = 200.0
+
+[sub_resource type="Animation" id="Animation_vgpcd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackHole/BlackHole3:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BlackHole/BlackHole3:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7iq6q"]
+resource_name = "swirl"
+length = 0.9667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackHole/BlackHole3:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BlackHole/BlackHole3:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.966667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wqj24"]
+_data = {
+"RESET": SubResource("Animation_vgpcd"),
+"swirl": SubResource("Animation_7iq6q")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_1ej34")
+
+[node name="BlackHole" type="Node2D" parent="."]
+
+[node name="BlackHole1" type="Sprite2D" parent="BlackHole"]
+scale = Vector2(3, 3)
+texture = ExtResource("1_kwytd")
+
+[node name="BlackHole2" type="Sprite2D" parent="BlackHole"]
+scale = Vector2(4.2, 4.2)
+texture = ExtResource("2_7p2ie")
+
+[node name="BlackHole3" type="Sprite2D" parent="BlackHole"]
+scale = Vector2(4.2, 4.2)
+texture = ExtResource("3_ysk3y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_g7jpm")
+
+[node name="AttractZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttractZone"]
+visible = false
+shape = SubResource("CircleShape2D_g7jpm")
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wqj24")
+}

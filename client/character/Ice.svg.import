@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwwkryv7oh4jm"
-path="res://.godot/imported/Ice.svg-f76d06571a0d29aadf8c110d1f4af1f2.ctex"
+path="res://.godot/imported/ice.svg-6a88a34e45d2d1f2bb4bf49cd9a6103d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://character/Ice.svg"
-dest_files=["res://.godot/imported/Ice.svg-f76d06571a0d29aadf8c110d1f4af1f2.ctex"]
+source_file="res://character/ice.svg"
+dest_files=["res://.godot/imported/ice.svg-6a88a34e45d2d1f2bb4bf49cd9a6103d.ctex"]
 
 [params]
 

@@ -15,13 +15,13 @@ const TESTER = "TESTER"
 const CHARACTER_EDITOR = "CHARACTER_EDITOR"
 
 var scenes = {
-	TITLE: preload("res://pages/title/Title.tscn"),
-	CREDITS: preload("res://pages/credits/Credits.tscn"),
+	TITLE: preload("res://pages/title/title.tscn"),
+	CREDITS: preload("res://pages/credits/credits.tscn"),
 	LEVEL_EDITOR: preload("res://pages/editor/level_editor.tscn"),
-	GAME: preload("res://pages/game/Game.tscn"),
-	LOBBY: preload("res://pages/level_lists/Lobby.tscn"),
-	SOLO: preload("res://pages/solo/Solo.tscn"),
-	TESTER: preload("res://pages/tester/Tester.tscn"),
+	GAME: preload("res://pages/game/game.tscn"),
+	LOBBY: preload("res://pages/level_lists/lobby.tscn"),
+	SOLO: preload("res://pages/solo/solo.tscn"),
+	TESTER: preload("res://pages/tester/tester.tscn"),
 	CHARACTER_EDITOR: preload("res://pages/editor/character_editor.tscn")
 }
 

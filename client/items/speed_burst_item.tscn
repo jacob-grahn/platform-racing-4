@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnmt3tlufibym"]
+
+[ext_resource type="Texture2D" uid="uid://ddlau4t4f2yw7" path="res://items/speed_burst_item.png" id="1_5vik6"]
+[ext_resource type="Script" path="res://items/speed_burst_item.gd" id="1_k2kuu"]
+
+[node name="SpeedBurstItem" type="Node2D"]
+position = Vector2(-1, 0)
+script = ExtResource("1_k2kuu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(45, 15)
+scale = Vector2(1.375, 1.375)
+texture = ExtResource("1_5vik6")

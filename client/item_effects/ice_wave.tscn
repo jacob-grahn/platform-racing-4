@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cop0t2njcn0c8"]
+
+[ext_resource type="Script" path="res://item_effects/ice_wave.gd" id="1_d33do"]
+[ext_resource type="Texture2D" uid="uid://c8gsnbsnr4ady" path="res://item_effects/ice_wave.svg" id="1_pa7e3"]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_d33do")
+
+[node name="IceWave" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("1_pa7e3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(-798, -126)
+scale = Vector2(1.5, 1.5)
+polygon = PackedVector2Array(523, 12, 548, 12, 574, 22, 598, 41, 611, 70, 611, 84, 611, 99, 598, 127, 574, 147, 547, 156, 523, 156)
+
+[node name="IceWaveArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="IceWaveArea"]
+visible = false
+position = Vector2(-798, -126)
+scale = Vector2(1.5, 1.5)
+polygon = PackedVector2Array(523, 12, 548, 12, 574, 22, 598, 41, 611, 70, 611, 84, 611, 99, 598, 127, 574, 147, 547, 156, 523, 156)

@@ -13,7 +13,7 @@ const LIGHTBREAK_SPEED = 200000.0
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
 const OUT_OF_BOUNDS_BLOCK_COUNT = 10
-const LightLine2D = preload("res://tiles/lights/LightLine2D.tscn")
+const LightLine2D = preload("res://tiles/lights/light_line_2d.tscn")
 
 @onready var hitbox = $CharacterHitbox
 @onready var light = $Light

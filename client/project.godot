@@ -11,16 +11,16 @@ config_version=5
 [application]
 
 config/name="Platform Racing 4"
-run/main_scene="res://main/Main.tscn"
+run/main_scene="res://main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Jukebox="*res://singletons/jukebox/Jukebox.tscn"
-Helpers="*res://singletons/helpers/Helpers.tscn"
-Session="*res://singletons/session/Session.tscn"
-CachingLoader="*res://singletons/CachingLoader.gd"
+Jukebox="*res://singletons/jukebox/jukebox.tscn"
+Helpers="*res://singletons/helpers/helpers.tscn"
+Session="*res://singletons/session/session.tscn"
+CachingLoader="*res://singletons/caching_loader.gd"
 
 [display]
 

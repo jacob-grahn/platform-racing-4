@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwwo6vst6ni17"]
+
+[ext_resource type="Script" path="res://game_client/game_client.gd" id="1_gj7qt"]
+
+[node name="GameClient" type="Node2D"]
+script = ExtResource("1_gj7qt")
+
+[node name="ConnectTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CursorTimer" type="Timer" parent="."]

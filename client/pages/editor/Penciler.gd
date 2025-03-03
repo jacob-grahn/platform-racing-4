@@ -70,7 +70,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ADD_USERTEXT:
 		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
-		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/UserTextbox.tscn")
+		var usertextbox_scene: PackedScene = preload("res://pages/editor/menu/user_textbox.tscn")
 		var usertextbox = usertextbox_scene.instantiate()
 		usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
 		usertextboxes.add_child(usertextbox)

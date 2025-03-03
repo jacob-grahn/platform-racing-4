@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cd20fgaowojly"]
 
-[ext_resource type="Texture2D" uid="uid://khxxsjm5q2hl" path="res://item_effects/Rocket.svg" id="1_8f1pt"]
-[ext_resource type="Script" path="res://item_effects/Rocket.gd" id="1_diylb"]
-[ext_resource type="Texture2D" uid="uid://bc3ljjeitimfn" path="res://item_effects/RocketLauncherExhaust1.png" id="1_uoy12"]
-[ext_resource type="Texture2D" uid="uid://drqu68xhpb5oy" path="res://item_effects/RocketLauncherExhaust2.png" id="2_d82fu"]
-[ext_resource type="Texture2D" uid="uid://b0mxglg45vqom" path="res://item_effects/RocketLauncherExhaust3.png" id="3_b2npj"]
-[ext_resource type="Texture2D" uid="uid://d3u7i2yof336i" path="res://item_effects/RocketLauncherExhaust4.png" id="4_ldn51"]
+[ext_resource type="Texture2D" uid="uid://khxxsjm5q2hl" path="res://item_effects/rocket.svg" id="1_8f1pt"]
+[ext_resource type="Script" path="res://item_effects/rocket.gd" id="1_diylb"]
+[ext_resource type="Texture2D" uid="uid://bc3ljjeitimfn" path="res://item_effects/rocket_launcher_exhaust_1.png" id="1_uoy12"]
+[ext_resource type="Texture2D" uid="uid://drqu68xhpb5oy" path="res://item_effects/rocket_launcher_exhaust_2.png" id="2_d82fu"]
+[ext_resource type="Texture2D" uid="uid://b0mxglg45vqom" path="res://item_effects/rocket_launcher_exhaust_3.png" id="3_b2npj"]
+[ext_resource type="Texture2D" uid="uid://d3u7i2yof336i" path="res://item_effects/rocket_launcher_exhaust_4.png" id="4_ldn51"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gper0"]
 animations = [{

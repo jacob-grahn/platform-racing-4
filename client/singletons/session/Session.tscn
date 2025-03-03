@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d2a5oqtnfb87e"]
 
-[ext_resource type="Script" path="res://singletons/session/Session.gd" id="1_ind5g"]
+[ext_resource type="Script" path="res://singletons/session/session.gd" id="1_ind5g"]
 
 [node name="Session" type="Node2D"]
 script = ExtResource("1_ind5g")

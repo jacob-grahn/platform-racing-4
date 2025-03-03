@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjuk2b1pgmd6p"]
+
+[ext_resource type="Script" path="res://pages/editor/menu/block_button.gd" id="2_wqcke"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="3_bbiin"]
+
+[node name="BlockButton" type="Node2D"]
+script = ExtResource("2_wqcke")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(64, 64)
+texture = ExtResource("3_bbiin")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 128)
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_right = 128.0
+offset_bottom = 128.0

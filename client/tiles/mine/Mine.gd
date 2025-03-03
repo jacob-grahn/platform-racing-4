@@ -1,7 +1,7 @@
 extends Tile
 class_name Mine
 
-const EXPLODE_EFFECT = preload("res://tiles/mine/ExplodeEffect.tscn")
+const EXPLODE_EFFECT = preload("res://tiles/mine/explode_effect.tscn")
 
 
 func init():

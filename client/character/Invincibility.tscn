@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxox6butkxpwh"]
 
-[ext_resource type="Script" path="res://character/Invincibility.gd" id="1_kfo0l"]
+[ext_resource type="Script" path="res://character/invincibility.gd" id="1_kfo0l"]
 
 [node name="Shield" type="Node2D"]
 script = ExtResource("1_kfo0l")

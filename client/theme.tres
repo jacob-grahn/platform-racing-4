@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=9 format=3 uid="uid://cf25w553mynfo"]
 
 [ext_resource type="FontFile" uid="uid://cj6s65k6vg5xn" path="res://fonts/Quicksand/static/Quicksand-Medium.ttf" id="1_66i5j"]
-[ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button-bg.png" id="1_ck3ir"]
+[ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="1_ck3ir"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88cch"]
 content_margin_left = 8.0

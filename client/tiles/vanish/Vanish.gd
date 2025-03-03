@@ -1,7 +1,7 @@
 extends Tile
 class_name Vanish
 
-const VANISH_EFFECT = preload("res://tiles/vanish/VanishEffect.tscn")
+const VANISH_EFFECT = preload("res://tiles/vanish/vanish_effect.tscn")
 
 var vanish_effects = {} 
 
