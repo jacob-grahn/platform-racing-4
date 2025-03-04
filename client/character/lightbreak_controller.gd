@@ -1,4 +1,6 @@
 class_name LightbreakController
+## Manages the character's lightbreak ability.
+## Controls different light types (firefly, sun, moon) and their effects.
 
 const LIGHTBREAK_SPEED = 200000.0
 const LightLine2D = preload("res://tiles/lights/light_line_2d.tscn")
@@ -16,10 +18,12 @@ var sun_particles: GPUParticles2D
 var moon_particles: GPUParticles2D
 var light: PointLight2D
 
+
 func _init(player_light: PointLight2D, player_sun_particles: GPUParticles2D, player_moon_particles: GPUParticles2D):
 	light = player_light
 	sun_particles = player_sun_particles
 	moon_particles = player_moon_particles
+
 
 func process(delta: float, control_vector: Vector2, player: Character) -> Vector2:
 	var velocity_change = Vector2(0, 0)
@@ -32,7 +36,7 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 			input_primed = false
 	
 	# Manage character light
-	if windup > 0 || direction.length() > 0:
+	if windup > 0 or direction.length() > 0:
 		light.enabled = true
 		if direction.length() > 0:
 			light.energy = 0.5
@@ -64,14 +68,15 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 			sun_particles.emitting = true
 	
 	# Moon type handling
-	if type == LightTile.MOON && direction.length() > 0:
+	if type == LightTile.MOON and direction.length() > 0:
 		player.modulate.a = randf_range(0, 0.66)
 		moon_timer -= delta
 		moon_particles.emitting = true
-		if moon_timer < 0 && !player.is_in_solid():
+		if moon_timer < 0 and !player.is_in_solid():
 			end_lightbreak()
 	
 	return velocity_change
+
 
 func end_lightbreak():
 	direction = Vector2(0, 0)
@@ -85,5 +90,6 @@ func end_lightbreak():
 	moon_particles.emitting = false
 	moon_timer = 0
 
+
 func is_active() -> bool:
-	return windup > 0 || direction.length() > 0
+	return windup > 0 or direction.length() > 0

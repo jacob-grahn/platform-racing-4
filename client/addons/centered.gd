@@ -1,4 +1,6 @@
 extends Node2D
+## Centers the parent node in the middle of the viewport.
+## Updates position when viewport size changes.
 
 
 func _ready():

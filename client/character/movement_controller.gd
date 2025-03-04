@@ -1,4 +1,6 @@
 class_name MovementController
+## Controls character movement, including walking, jumping, and swimming.
+## Handles physics, frozen status, and damage hitstun.
 
 const SPEED = 490.0
 const JUMP_VELOCITY = Vector2(0, -155.0)
@@ -17,7 +19,7 @@ var jumped: bool = false
 var can_move: bool = true
 var can_jump: bool = true
 var is_crouching: bool = false
-var previous_velocity = Vector2(0, 0)
+var previous_velocity: Vector2 = Vector2(0, 0)
 var last_velocity: Vector2 = Vector2(0, 0)
 var last_collision_normal: Vector2 = Vector2(0, 0)
 var swimming: bool = false
@@ -30,8 +32,10 @@ var hurt: bool = false
 var hitstun_timer: float = 0.0
 var hitstun_duration: float = 0.0
 
+
 func _init(ice_node = null):
 	frozen_display_node = ice_node
+
 
 func process(delta: float, character: Character, stats: Stats, gravity: Gravity, super_jump: SuperJump) -> Vector2:
 	var velocity = character.velocity
@@ -99,7 +103,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			else:
 				velocity += FASTFALL_VELOCITY.rotated(character.rotation)
 		# Swimming up
-		if !hurt and swimming && Input.is_action_pressed("up"):
+		if !hurt and swimming and Input.is_action_pressed("up"):
 			velocity += SWIM_UP_VELOCITY.rotated(character.rotation) * delta
 		# Extra jump is gone after releasing jump button
 		if not jumped:
@@ -112,7 +116,8 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		if !hurt and is_crouching:
 			control_axis = control_axis / 2
 			
-		var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), velocity.rotated(-character.rotation).y).rotated(character.rotation)
+		var target_velocity = Vector2(control_axis * SPEED * stats.get_speed_bonus(), 
+				velocity.rotated(-character.rotation).y).rotated(character.rotation)
 		var accel = 0.8 * (stats.get_accel_bonus() / 1.5)
 		
 		if control_axis != 0:
@@ -138,6 +143,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	
 	return velocity
 
+
 func _cap_velocity(velocity: Vector2) -> Vector2:
 	if abs(velocity.x) > MAX_VELOCITY.x:
 		if velocity.x > 0:
@@ -151,14 +157,17 @@ func _cap_velocity(velocity: Vector2) -> Vector2:
 			velocity.y = MAX_VELOCITY.y * -1
 	return velocity
 
+
 func _bump_tile_covering_high_area(character: Character):
 	# This needs to be implemented in the character class
 	# as it depends on game and tile interactions
 	character._bump_tile_covering_high_area()
 
+
 func freeze(skill_bonus: float):
 	frozen = true
 	frozen_timer = 3.0 / skill_bonus
+
 
 func hitstun(duration: float, has_shield: bool):
 	if !has_shield and !hurt:

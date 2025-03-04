@@ -1,19 +1,23 @@
 class_name TileInteractionController
+## Manages character interactions with tiles in the game world.
+## Handles collision detection, tile effects, and character depth management.
 
 const OUT_OF_BOUNDS_BLOCK_COUNT = 10
 
 var game: Node2D
 var low_area: Area2D
 var high_area: Area2D
-var last_safe_position = Vector2(0, 0)
+var last_safe_position: Vector2 = Vector2(0, 0)
 var last_safe_layer: Node
 var last_collision: KinematicCollision2D
+
 
 func _init(game_node: Node2D, low_area_node: Area2D, high_area_node: Area2D):
 	game = game_node
 	low_area = low_area_node
 	high_area = high_area_node
 	last_safe_position = Vector2(0, 0)
+
 
 func bump_tile_covering_high_area(character: Character) -> void:
 	var tiles: Array = get_tiles_overlapping_area(high_area)
@@ -29,14 +33,16 @@ func bump_tile_covering_high_area(character: Character) -> void:
 	game.tiles.on("any_side", tile_type, character, tile.tile_map, tile.coords)
 	game.tiles.on("bump", tile_type, character, tile.tile_map, tile.coords)
 
+
 func should_crouch(character: Character) -> bool:
-	if character.movement.is_crouching && !character.is_on_floor():
+	if character.movement.is_crouching and !character.is_on_floor():
 		return false
 	var tiles: Array = get_tiles_overlapping_area(high_area)
 	for tile_data in tiles:
 		if game.tiles.is_solid(tile_data.block_id):
 			return true
 	return false
+
 
 func interact_with_incoporeal_tiles(character: Character):
 	character.movement.swimming = false
@@ -45,6 +51,7 @@ func interact_with_incoporeal_tiles(character: Character):
 		if game.tiles.is_liquid(tile.block_id):
 			character.movement.swimming = true
 		game.tiles.on("area", tile.block_id, character, tile.tile_map, tile.coords)
+
 
 func interact_with_solid_tiles(character: Character, lightning: LightbreakController) -> bool:
 	var collision: KinematicCollision2D = character.get_last_slide_collision()
@@ -81,18 +88,25 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 			game.tiles.on("any_side", tile_type, character, tilemap, coords)
 			game.tiles.on("stand", tile_type, character, tilemap, coords)
 			if game.tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
-				var centre_safe_block = Vector2(coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y).rotated(tilemap.global_rotation)
-				last_safe_position = centre_safe_block - (Vector2(0,(1 * Settings.tile_size.y) - 22)).rotated(tilemap.global_rotation + character.rotation)
+				var centre_safe_block = Vector2(
+						coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x, 
+						coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y
+				).rotated(tilemap.global_rotation)
+				last_safe_position = centre_safe_block - (Vector2(
+						0, 
+						(1 * Settings.tile_size.y) - 22
+				)).rotated(tilemap.global_rotation + character.rotation)
 				var layers = tilemap.get_node("../../")
 				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
-	if lightning.direction.length() > 0 && lightning.fire_power > 0:
+	if lightning.direction.length() > 0 and lightning.fire_power > 0:
 		TileEffects.shatter(tilemap, coords)
 		lightning.fire_power -= 1
 		return false
 	else:
 		return true
+
 
 func check_out_of_bounds(character: Character) -> void:
 	var map_used_rect = Session.get_used_rect()
@@ -111,7 +125,8 @@ func check_out_of_bounds(character: Character) -> void:
 		character.position.y = last_safe_position.y
 		character.velocity = Vector2(0, 0)
 
-func get_tiles_overlapping_area(area: Area2D):
+
+func get_tiles_overlapping_area(area: Area2D) -> Array:
 	var tiles = []
 	var bodies: Array = area.get_overlapping_bodies()
 	for tile_map in bodies:
@@ -129,12 +144,14 @@ func get_tiles_overlapping_area(area: Area2D):
 			})
 	return tiles
 	
+
 func is_in_solid(character: Character) -> bool:
 	var tiles: Array = get_tiles_overlapping_area(low_area)
 	for tile in tiles:
 		if game.tiles.is_solid(tile.block_id):
 			return true
 	return false
+
 
 func set_depth(character: Character, depth: int) -> void:
 	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)

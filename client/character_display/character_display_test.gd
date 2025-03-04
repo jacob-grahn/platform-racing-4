@@ -1,4 +1,6 @@
 extends Node2D
+## Test scene for character display customization.
+## Allows testing different character styles with color pickers.
 
 const BODY_IDS = ['racer', 'smiler']
 var BASE_URL = Main.FILE_URL + "/characters"
@@ -17,7 +19,7 @@ func _ready() -> void:
 	_randomize()
 
 
-# update character display with selected config from ui
+# Update character display with selected config from UI
 func _render() -> void:
 	var character_config = {
 		"head": {
@@ -36,12 +38,12 @@ func _render() -> void:
 	character_display.set_style(character_config)
 
 
-# triggered when a color picker value changes
+# Triggered when a color picker value changes
 func _color_changed(_color: Color) -> void:
 	_render()
 
 
-# generate a random color
+# Generate a random color
 func _random_color() -> Color:
 	return Color(
 		randf(),
@@ -50,7 +52,7 @@ func _random_color() -> Color:
 	)
 
 
-#
+# Get a random body type from available options
 func _random_body() -> String:
 	var i = randi_range(0, len(BODY_IDS) - 1)
 	return BODY_IDS[i]

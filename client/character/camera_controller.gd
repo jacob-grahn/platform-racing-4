@@ -1,4 +1,6 @@
 class_name CameraController
+## Controls the camera behavior, including zoom and position smoothing.
+## Adjusts zoom levels when lightbreak ability is active.
 
 const ZOOM_SPEED = 0.6
 const MAX_ZOOM = 0.5
@@ -10,9 +12,11 @@ var camera: Camera2D
 var target_zoom: float = 0.1
 var pos: Vector2 = Vector2(0, 0)
 
+
 func _init(player_camera: Camera2D):
 	camera = player_camera
-	
+
+
 func process(delta: float, player_position: Vector2, lightbreak_active: bool):
 	# Handle zoom based on lightbreak state
 	if lightbreak_active:

@@ -1,11 +1,16 @@
-extends Node
 class_name Items
+extends Node
+## Manager for game items and their initialization
+##
+## Registry for all available game items with their initialization
+## and lookup functionality. Currently unused but prepared for future item blocks.
 
-var item = {}
+var items := {}
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	pass # Replace with function body.
+
 
 # whole script is unused at this point.
 # copied over from "tiles" list, so nothing has been-
@@ -28,26 +33,26 @@ func _ready() -> void:
 # for item lists in PR2/PR3 levels, go ahead.
 
 func init_defaults() -> void:
-	item['a'] = AngelWingsItem.new()
-	item['b'] = BlackHoleItem.new()
-	item['i'] = IceWaveItem.new()
-	item['j'] = JetpackItem.new()
-	item['l'] = LaserGunItem.new()
-	item['li'] = LightningItem.new()
-	item['p'] = PortableBlockItem.new()
-	item['po'] = PortableMineItem.new()
-	# item['ra'] = RandomBlockItem.new()
-	item['r'] = RocketLauncherItem.new()
-	item['s'] = ShieldItem.new()
-	item['sp'] = SpeedBurstItem.new()
-	item['su'] = SuperJumpItem.new()
-	item['sw'] = SwordItem.new()
-	item['t'] = TeleportItem.new()
+	items["a"] = AngelWingsItem.new()
+	items["b"] = BlackHoleItem.new()
+	items["i"] = IceWaveItem.new()
+	items["j"] = JetpackItem.new()
+	items["l"] = LaserGunItem.new()
+	items["li"] = LightningItem.new()
+	items["p"] = PortableBlockItem.new()
+	items["po"] = PortableMineItem.new()
+	# items["ra"] = RandomBlockItem.new()
+	items["r"] = RocketLauncherItem.new()
+	items["s"] = ShieldItem.new()
+	items["sp"] = SpeedBurstItem.new()
+	items["su"] = SuperJumpItem.new()
+	items["sw"] = SwordItem.new()
+	items["t"] = TeleportItem.new()
 	
 	# init
-	for item_id in item:
-		item[item_id].init()
+	for item_id in items:
+		items[item_id].init()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
 	pass

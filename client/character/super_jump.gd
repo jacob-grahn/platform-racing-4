@@ -1,4 +1,6 @@
 class_name SuperJump
+## Handles the super jump ability charging and execution.
+## Manages charge timers and provides state information.
 
 const SUPER_JUMP_VELOCITY = Vector2(0, -3500.0)
 const CHARGE_TIMER_MAX = 1.5 # in seconds
@@ -18,7 +20,9 @@ func run(character: Character, delta: float) -> void:
 	# not charging
 	if !Input.is_action_pressed("down"):
 		if charge_timer >= CHARGE_TIMER_MINIMUM_THRESHOLD: 
-			character.velocity += SUPER_JUMP_VELOCITY.rotated(character.rotation) * ((charge_timer - CHARGE_TIMER_MINIMUM_THRESHOLD) / (CHARGE_TIMER_MAX - CHARGE_TIMER_MINIMUM_THRESHOLD))
+			character.velocity += SUPER_JUMP_VELOCITY.rotated(character.rotation) * (
+					(charge_timer - CHARGE_TIMER_MINIMUM_THRESHOLD) / 
+					(CHARGE_TIMER_MAX - CHARGE_TIMER_MINIMUM_THRESHOLD))
 		charge_timer = 0
 		sjanim_timer = 0
 		return
@@ -31,16 +35,17 @@ func run(character: Character, delta: float) -> void:
 		sjanim_timer = min(sjanim_timer, 1)
 
 
-func charge_precentage():
+func charge_precentage() -> float:
 	return sjanim_timer
 
-func is_charging():
+
+func is_charging() -> bool:
 	return charge_timer > 0
 
 
-func is_locking():
+func is_locking() -> bool:
 	return charge_timer > CHARGE_TIMER_MINIMUM_THRESHOLD
 
 
-func is_fully_charged():
+func is_fully_charged() -> bool:
 	return charge_timer == CHARGE_TIMER_MAX

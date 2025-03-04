@@ -1,6 +1,7 @@
 class_name CharacterDisplay
 extends Node2D
-## Displays and animates a character with customizable parts and colors
+## Displays and animates a character with customizable parts and colors.
+## Provides methods to control animations and appearance.
 
 const AIRBORN := "airborn"
 const CHARGE := "charge"

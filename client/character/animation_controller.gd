@@ -1,13 +1,17 @@
 class_name AnimationController
+## Controls character animations based on state.
+## Handles animation selection, direction, and special effects like super jump.
 
 var display: Node2D
 var sjaura: Node2D
 var shake: float = 0.0
 var sjanim: float = 0.0
 
+
 func _init(character_display: Node2D, super_jump_aura: Node2D):
 	display = character_display
 	sjaura = super_jump_aura
+
 
 func process(character: Character, movement: MovementController, super_jump: SuperJump):
 	# Face left or right
