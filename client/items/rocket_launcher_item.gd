@@ -1,7 +1,7 @@
 extends Node2D
 class_name RocketLauncherItem
 
-@onready var projectile = load("res://item_effects/Rocket.tscn")
+@onready var projectile = load("res://item_effects/rocket.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations

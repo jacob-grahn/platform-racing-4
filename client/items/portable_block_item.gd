@@ -7,7 +7,6 @@ class_name PortableBlockItem
 var using: bool = false
 var remove: bool = false
 var uses: int = 1
-var portableblock = Node2D
 var tile_id = 0
 var tile_map: TileMap
 var spawn_position: Vector2
@@ -15,6 +14,7 @@ var tilemap_position: Vector2
 var coords: Vector2i
 var atlas_coords: Vector2i
 var below_zero: Vector2
+var PortableBlock := load("res://item_effects/portable_block.tscn")
 
 
 func _physics_process(delta):
@@ -22,7 +22,7 @@ func _physics_process(delta):
 	check_if_used()
 
 func _ready():
-	portableblock = load("res://item_effects/PortableBlock.tscn")
+	
 	tile_id = 18
 	set_block_position()
 
@@ -31,9 +31,9 @@ func set_block_position():
 	spawn_position = to_local(Vector2(0, 0))
 	tilemap_position = tile_map.to_local(character.global_position)
 	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size
-	if character.facing > 0 and floor(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+	if character.movement.facing > 0 and floor(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
 		coords.x = coords.x + 1
-	elif character.facing < 0 and ceil(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
+	elif character.movement.facing < 0 and ceil(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
 		coords.x = coords.x - 1
 	if round((character.global_position.y + (Settings.tile_size.y / 2)) / Settings.tile_size.y) != round(character.global_position.y / Settings.tile_size.y):
 		coords.y = coords.y - 1
@@ -61,7 +61,7 @@ func activate_item():
 
 func use_block():
 	set_block_position()
-	var block = portableblock.instantiate()
+	var block = PortableBlock.instantiate()
 	block.global_position = VisualAid.global_position
 	block.tile_map = tile_map
 	below_zero = Vector2(0, 0)

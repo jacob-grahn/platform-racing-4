@@ -29,7 +29,7 @@ func run(character: Character, delta: float) -> void:
 	#if not character.is_on_floor():
 	#	character.velocity += gravity_rotated * delta
 	if rotation_sync:
-		if character.swimming:
+		if character.movement.swimming:
 			character.velocity += (gravity_rotated / 2) * delta
 		else:
 			character.velocity += gravity_rotated * delta

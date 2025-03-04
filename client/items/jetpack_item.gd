@@ -53,7 +53,7 @@ func _ready():
 	uses = 1
 
 func item_button_pressed():
-	if !character.hurt and Input.is_action_pressed("item"):
+	if !character.movement.hurt and Input.is_action_pressed("item"):
 		using = true
 		fuelon = true
 	else:

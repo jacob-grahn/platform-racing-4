@@ -2,7 +2,7 @@ extends Node2D
 class_name IceWaveItem
 
 @onready var main = get_tree().get_root()
-@onready var projectile = load("res://item_effects/IceWave.tscn")
+@onready var projectile = load("res://item_effects/ice_wave.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations

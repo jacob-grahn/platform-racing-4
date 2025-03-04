@@ -1,7 +1,7 @@
 extends Node2D
 class_name LaserGunItem
 
-@onready var projectile = load("res://item_effects/LaserBullet.tscn")
+@onready var projectile = load("res://item_effects/laser_bullet.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations

@@ -36,11 +36,13 @@ func initialize() -> void:
 func close() -> void:
 	self.visible = false
 
+
 func perform_paginated_request() -> void:
 	var url = Helpers.get_base_url() + "/files/lists/" + level_tab_name + "/" + str(current_page)
 	var error = $HTTPRequest.request(url)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
+
 
 func _http_request_completed(_result, _response_code, _headers, body):
 	var json = JSON.new()

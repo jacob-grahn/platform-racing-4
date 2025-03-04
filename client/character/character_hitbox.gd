@@ -13,13 +13,11 @@ func _ready():
 func run(character: Character) -> void:
 	if character.is_on_floor():
 		go_low()
-	elif character.lightbreak_windup > 0:
-		go_low()
-	elif character.lightbreak_direction.length() > 0:
+	elif character.lightbreak.is_active():
 		go_low()
 	elif character.velocity.rotated(-character.rotation).y >= -0.01:
 		go_low()
-	elif character.is_crouching:
+	elif character.movement.is_crouching:
 		go_low()
 	else:
 		go_high()
@@ -27,7 +25,7 @@ func run(character: Character) -> void:
 	# disable collision if we're stuck in a wall
 	if character.is_in_solid():
 		disabled = true
-	elif character.lightbreak_type == LightTile.MOON && character.lightbreak_direction.length() > 0:
+	elif character.lightbreak.type == LightTile.MOON && character.lightbreak.is_active():
 		disabled = true
 	else:
 		disabled = false

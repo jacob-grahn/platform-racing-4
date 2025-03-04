@@ -1,19 +1,20 @@
 class_name CharacterDisplay
 extends Node2D
+## Displays and animates a character with customizable parts and colors
 
-const AIRBORN = 'airborn'
-const CHARGE = 'charge'
-const CHARGE_HOLD = 'charge_hold'
-const CRAWL = 'crawl'
-const CROUCH = 'crouch'
-const HURT = 'hurt'
-const HURT_START = 'hurt_start'
-const IDLE = 'idle'
-const JUMP = 'jump'
-const RECOVER = 'recover'
-const RUN = 'run'
-const SWIM = 'swim'
-const ANIMS = [
+const AIRBORN := "airborn"
+const CHARGE := "charge"
+const CHARGE_HOLD := "charge_hold"
+const CRAWL := "crawl"
+const CROUCH := "crouch"
+const HURT := "hurt"
+const HURT_START := "hurt_start"
+const IDLE := "idle"
+const JUMP := "jump"
+const RECOVER := "recover"
+const RUN := "run"
+const SWIM := "swim"
+const ANIMS := [
 	AIRBORN,
 	CHARGE,
 	CHARGE_HOLD,
@@ -25,7 +26,7 @@ const ANIMS = [
 	JUMP,
 	RECOVER,
 	RUN,
-	SWIM
+	SWIM,
 ]
 
 @onready var foot_back_color: Sprite2D = $FootBack/Color
@@ -89,4 +90,3 @@ func play_random() -> void:
 
 func set_speed_scale(num: float) -> void:
 	animations.speed_scale = num
-	

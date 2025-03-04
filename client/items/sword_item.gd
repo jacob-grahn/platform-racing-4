@@ -1,7 +1,7 @@
 extends Node2D
 class_name SwordItem
 
-@onready var swordslash = load("res://item_effects/SwordSlash.tscn")
+@onready var swordslash = load("res://item_effects/sword_slash.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
