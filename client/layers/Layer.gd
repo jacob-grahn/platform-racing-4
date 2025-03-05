@@ -72,8 +72,8 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	return tile_set
 
 
-func set_depth(_depth: int) -> void:
-	depth = _depth
+func set_depth(p_depth: int) -> void:
+	depth = p_depth
 	layer = depth
 	
 	var tile_set = tile_map.tile_set

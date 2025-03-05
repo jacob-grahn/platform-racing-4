@@ -1,6 +1,7 @@
 extends Node2D
 
 const CHARACTER = preload("res://character/character.tscn")
+const MINIMAP_PENCILER = preload("res://pages/editor/minimap_penciler.gd")
 
 @onready var layers = $Layers
 @onready var level_decoder = $LevelDecoder
@@ -10,12 +11,17 @@ const CHARACTER = preload("res://character/character.tscn")
 @onready var penciler: Node2D = $Penciler
 
 var tiles: Tiles = Tiles.new()
+var minimap_penciler: MinimapDrawer
 
 
 func _ready():
 	tiles.init_defaults()
 	back.connect("pressed", _on_back_pressed)
 	Jukebox.play("pr1-future-penumbra")
+	
+	# Create minimap_penciler instance
+	minimap_penciler = MINIMAP_PENCILER.new()
+	add_child(minimap_penciler)
 
 
 func _on_back_pressed():
@@ -24,6 +30,7 @@ func _on_back_pressed():
 
 func init(level: Dictionary):
 	penciler.init(layers)
+	minimap_penciler.init(layers, editor_events, minimap_container)
 	editor_events.connect_to([level_decoder])
 	level_decoder.decode(level, false, layers)
 	layers.init(tiles)
@@ -32,6 +39,8 @@ func init(level: Dictionary):
 	var character = CHARACTER.instantiate()
 	
 	Session.set_current_player_layer(start_option.layer_name)
+	minimap_penciler.update_minimap_view(start_option.layer_name)
+	
 	for child in minimap_container.get_children():
 		child.visible = child.name == start_option.layer_name
 	

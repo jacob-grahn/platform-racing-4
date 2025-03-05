@@ -15,8 +15,8 @@ func _ready():
 	editor_events.connect("level_event", _on_level_event)
 
 
-func init(_layers: Layers) -> void:
-	layers = _layers
+func init(p_layers: Layers) -> void:
+	layers = p_layers
 
 
 func _process(delta: float) -> void:

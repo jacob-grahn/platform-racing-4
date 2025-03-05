@@ -9,8 +9,8 @@ func _ready():
 	$HTTPRequest.request_completed.connect(self._http_request_completed)
 
 
-func init(_question: String, answers_array: Array):
-	question = _question
+func init(p_question: String, answers_array: Array):
+	question = p_question
 	var error = $HTTPRequest.request(Helpers.get_base_url() + "/results?question=" + question.uri_encode())
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")

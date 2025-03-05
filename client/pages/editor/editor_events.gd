@@ -27,8 +27,8 @@ var last_send_event: Dictionary = {}
 var game_client: Node2D
 
 
-func set_game_client(_game_client) -> void:
-	game_client = _game_client
+func set_game_client(p_game_client) -> void:
+	game_client = p_game_client
 	game_client.connect("receive_level_event", _on_receive_level_event)
 
 

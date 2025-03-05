@@ -33,6 +33,7 @@ var default_level: Dictionary = {
 @onready var penciler: Node2D = $Penciler
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
+@onready var minimap_drawer: MinimapDrawer = $MinimapDrawer
 
 
 func _ready():
