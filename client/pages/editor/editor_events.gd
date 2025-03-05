@@ -27,13 +27,14 @@ var last_send_event: Dictionary = {}
 var game_client: Node2D
 
 
-func init(cursor, editor_menu, layer_panel, _game_client):
+func set_game_client(_game_client) -> void:
 	game_client = _game_client
-	cursor.connect("level_event", _on_level_event)
-	editor_menu.connect("level_event", _on_level_event)
-	layer_panel.connect("level_event", _on_level_event)
-	if game_client:
-		game_client.connect("receive_level_event", _on_receive_level_event)
+	game_client.connect("receive_level_event", _on_receive_level_event)
+
+
+func connect_to(nodes: Array) -> void:
+	for node in nodes:
+		node.connect("level_event", _on_level_event)
 
 
 func _on_level_event(event: Dictionary) -> void:
@@ -41,7 +42,6 @@ func _on_level_event(event: Dictionary) -> void:
 		return
 		
 	last_send_event = event
-	print("EditorEvents::_on_level_event ", event.type)
 	if len(redo_events) > 0:
 		redo_events = []
 	events.push_back(event)

@@ -47,19 +47,10 @@ func _ready():
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 	
-	if LevelEditor.current_level:
-		level_decoder.decode(LevelEditor.current_level, true, layers)
-	else:
-		var saved_level = Helpers._load_from_file()
-		if saved_level:
-			level_decoder.decode(saved_level, true, layers)
-		else:
-			level_decoder.decode(default_level, true, layers)
-	
 	tiles.init_defaults()
 	layers.init(tiles)
-	layer_panel.init(layers)
-	editor_events.init(cursor, editor_menu, layer_panel, game_client)
+	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
+	editor_events.set_game_client(game_client)
 	penciler.init(layers)
 	cursor.init(editor_menu, layers)
 	now_editing_panel.init(editor_menu)
@@ -68,6 +59,17 @@ func _ready():
 	
 	#This code takes the signal from the change zoom UI and uses its value to pass on to the camera to change its zoom.
 	$"UI/ZoomPanel/ZoomControls".editor_camera_zoom_change.connect(Callable($EditorCamera.change_camera_zoom))
+
+	if LevelEditor.current_level:
+		level_decoder.decode(LevelEditor.current_level, true, layers)
+	else:
+		var saved_level = Helpers._load_from_file()
+		if saved_level:
+			level_decoder.decode(saved_level, true, layers)
+		else:
+			level_decoder.decode(default_level, true, layers)
+
+	layer_panel.init(layers)
 
 
 func _on_back_pressed():

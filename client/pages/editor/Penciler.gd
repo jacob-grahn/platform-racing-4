@@ -34,7 +34,6 @@ func _cleanup_old_timestamps() -> void:
 
 
 func _on_level_event(event: Dictionary) -> void:
-	print("Penciler::_on_level_event: ", event.type)
 	if event.type == EditorEvents.SET_TILE:
 		var coords = Vector2i(event.coords.x, event.coords.y)
 		var coords_key = str(coords.x) + "_" + str(coords.y)
@@ -59,10 +58,19 @@ func _on_level_event(event: Dictionary) -> void:
 		for point_dict in event.points:
 			converted_points.append(Vector2(point_dict.x, point_dict.y))
 		line.points = converted_points
+		
+		# Set line color and thickness if provided in the event
+		if event.has("color"):
+			line.default_color = Color(event.color)
+		if event.has("thickness"):
+			line.width = event.thickness
 
 	if event.type == EditorEvents.ADD_LAYER:
 		print("addlayer: " + event.name)
-		layers.add_layer(event.name)
+		var layer := layers.add_layer(event.name)
+		layer.art_scale = event.get("art_scale", 1.0)
+		layer.get_node("TileMap").rotation_degrees = event.get("rotation", 0)
+		layer.set_depth(event.get("depth", 10))
 
 	if event.type == EditorEvents.DELETE_LAYER:
 		print("remlayer: " + event.name)
@@ -75,6 +83,18 @@ func _on_level_event(event: Dictionary) -> void:
 		usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
 		usertextboxes.add_child(usertextbox)
 		usertextbox.position = Vector2(event.position.x, event.position.y)
+		
+		# Handle additional properties if provided
+		if event.has("text_width") and event.has("text_height"):
+			usertextbox.resize_text(event.text_width, event.text_height)
+		
+		# Configure mouse interaction based on editing mode
+		if event.has("is_editing"):
+			if event.is_editing:
+				usertextbox.mouse_filter = 0 # Editable on click (click stops at text)
+			else:
+				usertextbox.mouse_filter = 2 # Not Editable on click (click passes through)
+			usertextbox.disable_text_edits()
 
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)

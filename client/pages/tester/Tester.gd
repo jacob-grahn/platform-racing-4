@@ -6,6 +6,8 @@ const CHARACTER = preload("res://character/character.tscn")
 @onready var level_decoder = $LevelDecoder
 @onready var back = $UI/Back
 @onready var minimap_container = $UI/Minimaps
+@onready var editor_events: EditorEvents = $EditorEvents
+@onready var penciler: Node2D = $Penciler
 
 var tiles: Tiles = Tiles.new()
 
@@ -21,6 +23,8 @@ func _on_back_pressed():
 
 
 func init(level: Dictionary):
+	penciler.init(layers)
+	editor_events.connect_to([level_decoder])
 	level_decoder.decode(level, false, layers)
 	layers.init(tiles)
 	tiles.activate_node($Layers)
@@ -37,6 +41,8 @@ func init(level: Dictionary):
 	character.active = true
 	player_holder.add_child(character)
 	character.set_depth(layer.depth)
+
+	layers.calc_used_rect()
 
 
 func finish():

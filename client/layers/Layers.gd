@@ -30,13 +30,14 @@ func get_target_layer() -> String:
 	return target_layer
 
 
-func add_layer(name: String) -> void:
+func add_layer(name: String) -> Layer:
 	var layer = LAYER.instantiate()
 	layer.name = name
 	layer.layer = 10
 	add_child(layer)
 	if tile_config:
 		layer.init(tile_config)
+	return layer
 
 
 func remove_layer(name: String) -> void:
@@ -44,3 +45,10 @@ func remove_layer(name: String) -> void:
 	if layer:
 		remove_child(layer)
 		layer.queue_free()
+
+
+func calc_used_rect() -> void:
+	for layer in get_children():
+		var tilemap = layer.get_node("TileMap")
+		var map_used_rect = tilemap.get_used_rect()
+		Session.set_used_rect(layer.name, map_used_rect)

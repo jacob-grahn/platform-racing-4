@@ -23,11 +23,11 @@ var default_layers: Dictionary = {
 
 func _ready() -> void:
 	cursor.init(editor_menu, layers)
-	editor_events.init(cursor, editor_menu, layer_panel, null)
+	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
 	character_display_timer.timeout.connect(_update_character_display)
-	level_decoder.decode(default_layers, true, layers)
 	layer_panel.init(layers)
 	penciler.init(layers)
+	level_decoder.decode(default_layers, true, layers)
 
 
 func _update_character_display() -> void:
