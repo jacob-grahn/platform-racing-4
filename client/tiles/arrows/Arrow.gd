@@ -48,8 +48,8 @@ func push(node: Node2D, tilemap: Node2D, coords: Vector2i, push_dir: Vector2):
 				print('phantom')
 				if !Input.is_action_pressed("down"):
 					node.velocity += rotated_push_dir * push_force
-					node.phantom_velocity = rotated_push_dir * phantom_push_force_bump
-					node.phantom_velocity_decay = phantom_push_force_bump_decay
+					node.movement.phantom_velocity = rotated_push_dir * phantom_push_force_bump
+					node.movement.phantom_velocity_decay = phantom_push_force_bump_decay
 		else:
 			node.velocity += rotated_push_dir * push_force
 	

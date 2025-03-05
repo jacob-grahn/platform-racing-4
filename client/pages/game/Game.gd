@@ -2,20 +2,36 @@ extends Node2D
 class_name Game
 
 const CHARACTER = preload("res://character/character.tscn")
+const MINIMAP_PENCILER = preload("res://pages/editor/minimap_penciler.gd")
 
 static var pr2_level_id
 static var game: Game
 
 var tiles: Tiles = Tiles.new()
+var minimap_penciler: MinimapDrawer
 @onready var back_button = $UI/BackButton
 @onready var level_decoder = $LevelDecoder
 @onready var layers = $Layers
 @onready var minimap_container = $UI/Minimaps
+@onready var editor_events: EditorEvents = $EditorEvents
+@onready var penciler: Node2D = $Penciler
+
 
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)
 	tiles.init_defaults()
 	
+	# Create minimap_penciler instance
+	minimap_penciler = MINIMAP_PENCILER.new()
+	add_child(minimap_penciler)
+	
+	#
+	editor_events.connect_to([level_decoder])
+	layers.init(tiles)
+	penciler.init(layers)
+	minimap_penciler.init(layers, editor_events, minimap_container)
+	
+	#
 	if !pr2_level_id || pr2_level_id == '0':
 		activate()
 	
@@ -43,14 +59,14 @@ func _http_request_completed(_result, _response_code, _headers, body):
 
 
 func activate():
-	layers.init(tiles)
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
 	
 	Session.set_current_player_layer(start_option.layer_name)
+	minimap_penciler.update_minimap_view(start_option.layer_name)
 	for child in minimap_container.get_children():
-		child.visible = child.name == start_option.layer_name	
+		child.visible = child.name == start_option.layer_name
 	
 	var layer = layers.get_node(start_option.layer_name)
 	var player_holder = layer.get_node("Players")
@@ -58,6 +74,8 @@ func activate():
 	character.active = true
 	player_holder.add_child(character)
 	character.set_depth(layer.depth)
+	
+	layers.calc_used_rect()
 
 
 func finish():
