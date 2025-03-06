@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://pages/tester/tester.gd" id="1_uug6k"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="2_mjhpf"]
-[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://pages/editor/penciler.tscn" id="2_o2o8t"]
-[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://pages/editor/level_decoder.tscn" id="2_qvp0h"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler.tscn" id="2_o2o8t"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="2_qvp0h"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://pages/game/bg.tscn" id="2_vbo6q"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_sy0tr"]
-[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://pages/editor/editor_events.tscn" id="5_4ui7b"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_4ui7b"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/minimaps.tscn" id="6_nwh1k"]
 
 [node name="Tester" type="Node2D"]

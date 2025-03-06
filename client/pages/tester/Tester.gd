@@ -1,7 +1,7 @@
 extends Node2D
 
 const CHARACTER = preload("res://character/character.tscn")
-const MINIMAP_PENCILER = preload("res://pages/editor/minimap_penciler.gd")
+const MINIMAP_PENCILER = preload("res://engine/minimap_penciler.gd")
 
 @onready var layers = $Layers
 @onready var level_decoder = $LevelDecoder

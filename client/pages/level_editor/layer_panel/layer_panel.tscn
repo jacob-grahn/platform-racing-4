@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://cntljr72fl7i0"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_qwtjx"]
+[ext_resource type="Script" path="res://pages/level_editor/layer_panel/layer_panel.gd" id="1_vw7vn"]
+[ext_resource type="PackedScene" uid="uid://cfsddu7uhkrp5" path="res://pages/level_editor/layer_panel/layer_row.tscn" id="2_urqxs"]
+[ext_resource type="PackedScene" uid="uid://c6hg56c7sf73m" path="res://pages/level_editor/layer_panel/number_picker.tscn" id="4_45vqc"]
+
+[node name="LayerPanel" type="Node2D"]
+script = ExtResource("1_vw7vn")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 300.0
+offset_bottom = 469.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_right = 308.0
+offset_bottom = 400.0
+horizontal_scroll_mode = 0
+
+[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+
+[node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow3" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow4" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="LayerRow5" parent="ScrollContainer/RowHolder" instance=ExtResource("2_urqxs")]
+layout_mode = 2
+
+[node name="DeleteButton" type="Button" parent="."]
+offset_left = 153.0
+offset_top = 405.0
+offset_right = 292.0
+offset_bottom = 457.0
+theme = ExtResource("1_qwtjx")
+theme_override_font_sizes/font_size = 16
+text = "X"
+
+[node name="NewButton" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 405.0
+offset_right = 148.0
+offset_bottom = 457.0
+theme = ExtResource("1_qwtjx")
+theme_override_font_sizes/font_size = 16
+text = "+"
+
+[node name="Popup" type="PopupPanel" parent="."]
+position = Vector2i(310, 0)
+size = Vector2i(470, 150)
+
+[node name="RotationPicker" parent="Popup" instance=ExtResource("4_45vqc")]
+position = Vector2(0, 16)
+
+[node name="DepthPicker" parent="Popup" instance=ExtResource("4_45vqc")]
+position = Vector2(0, 80)

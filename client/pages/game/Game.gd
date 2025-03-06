@@ -2,7 +2,7 @@ extends Node2D
 class_name Game
 
 const CHARACTER = preload("res://character/character.tscn")
-const MINIMAP_PENCILER = preload("res://pages/editor/minimap_penciler.gd")
+const MINIMAP_PENCILER = preload("res://engine/minimap_penciler.gd")
 
 static var pr2_level_id
 static var game: Game

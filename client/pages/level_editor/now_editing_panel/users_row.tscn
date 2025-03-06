@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://35bvpg82yjl3"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_twjml"]
+[ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://pages/level_editor/layer_panel/layer_button_group.tres" id="2_8mlsd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
+bg_color = Color(0.24122, 0.241305, 0.336642, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
+bg_color = Color(0.172549, 0.172549, 0.247059, 1)
+
+[node name="UsersRow" type="Control"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+offset_bottom = 50.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 50.0
+color = Color(0.172549, 0.176471, 0.247059, 1)
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 50.0
+theme = ExtResource("1_twjml")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+disabled = true
+toggle_mode = true
+button_group = ExtResource("2_8mlsd")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 19.0
+offset_top = 5.0
+offset_right = 387.0
+offset_bottom = 86.0
+theme = ExtResource("1_twjml")
+text = "First"
