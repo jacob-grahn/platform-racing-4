@@ -33,7 +33,6 @@ var default_level: Dictionary = {
 @onready var penciler: Node2D = $Penciler
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
-@onready var minimap_drawer: MinimapDrawer = $MinimapDrawer
 
 
 func _ready():
@@ -58,8 +57,8 @@ func _ready():
 	editor_camera.target_zoom = 0.5
 	editor_camera.change_camera_zoom(0.5)
 	
-	#This code takes the signal from the change zoom UI and uses its value to pass on to the camera to change its zoom.
-	$"UI/ZoomPanel/ZoomControls".editor_camera_zoom_change.connect(Callable($EditorCamera.change_camera_zoom))
+	# Connect control events for camera zoom changes
+	editor_menu.control_event.connect(_on_control_event)
 
 	if LevelEditor.current_level:
 		level_decoder.decode(LevelEditor.current_level, true, layers)
@@ -168,3 +167,10 @@ func _on_explore_load_completed(result, response_code, headers, body):
 	await get_tree().create_timer(0.1).timeout
 	level_decoder.decode(LevelEditor.current_level, true, layers)
 	layers.init(tiles)
+
+
+func _on_control_event(event: Dictionary) -> void:
+	if event.get("type") == "editor_camera_zoom_change":
+		var zoom_value = event.get("zoom")
+		if zoom_value:
+			editor_camera.change_camera_zoom(zoom_value)

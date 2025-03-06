@@ -9,6 +9,12 @@ const SAVE_BUTTON: PackedScene = preload("res://mega_menu/save_button/save_butto
 const COLLAB_BUTTON: PackedScene = preload("res://mega_menu/collab_button/collab_button.tscn")
 var music_selector
 
+# Zoom settings
+var zoom_increment: int = 3
+var min_zoom_increment: int = 0
+var max_zoom_increment: int = 6
+var zoom_amounts: Array = [25, 50, 75, 100, 150, 250, 500] #Zoom amounts listed in percentage.
+
 func _ready():
 	super._ready()
 	step_delay = 0.03
@@ -20,6 +26,17 @@ func _ready():
 		add_slider(button)
 		button.set_label(label)
 		button.connect("pressed", _on_tool_pressed.bind(label.to_lower()))
+	
+	# Add zoom buttons
+	var zoom_out_button = TEXT_BUTTON.instantiate()
+	add_slider(zoom_out_button)
+	zoom_out_button.set_label("Zoom-")
+	zoom_out_button.connect("pressed", _on_zoom_out_pressed)
+	
+	var zoom_in_button = TEXT_BUTTON.instantiate()
+	add_slider(zoom_in_button)
+	zoom_in_button.set_label("Zoom+")
+	zoom_in_button.connect("pressed", _on_zoom_in_pressed)
 	
 	# Add music selector
 	music_selector = MUSIC_SELECTOR.instantiate()
@@ -61,4 +78,23 @@ func _on_tool_pressed(tool_id: String) -> void:
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_TOOL,
 		"tool": tool_id
+	})
+
+
+func _on_zoom_in_pressed() -> void:
+	zoom_increment += 1
+	_update_zoom()
+
+
+func _on_zoom_out_pressed() -> void:
+	zoom_increment -= 1
+	_update_zoom()
+
+
+func _update_zoom() -> void:
+	zoom_increment = clamp(zoom_increment, min_zoom_increment, max_zoom_increment)
+	
+	emit_signal("control_event", {
+		"type": "editor_camera_zoom_change",
+		"zoom": 0.5 * zoom_amounts[zoom_increment] / 100.0
 	})
