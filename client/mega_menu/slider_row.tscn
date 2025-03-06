@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckr1ksera7kka"]
+
+[ext_resource type="Script" path="res://mega_menu/slider_row.gd" id="1_hudfw"]
+
+[node name="SliderRow" type="Node2D"]
+script = ExtResource("1_hudfw")

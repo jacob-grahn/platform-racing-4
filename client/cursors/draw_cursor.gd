@@ -6,6 +6,8 @@ var current_line: Line2D
 var current_point: Vector2i
 var optimization_epsilon: float = 1.0 # bigger = more line optimization
 var layers: Layers
+var brush_size: float = 3.0
+var brush_color: Color = Color(0, 0, 0) # Default to black
 
 
 func init(_layers: Layers) -> void:
@@ -23,6 +25,8 @@ func on_mouse_down():
 		lines.add_child(current_line)
 		current_line.end_cap_mode = Line2D.LINE_CAP_ROUND
 		current_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		current_line.width = brush_size
+		current_line.default_color = brush_color
 		current_line.position = mouse_position.round()
 		current_line.add_point(Vector2i(0, 0))
 		current_point = Vector2i(0, 0)
@@ -61,7 +65,9 @@ func on_mouse_up():
 				"x": current_line.position.x,
 				"y": current_line.position.y
 			},
-			"points": point_dicts
+			"points": point_dicts,
+			"width": brush_size,
+			"color": brush_color.to_html(true) # Include alpha in hex format (e.g. FFFFFFFF)
 		})
 		
 		# Remove the temporary line
@@ -101,3 +107,11 @@ func douglas_peucker(points, epsilon):
 	else:
 		# None are far enough to keep any point except the endpoints
 		return [points[0], points[-1]]
+
+
+func set_brush_size(size: float) -> void:
+	brush_size = size
+
+
+func set_brush_color(color: Color) -> void:
+	brush_color = color

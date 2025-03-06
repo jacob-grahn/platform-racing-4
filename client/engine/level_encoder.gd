@@ -69,8 +69,8 @@ func encode_lines(node: Node2D) -> Array:
 			"x": line.position.x,
 			"y": line.position.y,
 			"points": pointObjects.slice(1, len(pointObjects) - 1), # the first point should always be 0,0, we can leave it out
-			"color": "FFFFFF",
-			"thickness": 10
+			"color": line.default_color,
+			"thickness": line.width
 		}
 		lines.push_back(lineData)
 	return lines

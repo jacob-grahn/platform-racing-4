@@ -59,9 +59,11 @@ func _on_level_event(event: Dictionary) -> void:
 			converted_points.append(Vector2(point_dict.x, point_dict.y))
 		line.points = converted_points
 		
-		# Set line color and thickness if provided in the event
+		# Set line color and width if provided in the event
 		if event.has("color"):
-			line.default_color = Color(event.color)
+			line.default_color = Color(event.color) # Handle hex string format (FFFFFFFF)
+		if event.has("width"):
+			line.width = event.width
 		if event.has("thickness"):
 			line.width = event.thickness
 
@@ -78,7 +80,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ADD_USERTEXT:
 		var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
-		var usertextbox_scene: PackedScene = preload("res://pages/level_editor/menu/user_textbox.tscn")
+		var usertextbox_scene: PackedScene = preload("res://engine/textbox/user_textbox.tscn")
 		var usertextbox = usertextbox_scene.instantiate()
 		usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
 		usertextboxes.add_child(usertextbox)

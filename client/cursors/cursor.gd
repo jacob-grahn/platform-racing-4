@@ -57,7 +57,7 @@ func _process(_delta):
 func _on_control_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.SELECT_BLOCK:
 		current_cursor = block_cursor
-	if event.type == EditorEvents.SELECT_TOOL:
+	elif event.type == EditorEvents.SELECT_TOOL:
 		$Control.mouse_filter = 0
 		if event.tool == "blocks":
 			current_cursor = block_cursor
@@ -71,6 +71,14 @@ func _on_control_event(event: Dictionary) -> void:
 		if event.tool == "text":
 			current_cursor = user_text_cursor
 			$Control.mouse_filter = 1
+	elif event.type == EditorEvents.SET_BRUSH_SIZE:
+		if current_cursor == draw_cursor:
+			draw_cursor.set_brush_size(event.size)
+	elif event.type == EditorEvents.SET_BRUSH_COLOR:
+		if current_cursor == draw_cursor:
+			# Convert hex string to Color object
+			var color = Color(event.color)
+			draw_cursor.set_brush_color(color)
 
 
 func _on_subcursor_event(event: Dictionary) -> void:

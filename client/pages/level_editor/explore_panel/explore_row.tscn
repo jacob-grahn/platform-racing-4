@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfwtn24sgsr8i"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_x2mo3"]
-[ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://pages/level_editor/layer_panel/layer_button_group.tres" id="2_cuqof"]
+[ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://engine/layer_panel/layer_button_group.tres" id="2_cuqof"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
 bg_color = Color(0.24122, 0.241305, 0.336642, 1)
