@@ -52,11 +52,9 @@ func _ready():
 		button.texture_button.pressed.connect(_on_tool_pressed.bind(config.label.to_lower(), button))
 		tool_buttons.append(button)
 	
-	# Add special BG button
+	# Add BG button
 	bg_button = BG_BUTTON.instantiate()
 	add_slider(bg_button)
-	var default_texture = load("res://icon.svg")
-	bg_button.init(default_texture, active_colors, inactive_colors)
 	bg_button.texture_button.pressed.connect(_on_tool_pressed.bind("bg", bg_button))
 	tool_buttons.append(bg_button)
 	

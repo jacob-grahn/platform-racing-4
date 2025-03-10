@@ -1,56 +1,68 @@
-extends Node2D
+extends IconButton
+class_name BlockButton
 
 signal pressed
 
-@onready var button = $Button
-@onready var sprite = $Sprite
-@onready var background = $Background
+@onready var tile_texture = preload("res://tiles/tileatlas.png")
+var region_sprite: Sprite2D
+var sprite_initialized := false
 
-var active = false
-
-
-func _ready():
-	button.connect("pressed", _on_pressed)
-	sprite.scale = Vector2(0.5, 0.5)
-	sprite.position = Vector2(32, 32)
+func _ready() -> void:
+	super._ready()
 	
-	# Make sure the background node exists
-	if not has_node("Background"):
-		background = ColorRect.new()
-		background.name = "Background"
-		background.size = Vector2(64, 64)
-		background.color = Color(1, 1, 1, 1)
-		background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(background)
-		move_child(background, 0)  # Move to back
+	# Default colors for block buttons
+	active_colors = {
+		"bg": Color("2a9fd6"),  # Light blue
+		"icon": Color(1, 1, 1, 1)  # White
+	}
+	inactive_colors = {
+		"bg": Color(1, 1, 1, 1),  # White
+		"icon": Color(1, 1, 1, 1)  # White (no tint)
+	}
 	
-	# Initially set inactive
-	set_active(false)
+	# Create a sprite for region support instead of using TextureRect
+	texture_rect.visible = false
+	
+	# Set up the region sprite
+	_setup_region_sprite()
+	
+	# Connect the pressed signal to our own _on_pressed
+	texture_button.pressed.disconnect(_pressed)
+	texture_button.pressed.connect(_on_pressed)
+
+
+func _setup_region_sprite() -> void:
+	region_sprite = Sprite2D.new()
+	region_sprite.texture = tile_texture
+	region_sprite.scale = Vector2(0.5, 0.5)
+	region_sprite.position = Vector2(32, 32)
+	region_sprite.region_enabled = true
+	add_child(region_sprite)
+	sprite_initialized = true
 
 
 func set_block_id(id: int) -> void:
-	var coords = Helpers.to_atlas_coords(id)
-	sprite.region_rect = Rect2(coords * Settings.tile_size, Settings.tile_size)
-	
+	if sprite_initialized:
+		var coords = Helpers.to_atlas_coords(id)
+		region_sprite.region_rect = Rect2(coords * Settings.tile_size, Settings.tile_size)
+
 
 func _on_pressed() -> void:
 	emit_signal("pressed")
 
 
-func get_dimensions() -> Vector2:
-	return Vector2(64, 64)
-
-
-func set_active(is_active: bool) -> void:
-	active = is_active
+# Override the _pressed method to not toggle active state
+func _pressed() -> void:
+	emit_signal("pressed")
 	
-	if active:
-		# Active state: blue background, white sprite
-		if background:
-			background.color = Color("2a9fd6")  # Light blue
-		sprite.modulate = Color(1, 1, 1, 1)  # White
-	else:
-		# Inactive state: white background, blue sprite
-		if background:
-			background.color = Color(1, 1, 1, 1)  # White
-		sprite.modulate = Color(1, 1, 1, 1)  # No tint
+	
+# Override the render method to update our sprite's color too
+func _render() -> void:
+	super._render()
+	
+	# Only update sprite modulate if it's initialized
+	if sprite_initialized:
+		if active:
+			region_sprite.modulate = active_colors.icon
+		else:
+			region_sprite.modulate = inactive_colors.icon

@@ -1,9 +1,16 @@
 extends IconButton
 
+var default_texture = load("res://icon.svg")
+var colors = {
+	"bg": Color("ffffff"),
+	"icon": Color("ffffff")
+}
+@onready var editor_events = get_node("../../../../EditorEvents")
 
+	
 func _ready() -> void:
-	var editor_events = get_node("../../../../EditorEvents")
 	editor_events.level_event.connect(_level_event)
+	init(default_texture, colors, colors)
 
 
 func _level_event(event: Dictionary) -> void:
