@@ -3,45 +3,75 @@ extends SliderRow
 signal control_event
 
 const BLOCK_BUTTON: PackedScene = preload("res://mega_menu/block_button.tscn")
-const TEXT_BUTTON: PackedScene = preload("res://mega_menu/slider_text_button.tscn")
+const ICON_BUTTON: PackedScene = preload("res://ui/icon_button.tscn")
 const MUSIC_SELECTOR: PackedScene = preload("res://mega_menu/music_selector/music_selector.tscn")
 const SAVE_BUTTON: PackedScene = preload("res://mega_menu/save_button/save_button.tscn")
 const COLLAB_BUTTON: PackedScene = preload("res://mega_menu/collab_button/collab_button.tscn")
-var music_selector
+const BG_BUTTON: PackedScene = preload("res://mega_menu/bg_button/bg_button.tscn")
+const ZOOM_IN_BUTTON: PackedScene = preload("res://mega_menu/zoom_in/zoom_in_button.tscn")
+const ZOOM_OUT_BUTTON: PackedScene = preload("res://mega_menu/zoom_out/zoom_out_button.tscn")
+const BACKGROUND_IDS := ["field", "desert", "dots", "generic", "lake", "skyscraper", "space"]
 
-# Zoom settings
-var zoom_increment: int = 3
-var min_zoom_increment: int = 0
-var max_zoom_increment: int = 6
-var zoom_amounts: Array = [25, 50, 75, 100, 150, 250, 500] #Zoom amounts listed in percentage.
+var music_selector
+var bg_button
+var current_bg_id = ""
+var tool_buttons = []
+var active_button = null
+var zoom_controller: ZoomController = ZoomController.new()
+@onready var editor_events: Node2D = get_node("/root/Main/LevelEditor/EditorEvents")
 
 func _ready():
 	super._ready()
-	step_delay = 0.03
+	
+	# Add the zoom controller as a child
+	get_parent().add_child(zoom_controller)
+	zoom_controller.zoom_changed.connect(_on_control_event)
 	
 	# Add tools
-	var button_labels = ["Draw", "Erase", "Text", "BG"]
-	for label in button_labels:
-		var button = TEXT_BUTTON.instantiate()
+	var tool_configs = [
+		{"label": "Draw", "icon": "draw"},
+		{"label": "Erase", "icon": "erase"},
+		{"label": "Text", "icon": "text"}
+	]
+	
+	# Light blue colors
+	var active_colors = {
+		"bg": Color("2a9fd6"),
+		"icon": Color("ffffff")
+	}
+	var inactive_colors = {
+		"bg": Color("ffffff"),
+		"icon": Color("2a9fd6")
+	}
+	
+	for config in tool_configs:
+		var button = ICON_BUTTON.instantiate()
 		add_slider(button)
-		button.set_label(label)
-		button.connect("pressed", _on_tool_pressed.bind(label.to_lower()))
+		var texture = load("res://mega_menu/icons/" + config.icon + ".png")
+		button.init(texture, active_colors, inactive_colors)
+		button.texture_button.pressed.connect(_on_tool_pressed.bind(config.label.to_lower(), button))
+		tool_buttons.append(button)
+	
+	# Add special BG button
+	bg_button = BG_BUTTON.instantiate()
+	add_slider(bg_button)
+	var default_texture = load("res://icon.svg")
+	bg_button.init(default_texture, active_colors, inactive_colors)
+	bg_button.texture_button.pressed.connect(_on_tool_pressed.bind("bg", bg_button))
+	tool_buttons.append(bg_button)
 	
 	# Add zoom buttons
-	var zoom_out_button = TEXT_BUTTON.instantiate()
+	var zoom_out_button = ZOOM_OUT_BUTTON.instantiate()
 	add_slider(zoom_out_button)
-	zoom_out_button.set_label("Zoom-")
-	zoom_out_button.connect("pressed", _on_zoom_out_pressed)
+	zoom_out_button.setup(zoom_controller)
 	
-	var zoom_in_button = TEXT_BUTTON.instantiate()
+	var zoom_in_button = ZOOM_IN_BUTTON.instantiate()
 	add_slider(zoom_in_button)
-	zoom_in_button.set_label("Zoom+")
-	zoom_in_button.connect("pressed", _on_zoom_in_pressed)
+	zoom_in_button.setup(zoom_controller)
 	
 	# Add music selector
 	music_selector = MUSIC_SELECTOR.instantiate()
 	add_slider(music_selector)
-	music_selector.item_selected.connect(_music_selected)
 	
 	# Add save
 	var save_button = SAVE_BUTTON.instantiate()
@@ -56,45 +86,45 @@ func _ready():
 		var block_button = BLOCK_BUTTON.instantiate()
 		add_slider(block_button)
 		block_button.set_block_id(i)
-		block_button.connect("pressed", _on_block_pressed.bind(i))
+		block_button.connect("pressed", _on_block_pressed.bind(i, block_button))
+		tool_buttons.append(block_button)
 	
 	# select the first block by default
-	call_deferred("_on_block_pressed", 1)
+	call_deferred("_on_block_pressed", 1, tool_buttons[tool_buttons.size() - 40])
 
 
-func _music_selected(_item_id: int):
-	var slug: String = music_selector.get_selected_metadata()
-	Jukebox.play(slug)
-
-
-func _on_block_pressed(block_id: int) -> void:
+func _on_block_pressed(block_id: int, button = null) -> void:
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_BLOCK,
 		"block_id": block_id
 	})
+	
+	if button:
+		_deactivate_all_except(button)
 
 
-func _on_tool_pressed(tool_id: String) -> void:
+func _on_tool_pressed(tool_id: String, button = null) -> void:
 	emit_signal("control_event", {
 		"type": EditorEvents.SELECT_TOOL,
 		"tool": tool_id
 	})
-
-
-func _on_zoom_in_pressed() -> void:
-	zoom_increment += 1
-	_update_zoom()
-
-
-func _on_zoom_out_pressed() -> void:
-	zoom_increment -= 1
-	_update_zoom()
-
-
-func _update_zoom() -> void:
-	zoom_increment = clamp(zoom_increment, min_zoom_increment, max_zoom_increment)
 	
-	emit_signal("control_event", {
-		"type": "editor_camera_zoom_change",
-		"zoom": 0.5 * zoom_amounts[zoom_increment] / 100.0
-	})
+	if button:
+		_deactivate_all_except(button)
+
+
+func _on_control_event(event: Dictionary) -> void:
+	emit_signal("control_event", event)
+
+
+func _deactivate_all_except(active_button_ref) -> void:
+	active_button = active_button_ref
+	
+	# Activate the selected button
+	if active_button and active_button.has_method("set_active"):
+		active_button.set_active(true)
+	
+	# Deactivate all other buttons
+	for button in tool_buttons:
+		if button != active_button and button.has_method("set_active"):
+			button.set_active(false)

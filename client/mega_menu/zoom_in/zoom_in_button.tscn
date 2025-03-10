@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://csmjxkpvkv3n0"]
+
+[ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_p5s2q"]
+[ext_resource type="Script" path="res://mega_menu/zoom_in/zoom_in_button.gd" id="2_0nj7p"]
+
+[node name="ZoomInButton" instance=ExtResource("1_p5s2q")]
+script = ExtResource("2_0nj7p")

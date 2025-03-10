@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://djdcji4s5t1fr"]
+
+[ext_resource type="Script" path="res://ui/icon_button.gd" id="1_7usiu"]
+[ext_resource type="Texture2D" uid="uid://ccnmmcywktplf" path="res://mega_menu/icons/zoom_out.png" id="1_xr4dr"]
+
+[sub_resource type="Gradient" id="Gradient_udqep"]
+colors = PackedColorArray(0.525102, 0.525101, 0.525101, 1, 0.856067, 0.856067, 0.856067, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5cexq"]
+gradient = SubResource("Gradient_udqep")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[node name="IconButton" type="Node2D"]
+script = ExtResource("1_7usiu")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_right = 64.0
+offset_bottom = 64.0
+texture_normal = SubResource("GradientTexture2D_5cexq")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 62.0
+offset_bottom = 62.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("1_xr4dr")

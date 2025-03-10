@@ -2,19 +2,42 @@ extends SliderRow
 
 signal control_event
 
-const SLIDER_TEXT_BUTTON: PackedScene = preload("res://mega_menu/slider_text_button.tscn")
+const ICON_BUTTON: PackedScene = preload("res://ui/icon_button.tscn")
 var brush_sizes = [10, 20, 30, 50, 80, 120]
 
 
 func _ready():
 	super._ready()
 	
+	# Light blue colors
+	var active_colors = {
+		"bg": Color("2a9fd6"),
+		"icon": Color("ffffff")
+	}
+	var inactive_colors = {
+		"bg": Color("ffffff"), 
+		"icon": Color("2a9fd6")
+	}
+	
+	# Create size texture
+	var size_texture = load("res://mega_menu/icons/magnify.png")
+	
 	# Add size picker buttons
 	for size in brush_sizes:
-		var button = SLIDER_TEXT_BUTTON.instantiate()
+		var button = ICON_BUTTON.instantiate()
 		add_slider(button)
-		button.set_label(str(size))
-		button.connect("pressed", _on_size_pressed.bind(size))
+		button.init(size_texture, active_colors, inactive_colors)
+		
+		# Add text overlay
+		var label = Label.new()
+		label.text = str(size)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.size = Vector2(64, 64)
+		label.add_theme_color_override("font_color", Color("000000"))
+		button.add_child(label)
+		
+		button.texture_button.pressed.connect(_on_size_pressed.bind(size))
 	
 	# Add color picker button
 	var color = Color(0, 0, 0)
