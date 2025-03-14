@@ -7,18 +7,13 @@ signal pressed
 var region_sprite: Sprite2D
 var sprite_initialized := false
 
+
 func _ready() -> void:
 	super._ready()
 	
 	# Default colors for block buttons
-	active_colors = {
-		"bg": Color("2a9fd6"),  # Light blue
-		"icon": Color(1, 1, 1, 1)  # White
-	}
-	inactive_colors = {
-		"bg": Color(1, 1, 1, 1),  # White
-		"icon": Color(1, 1, 1, 1)  # White (no tint)
-	}
+	active_colors = EditorMenu.COLORS.blocks.active
+	inactive_colors = EditorMenu.COLORS.blocks.inactive
 	
 	# Create a sprite for region support instead of using TextureRect
 	texture_rect.visible = false

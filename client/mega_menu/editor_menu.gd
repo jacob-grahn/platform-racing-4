@@ -4,6 +4,39 @@ class_name EditorMenu
 signal control_event
 signal level_event
 
+const COLORS = {
+	"meta": {
+		"active": {
+			"bg": Color("2a9fd6"),
+			"icon": Color("ffffff")
+		},
+		"inactive": {
+			"bg": Color("ffffff"),
+			"icon": Color("2a9fd6")
+		}
+	},
+	"tools": {
+		"active": {
+			"bg": Color("2a9fd6"),
+			"icon": Color("ffffff")
+		},
+		"inactive": {
+			"bg": Color("ffffff"),
+			"icon": Color("2a9fd6")
+		}
+	},
+	"blocks": {
+		"active": {
+			"bg": Color("2a9fd6"),
+			"icon": Color("ffffff")
+		},
+		"inactive": {
+			"bg": Color("333333"),
+			"icon": Color("ffffff")
+		}
+	}
+}
+
 @onready var mega_row: Node2D = $MegaRow
 @onready var background_row: Node2D = $BackgroundRow
 @onready var draw_row: Node2D = $DrawRow

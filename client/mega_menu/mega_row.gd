@@ -1,4 +1,5 @@
 extends SliderRow
+class_name MegaRow
 
 signal control_event
 
@@ -10,7 +11,6 @@ const COLLAB_BUTTON: PackedScene = preload("res://mega_menu/collab_button/collab
 const BG_BUTTON: PackedScene = preload("res://mega_menu/bg_button/bg_button.tscn")
 const ZOOM_IN_BUTTON: PackedScene = preload("res://mega_menu/zoom_in/zoom_in_button.tscn")
 const ZOOM_OUT_BUTTON: PackedScene = preload("res://mega_menu/zoom_out/zoom_out_button.tscn")
-const BACKGROUND_IDS := ["field", "desert", "dots", "generic", "lake", "skyscraper", "space"]
 
 var music_selector
 var bg_button
@@ -18,6 +18,9 @@ var current_bg_id = ""
 var tool_buttons = []
 var active_button = null
 var zoom_controller: ZoomController = ZoomController.new()
+var active_colors = EditorMenu.COLORS.tools.active
+var inactive_colors = EditorMenu.COLORS.tools.inactive
+
 @onready var editor_events: Node2D = get_node("/root/Main/LevelEditor/EditorEvents")
 
 func _ready():
@@ -33,16 +36,6 @@ func _ready():
 		{"label": "Erase", "icon": "erase"},
 		{"label": "Text", "icon": "text"}
 	]
-	
-	# Light blue colors
-	var active_colors = {
-		"bg": Color("2a9fd6"),
-		"icon": Color("ffffff")
-	}
-	var inactive_colors = {
-		"bg": Color("ffffff"),
-		"icon": Color("2a9fd6")
-	}
 	
 	for config in tool_configs:
 		var button = ICON_BUTTON.instantiate()
