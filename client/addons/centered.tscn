@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3lncfcjli37i"]
+
+[ext_resource type="Script" path="res://addons/centered.gd" id="1_fqr5u"]
+
+[node name="Centered" type="Node2D"]
+script = ExtResource("1_fqr5u")

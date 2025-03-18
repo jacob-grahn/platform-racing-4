@@ -1,0 +1,191 @@
+[gd_scene load_steps=29 format=3 uid="uid://c4b6khd33tysp"]
+
+[ext_resource type="Script" path="res://character/character.gd" id="1_phdif"]
+[ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="2_kipoy"]
+[ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/character_hitbox.tscn" id="2_qkr1y"]
+[ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
+[ext_resource type="Texture2D" uid="uid://bs0lhbp2sf24" path="res://character/star_08.png" id="4_q6p6r"]
+[ext_resource type="Texture2D" uid="uid://bi8oq3hpy1y68" path="res://item_effects/speed_particle.png" id="6_2qvqd"]
+[ext_resource type="PackedScene" uid="uid://bxox6butkxpwh" path="res://character/invincibility.tscn" id="6_rt6gv"]
+[ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
+[ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
+[ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
+[ext_resource type="Script" path="res://items/item.gd" id="14_rudt7"]
+
+[sub_resource type="Curve" id="Curve_7bwiu"]
+_data = [Vector2(0, 0.741988), 0.0, 0.0, 0, 0, Vector2(0.155052, 0.98471), 0.0, 0.0, 0, 0, Vector2(0.989547, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ojv5h"]
+curve = SubResource("Curve_7bwiu")
+
+[sub_resource type="Gradient" id="Gradient_14l1a"]
+colors = PackedColorArray(1, 1, 1, 1, 0.974034, 0.000834058, 0.184732, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ck8t1"]
+gradient = SubResource("Gradient_14l1a")
+
+[sub_resource type="Curve" id="Curve_l8w56"]
+_data = [Vector2(0, 0.526022), 0.0, 0.0, 0, 0, Vector2(0.254355, 0.764922), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_chmfs"]
+curve = SubResource("Curve_l8w56")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptqpr"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 40.54
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_chmfs")
+color = Color(1, 0.803922, 0.6, 1)
+color_ramp = SubResource("GradientTexture1D_ck8t1")
+alpha_curve = SubResource("CurveTexture_ojv5h")
+hue_variation_min = 0.04
+hue_variation_max = 0.3
+
+[sub_resource type="Curve" id="Curve_qi6cg"]
+_data = [Vector2(0.0121951, 0.996178), 0.0, 0.0, 0, 0, Vector2(1, 0.0042634), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_byfsx"]
+curve = SubResource("Curve_qi6cg")
+
+[sub_resource type="Curve" id="Curve_rc61j"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.487798), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1b3vu"]
+curve = SubResource("Curve_rc61j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8uxqt"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 56.03
+angle_min = -360.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 5.0
+radial_accel_max = 5.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_1b3vu")
+color = Color(1, 1, 0.54902, 1)
+alpha_curve = SubResource("CurveTexture_byfsx")
+hue_variation_min = -0.5
+hue_variation_max = 0.48
+
+[sub_resource type="Curve" id="Curve_jmexl"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_s340r"]
+curve = SubResource("Curve_jmexl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nmw10"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 52.77
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+velocity_pivot = Vector3(0, 45, 0)
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 5.0
+radial_accel_max = 5.0
+alpha_curve = SubResource("CurveTexture_s340r")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gpy5w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fase5"]
+
+[node name="Character" type="CharacterBody2D"]
+script = ExtResource("1_phdif")
+
+[node name="CharacterHitbox" parent="." instance=ExtResource("2_qkr1y")]
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(0, -100)
+ignore_rotation = false
+zoom = Vector2(0.1, 0.1)
+
+[node name="Light" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(0, -66)
+enabled = false
+energy = 0.5
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("2_kipoy")
+
+[node name="SunParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -46)
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_ptqpr")
+texture = ExtResource("3_14ic5")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="MoonParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -47)
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_8uxqt")
+texture = ExtResource("4_q6p6r")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="SpeedParticles" type="GPUParticles2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(-4, -98)
+emitting = false
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_nmw10")
+texture = ExtResource("6_2qvqd")
+lifetime = 0.75
+fixed_fps = 60
+
+[node name="Display" parent="." instance=ExtResource("9_ydu4f")]
+
+[node name="LowArea" type="Area2D" parent="."]
+position = Vector2(0, -32)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowArea"]
+shape = SubResource("CircleShape2D_gpy5w")
+
+[node name="HighArea" type="Area2D" parent="."]
+position = Vector2(0, -180)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea"]
+shape = SubResource("CircleShape2D_fase5")
+
+[node name="ItemManager" type="Node2D" parent="."]
+position = Vector2(-6, -128)
+script = ExtResource("14_rudt7")
+
+[node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
+modulate = Color(1, 1, 1, 0.247059)
+z_index = 1
+position = Vector2(10, -10)
+scale = Vector2(0.3, 0.3)
+
+[node name="SuperJumpAura" type="Sprite2D" parent="."]
+scale = Vector2(1.25, 0.5)
+texture = ExtResource("11_r00fj")
+offset = Vector2(0, -74)
+
+[node name="Ice" type="Sprite2D" parent="."]
+position = Vector2(-4, 0)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("7_l8eep")
+offset = Vector2(0, -180)
