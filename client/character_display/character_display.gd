@@ -15,6 +15,7 @@ const JUMP := "jump"
 const RECOVER := "recover"
 const RUN := "run"
 const SWIM := "swim"
+const WALL_SLIDE := "wall_slide"
 const ANIMS := [
 	AIRBORN,
 	CHARGE,
@@ -28,6 +29,7 @@ const ANIMS := [
 	RECOVER,
 	RUN,
 	SWIM,
+	WALL_SLIDE,
 ]
 
 @onready var foot_back_color: Sprite2D = $FootBack/Color
@@ -39,10 +41,6 @@ const ANIMS := [
 @onready var head_color: Sprite2D = $Head/Color
 @onready var head_lines: Sprite2D = $Head/Lines
 @onready var animations: AnimationPlayer = $Animations
-
-
-func _ready() -> void:
-	pass # Replace with function body.
 
 
 func set_style(character_config: Dictionary) -> void:

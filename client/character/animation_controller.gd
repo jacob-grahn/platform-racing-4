@@ -41,6 +41,10 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 		else:
 			display.play(CharacterDisplay.CROUCH)
 	
+	# Wall sliding
+	elif !movement.hurt and movement.is_wall_sliding:
+		display.play(CharacterDisplay.WALL_SLIDE)
+	
 	# On ground
 	elif !movement.hurt and character.is_on_floor():
 		if super_jump.is_locking():
@@ -76,5 +80,6 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 		if !movement.frozen:
 			display.modulate = Color(1.0, 1.0, 1.0)
 		display.scale.y = 1
-		display.scale.x = movement.facing
+		if !movement.is_wall_sliding:
+			display.scale.x = movement.facing
 		shake = 0

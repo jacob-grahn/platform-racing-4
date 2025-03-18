@@ -12,6 +12,10 @@ const FRICTION = 0.1
 const FRICTION_SWIMMING = 2
 const JUMP_VELOCITY_MULTIPLIER = 0.75
 const JUMP_TIMER_MAX = 10.0
+const WALL_SLIDE_FRICTION = 0.15
+const WALL_JUMP_HORIZONTAL_FORCE = 800.0
+const WALL_JUMP_VERTICAL_FORCE = -500.0
+const WALL_SLIDE_FRICTION_DECAY_TIME = 0.25
 
 var jump_timer: float = 0
 var facing: int = 1
@@ -31,6 +35,11 @@ var frozen_display_node = null
 var hurt: bool = false
 var hitstun_timer: float = 0.0
 var hitstun_duration: float = 0.0
+var is_wall_sliding: bool = false
+var wall_sliding_dir: int = 0
+var can_wall_jump: bool = true
+var last_wall_jump_dir: int = 0
+var wall_slide_friction_timer: float = WALL_SLIDE_FRICTION_DECAY_TIME
 
 
 func _init(ice_node = null):
@@ -72,15 +81,66 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	# Checks if player is rotating
 	var not_rotating: bool = gravity.not_rotating(delta)
 	
-	# Handle jump
-	if not hurt and can_jump and Input.is_action_pressed("jump"):
+	# Reset wall sliding if on floor or swimming
+	if character.is_on_floor() or swimming:
+		is_wall_sliding = false
+		wall_sliding_dir = 0
+		can_wall_jump = true  # Reset wall jump after touching the ground
+		last_wall_jump_dir = 0
+		wall_slide_friction_timer = WALL_SLIDE_FRICTION_DECAY_TIME
+	
+	# Check for wall sliding
+	if not_rotating and not character.is_on_floor() and not swimming:
+		# Check for wall sliding on right walls
+		if character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x < -0.7 and last_wall_jump_dir != 1 and wall_slide_friction_timer > 0:
+			if control_axis > 0 or (control_axis == 0 and Input.is_action_pressed("left")) or wall_sliding_dir == 1:  # Pressing against the wall
+				is_wall_sliding = true
+				wall_sliding_dir = 1
+				if last_wall_jump_dir != 1:  # Only allow wall jump if last jump wasn't from same side
+					can_wall_jump = true
+			else:
+				is_wall_sliding = false
+				wall_sliding_dir = 0
+		
+		# Check for wall sliding on left walls
+		elif character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x > 0.7 and last_wall_jump_dir != -1 and wall_slide_friction_timer > 0:
+			if control_axis < 0 or (control_axis == 0 and Input.is_action_pressed("right")) or wall_sliding_dir == -1:  # Pressing against the wall
+				is_wall_sliding = true
+				wall_sliding_dir = -1
+				if last_wall_jump_dir != -1:  # Only allow wall jump if last jump wasn't from same side
+					can_wall_jump = true
+			else:
+				is_wall_sliding = false
+				wall_sliding_dir = 0
+		else:
+			is_wall_sliding = false
+			wall_sliding_dir = 0
+	
+	# Check for wall jump with opposite direction input
+	if not hurt and can_jump and is_wall_sliding and can_wall_jump:
+		var opposite_direction_pressed = (wall_sliding_dir > 0 and Input.is_action_pressed("left")) or (wall_sliding_dir < 0 and Input.is_action_pressed("right"))
+		
+		# Wall jump if jump button is pressed OR if opposite direction is pressed
+		if Input.is_action_just_pressed("jump") or opposite_direction_pressed:
+			# Wall jump! Apply force in opposite direction of wall
+			velocity.y = WALL_JUMP_VERTICAL_FORCE * stats.get_jump_bonus()
+			velocity.x = WALL_JUMP_HORIZONTAL_FORCE * -wall_sliding_dir * stats.get_jump_bonus()
+			velocity = velocity.rotated(character.rotation)
+			can_wall_jump = false
+			last_wall_jump_dir = wall_sliding_dir
+			jumped = true
+			jump_timer = 0
+			wall_slide_friction_timer = WALL_SLIDE_FRICTION_DECAY_TIME
+
+	# Handle regular jump
+	elif not hurt and can_jump and Input.is_action_just_pressed("jump"):
 		if is_crouching:
 			_bump_tile_covering_high_area(character)
 		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
 			jumped = true
 			jump_timer = JUMP_TIMER_MAX
 	
-	# Handle jump strength/velocity increment
+	# Handle jump strength/velocity increment for regular jumps
 	if not_rotating and jumped:
 		velocity += JUMP_VELOCITY.rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / JUMP_TIMER_MAX)
 		jump_timer -= 1
@@ -93,15 +153,24 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			
 	# Airborne behavior
 	if not_rotating and not character.is_on_floor():
+		# Apply wall slide friction
+		if is_wall_sliding and velocity.rotated(-character.rotation).y > 0:
+			wall_slide_friction_timer -= delta
+			if wall_slide_friction_timer > 0:
+				var friction_factor = wall_slide_friction_timer / WALL_SLIDE_FRICTION_DECAY_TIME
+				velocity.y *= 1 - (WALL_SLIDE_FRICTION * friction_factor)
+			
 		# Cancel jump early by not pressing jump
 		if jumped and not Input.is_action_pressed("jump"):
 			jumped = false
-		# Fastfall; if down pressed while not on floor, fall faster
+		# Fastfall; if down pressed while not on floor, fall faster. also cancels wall slide
 		if !hurt and Input.is_action_pressed("down"):
 			if swimming:
 				velocity += (FASTFALL_VELOCITY / 2).rotated(character.rotation)
 			else:
 				velocity += FASTFALL_VELOCITY.rotated(character.rotation)
+			is_wall_sliding = false
+			wall_sliding_dir = 0
 		# Swimming up
 		if !hurt and swimming and Input.is_action_pressed("up"):
 			velocity += SWIM_UP_VELOCITY.rotated(character.rotation) * delta

@@ -16,32 +16,42 @@ func _ready():
 	http.request_completed.connect(_request_completed)
 	refresh()
 
+
 func set_current_block_id(value: int) -> void:
 	_current_block_id = value
 
+
 func get_current_block_id() -> int:
 	return _current_block_id
-	
+
+
 func set_current_scene_name(value: String) -> void:
 	_current_scene_name = value
 
+
 func get_current_scene_name() -> String:
 	return _current_scene_name
-	
+
+
 func set_current_player_layer(value: String) -> void:
 	_current_player_layer = value
 
+
 func get_current_player_layer() -> String:
 	return _current_player_layer
-	
+
+
 func get_username() -> String:
 	return _username
 	
+
 func set_username(value: String) -> void:
 	_username = value
-	
+
+
 func set_used_rect(layer_name: String, value: Rect2i) -> void:
 	_used_rects[layer_name] = value
+
 
 func get_used_rect() -> Rect2i:
 	if _used_rects.has(_current_player_layer):
@@ -49,11 +59,14 @@ func get_used_rect() -> Rect2i:
 	else:
 		return Rect2i(0, 0, 0, 0)
 
+
 func set_player_position(value: Vector2) -> void:
 	_player_position = value
 
+
 func get_player_position() -> Vector2:
 	return _player_position
+
 
 func _request_completed(result, response_code, headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
