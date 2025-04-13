@@ -26,7 +26,7 @@ func _ready() -> void:
 	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
 	character_display_timer.timeout.connect(_update_character_display)
 	layer_panel.init(layers)
-	penciler.init(layers)
+	penciler.init(layers, null, editor_events)
 	level_decoder.decode(default_layers, true, layers)
 
 

@@ -3,18 +3,15 @@ extends Node2D
 signal level_event
 
 const LAYER = preload("res://layers/layer.tscn")
-@onready var bg: Node2D = get_node("../BG")
-@onready var editor_events: Node2D = get_node("../EditorEvents")
 
 
 func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	var properties = level.get("properties", {})
-	if bg:
-		# Emit background change event
-		emit_signal("level_event", {
-			"type": EditorEvents.SET_BACKGROUND,
-			"bg": properties.get("background", "")
-		})
+	# Emit background change event
+	emit_signal("level_event", {
+		"type": EditorEvents.SET_BACKGROUND,
+		"bg": properties.get("background", "")
+	})
 	Jukebox.play(properties.get("music", ""))
 	
 	for encoded_layer in level.layers:

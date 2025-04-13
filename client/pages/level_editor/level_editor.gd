@@ -33,6 +33,7 @@ var default_level: Dictionary = {
 @onready var penciler: Node2D = $Penciler
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
+@onready var bg: Node2D = $BG
 
 
 func _ready():
@@ -51,7 +52,7 @@ func _ready():
 	layers.init(tiles)
 	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
 	editor_events.set_game_client(game_client)
-	penciler.init(layers)
+	penciler.init(layers, bg, editor_events)
 	cursor.init(editor_menu, layers)
 	now_editing_panel.init(editor_menu)
 	editor_camera.target_zoom = 0.5

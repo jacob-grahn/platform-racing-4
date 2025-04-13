@@ -4,19 +4,16 @@ const CLEANUP_INTERVAL = 60  # 600 seconds (1 minutes)
 var last_cleanup_time = 0
 var tile_update_timestamps = {}
 var layers: Layers
+var bg: Node2D
 
 @onready var layer_panel: Node2D = get_node("../UI/LayerPanel")
-@onready var bg: Node2D = get_node("../BG")
-@onready var editor_events: Node2D = get_node("../EditorEvents")
 @onready var edit_cursors: Node2D = get_node("../EditorCursorLayer/EditorCursors")
 
 
-func _ready():
-	editor_events.connect("level_event", _on_level_event)
-
-
-func init(p_layers: Layers) -> void:
+func init(p_layers: Layers, p_bg, event_source) -> void:
 	layers = p_layers
+	bg = p_bg
+	event_source.connect("level_event", _on_level_event)
 
 
 func _process(delta: float) -> void:
@@ -68,14 +65,12 @@ func _on_level_event(event: Dictionary) -> void:
 			line.width = event.thickness
 
 	if event.type == EditorEvents.ADD_LAYER:
-		print("addlayer: " + event.name)
 		var layer := layers.add_layer(event.name)
 		layer.art_scale = event.get("art_scale", 1.0)
 		layer.get_node("TileMap").rotation_degrees = event.get("rotation", 0)
 		layer.set_depth(event.get("depth", 10))
 
 	if event.type == EditorEvents.DELETE_LAYER:
-		print("remlayer: " + event.name)
 		layers.remove_layer(event.name)
 
 	if event.type == EditorEvents.ADD_USERTEXT:
@@ -107,7 +102,8 @@ func _on_level_event(event: Dictionary) -> void:
 		layer.set_depth(event.depth)
 
 	if event.type == EditorEvents.SET_BACKGROUND:
-		bg.set_bg(event.bg)
+		if bg:
+			bg.set_bg(event.bg)
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:

@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b36h3oox5qxi3" path="res://pages/character_editor/pr4_character_template.png" id="4_ngwbt"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_5aycx"]
 [ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://engine/level_encoder.tscn" id="5_6whrk"]
-[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler.tscn" id="5_qytr1"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="5_qytr1"]
 [ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://engine/layer_panel/layer_panel.tscn" id="6_mhoaf"]
 
 [node name="CharacterEditor" type="Node2D"]

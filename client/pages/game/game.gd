@@ -15,6 +15,7 @@ var minimap_penciler: MinimapDrawer
 @onready var minimap_container = $UI/Minimaps
 @onready var editor_events: EditorEvents = $EditorEvents
 @onready var penciler: Node2D = $Penciler
+@onready var bg: Node2D = $BG
 
 
 func _ready():
@@ -28,7 +29,7 @@ func _ready():
 	#
 	editor_events.connect_to([level_decoder])
 	layers.init(tiles)
-	penciler.init(layers)
+	penciler.init(layers, bg, editor_events)
 	minimap_penciler.init(layers, editor_events, minimap_container)
 	
 	#

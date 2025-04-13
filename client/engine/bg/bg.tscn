@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c2pluv27fc2bv"]
 
-[ext_resource type="Script" path="res://pages/game/bg.gd" id="1_06djk"]
-[ext_resource type="Texture2D" uid="uid://bpmp38i1xaqby" path="res://pages/game/bg_1.jpg" id="2_a0gsv"]
+[ext_resource type="Script" path="res://engine/bg/bg.gd" id="1_06djk"]
+[ext_resource type="Texture2D" uid="uid://bpmp38i1xaqby" path="res://engine/bg/bg_1.jpg" id="2_a0gsv"]
 [ext_resource type="PackedScene" uid="uid://facica06ifm6" path="res://addons/fit_screen.tscn" id="3_qhur7"]
 [ext_resource type="PackedScene" uid="uid://bb2q3wohjm3yk" path="res://addons/follow_camera.tscn" id="4_simrr"]
 

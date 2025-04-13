@@ -6,8 +6,8 @@ var target_layer: String = ""
 var tile_config: Tiles
 
 
-func init(new_tile_config: Tiles) -> void:
-	tile_config = new_tile_config
+func init(p_tile_config: Tiles) -> void:
+	tile_config = p_tile_config
 	for layer in get_children():
 		layer.init(tile_config)
 

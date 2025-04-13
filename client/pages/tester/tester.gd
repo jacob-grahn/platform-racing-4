@@ -9,6 +9,7 @@ const MINIMAP_PENCILER = preload("res://engine/minimap_penciler.gd")
 @onready var minimap_container = $UI/Minimaps
 @onready var editor_events: EditorEvents = $EditorEvents
 @onready var penciler: Node2D = $Penciler
+@onready var bg: Node2D = $BG
 
 var tiles: Tiles = Tiles.new()
 var minimap_penciler: MinimapDrawer
@@ -29,7 +30,7 @@ func _on_back_pressed():
 
 
 func init(level: Dictionary):
-	penciler.init(layers)
+	penciler.init(layers, bg, editor_events)
 	minimap_penciler.init(layers, editor_events, minimap_container)
 	editor_events.connect_to([level_decoder])
 	level_decoder.decode(level, false, layers)
