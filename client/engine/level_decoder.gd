@@ -7,15 +7,16 @@ const LAYER = preload("res://layers/layer.tscn")
 
 func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	var properties = level.get("properties", {})
+	print("LevelDecoder::decode: ", properties)
 	# Emit background change event
 	emit_signal("level_event", {
 		"type": EditorEvents.SET_BACKGROUND,
-		"bg": properties.get("background", "")
+		"bg": properties.get("background", ""),
+		"fade_color": properties.get("fadeColor", "FFFFFF")
 	})
 	Jukebox.play(properties.get("music", ""))
 	
 	for encoded_layer in level.layers:
-		print("decode layer: ", encoded_layer.name)
 		# Emit add layer event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LAYER,

@@ -103,7 +103,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.SET_BACKGROUND:
 		if bg:
-			bg.set_bg(event.bg)
+			bg.set_bg(event.bg, Color(event.fade_color))
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
