@@ -72,11 +72,53 @@ func runEraser(lines []Line) []Line {
 		if line.Mode == MODE_DRAW {
 			drawLines = append(drawLines, line)
 		} else {
-			drawLines = eraseSegmentList(drawLines, line)
+			// Check if this is a point eraser (no points or just a single point at 0,0)
+			if len(line.Points) == 0 || (len(line.Points) == 1 && line.Points[0].X == 0 && line.Points[0].Y == 0) {
+				// Use special point-based erasing for point erasers
+				eraserX := line.X
+				eraserY := line.Y
+				eraserRadius := float64(line.Thickness) / 2
+				
+				drawLines = eraseWithinRadius(drawLines, eraserX, eraserY, eraserRadius)
+			} else {
+				// Regular line eraser, use line-based erasing
+				drawLines = eraseSegmentList(drawLines, line)
+			}
 		}
 	}
 
 	return drawLines
+}
+
+// eraseWithinRadius erases any line segments that are fully within a given radius from a point
+func eraseWithinRadius(drawLines []Line, x, y, radius float64) []Line {
+	var result []Line
+	
+	for _, drawLine := range drawLines {
+		// Convert to global coordinates for easier distance calculation
+		globalLine := toGlobalLine(drawLine)
+		
+		// Check if any points are outside the radius
+		pointsOutsideRadius := false
+		
+		for _, point := range globalLine.Points {
+			dx := point.X - x
+			dy := point.Y - y
+			distance := math.Sqrt(dx*dx + dy*dy)
+			
+			if distance > radius {
+				pointsOutsideRadius = true
+				break
+			}
+		}
+		
+		// If any points are outside the radius, keep the line
+		if pointsOutsideRadius {
+			result = append(result, drawLine)
+		}
+	}
+	
+	return result
 }
 
 // lineIntersects checks if two line segments intersect and returns the intersection point
@@ -168,8 +210,50 @@ func toLocalLine(globalLine Line) Line {
 func eraseSegmentList(drawLines []Line, eraseLine Line) []Line {
 	var result []Line
 	globalEraseLine := toGlobalLine(eraseLine)
+	
+	// For each drawing line, check if it should be erased
 	for _, drawLine := range drawLines {
 		globalDrawLine := toGlobalLine(drawLine)
+		
+		// Check if the entire line is within eraser width
+		wholeLineWithinEraser := true
+		
+		// Skip empty lines
+		if len(globalDrawLine.Points) < 2 {
+			continue
+		}
+		
+		// Calculate the thickness boundary
+		totalThickness := float64(drawLine.Thickness+eraseLine.Thickness) / 2
+		
+		// Check each point to see if any are outside the eraser
+		for _, point := range globalDrawLine.Points {
+			minDistanceToEraserLine := math.MaxFloat64
+			
+			// Check distance to each segment of the eraser line
+			for i := 1; i < len(globalEraseLine.Points); i++ {
+				q1 := globalEraseLine.Points[i-1]
+				q2 := globalEraseLine.Points[i]
+				
+				distance := distanceFromPointToLineSegment(point, q1, q2)
+				if distance < minDistanceToEraserLine {
+					minDistanceToEraserLine = distance
+				}
+			}
+			
+			// If any point is outside the eraser width, the whole line is not within eraser
+			if minDistanceToEraserLine > totalThickness {
+				wholeLineWithinEraser = false
+				break
+			}
+		}
+		
+		// If the entire line is within the eraser width, skip it (it's erased)
+		if wholeLineWithinEraser {
+			continue
+		}
+		
+		// Process the line normally to handle intersections
 		newGlobalLines := eraseSegment(globalDrawLine, globalEraseLine)
 		for _, newGlobalLine := range newGlobalLines {
 			if len(newGlobalLine.Points) > 0 {
@@ -183,6 +267,7 @@ func eraseSegmentList(drawLines []Line, eraseLine Line) []Line {
 
 // eraseSegment takes a draw line and an erase line, and returns an array of lines
 // representing the draw line with segments erased where the erase line intersects
+// or where segments are entirely within the eraser's path
 func eraseSegment(drawLine Line, eraseLine Line) []Line {
 	// If lines don't have at least 2 points, return original line
 	if len(drawLine.Points) < 2 || len(eraseLine.Points) < 2 {
@@ -198,6 +283,48 @@ func eraseSegment(drawLine Line, eraseLine Line) []Line {
 		p1 := drawLine.Points[i-1]
 		p2 := drawLine.Points[i]
 
+		// Calculate the total thickness to use for erasing
+		totalThickness := float64(drawLine.Thickness+eraseLine.Thickness) / 2
+		
+		// First check if this entire segment is within the eraser's path
+		segmentErased := false
+		
+		// Check if both endpoints are within eraser's path for any eraser segment
+		for j := 1; j < len(eraseLine.Points); j++ {
+			q1 := eraseLine.Points[j-1]
+			q2 := eraseLine.Points[j]
+			
+			// Check distance from both points to the eraser line segment
+			p1Distance := distanceFromPointToLineSegment(p1, q1, q2)
+			p2Distance := distanceFromPointToLineSegment(p2, q1, q2)
+			
+			// If both points are within the eraser's thickness, skip this entire segment
+			if p1Distance <= totalThickness && p2Distance <= totalThickness {
+				// End the current segment without adding this line
+				if len(currentSegment) > 1 {
+					result = append(result, Line{
+						Points:    currentSegment,
+						Thickness: drawLine.Thickness,
+						Color:     drawLine.Color,
+					})
+				}
+				
+				// Start a new segment for the next iteration
+				currentSegment = []Point{}
+				segmentErased = true
+				break
+			}
+		}
+		
+		// If segment was entirely erased, continue to the next segment
+		if segmentErased {
+			// Start with the next point for the next segment
+			if i+1 < len(drawLine.Points) {
+				currentSegment = []Point{drawLine.Points[i]}
+			}
+			continue
+		}
+
 		// Check intersection with each segment of erase line
 		for j := 1; j < len(eraseLine.Points); j++ {
 			q1 := eraseLine.Points[j-1]
@@ -205,9 +332,6 @@ func eraseSegment(drawLine Line, eraseLine Line) []Line {
 
 			intersects, intersectPoint := lineIntersects(p1, p2, q1, q2)
 			if intersects && intersectPoint != nil {
-				// Calculate the total width of intersection based on both line thicknesses
-				totalThickness := float64(drawLine.Thickness+eraseLine.Thickness) / 2
-
 				// Calculate points before and after intersection
 				beforePoint, afterPoint := calculateErasePoints(*intersectPoint, p1, p2, totalThickness)
 
@@ -226,7 +350,11 @@ func eraseSegment(drawLine Line, eraseLine Line) []Line {
 				p1 = afterPoint // Update start point for next segment
 			}
 		}
-		currentSegment = append(currentSegment, p2)
+		
+		// Only add the point if we haven't erased the segment
+		if !segmentErased {
+			currentSegment = append(currentSegment, p2)
+		}
 	}
 
 	// Add final segment if it has points
@@ -279,6 +407,50 @@ func distanceBetweenPoints(p1, p2 Point) float64 {
 	dx := p2.X - p1.X
 	dy := p2.Y - p1.Y
 	return math.Sqrt(dx*dx + dy*dy)
+}
+
+// distanceFromPointToLineSegment calculates the shortest distance from a point to a line segment
+func distanceFromPointToLineSegment(p, lineStart, lineEnd Point) float64 {
+	// Vector from line start to end
+	lineVec := Point{X: lineEnd.X - lineStart.X, Y: lineEnd.Y - lineStart.Y}
+	
+	// Vector from line start to point
+	pointVec := Point{X: p.X - lineStart.X, Y: p.Y - lineStart.Y}
+	
+	// Length of line segment
+	lineLength := math.Sqrt(lineVec.X*lineVec.X + lineVec.Y*lineVec.Y)
+	
+	// If line segment has zero length, return distance to start point
+	if lineLength < 1e-10 {
+		return distanceBetweenPoints(p, lineStart)
+	}
+	
+	// Normalize line vector
+	lineVec.X /= lineLength
+	lineVec.Y /= lineLength
+	
+	// Project point vector onto line vector to get the projection distance along the line
+	projectionDistance := pointVec.X*lineVec.X + pointVec.Y*lineVec.Y
+	
+	var closestPoint Point
+	
+	// Check if projection falls outside the line segment
+	if projectionDistance < 0 {
+		// Closest point is line start
+		closestPoint = lineStart
+	} else if projectionDistance > lineLength {
+		// Closest point is line end
+		closestPoint = lineEnd
+	} else {
+		// Closest point is on the line segment
+		closestPoint = Point{
+			X: lineStart.X + projectionDistance*lineVec.X,
+			Y: lineStart.Y + projectionDistance*lineVec.Y,
+		}
+	}
+	
+	// Calculate distance from point to closest point on line segment
+	return distanceBetweenPoints(p, closestPoint)
 }
 
 // leftPad pads the input string `s` with the character `padChar` on the left
