@@ -86,7 +86,8 @@ func encode_usertext(node: Node2D) -> Array:
 			"font": usertextbox.usertext_font,
 			"font_size": usertextbox.get_node("UserText").get("theme_override_font_sizes/font_size"),
 			"text_width": usertextbox.get_node("UserText").size.x,
-			"text_height": usertextbox.get_node("UserText").size.y
+			"text_height": usertextbox.get_node("UserText").size.y,
+			"text_rotation": usertextbox.rotation
 		}
 		usertextboxobjects.push_back(usertextboxobject)
 	return usertextboxobjects
