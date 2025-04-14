@@ -37,7 +37,7 @@ func parseArt(artArr []string) Layer {
 
 		switch typeCmd {
 		case "c":
-			color = content
+			color = leftPad(content, 6, '0')
 		case "t":
 			thick, _ := strconv.Atoi(content)
 			thickness = thick
@@ -279,4 +279,17 @@ func distanceBetweenPoints(p1, p2 Point) float64 {
 	dx := p2.X - p1.X
 	dy := p2.Y - p1.Y
 	return math.Sqrt(dx*dx + dy*dy)
+}
+
+// leftPad pads the input string `s` with the character `padChar` on the left
+// until it reaches the specified `length`.
+func leftPad(s string, length int, padChar rune) string {
+	if len(s) >= length {
+		return s
+	}
+	padding := make([]rune, length-len(s))
+	for i := range padding {
+		padding[i] = padChar
+	}
+	return string(padding) + s
 }
