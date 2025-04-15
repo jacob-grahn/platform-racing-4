@@ -52,8 +52,20 @@ func _on_level_event(event: Dictionary) -> void:
 		line.position = Vector2(event.position.x, event.position.y)
 		
 		var converted_points = []
+		
+		# if the first point is not 0,0, add 0,0 as the first point
+		if len(event.points) == 0 || event.points[0].x != 0 || event.points[0].y != 0:
+			converted_points.append(Vector2.ZERO)
+		
+		# convert point objects into Vector2
 		for point_dict in event.points:
 			converted_points.append(Vector2(point_dict.x, point_dict.y))
+		
+		# if there is only one point, add another one. Need at least two points to draw a line
+		if len(converted_points) == 1:
+			converted_points.append(converted_points[0] + Vector2(0.1, 0.1))
+		
+		#
 		line.points = converted_points
 		
 		# Set line color and width if provided in the event

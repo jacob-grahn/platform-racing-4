@@ -53,8 +53,6 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 
 func decode_lines(layer_name: String, objects: Array) -> void:
 	for object in objects:
-		if !object.get("points"):
-			continue
 			
 		var points_array = []
 		for point in object.points:
