@@ -73,9 +73,14 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 
 func decode_usertextboxes(layer_name: String, usertextboxobjects: Array, isEditing: bool) -> void:
 	for usertextboxobject in usertextboxobjects:
-		if "font" not in usertextboxobject.keys(): #Failsafe for old text. May be removed in future.
+		
+		#Failsafes for old text.
+		if "font" not in usertextboxobject.keys():
 			usertextboxobject.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
-			
+		
+		if "text_rotation" not in usertextboxobject.keys():
+			usertextboxobject.text_rotation = 0
+		
 		# Emit add usertext event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_USERTEXT,
@@ -86,5 +91,6 @@ func decode_usertextboxes(layer_name: String, usertextboxobjects: Array, isEditi
 			"font_size": usertextboxobject.font_size,
 			"text_width": usertextboxobject.text_width,
 			"text_height": usertextboxobject.text_height,
+			"text_rotation": usertextboxobject.text_rotation,
 			"is_editing": isEditing
 		})

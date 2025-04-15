@@ -80,6 +80,7 @@ func _on_level_event(event: Dictionary) -> void:
 		usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
 		usertextboxes.add_child(usertextbox)
 		usertextbox.position = Vector2(event.position.x, event.position.y)
+		usertextbox.rotation = event.text_rotation
 		
 		# Handle additional properties if provided
 		if event.has("text_width") and event.has("text_height"):

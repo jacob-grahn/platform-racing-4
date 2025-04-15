@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cocjq14xagypf"]
+[gd_scene load_steps=6 format=3 uid="uid://cocjq14xagypf"]
 
 [ext_resource type="Script" path="res://engine/textbox/user_textbox.gd" id="1_vb1cq"]
 [ext_resource type="Texture2D" uid="uid://bsqgdwle7h1rl" path="res://engine/textbox/move_text_image.png" id="2_hh26p"]
 [ext_resource type="Texture2D" uid="uid://c5qvre5ew5du2" path="res://engine/textbox/delete_text_image.png" id="3_5bu24"]
 [ext_resource type="Texture2D" uid="uid://thuvioj0d2cd" path="res://engine/textbox/resize_text_image.png" id="4_hxna5"]
+[ext_resource type="Texture2D" uid="uid://cdlvenknhuhgv" path="res://engine/textbox/rotate_text_image.png" id="5_twm0i"]
 
 [node name="UserTextbox" type="Control"]
 layout_mode = 3
@@ -16,7 +17,12 @@ offset_right = 600.0
 offset_bottom = 200.0
 text = "Default Text!"
 
-[node name="MoveTextButton" type="TextureButton" parent="."]
+[node name="TextModifierButtons" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MoveTextButton" type="TextureButton" parent="TextModifierButtons"]
 layout_mode = 0
 offset_left = -64.0
 offset_top = -64.0
@@ -24,7 +30,7 @@ texture_normal = ExtResource("2_hh26p")
 texture_pressed = ExtResource("2_hh26p")
 texture_hover = ExtResource("2_hh26p")
 
-[node name="DeleteTextButton" type="TextureButton" parent="."]
+[node name="DeleteTextButton" type="TextureButton" parent="TextModifierButtons"]
 layout_mode = 0
 offset_left = 600.0
 offset_top = -64.0
@@ -33,7 +39,7 @@ texture_normal = ExtResource("3_5bu24")
 texture_pressed = ExtResource("3_5bu24")
 texture_hover = ExtResource("3_5bu24")
 
-[node name="ResizeTextButton" type="TextureButton" parent="."]
+[node name="ResizeTextButton" type="TextureButton" parent="TextModifierButtons"]
 layout_mode = 0
 offset_left = 600.0
 offset_top = 200.0
@@ -43,16 +49,29 @@ texture_normal = ExtResource("4_hxna5")
 texture_pressed = ExtResource("4_hxna5")
 texture_hover = ExtResource("4_hxna5")
 
+[node name="RotateTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = 268.0
+offset_top = -64.0
+offset_right = 332.0
+texture_normal = ExtResource("5_twm0i")
+texture_pressed = ExtResource("5_twm0i")
+texture_hover = ExtResource("5_twm0i")
+
 [connection signal="focus_entered" from="UserText" to="." method="_on_user_text_focus_entered"]
 [connection signal="focus_exited" from="UserText" to="." method="_on_user_text_focus_exited"]
-[connection signal="button_down" from="MoveTextButton" to="." method="_on_move_text_button_button_down"]
-[connection signal="button_up" from="MoveTextButton" to="." method="_on_move_text_button_button_up"]
-[connection signal="focus_entered" from="MoveTextButton" to="." method="_on_move_text_button_focus_entered"]
-[connection signal="focus_exited" from="MoveTextButton" to="." method="_on_move_text_button_focus_exited"]
-[connection signal="button_up" from="DeleteTextButton" to="." method="_on_delete_text_button_button_up"]
-[connection signal="focus_entered" from="DeleteTextButton" to="." method="_on_delete_text_button_focus_entered"]
-[connection signal="focus_exited" from="DeleteTextButton" to="." method="_on_delete_text_button_focus_exited"]
-[connection signal="button_down" from="ResizeTextButton" to="." method="_on_resize_text_button_button_down"]
-[connection signal="button_up" from="ResizeTextButton" to="." method="_on_resize_text_button_button_up"]
-[connection signal="focus_entered" from="ResizeTextButton" to="." method="_on_resize_text_button_focus_entered"]
-[connection signal="focus_exited" from="ResizeTextButton" to="." method="_on_resize_text_button_focus_exited"]
+[connection signal="button_down" from="TextModifierButtons/MoveTextButton" to="." method="_on_move_text_button_button_down"]
+[connection signal="button_up" from="TextModifierButtons/MoveTextButton" to="." method="_on_move_text_button_button_up"]
+[connection signal="focus_entered" from="TextModifierButtons/MoveTextButton" to="." method="_on_move_text_button_focus_entered"]
+[connection signal="focus_exited" from="TextModifierButtons/MoveTextButton" to="." method="_on_move_text_button_focus_exited"]
+[connection signal="button_up" from="TextModifierButtons/DeleteTextButton" to="." method="_on_delete_text_button_button_up"]
+[connection signal="focus_entered" from="TextModifierButtons/DeleteTextButton" to="." method="_on_delete_text_button_focus_entered"]
+[connection signal="focus_exited" from="TextModifierButtons/DeleteTextButton" to="." method="_on_delete_text_button_focus_exited"]
+[connection signal="button_down" from="TextModifierButtons/ResizeTextButton" to="." method="_on_resize_text_button_button_down"]
+[connection signal="button_up" from="TextModifierButtons/ResizeTextButton" to="." method="_on_resize_text_button_button_up"]
+[connection signal="focus_entered" from="TextModifierButtons/ResizeTextButton" to="." method="_on_resize_text_button_focus_entered"]
+[connection signal="focus_exited" from="TextModifierButtons/ResizeTextButton" to="." method="_on_resize_text_button_focus_exited"]
+[connection signal="button_down" from="TextModifierButtons/RotateTextButton" to="." method="_on_rotate_text_button_button_down"]
+[connection signal="button_up" from="TextModifierButtons/RotateTextButton" to="." method="_on_rotate_text_button_button_up"]
+[connection signal="focus_entered" from="TextModifierButtons/RotateTextButton" to="." method="_on_rotate_text_button_focus_entered"]
+[connection signal="focus_exited" from="TextModifierButtons/RotateTextButton" to="." method="_on_rotate_text_button_focus_exited"]
