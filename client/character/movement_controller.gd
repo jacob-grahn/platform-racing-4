@@ -133,7 +133,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			wall_slide_friction_timer = WALL_SLIDE_FRICTION_DECAY_TIME
 
 	# Handle regular jump
-	elif not hurt and can_jump and Input.is_action_just_pressed("jump"):
+	elif not hurt and can_jump and Input.is_action_pressed("jump"):
 		if is_crouching:
 			_bump_tile_covering_high_area(character)
 		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
