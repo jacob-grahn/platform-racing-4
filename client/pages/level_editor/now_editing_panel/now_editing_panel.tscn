@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://u216ejsni2bv"]
 
-[ext_resource type="Script" path="res://pages/level_editor/now_editing_panel/now_editing_panel.gd" id="1_54jr2"]
+[ext_resource type="Script" uid="uid://dk6hbexlmxbby" path="res://pages/level_editor/now_editing_panel/now_editing_panel.gd" id="1_54jr2"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_7a5oo"]
-[ext_resource type="Script" path="res://pages/level_editor/now_editing_panel/chat_scroll_container.gd" id="3_0vqhh"]
+[ext_resource type="Script" uid="uid://dnafnyktx78js" path="res://pages/level_editor/now_editing_panel/chat_scroll_container.gd" id="3_0vqhh"]
 [ext_resource type="Texture2D" uid="uid://ggb2checdvuh" path="res://pages/level_editor/now_editing_panel/unread_red_dot.png" id="4_rnkkq"]
 
 [node name="NowEditingPanel" type="Node2D"]
