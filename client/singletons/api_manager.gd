@@ -12,7 +12,7 @@ func get_base_ws_url() -> String:
 		return "wss://" + hostname + "/gameserver"
 		
 	if ("--local" in OS.get_cmdline_args() 
-			or OS.is_debug_build() 
+			or OS.is_debug_build()
 			or OS.get_environment("PR_ENV") == "local" 
 			or OS.has_feature("editor")):
 		#return "ws://localhost:8081/gameserver"
