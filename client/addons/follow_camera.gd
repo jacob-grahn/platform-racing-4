@@ -14,3 +14,4 @@ func _process(delta):
 	if camera:
 		parent.position = camera.get_screen_center_position()
 		parent.scale = Vector2.ONE / camera.zoom
+		
