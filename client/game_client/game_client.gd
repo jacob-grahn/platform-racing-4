@@ -55,11 +55,10 @@ func _on_connect_editor() -> void:
 	editor_clear_button = $"../LEVEL_EDITOR/UI/Clear"
 	
 	editor_events.connect("send_level_event", _on_send_level_event)
-
+	
 func _on_disconnect_editor() -> void:
 	if editor_events:
 		editor_events.disconnect("send_level_event", _on_send_level_event)
-	
 	popup_panel = null
 	host_success_panel = null
 	editor_events = null
