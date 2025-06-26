@@ -2,6 +2,7 @@ extends Node2D
 class_name LevelEditor
 
 static var current_level: Dictionary
+static var current_level_description: String
 
 var tiles: Tiles = Tiles.new()
 var default_level: Dictionary = {
@@ -27,6 +28,7 @@ var default_level: Dictionary = {
 @onready var save_panel = $UI/SavePanel
 @onready var load_panel = $UI/LoadPanel
 @onready var explore_panel = $UI/ExplorePanel
+@onready var confirm_delete_panel = $UI/ConfirmDeletePanel
 @onready var cursor: Cursor = $UI/Cursor
 @onready var http_request = $HTTPRequest
 @onready var editor_events: EditorEvents = $EditorEvents
@@ -37,7 +39,6 @@ var default_level: Dictionary = {
 
 
 func _ready():
-	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
 	explore.connect("pressed", _on_explore_pressed)
 	load.connect("pressed", _on_load_pressed)
@@ -71,6 +72,7 @@ func _ready():
 			level_decoder.decode(default_level, true, layers)
 
 	layer_panel.init(layers)
+	Jukebox.end_music = true
 
 
 func _on_back_pressed():
@@ -82,12 +84,14 @@ func _on_back_pressed():
 func _on_explore_pressed():
 	save_panel.close()
 	load_panel.close()
+	confirm_delete_panel.close()
 	explore_panel.initialize()
 
 
 func _on_load_pressed():
 	explore_panel.close()
 	save_panel.close()
+	confirm_delete_panel.close()
 	load_panel.initialize()
 
 
@@ -95,6 +99,7 @@ func _on_save_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	explore_panel.close()
 	load_panel.close()
+	confirm_delete_panel.close()
 	save_panel.initialize(LevelEditor.current_level)
 
 
@@ -106,7 +111,10 @@ func _on_test_pressed():
 
 
 func _on_clear_pressed():
-	_on_level_load("")
+	save_panel.close()
+	load_panel.close()
+	explore_panel.close()
+	confirm_delete_panel.initialize(self, "clear")
 
 
 func _on_level_load(level_name = ""):
