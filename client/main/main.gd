@@ -38,42 +38,51 @@ func _ready():
 		return
 
 	
-	set_scene(TITLE)
+	await set_scene(TITLE)
 
 
 func _run_tests():
 	# Load the game scene and let it run for a few seconds
 	Game.pr2_level_id = "50815"
-	_set_scene(GAME)
+	await _set_scene(GAME)
 	await get_tree().create_timer(3.0).timeout
 
 	# Unload the game scene and load the level editor
-	var level_editor = _set_scene(LEVEL_EDITOR)
+	var level_editor = await _set_scene(LEVEL_EDITOR)
 	await get_tree().process_frame
 	await get_tree().create_timer(2.0).timeout
 	
 	# Click the test button
-	level_editor._on_test_pressed()
+	await level_editor._on_test_pressed()
 	await get_tree().create_timer(3.0).timeout
 
 	# Quit the application
 	get_tree().quit()
 
 
-static func set_scene(scene_name: String) -> Node:
+static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 	if !instance:
 		return null
-	return instance._set_scene(scene_name)
+	return await instance._set_scene(scene_name, data)
 
 
-func _set_scene(scene_name: String) -> Node:
+func _set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 	if current_scene:
+		Global.clear()
 		current_scene.queue_free()
 	current_scene = scenes[scene_name].instantiate()
 	current_scene.name = scene_name
 	add_child(current_scene)
 	
+	await get_tree().process_frame
+	
 	if scene_name == LEVEL_EDITOR:
 		game_client._on_connect_editor()
+	
+	if scene_name == TESTER:
+		if data.has("level"):
+			current_scene.init(data.level)
+
+	Global.spawn = current_scene
 		
 	return current_scene

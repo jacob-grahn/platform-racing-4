@@ -43,7 +43,7 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 		"color": color
 	}
 	var next_position = get_next_position(source_position)
-	var layers = tilemap.get_node("../../")
+	var layers = Global.layers
 	var layer = layers.get_node(next_position.layer_name)
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tilemap.global_rotation)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tilemap.global_rotation)
@@ -56,7 +56,7 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	
 	Session.set_current_player_layer(next_position.layer_name)
-	var minimap_container = tilemap.get_node("../../../UI/Minimaps")
+	var minimap_container = Global.minimaps
 	for child in minimap_container.get_children():
 		child.visible = child.name == next_position.layer_name
 

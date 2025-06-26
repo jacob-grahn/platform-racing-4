@@ -5,8 +5,8 @@ class_name RocketLauncherItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-@onready var character = get_node("../../..")
 @onready var spawn = get_node("../../../../../Projectiles")
+var character: Character
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)

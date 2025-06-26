@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Global="*res://singletons/global.gd"
 ApiManager="*res://singletons/api_manager.gd"
 CoordinateUtils="*res://singletons/coordinate_utils.gd"
 FileManager="*res://singletons/file_manager.gd"

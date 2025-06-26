@@ -45,6 +45,8 @@ func render() -> void:
 	clear()
 	var layer_array = layers.get_children()
 	for layer in layer_array:
+		if not layer is Layer:
+			continue
 		var row = LAYER_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
 		row.get_node("Label").text = layer.name
@@ -64,7 +66,7 @@ func render() -> void:
 
 func update_pickers() -> void:
 	var layer = layers.get_node(layers.get_target_layer())
-	if layer:
+	if layer and layer is Layer:
 		depth_picker.set_value(layer.depth)
 		rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
 

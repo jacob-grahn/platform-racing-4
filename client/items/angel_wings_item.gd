@@ -1,7 +1,7 @@
 extends Node2D
 class_name AngelWingsItem
 
-@onready var character = get_node("../../..")
+var character: Character
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations

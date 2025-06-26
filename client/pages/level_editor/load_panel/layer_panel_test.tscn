@@ -12,5 +12,3 @@ script = ExtResource("1_yhgpd")
 [node name="Layers" parent="." instance=ExtResource("3_26ab8")]
 
 [node name="Art 1" type="ParallaxBackground" parent="Layers"]
-
-[node name="Blocks" type="ParallaxBackground" parent="Layers"]

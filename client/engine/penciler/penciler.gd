@@ -6,8 +6,8 @@ var tile_update_timestamps = {}
 var layers: Layers
 var bg: Node2D
 
-@onready var layer_panel: Node2D = get_node_or_null("../UI/LayerPanel")
-@onready var edit_cursors: Node2D = get_node_or_null("../EditorCursorLayer/EditorCursors")
+@onready var layer_panel: Node2D = Global.layer_panel
+@onready var edit_cursors: Node2D = Global.editor_cursors
 
 
 func init(p_layers: Layers, p_bg, event_source) -> void:

@@ -1,7 +1,7 @@
 extends Node2D
 class_name SpeedBurstItem
 
-@onready var character = get_node("../../..")
+var character: Character
 var using: bool = false
 var remove: bool = false
 var timer: float = 0.0

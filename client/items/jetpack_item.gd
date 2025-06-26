@@ -5,7 +5,7 @@ class_name JetpackItem
 @onready var JetpackFire1 = $JetpackFire1
 @onready var Exhaust2 = $Exhaust2
 @onready var JetpackFire2 = $JetpackFire2
-@onready var character = get_node("../../..")
+var character: Character
 var using: bool = false
 var fuelon: bool = false
 var remove: bool = false

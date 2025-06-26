@@ -9,7 +9,8 @@ var tile_config: Tiles
 func init(p_tile_config: Tiles) -> void:
 	tile_config = p_tile_config
 	for layer in get_children():
-		layer.init(tile_config)
+		if layer is Layer:
+			layer.init(tile_config)
 
 
 func clear() -> void:

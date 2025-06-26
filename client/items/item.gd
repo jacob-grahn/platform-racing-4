@@ -9,6 +9,8 @@ extends Node2D
 # todo: make this better
 @onready var item_holder: Node2D = get_node("../Display/ItemHolder")
 
+var character: Character
+
 const RANDOM_BLOCK_ITEM := preload("res://items/random_block_item.tscn")
 const ANGEL_WINGS_ITEM := preload("res://items/angel_wings_item.tscn")
 const BLACK_HOLE_ITEM := preload("res://items/black_hole_item.tscn")
@@ -46,7 +48,8 @@ func _physics_process(delta: float) -> void:
 
 # tada, the item system, not all items are fully implemented at the moment.
 # it's also slightly unoptimized, i think.
-func set_item_id(item_id: int) -> void:
+func set_item_id(item_id: int, p_character: Character) -> void:
+	character = p_character
 	if item:
 		remove_item()
 	item = null
@@ -56,76 +59,91 @@ func set_item_id(item_id: int) -> void:
 			uses = 1
 			item = RANDOM_BLOCK_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		1:
 			has_force = true
 			uses = 3
 			item = ANGEL_WINGS_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		2:
 			has_force = false
 			uses = 1
 			item = BLACK_HOLE_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		3:
 			has_force = false
 			uses = 3
 			item = ICE_WAVE_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		4:
 			has_force = true
 			uses = 1
 			item = JETPACK_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		5:
 			has_force = false
 			uses = 3
 			item = LASER_GUN_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		6:
 			has_force = false
 			uses = 1
 			item = LIGHTNING_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		7:
 			has_force = false
 			uses = 1
 			item = PORTABLE_BLOCK_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		8:
 			has_force = false
 			uses = 1
 			item = PORTABLE_MINE_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		9:
 			has_force = false
 			uses = 1
 			item = ROCKET_LAUNCHER_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		10:
 			has_force = false
 			uses = 1
 			item = SHIELD_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		11:
 			has_force = true
 			uses = 1
 			item = SPEED_BURST_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		12:
 			has_force = false
 			uses = 1
 			item = SUPER_JUMP_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		13:
 			has_force = false
 			uses = 3
 			item = SWORD_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 		14:
 			has_force = false
 			uses = 1
 			item = TELEPORT_ITEM.instantiate()
 			item_holder.add_child(item)
+			item.character = character
 
 
 func use(delta: float) -> void:

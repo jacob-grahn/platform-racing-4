@@ -1,11 +1,11 @@
 extends Node2D
 
 var chunk_size = Vector2i(10, 10)
-@onready var bg: Node2D = get_node("../BG")
 @onready var layers: Node2D = get_node("../Layers")
 
 
 func encode() -> Dictionary:
+	var bg = get_node("../BG")
 	var level = {
 		"layers": [],
 		"properties": {
@@ -16,15 +16,16 @@ func encode() -> Dictionary:
 		}
 	}
 	for group_layer in layers.get_children():
-		var tile_layer = {
-			"name": group_layer.name,
-			"chunks": encode_chunks(group_layer.get_node("TileMap")),
-			"lines": encode_lines(group_layer.get_node("Lines")),
-			"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
-			"rotation": group_layer.get_node("TileMap").rotation_degrees,
-			"depth": group_layer.depth
-		}
-		level.layers.push_back(tile_layer)
+		if group_layer is Layer:
+			var tile_layer = {
+				"name": group_layer.name,
+				"chunks": encode_chunks(group_layer.get_node("TileMap")),
+				"lines": encode_lines(group_layer.get_node("Lines")),
+				"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
+				"rotation": group_layer.get_node("TileMap").rotation_degrees,
+				"depth": group_layer.depth
+			}
+			level.layers.push_back(tile_layer)
 	return level
 
 
