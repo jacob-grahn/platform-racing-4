@@ -2,9 +2,12 @@ extends Node
 
 var off_volume_db = -30
 var on_volume_db = 0
-var db_per_sec = 15
+var db_per_sec = 30
 var current_stream = null
 var next_stream = null
+var stop_music: bool = false
+var mute_music: bool = false
+var end_music: bool = false
 var song_url: String = ''
 var song_id: String = ''
 var audio_loader = AudioLoader.new()
@@ -73,6 +76,7 @@ func play(slug: String):
 
 func play_file(filepath: String):
 	next_stream = audio_loader.loadfile(filepath)
+	end_music = true
 
 
 func _song_request_completed(result, response_code, headers, body):
@@ -107,7 +111,20 @@ func _url_to_file(url: String) -> String:
 
 
 func _process(delta):
-	if !next_stream:
+	if mute_music:
+		audio.volume_db = off_volume_db
+	if stop_music:
+		audio.volume_db = off_volume_db
+		if next_stream:
+			audio.stream = next_stream
+			audio.play()
+			current_stream = next_stream
+			next_stream = null
+		else:
+			audio.stop()
+		stop_music = false
+		end_music = false
+	elif !next_stream and !end_music:
 		if audio.volume_db < on_volume_db:
 			audio.volume_db += db_per_sec * delta
 		if audio.volume_db > on_volume_db:
@@ -118,7 +135,12 @@ func _process(delta):
 			audio.volume_db -= db_per_sec * delta
 		if audio.volume_db <= off_volume_db:
 			audio.volume_db = off_volume_db
-			audio.stream = next_stream
-			audio.play()
-			current_stream = next_stream
-			next_stream = null
+			if next_stream:
+				audio.stream = next_stream
+				audio.play()
+				current_stream = next_stream
+				next_stream = null
+			else:
+				audio.stop()
+			stop_music = false
+			end_music = false
