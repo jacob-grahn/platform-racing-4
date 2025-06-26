@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://h5onwupb7ju1"]
 
-[ext_resource type="Script" path="res://layers/layer.gd" id="1_wroxk"]
+[ext_resource type="Script" uid="uid://b7k4o7pgxsjqo" path="res://layers/layer.gd" id="1_wroxk"]
 
 [node name="Layer" type="ParallaxBackground"]
 follow_viewport_enabled = true
@@ -20,3 +20,7 @@ format = 2
 [node name="Text" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
