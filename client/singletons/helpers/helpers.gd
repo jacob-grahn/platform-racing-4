@@ -1,4 +1,4 @@
-extends Node2D
+extends Object
 ## Utility singleton with various helper functions for the game
 ##
 ## Provides a collection of helper functions for common operations

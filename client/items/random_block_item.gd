@@ -24,7 +24,7 @@ func _set_random_tile_id() -> void:
 
 func _set_tile_id(new_tile_id: int) -> void:
 	tile_id = new_tile_id
-	var atlas_coords: Vector2i = Helpers.to_atlas_coords(tile_id)
+	var atlas_coords: Vector2i = Globals.Helpers.to_atlas_coords(tile_id)
 	var atlas_position: Vector2i = atlas_coords * Settings.tile_size
 	tile_atlas.region_rect = Rect2i(atlas_position, Settings.tile_size)
 
@@ -35,7 +35,7 @@ func activate_item():
 	var global_position = to_global(Vector2(0, 0))
 	var tilemap_position = tile_map.to_local(global_position)
 	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size
-	var atlas_coords: Vector2i = Helpers.to_atlas_coords(tile_id)
+	var atlas_coords: Vector2i = Globals.Helpers.to_atlas_coords(tile_id)
 	tile_map.set_cell(0, coords, 0, atlas_coords)
 	remove = true
 	

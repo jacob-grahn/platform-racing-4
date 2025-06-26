@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 var off_volume_db = -30
 var on_volume_db = 0
@@ -17,12 +17,18 @@ var music_list = {
 		"group": "2024"
 	}
 }
-@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
-@onready var song_request: HTTPRequest = $SongRequest
-@onready var list_request: HTTPRequest = $ListRequest
+var audio: AudioStreamPlayer
+var song_request: HTTPRequest
+var list_request: HTTPRequest
 
 
 func _ready():
+	audio = AudioStreamPlayer.new()
+	song_request = HTTPRequest.new()
+	list_request = HTTPRequest.new()
+	add_child(audio)
+	add_child(song_request)
+	add_child(list_request)
 	song_request.request_completed.connect(_song_request_completed)
 	list_request.request_completed.connect(_list_request_completed)
 	list_request.request(base_url + "/00_music_list.json")

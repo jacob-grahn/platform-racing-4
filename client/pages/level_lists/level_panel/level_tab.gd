@@ -38,7 +38,7 @@ func close() -> void:
 
 
 func perform_paginated_request() -> void:
-	var url = Helpers.get_base_url() + "/files/lists/" + level_tab_name + "/" + str(current_page)
+	var url = Globals.Helpers.get_base_url() + "/files/lists/" + level_tab_name + "/" + str(current_page)
 	var error = $HTTPRequest.request(url)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")

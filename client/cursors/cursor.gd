@@ -62,7 +62,7 @@ func _on_control_event(event: Dictionary) -> void:
 		if event.tool == "blocks":
 			current_cursor = block_cursor
 		else:
-			Session.set_current_block_id(0)
+			Globals.Session.set_current_block_id(0)
 			
 		if event.tool == "draw":
 			current_cursor = draw_cursor
@@ -83,4 +83,3 @@ func _on_control_event(event: Dictionary) -> void:
 
 func _on_subcursor_event(event: Dictionary) -> void:
 	level_event.emit(event)
-	

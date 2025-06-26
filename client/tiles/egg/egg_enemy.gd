@@ -41,6 +41,6 @@ func detect_players():
 
 
 func set_depth(depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
+	var solid_layer = Globals.Helpers.to_bitmask_32((depth * 2) - 1)
 	collision_layer = solid_layer
 	collision_mask = solid_layer

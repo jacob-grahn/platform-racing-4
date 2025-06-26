@@ -55,7 +55,7 @@ func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
 	player.set_depth(layer.depth)
 	throttle_teleport(str(player.name), next_position.layer_name, next_position.coords)
 	
-	Session.set_current_player_layer(next_position.layer_name)
+	Globals.Session.set_current_player_layer(next_position.layer_name)
 	var minimap_container = tilemap.get_node("../../../UI/Minimaps")
 	for child in minimap_container.get_children():
 		child.visible = child.name == next_position.layer_name
@@ -106,4 +106,3 @@ func get_next_position(source_position: Dictionary) -> Dictionary:
 	
 	# return the next match
 	return positions[k]
-	

@@ -38,7 +38,7 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	
 	for tile_id in tiles.map:
 		var tile: Tile = tiles.map[tile_id]
-		var atlas_coords: Vector2i = Helpers.to_atlas_coords(int(tile_id))
+		var atlas_coords: Vector2i = Globals.Helpers.to_atlas_coords(int(tile_id))
 		var polygon: PackedVector2Array = PackedVector2Array([
 			Vector2(-Settings.tile_size_half.x, -Settings.tile_size_half.y),
 			Vector2(Settings.tile_size_half.x, -Settings.tile_size_half.y),
@@ -78,10 +78,10 @@ func set_depth(p_depth: int) -> void:
 	
 	var tile_set = tile_map.tile_set
 	if tile_set:
-		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
-		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))
-		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
-		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))
+		tile_set.set_physics_layer_collision_layer(0, Globals.Helpers.to_bitmask_32((depth * 2) - 1))
+		tile_set.set_physics_layer_collision_mask(0, Globals.Helpers.to_bitmask_32((depth * 2) - 1))
+		tile_set.set_physics_layer_collision_layer(1, Globals.Helpers.to_bitmask_32(depth * 2))
+		tile_set.set_physics_layer_collision_mask(1, Globals.Helpers.to_bitmask_32(depth * 2))
 	
 	# pr2 has an art layer that scrolls at 25% scale
 	# this hack treats depth 2 as 2.5 instead so imported levels look the same

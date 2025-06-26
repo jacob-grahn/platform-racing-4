@@ -17,7 +17,7 @@ func _ready():
 	self.visible = false
 	
 func initialize() -> void:
-	var error = http_request.request(Helpers.get_base_url() + "/levels")
+	var error = http_request.request(Globals.Helpers.get_base_url() + "/levels")
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 	else:

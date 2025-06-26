@@ -8,7 +8,7 @@ signal request_editor_load
 const OPEN = "open"
 const CLOSED = "closed"
 
-var websocket_url = Helpers.get_base_ws_url()
+var websocket_url = Globals.Helpers.get_base_ws_url()
 var is_live_editing = false
 var current_module = "OnlineModule"
 var is_host = false
@@ -59,7 +59,7 @@ func _on_connect_editor() -> void:
 	if !isFirstOpenEditor:
 		var data_room = {
 			"module": "RequestRoomModule",
-			"id": Session.get_username(),
+			"id": Globals.Session.get_username(),
 			"ms": 5938,
 			"room" : room,
 			"ret": true,
@@ -67,17 +67,17 @@ func _on_connect_editor() -> void:
 		send_queue.push_back(data_room)
 	
 	isFirstOpenEditor = false
-	editor_cursors.add_new_cursor(Session.get_username())
+	editor_cursors.add_new_cursor(Globals.Session.get_username())
 	toggle_editor_buttons(is_live_editing)
 	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
 		return
 	
-	event.user_id = Session.get_username()
+	event.user_id = Globals.Session.get_username()
 	var data = {
 		"module": "EditorModule",
-		"id": Session.get_username(),
+		"id": Globals.Session.get_username(),
 		"ms": 5938,
 		"room" : room,
 		"ret": true,
@@ -88,7 +88,7 @@ func _on_send_level_event(event: Dictionary) -> void:
 func quit(room_name: String) -> void:
 	var data = {
 		"module": "QuitEditorModule",
-		"id": Session.get_username(),
+		"id": Globals.Session.get_username(),
 		"ms": 5938,
 		"room" : room_name,
 		"ret": true,
@@ -123,7 +123,7 @@ func _send_chat_message(message: String) -> void:
 	if is_live_editing:
 		var data = {
 			"module": "ChatModule",
-			"id": Session.get_username(),
+			"id": Globals.Session.get_username(),
 			"room" : room,
 			"ret": true,
 			"chat_message": message
@@ -142,7 +142,7 @@ func _send_cursor_update() -> void:
 		
 		var data = {
 			"module": "CursorEditorModule",
-			"id": Session.get_username(),
+			"id": Globals.Session.get_username(),
 			"ms": 5938,
 			"room" : room,
 			"ret": true,
@@ -152,7 +152,7 @@ func _send_cursor_update() -> void:
 					"y": mouse_position.y
 				},
 				"layer": layers.get_target_layer(),
-				"block_id": Session.get_current_block_id()
+				"block_id": Globals.Session.get_current_block_id()
 			}
 		}
 		send_queue.push_back(data)
@@ -180,7 +180,7 @@ func _attempt_connect(isReconnect: bool) -> void:
 		
 	var data = {
 		"module": current_module,
-		"id": Session.get_username(),
+		"id": Globals.Session.get_username(),
 		"ms": 5938,
 		"room" : room,
 		"ret": true
@@ -201,7 +201,7 @@ func _process(delta: float) -> void:
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 			if editor_cursors && is_instance_valid(editor_cursors):
-				editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
+				editor_cursors.update_cursor_position_local(mouse_position, Globals.Session.get_current_block_id())
 		
 	# only proceed if socket exists
 	if !socket:
@@ -218,11 +218,11 @@ func _process(delta: float) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
 		for update in send_queue:
 			socket.send_text(JSON.stringify(update))
-			#print("send ws (", Session.get_username(), ") :", JSON.stringify(update))
+			#print("send ws (", Globals.Session.get_username(), ") :", JSON.stringify(update))
 			send_queue.clear()
 		while socket.get_available_packet_count():
 			var packet = socket.get_packet().get_string_from_utf8()
-			#print("receive ws (", Session.get_username(), ") :", packet)
+			#print("receive ws (", Globals.Session.get_username(), ") :", packet)
 			var parsed_packet = JSON.parse_string(packet)
 			
 			if parsed_packet == null:
@@ -232,13 +232,13 @@ func _process(delta: float) -> void:
 				if is_live_editing:
 					return
 				
-				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
+				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Globals.Session.get_username():
 					popup_panel.initialize("Room not found", "Room: " + parsed_packet.room)
 			elif parsed_packet.error_message == "RoomExistsErrorMessage":
 				if is_live_editing:
 					return
 				
-				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Session.get_username():
+				if popup_panel && is_instance_valid(popup_panel) && parsed_packet.id == Globals.Session.get_username():
 					popup_panel.initialize("Room already exists", "Room: " + parsed_packet.room)
 			
 			if parsed_packet.module == "ResponseEditorModule":
@@ -276,7 +276,7 @@ func _process(delta: float) -> void:
 	
 				var data = {
 					"module": "ResponseEditorModule",
-					"id": Session.get_username(),
+					"id": Globals.Session.get_username(),
 					"target_user_id": parsed_packet.id,
 					"ms": 5938,
 					"room" : room,
@@ -288,9 +288,9 @@ func _process(delta: float) -> void:
 				send_queue.push_back(data)
 			elif parsed_packet.module == "JoinSuccessModule":
 				if now_editing_panel && is_instance_valid(now_editing_panel):
-					if parsed_packet.id != Session.get_username() && is_live_editing:
+					if parsed_packet.id != Globals.Session.get_username() && is_live_editing:
 						now_editing_panel.add_member(parsed_packet.id)
-				if is_host or parsed_packet.id != Session.get_username():
+				if is_host or parsed_packet.id != Globals.Session.get_username():
 					if !editor_cursors || !is_instance_valid(editor_cursors):
 						return
 						
@@ -300,7 +300,7 @@ func _process(delta: float) -> void:
 				
 				var data = {
 					"module": "RequestEditorModule",
-					"id": Session.get_username(),
+					"id": Globals.Session.get_username(),
 					"ms": 5938,
 					"room" : room,
 					"ret": true,
@@ -312,7 +312,7 @@ func _process(delta: float) -> void:
 				
 				send_queue.push_back(data)
 			elif parsed_packet.module == "HostSuccessModule":
-				if parsed_packet.id != Session.get_username():
+				if parsed_packet.id != Globals.Session.get_username():
 					return
 					
 				if is_host:
@@ -327,16 +327,16 @@ func _process(delta: float) -> void:
 				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.id)
 					
-				if host_success_panel && is_instance_valid(host_success_panel) && parsed_packet.id == Session.get_username():
+				if host_success_panel && is_instance_valid(host_success_panel) && parsed_packet.id == Globals.Session.get_username():
 					host_success_panel.initialize(parsed_packet.room)
 			elif parsed_packet.module == "EditorModule":
 				if !is_live_editing:
 					return
 					
-				if Session.get_current_scene_name() != "LEVEL_EDITOR":
+				if Globals.Session.get_current_scene_name() != "LEVEL_EDITOR":
 					edit_event_buffer.append(parsed_packet.editor)
 				else:
-					if parsed_packet.editor.user_id != Session.get_username():
+					if parsed_packet.editor.user_id != Globals.Session.get_username():
 						# Give the illusion that the remote cursor appears same time as the block
 						await get_tree().create_timer(0.1).timeout
 					emit_signal("receive_level_event", parsed_packet.editor)
@@ -360,9 +360,9 @@ func _process(delta: float) -> void:
 						cursor_update.block_id
 					)
 			elif parsed_packet.module == "QuitSuccessModule":
-				var isMe = (Session.get_username() == parsed_packet.id)
+				var isMe = (Globals.Session.get_username() == parsed_packet.id)
 				#Host might change after someone quit the room
-				if Session.get_username() == parsed_packet.host_id:
+				if Globals.Session.get_username() == parsed_packet.host_id:
 					is_host = true
 				else:
 					is_host = false 
@@ -381,7 +381,7 @@ func _process(delta: float) -> void:
 					now_editing_panel.quit_room(isMe, parsed_packet.id, member_id_list, parsed_packet.host_id)
 				
 				if editor_cursors && is_instance_valid(editor_cursors):
-					editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
+					editor_cursors.remove_cursor(Globals.Session.get_username(), parsed_packet.id)
 				
 				if popup_panel && is_instance_valid(popup_panel) && isMe:
 					popup_panel.initialize("Quit Success", "You have successfully left the room: " + parsed_packet.room)
@@ -405,7 +405,7 @@ func _process(delta: float) -> void:
 		if target_state == OPEN:
 			_retry_connect()
 	
-	if Session.get_current_scene_name() == "LEVEL_EDITOR":
+	if Globals.Session.get_current_scene_name() == "LEVEL_EDITOR":
 		for packet in edit_event_buffer:
 			emit_signal("receive_level_event", packet)
 

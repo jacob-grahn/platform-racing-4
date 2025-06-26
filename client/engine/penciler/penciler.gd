@@ -6,8 +6,8 @@ var tile_update_timestamps = {}
 var layers: Layers
 var bg: Node2D
 
-@onready var layer_panel: Node2D = get_node("../UI/LayerPanel")
-@onready var edit_cursors: Node2D = get_node("../EditorCursorLayer/EditorCursors")
+@onready var layer_panel: Node2D = get_node_or_null("../UI/LayerPanel")
+@onready var edit_cursors: Node2D = get_node_or_null("../EditorCursorLayer/EditorCursors")
 
 
 func init(p_layers: Layers, p_bg, event_source) -> void:
@@ -121,7 +121,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var tilemap: TileMap = layers.get_node(event.layer_name + "/TileMap")
-	tilemap.set_cell(0, coords, 0, Helpers.to_atlas_coords(event.block_id))
+	tilemap.set_cell(0, coords, 0, Globals.Helpers.to_atlas_coords(event.block_id))
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

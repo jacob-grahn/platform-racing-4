@@ -12,7 +12,7 @@ var tiles: Tiles = Tiles.new()
 
 func _ready() -> void:
 	http_request.request_completed.connect(self._http_request_completed)
-	http_request.request(Helpers.get_base_url() + "/pr2/level/" + pr2_level_id)
+	http_request.request(Globals.Helpers.get_base_url() + "/pr2/level/" + pr2_level_id)
 	penciler.init(layers, bg, level_decoder)
 	tiles.init_defaults()
 	layers.init(tiles)

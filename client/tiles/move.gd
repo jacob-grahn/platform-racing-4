@@ -93,7 +93,8 @@ func add_timer() -> void:
 	if timer:
 		return
 	timer = Timer.new()
-	Helpers.add_child(timer)
+	var main_scene = Engine.get_main_loop().root
+	main_scene.add_child(timer)
 	timer.wait_time = 0.5
 	timer.connect("timeout", _on_timeout)
 	timer.start()
@@ -102,7 +103,8 @@ func add_timer() -> void:
 func remove_timer() -> void:
 	if timer:
 		timer.stop()
-		Helpers.remove_child(timer)
+		var main_scene = Engine.get_main_loop().root
+		main_scene.remove_child.call_deferred(timer)
 		timer = null
 
 

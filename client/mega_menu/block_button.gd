@@ -38,7 +38,7 @@ func _setup_region_sprite() -> void:
 
 func set_block_id(id: int) -> void:
 	if sprite_initialized:
-		var coords = Helpers.to_atlas_coords(id)
+		var coords = Globals.Helpers.to_atlas_coords(id)
 		region_sprite.region_rect = Rect2(coords * Settings.tile_size, Settings.tile_size)
 
 

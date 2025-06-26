@@ -14,7 +14,7 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 		"bg": properties.get("background", ""),
 		"fade_color": properties.get("fadeColor", "FFFFFF")
 	})
-	Jukebox.play(properties.get("music", ""))
+	Globals.Jukebox.play(properties.get("music", ""))
 	
 	for encoded_layer in level.layers:
 		# Emit add layer event

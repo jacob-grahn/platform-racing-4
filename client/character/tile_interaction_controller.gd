@@ -27,7 +27,7 @@ func bump_tile_covering_high_area(character: Character) -> void:
 		return
 	
 	var tile = tiles[0]
-	var tile_type = Helpers.to_block_id(tile.atlas_coords)
+	var tile_type = Globals.Helpers.to_block_id(tile.atlas_coords)
 	
 	game.tiles.on("bottom", tile_type, character, tile.tile_map, tile.coords)
 	game.tiles.on("any_side", tile_type, character, tile.tile_map, tile.coords)
@@ -67,7 +67,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-	var tile_type = Helpers.to_block_id(atlas_coords)
+	var tile_type = Globals.Helpers.to_block_id(atlas_coords)
 	
 	character.movement.last_collision_normal = normal
 	
@@ -109,7 +109,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 
 
 func check_out_of_bounds(character: Character) -> void:
-	var map_used_rect = Session.get_used_rect()
+	var map_used_rect = Globals.Session.get_used_rect()
 	
 	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
 	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT
@@ -134,7 +134,7 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 			continue
 		var coords = tile_map.local_to_map(tile_map.to_local(area.to_global(Vector2.ZERO)))
 		var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
-		var block_id = Helpers.to_block_id(atlas_coords)
+		var block_id = Globals.Helpers.to_block_id(atlas_coords)
 		if block_id != 0:
 			tiles.push_back({
 				"tile_map": tile_map,
@@ -154,8 +154,8 @@ func is_in_solid(character: Character) -> bool:
 
 
 func set_depth(character: Character, depth: int) -> void:
-	var solid_layer = Helpers.to_bitmask_32((depth * 2) - 1)
-	var vapor_layer = Helpers.to_bitmask_32(depth * 2)
+	var solid_layer = Globals.Helpers.to_bitmask_32((depth * 2) - 1)
+	var vapor_layer = Globals.Helpers.to_bitmask_32(depth * 2)
 	character.collision_layer = solid_layer
 	character.collision_mask = solid_layer
 	low_area.collision_layer = vapor_layer

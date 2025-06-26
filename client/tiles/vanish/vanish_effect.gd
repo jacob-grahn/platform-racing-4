@@ -30,8 +30,8 @@ func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map: Tile
 	sprite.region_rect = Rect2i(atlas_coords * Settings.tile_size, Settings.tile_size)
 	
 	# Set mask to detect character layer for the same depth
-	var depth = Helpers.get_depth(tile_map)
-	var layer = Helpers.to_bitmask_32(depth * 2 - 1)
+	var depth = Globals.Helpers.get_depth(tile_map)
+	var layer = Globals.Helpers.to_bitmask_32(depth * 2 - 1)
 	area.collision_mask = layer
 
 func vanish_again() -> void:

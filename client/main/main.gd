@@ -32,6 +32,13 @@ var current_scene: Node
 
 
 func _ready():
+	if "--run-tests" in OS.get_cmdline_args():
+		Game.pr2_level_id = "50815"
+		_set_scene(GAME)
+		var timer = get_tree().create_timer(3.0)
+		timer.timeout.connect(func(): get_tree().quit())
+		return
+
 	Main.instance = self
 	set_scene(TITLE)
 

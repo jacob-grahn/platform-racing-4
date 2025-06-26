@@ -17,10 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Jukebox="*res://singletons/jukebox/jukebox.tscn"
-Helpers="*res://singletons/helpers/helpers.tscn"
-Session="*res://singletons/session/session.tscn"
-CachingLoader="*res://singletons/caching_loader.gd"
+Globals="*res://singletons/globals.gd"
 
 [display]
 

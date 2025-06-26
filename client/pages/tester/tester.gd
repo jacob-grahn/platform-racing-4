@@ -18,7 +18,7 @@ var minimap_penciler: MinimapDrawer
 func _ready():
 	tiles.init_defaults()
 	back.connect("pressed", _on_back_pressed)
-	Jukebox.play("pr1-future-penumbra")
+	Globals.Jukebox.play("pr1-future-penumbra")
 	
 	# Create minimap_penciler instance
 	minimap_penciler = MINIMAP_PENCILER.new()
@@ -39,7 +39,7 @@ func init(level: Dictionary):
 	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
 	
-	Session.set_current_player_layer(start_option.layer_name)
+	Globals.Session.set_current_player_layer(start_option.layer_name)
 	minimap_penciler.update_minimap_view(start_option.layer_name)
 	
 	for child in minimap_container.get_children():
