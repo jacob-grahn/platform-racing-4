@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bikowmseqvxki"]
 
-[ext_resource type="Script" path="res://item_effects/sword_slash.gd" id="1_hgxgu"]
+[ext_resource type="Script" uid="uid://dly6li7xnw30p" path="res://item_effects/sword_slash.gd" id="1_hgxgu"]
 [ext_resource type="Texture2D" uid="uid://vfrsr603atqt" path="res://item_effects/sword_slash.png" id="1_x0oo0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ojadg"]
@@ -257,8 +257,8 @@ tracks/9/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oul1n"]
 _data = {
-"RESET": SubResource("Animation_eoqyn"),
-"slash": SubResource("Animation_ayhc7")
+&"RESET": SubResource("Animation_eoqyn"),
+&"slash": SubResource("Animation_ayhc7")
 }
 
 [node name="CharacterBody2D" type="CharacterBody2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cop0t2njcn0c8"]
 
-[ext_resource type="Script" path="res://item_effects/ice_wave.gd" id="1_d33do"]
+[ext_resource type="Script" uid="uid://dt0f8o15vyl8d" path="res://item_effects/ice_wave.gd" id="1_d33do"]
 [ext_resource type="Texture2D" uid="uid://c8gsnbsnr4ady" path="res://item_effects/ice_wave.svg" id="1_pa7e3"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
