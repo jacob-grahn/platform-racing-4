@@ -37,6 +37,7 @@ func _ready():
 		_run_tests()
 		return
 
+	
 	set_scene(TITLE)
 
 
