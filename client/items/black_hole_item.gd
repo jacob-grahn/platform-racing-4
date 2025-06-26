@@ -3,7 +3,7 @@ class_name BlackHoleItem
 
 @onready var hole = load("res://item_effects/black_hole.tscn")
 @onready var character = get_node("../../..")
-@onready var spawn = get_node("../../../..")
+@onready var spawn = get_node("../../../../../Projectiles")
 var using: bool = false
 var remove: bool = false
 var uses: int = 1

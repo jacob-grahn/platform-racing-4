@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://d2roqhu1iol58"]
 
-[ext_resource type="Script" path="res://items/ice_wave_item.gd" id="1_3otq0"]
+[ext_resource type="Script" uid="uid://b0ri713blnvc7" path="res://items/ice_wave_item.gd" id="1_3otq0"]
 [ext_resource type="Texture2D" uid="uid://foxqaekyn1ll" path="res://items/ice_wave_item.svg" id="1_su0sh"]
 [ext_resource type="Texture2D" uid="uid://buey1umqxf0b1" path="res://item_effects/ice_wave_light_mask.png" id="3_dcwlr"]
 
@@ -414,9 +414,9 @@ tracks/10/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trmx4"]
 _data = {
-"RESET": SubResource("Animation_pfnxb"),
-"idle": SubResource("Animation_fh6f3"),
-"shoot": SubResource("Animation_s4ytc")
+&"RESET": SubResource("Animation_pfnxb"),
+&"idle": SubResource("Animation_fh6f3"),
+&"shoot": SubResource("Animation_s4ytc")
 }
 
 [node name="IceWaveItem" type="Node2D"]

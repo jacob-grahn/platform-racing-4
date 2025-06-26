@@ -1,12 +1,12 @@
 extends Node2D
 class_name IceWaveItem
 
-@onready var main = get_tree().get_root()
 @onready var projectile = load("res://item_effects/ice_wave.tscn")
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 @onready var character = get_node("../../..")
+@onready var spawn = get_node("../../../../../Projectiles")
 var using: bool = false
 var remove: bool = false
 var uses: int = 3
@@ -56,19 +56,19 @@ func activate_item():
 
 func shoot():
 	var icewave1 = projectile.instantiate()
-	main.add_child.call_deferred(icewave1)
+	spawn.add_child.call_deferred(icewave1)
 	icewave1.dir = 112.5
 	icewave1.spawnpos = global_position
 	icewave1.spawnrot = 112.5
 	icewave1.scale.x = character.display.scale.x
 	var icewave2 = projectile.instantiate()
-	main.add_child.call_deferred(icewave2)
+	spawn.add_child.call_deferred(icewave2)
 	icewave2.dir = 0
 	icewave2.spawnpos = global_position
 	icewave2.spawnrot = 0
 	icewave2.scale.x = character.display.scale.x
 	var icewave3 = projectile.instantiate()
-	main.add_child.call_deferred(icewave3)
+	spawn.add_child.call_deferred(icewave3)
 	icewave3.dir = -112.5
 	icewave3.spawnpos = global_position
 	icewave3.spawnrot = -112.5

@@ -20,9 +20,6 @@ func _physics_process(delta):
 	# account for super jumping and doesn't cap.
 	var control_axis: float = Input.get_axis("left", "right")
 	if using:
-		if control_axis != 0:
-			speed = 50 * character.stats.get_speed_bonus()
-			boost = Vector2(speed, 0)
 		timer -= delta
 	else:
 		boost = Vector2(0, 0)
@@ -32,6 +29,7 @@ func activate_item():
 	if !using:
 		using = true
 		character.speed_particles.emitting = true
+		character.movement.speedburst_boost = 2
 
 
 func check_if_used():
@@ -39,6 +37,7 @@ func check_if_used():
 		remove = false
 	else:
 		character.speed_particles.emitting = false
+		character.movement.speedburst_boost = 1
 		remove = true
 
 
@@ -58,3 +57,4 @@ func still_have_item():
 
 func _exit_tree():
 	character.speed_particles.emitting = false
+	character.movement.speedburst_boost = 1

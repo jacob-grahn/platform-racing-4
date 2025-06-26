@@ -6,7 +6,7 @@ class_name LaserGunItem
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
 @onready var character = get_node("../../..")
-@onready var spawn = get_node("../../../..")
+@onready var spawn = get_node("../../../../../Projectiles")
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -59,6 +59,7 @@ func shoot():
 	bullet.spawnpos = global_position
 	bullet.spawnrot = 0
 	bullet.scale.x = character.display.scale.x
+	bullet.fromplayer = character
 	spawn.add_child.call_deferred(bullet)
 
 func _on_timeout():

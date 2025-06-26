@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://ob60v2rmlyxm"]
 
-[ext_resource type="Script" path="res://items/rocket_launcher_item.gd" id="1_1v56v"]
+[ext_resource type="Script" uid="uid://cav3girhp4th5" path="res://items/rocket_launcher_item.gd" id="1_1v56v"]
 [ext_resource type="Texture2D" uid="uid://b2eycys4eciqy" path="res://items/rocket_launcher_item.png" id="1_88qtw"]
 
 [sub_resource type="Animation" id="Animation_3h24s"]
@@ -89,9 +89,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6vg7i"]
 _data = {
-"RESET": SubResource("Animation_3h24s"),
-"idle": SubResource("Animation_4rk6f"),
-"launch": SubResource("Animation_napx5")
+&"RESET": SubResource("Animation_3h24s"),
+&"idle": SubResource("Animation_4rk6f"),
+&"launch": SubResource("Animation_napx5")
 }
 
 [node name="RocketLauncherItem" type="Node2D"]

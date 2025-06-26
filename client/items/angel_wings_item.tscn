@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://csnioqb2naahd"]
 
 [ext_resource type="Texture2D" uid="uid://drfxx4goswu6g" path="res://items/angel_wings_item.png" id="1_1u520"]
-[ext_resource type="Script" path="res://items/angel_wings_item.gd" id="1_nk4ot"]
+[ext_resource type="Script" uid="uid://c1a0wbvgphwqn" path="res://items/angel_wings_item.gd" id="1_nk4ot"]
 
 [sub_resource type="Animation" id="Animation_phbtj"]
 length = 0.001
@@ -160,9 +160,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3nrjy"]
 _data = {
-"RESET": SubResource("Animation_phbtj"),
-"flap": SubResource("Animation_g1w3q"),
-"idle": SubResource("Animation_4glpn")
+&"RESET": SubResource("Animation_phbtj"),
+&"flap": SubResource("Animation_g1w3q"),
+&"idle": SubResource("Animation_4glpn")
 }
 
 [node name="AngelWingsItem" type="Node2D"]
