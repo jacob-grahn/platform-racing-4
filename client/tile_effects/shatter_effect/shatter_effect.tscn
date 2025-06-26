@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ottreb64v5vj"]
 
-[ext_resource type="Script" path="res://tile_effects/shatter_effect/shatter_effect.gd" id="1_sfmbf"]
+[ext_resource type="Script" uid="uid://bc0u54gyynkai" path="res://tile_effects/shatter_effect/shatter_effect.gd" id="1_sfmbf"]
 
 [sub_resource type="Animation" id="Animation_gupva"]
 length = 0.001
@@ -48,8 +48,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_thk1l"]
 _data = {
-"RESET": SubResource("Animation_gupva"),
-"fade_out": SubResource("Animation_nu23n")
+&"RESET": SubResource("Animation_gupva"),
+&"fade_out": SubResource("Animation_nu23n")
 }
 
 [node name="ShatterEffect" type="Node2D"]
