@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cyu2el5vyrk8i"]
 
-[ext_resource type="Script" path="res://tiles/lights/light_line_2d.gd" id="1_qymft"]
+[ext_resource type="Script" uid="uid://cpkpe2knwy7bd" path="res://tiles/lights/light_line_2d.gd" id="1_qymft"]
 
 [node name="LightLine2d" type="Node2D"]
 script = ExtResource("1_qymft")
