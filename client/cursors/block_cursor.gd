@@ -20,7 +20,7 @@ func _on_control_event(event: Dictionary) -> void:
 	print("BlockCursor::_on_control_event", event)
 	if event.type == EditorEvents.SELECT_BLOCK:
 		block_id = event.block_id
-		Globals.Session.set_current_block_id(event.block_id)
+		Session.set_current_block_id(event.block_id)
 
 
 func on_mouse_down():
@@ -55,7 +55,7 @@ func on_drag():
 	# Convert position to tile coordinates
 	var coords = tilemap.local_to_map(rotated_pos)
 	
-	var atlas_coords = Globals.Helpers.to_atlas_coords(block_id)
+	var atlas_coords = CoordinateUtils.to_atlas_coords(block_id)
 	var existing_atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	if atlas_coords != existing_atlas_coords:
 		emit_signal("level_event", {

@@ -10,7 +10,7 @@ func encode() -> Dictionary:
 		"layers": [],
 		"properties": {
 			"background": bg.id,
-			"music": Globals.Jukebox.song_id
+			"music": Jukebox.song_id
 		}
 	}
 	for group_layer in layers.get_children():
@@ -32,7 +32,7 @@ func encode_chunks(tilemap: TileMap) -> Array:
 	var used_coords = tilemap.get_used_cells(0)
 	for coords in used_coords:
 		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
-		var block_id = Globals.Helpers.to_block_id(atlas_coords)
+		var block_id = CoordinateUtils.to_block_id(atlas_coords)
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
 		var chunk_name = str(chunk_coords.x) + "," + str(chunk_coords.y)

@@ -15,7 +15,7 @@ func _ready():
 func initialize(current_level: Dictionary) -> void:
 	self.visible = true
 
-	title_edit.text = Globals.Helpers._get_current_level_name()
+	title_edit.text = FileManager.get_current_level_name()
 	back_button.connect("pressed", _back_pressed)
 	save_button.connect("pressed", func() -> void:
 		_save_pressed(current_level)
@@ -31,7 +31,7 @@ func _save_pressed(current_level: Dictionary):
 	if title_edit.text == "":
 		return
 	
-	var encoded_string = Globals.Helpers._save_to_file(LevelEditor.current_level, title_edit.text)
+	var encoded_string = FileManager.save_to_file(LevelEditor.current_level, title_edit.text)
 	
 	var post_data = {
 		"level_data": encoded_string,
@@ -39,7 +39,7 @@ func _save_pressed(current_level: Dictionary):
 	}
 
 	var json_string = JSON.stringify(post_data)
-	var url = Globals.Helpers.get_base_url() + "/save_level"
+	var url = ApiManager.get_base_url() + "/save_level"
 
 	if is_publish:
 		var error = $HTTPRequest.request(url, [], HTTPClient.METHOD_POST, json_string)

@@ -121,7 +121,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var tilemap: TileMap = layers.get_node(event.layer_name + "/TileMap")
-	tilemap.set_cell(0, coords, 0, Globals.Helpers.to_atlas_coords(event.block_id))
+	tilemap.set_cell(0, coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

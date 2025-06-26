@@ -79,7 +79,7 @@ func join_room(room: String, member_id_list_input: Array[String], host_id: Strin
 	chat_message_edit.editable = true
 	member_id_list = member_id_list_input
 	users_render(member_id_list, host_id)
-	chat_receive_message("You(" + Globals.Session.get_username() + ") have joined the room.")
+	chat_receive_message("You(" + Session.get_username() + ") have joined the room.")
 
 func add_member(member_id: String):
 	if member_id in member_id_list:
@@ -133,7 +133,7 @@ func users_render(member_id_list: Array[String], host_id: String) -> void:
 	users_host_row.position.y = users_row_holder.get_child_count() * 50
 	users_host_row.get_node("Label").text = host_id + "(HOST)"
 	
-	if host_id == Globals.Session.get_username():
+	if host_id == Session.get_username():
 		users_host_row.get_node("Label").text += "(ME)"
 	
 	var users_host_button = users_host_row.get_node("Button")
@@ -147,7 +147,7 @@ func users_render(member_id_list: Array[String], host_id: String) -> void:
 		var users_row = USERS_ROW.instantiate()
 		users_row.position.y = users_row_holder.get_child_count() * 50
 		
-		if member_id == Globals.Session.get_username():
+		if member_id == Session.get_username():
 			users_row.get_node("Label").text = member_id + "(ME)"
 		else:
 			users_row.get_node("Label").text = member_id

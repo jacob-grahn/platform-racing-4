@@ -1,4 +1,4 @@
-extends Object
+extends Node
 
 var http = HTTPRequest.new()
 var http_logout = HTTPRequest.new()
@@ -13,10 +13,9 @@ var _player_position: Vector2 = Vector2.ZERO
 var _current_block_id = 0
 
 func _ready():
-	var main_scene = Engine.get_main_loop().root
-	main_scene.add_child.call_deferred(http)
-	main_scene.add_child.call_deferred(http_logout)
-	_username = Globals.Helpers.generate_username()
+	add_child(http)
+	add_child(http_logout)
+	_username = StringUtils.generate_username()
 	http.request_completed.connect(_request_completed)
 	http_logout.request_completed.connect(_logout_request_completed)
 	await Engine.get_main_loop().process_frame
@@ -99,7 +98,7 @@ func _request_completed(result, response_code, headers, body):
 
 func refresh():
 	pass
-	#http.request(Globals.Helpers.get_base_url() + "/auth/sessions/whoami")
+	#http.request(ApiManager.get_base_url() + "/auth/sessions/whoami")
 
 
 func start_guest_session():
@@ -113,7 +112,7 @@ func end():
 	is_guest = true
 	nickname = ""
 	if OS.has_feature('web'):
-		http_logout.request(Globals.Helpers.get_base_url() + '/auth/self-service/logout/browser')
+		http_logout.request(ApiManager.get_base_url() + '/auth/self-service/logout/browser')
 	
 	
 func _logout_request_completed(result: int, response_code: int, headers, body):

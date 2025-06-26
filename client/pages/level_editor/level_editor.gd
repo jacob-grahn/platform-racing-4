@@ -37,7 +37,7 @@ var default_level: Dictionary = {
 
 
 func _ready():
-	Globals.Jukebox.play("noodletown-4-remake")
+	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
 	explore.connect("pressed", _on_explore_pressed)
 	load.connect("pressed", _on_load_pressed)
@@ -64,7 +64,7 @@ func _ready():
 	if LevelEditor.current_level:
 		level_decoder.decode(LevelEditor.current_level, true, layers)
 	else:
-		var saved_level = Globals.Helpers._load_from_file()
+		var saved_level = FileManager.load_from_file()
 		if saved_level:
 			level_decoder.decode(saved_level, true, layers)
 		else:
@@ -75,7 +75,7 @@ func _ready():
 
 func _on_back_pressed():
 	LevelEditor.current_level = level_encoder.encode()
-	Globals.Helpers._save_to_file(LevelEditor.current_level)
+	FileManager.save_to_file(LevelEditor.current_level)
 	Main.set_scene(Main.TITLE)
 
 
@@ -100,7 +100,7 @@ func _on_save_pressed():
 
 func _on_test_pressed():
 	LevelEditor.current_level = level_encoder.encode()
-	Globals.Helpers._save_to_file(LevelEditor.current_level)
+	FileManager.save_to_file(LevelEditor.current_level)
 	var tester = Main.set_scene(Main.TESTER)
 	tester.init(LevelEditor.current_level)
 
@@ -110,11 +110,11 @@ func _on_clear_pressed():
 
 
 func _on_level_load(level_name = ""):
-	Globals.Helpers._set_current_level_name(level_name)
+	FileManager.set_current_level_name(level_name)
 	
 	var selected_level = default_level
 	if (level_name != ""):
-		selected_level = Globals.Helpers._load_from_file(level_name)
+		selected_level = FileManager.load_from_file(level_name)
 		
 	layers.clear()
 	tiles.clear()
@@ -125,7 +125,7 @@ func _on_level_load(level_name = ""):
 
 
 func _on_request_editor_load():
-	Globals.Helpers._set_current_level_name("")
+	FileManager.set_current_level_name("")
 	layers.clear()
 	tiles.clear()
 	await get_tree().create_timer(0.1).timeout
@@ -134,7 +134,7 @@ func _on_request_editor_load():
 
 
 func _on_explore_load(level_id):
-	var url = Globals.Helpers.get_base_url() + "/level/" + str(level_id)
+	var url = ApiManager.get_base_url() + "/level/" + str(level_id)
 	var error = http_request.request(url)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
@@ -160,7 +160,7 @@ func _on_explore_load_completed(result, response_code, headers, body):
 	
 	level_data = Marshalls.base64_to_utf8(level_data)
 	level_data = JSON.parse_string(level_data)
-	Globals.Helpers._set_current_level_name(level_name)
+	FileManager.set_current_level_name(level_name)
 
 	layers.clear()
 	tiles.clear()

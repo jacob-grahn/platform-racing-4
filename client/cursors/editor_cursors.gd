@@ -43,7 +43,7 @@ func update_cursor_position_remote(userID: String, pos: Vector2, layer: String, 
 	if !position_history.has(userID):
 		position_history[userID] = []
 		
-	if userID == Globals.Session.get_username():
+	if userID == Session.get_username():
 		return
 	
 	var current_time = _get_seconds_from_time_dict(Time.get_time_dict_from_system())

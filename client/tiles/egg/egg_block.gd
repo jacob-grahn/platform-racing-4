@@ -29,7 +29,7 @@ func activate_tilemap(tile_map: TileMap) -> void:
 
 func add_egg_enemy(tile_map: TileMap, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
-	var depth = Globals.Helpers.get_depth(tile_map)
+	var depth = Helpers.get_depth(tile_map)
 	egg_enemy.position = get_center_position(tile_map, coords)
 	tile_map.add_child(egg_enemy)
 	egg_enemy.set_depth(depth)
@@ -39,7 +39,8 @@ func add_timer() -> void:
 	if timer:
 		return
 	timer = Timer.new()
-	Globals.Helpers.add_child(timer)
+	var main_scene = Engine.get_main_loop().root
+	main_scene.add_child(timer)
 	timer.wait_time = 1.0
 	timer.connect("timeout", _on_timeout)
 	timer.start()
@@ -48,7 +49,8 @@ func add_timer() -> void:
 func remove_timer() -> void:
 	if timer:
 		timer.stop()
-		Globals.Helpers.remove_child(timer)
+		var main_scene = Engine.get_main_loop().root
+		main_scene.remove_child(timer)
 		timer = null
 
 

@@ -10,8 +10,8 @@ const ICON_X_OFFSET_FACTOR = 0.3
 const ICON_Y_OFFSET_FACTOR = 0.5
 
 func _process(delta: float) -> void:
-	var map_used_rect = Globals.Session.get_used_rect()
-	var player_position = Globals.Session.get_player_position()
+	var map_used_rect = Session.get_used_rect()
+	var player_position = Session.get_player_position()
 	
 	player_icon.scale = Vector2(
 		max(MIN_ICON_SCALE, ICON_SCALE_FACTOR / scale.x), 

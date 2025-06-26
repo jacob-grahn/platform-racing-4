@@ -55,19 +55,19 @@ func set_style(character_config: Dictionary) -> void:
 	if character_config["head"]["texture"]:
 		head_texture = character_config["head"]["texture"]
 	else:
-		head_texture = await Globals.CachingLoader.load_texture(character_config["head"]["url"])
+		head_texture = await CachingLoader.load_texture(character_config["head"]["url"])
 	
 	var body_texture
 	if character_config["body"]["texture"]:
 		body_texture = character_config["body"]["texture"]
 	else:
-		body_texture = await Globals.CachingLoader.load_texture(character_config["body"]["url"])
+		body_texture = await CachingLoader.load_texture(character_config["body"]["url"])
 	
 	var feet_texture
 	if character_config["feet"]["texture"]:
 		feet_texture = character_config["feet"]["texture"]
 	else:
-		feet_texture = await Globals.CachingLoader.load_texture(character_config["feet"]["url"])
+		feet_texture = await CachingLoader.load_texture(character_config["feet"]["url"])
 	
 	head_color.texture = head_texture
 	head_lines.texture = head_texture

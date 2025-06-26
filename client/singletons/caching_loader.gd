@@ -1,4 +1,4 @@
-extends Object
+extends Node
 
 const CACHE_DIR = "user://cache"
 var _memory = {}
@@ -73,8 +73,7 @@ func _add_to_cache(url: String, bytes: PackedByteArray) -> void:
 
 func _load_from_web(url: String) -> PackedByteArray:
 	var http_request = HTTPRequest.new()
-	var main_scene = Engine.get_main_loop().root
-	main_scene.add_child.call_deferred(http_request)
+	add_child(http_request)
 	var error = http_request.request(url)
 	if error != OK:
 		print("CachingLoader - Error fetching %s: %s" % [url, error])

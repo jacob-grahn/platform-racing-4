@@ -28,7 +28,7 @@ func close() -> void:
 func render() -> void:
 	clear()
 	
-	var save_level_array = Globals.Helpers._list_saved_levels()
+	var save_level_array = FileManager.list_saved_levels()
 	for level_name in save_level_array:
 		var row = LOAD_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
@@ -36,7 +36,7 @@ func render() -> void:
 		row_holder.add_child(row)
 		var button = row.get_node("Button")
 		button.pressed.connect(_row_pressed.bind(level_name))
-		if Globals.Helpers._get_current_level_name() == level_name:
+		if FileManager.get_current_level_name() == level_name:
 			button.button_pressed = true
 
 func clear() -> void:
@@ -53,7 +53,7 @@ func _delete_pressed():
 	if selected_level == "":
 		return
 		
-	Globals.Helpers._delete_level(selected_level)
+	FileManager.delete_level(selected_level)
 	for child in row_holder.get_children():
 		var label = child.get_node("Label")
 		if label.text == selected_level:

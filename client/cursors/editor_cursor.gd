@@ -9,7 +9,7 @@ extends Node2D
 func initialise(userID: String):
 	name_label.text = userID
 	
-	if userID == Globals.Session.get_username():
+	if userID == Session.get_username():
 		name_panel.hide()
 		cursor_icon.hide()
 

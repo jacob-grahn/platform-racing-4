@@ -5,7 +5,7 @@ extends Control
 @onready var game_client: Node2D = get_node("/root/Main/GameClient")
 
 func _ready():
-	title_edit.text = Globals.Helpers.generate_uuidv4()
+	title_edit.text = StringUtils.generate_uuidv4()
 	self.visible = false
 
 func initialize(roomId: String) -> void:

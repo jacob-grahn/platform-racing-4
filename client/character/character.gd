@@ -24,8 +24,8 @@ signal position_changed(x: float, y: float)
 
 var active := false
 var item: Node2D
-var game: Node2D
 var shielded: bool = false
+var tiles: Tiles
 
 # Component controllers
 var stats: Stats = Stats.new()
@@ -39,14 +39,12 @@ var tile_interaction: TileInteractionController
 
 
 func _ready() -> void:
-	game = get_parent().get_parent().get_parent().get_parent()
-	
 	# Initialize all the controllers
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
 	animation = AnimationController.new(display, sjaura)
-	tile_interaction = TileInteractionController.new(game, low_area, high_area)
+	tile_interaction = TileInteractionController.new(tiles, low_area, high_area)
 	
 	tile_interaction.last_safe_position = Vector2(position)
 
@@ -104,7 +102,7 @@ func _physics_process(delta: float) -> void:
 	tile_interaction.check_out_of_bounds(self)
 	
 	# Update session
-	Globals.Session.set_player_position(position)
+	Session.set_player_position(position)
 
 
 func _process_item_forces(delta: float) -> void:

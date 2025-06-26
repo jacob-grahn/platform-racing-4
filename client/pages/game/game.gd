@@ -40,7 +40,7 @@ func _ready():
 		print("Game: Loading level id: " + pr2_level_id)
 		$HTTPRequest.request_completed.connect(self._http_request_completed)
 		if pr2_level_id:
-			var error = $HTTPRequest.request(Globals.Helpers.get_base_url() + "/pr2/level/" + pr2_level_id)
+			var error = $HTTPRequest.request(ApiManager.get_base_url() + "/pr2/level/" + pr2_level_id)
 			if error != OK:
 				push_error("An error occurred in the HTTP request.")
 	
@@ -64,8 +64,9 @@ func activate():
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
+	character.tiles = tiles
 	
-	Globals.Session.set_current_player_layer(start_option.layer_name)
+	Session.set_current_player_layer(start_option.layer_name)
 	minimap_penciler.update_minimap_view(start_option.layer_name)
 	for child in minimap_container.get_children():
 		child.visible = child.name == start_option.layer_name

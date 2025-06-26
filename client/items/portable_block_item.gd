@@ -37,7 +37,7 @@ func set_block_position():
 		coords.x = coords.x - 1
 	if round((character.global_position.y + (Settings.tile_size.y / 2)) / Settings.tile_size.y) != round(character.global_position.y / Settings.tile_size.y):
 		coords.y = coords.y - 1
-	atlas_coords = Globals.Helpers.to_atlas_coords(tile_id)
+	atlas_coords = CoordinateUtils.to_atlas_coords(tile_id)
 	below_zero = Vector2(1, 1)
 	if character.global_position.x < 0:
 		below_zero.x = -1

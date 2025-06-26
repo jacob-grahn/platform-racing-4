@@ -18,7 +18,7 @@ func get_dimensions() -> Vector2:
 
 func set_bg(id: String) -> void:
 	var url = "https://files.platformracing.com/backgrounds/%s.jpg" % id
-	sprite.texture = await Globals.CachingLoader.load_texture(url)
+	sprite.texture = await CachingLoader.load_texture(url)
 	_resize_sprite()
 
 

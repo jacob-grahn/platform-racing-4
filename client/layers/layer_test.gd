@@ -10,7 +10,7 @@ func _ready():
 	var tile_map: TileMap = layer.get_node("TileMap")
 	var coords = Vector2i(1, 1)
 	var source_id = 0
-	var atlas_coords = Globals.Helpers.to_atlas_coords(4)
+	var atlas_coords = CoordinateUtils.to_atlas_coords(4)
 	var alternative_tile = 0
 	tile_map.set_cell(0, Vector2i(1, 10), source_id, atlas_coords, alternative_tile)
 	tile_map.set_cell(0, Vector2i(2, 10), source_id, atlas_coords, alternative_tile)

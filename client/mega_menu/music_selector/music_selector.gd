@@ -13,7 +13,7 @@ func _ready() -> void:
 	init(music_texture, active_colors, inactive_colors)
 	
 	# Add music to option button
-	music_list = Globals.Jukebox.music_list
+	music_list = Jukebox.music_list
 	for slug in music_list:
 		var music_info = music_list[slug]
 		var label = music_info.title + " by " + music_info.composer
@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _on_music_selected(index: int) -> void:
 	current_music_slug = music_option.get_item_metadata(index)
-	Globals.Jukebox.play(current_music_slug)
+	Jukebox.play(current_music_slug)
 
 
 # Override set_active to prevent this button from being activated

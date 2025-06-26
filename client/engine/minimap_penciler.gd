@@ -44,7 +44,7 @@ func _add_minimap_layer(layer_name: String) -> void:
 	minimap_instance.name = layer_name
 	minimap_container.add_child(minimap_instance)
 	
-	var current_player_layer = Globals.Session.get_current_player_layer()
+	var current_player_layer = Session.get_current_player_layer()
 	minimap_instance.visible = (layer_name == current_player_layer)
 
 
@@ -71,7 +71,7 @@ func _update_minimap_tile(event: Dictionary) -> void:
 		
 	var coords = Vector2i(event.coords.x, event.coords.y)
 	var source_id = 0
-	var atlas_coords = Globals.Helpers.to_atlas_coords(event.block_id)
+	var atlas_coords = CoordinateUtils.to_atlas_coords(event.block_id)
 	var alternative_tile = 0
 	
 	tile_map_mini.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
