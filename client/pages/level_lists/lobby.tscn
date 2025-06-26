@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://deiu5ka4ihdm5"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_4b3kv"]
-[ext_resource type="Script" path="res://pages/level_lists/lobby.gd" id="1_aqp3w"]
+[ext_resource type="Script" uid="uid://yg6s26f5oax5" path="res://pages/level_lists/lobby.gd" id="1_aqp3w"]
 [ext_resource type="PackedScene" uid="uid://b7adgqavn0stv" path="res://pages/level_lists/level_panel/level_panel.tscn" id="3_oq36o"]
 
 [node name="Lobby" type="Control"]
