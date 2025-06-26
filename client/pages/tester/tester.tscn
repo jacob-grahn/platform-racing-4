@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://btetwq0fyumv"]
+[gd_scene load_steps=10 format=3 uid="uid://btetwq0fyumv"]
 
-[ext_resource type="Script" path="res://pages/tester/tester.gd" id="1_uug6k"]
+[ext_resource type="Script" uid="uid://cwwwmewm0phss" path="res://pages/tester/tester.gd" id="1_uug6k"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="2_mjhpf"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="2_o2o8t"]
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="2_qvp0h"]
@@ -8,6 +8,7 @@
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_sy0tr"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_4ui7b"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/minimaps.tscn" id="6_nwh1k"]
+[ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/tester/stats_panel/stats_panel.tscn" id="7_74ued"]
 
 [node name="Tester" type="Node2D"]
 script = ExtResource("1_uug6k")
@@ -26,17 +27,52 @@ script = ExtResource("1_uug6k")
 layer = 120
 
 [node name="BackgroundPanel" type="Panel" parent="UI"]
-offset_left = 2.0
-offset_top = -2.0
-offset_right = 1955.0
-offset_bottom = 233.0
-
-[node name="Back" type="Button" parent="UI"]
-offset_left = 27.0
-offset_top = 254.0
-offset_right = 226.0
-offset_bottom = 334.0
-theme = ExtResource("3_sy0tr")
-text = "Back"
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -150.0
+offset_right = 250.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Minimaps" parent="UI" instance=ExtResource("6_nwh1k")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -150.0
+offset_right = 960.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="StatsPanel" parent="UI" instance=ExtResource("7_74ued")]
+anchor_top = 0.861
+anchor_bottom = 1.0
+offset_top = 0.119934
+offset_right = 0.400009
+offset_bottom = 0.0
+
+[node name="UpdateStatsPanel" type="Timer" parent="UI"]
+process_callback = 0
+wait_time = 0.25
+
+[node name="Back" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.924
+anchor_top = 0.926
+anchor_right = 0.977
+anchor_bottom = 0.972
+offset_left = 0.919922
+offset_top = -0.0800781
+offset_right = -0.840088
+offset_bottom = 0.23999
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_sy0tr")
+text = "Back"
