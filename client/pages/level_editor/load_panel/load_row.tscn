@@ -10,34 +10,66 @@ bg_color = Color(0.24122, 0.241305, 0.336642, 1)
 bg_color = Color(0.172549, 0.172549, 0.247059, 1)
 
 [node name="LoadRow" type="Control"]
-custom_minimum_size = Vector2(400, 50)
+custom_minimum_size = Vector2(800, 50)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 400.0
-offset_bottom = 50.0
+anchor_right = 0.417
+anchor_bottom = 0.046
+offset_right = -400.64
+offset_bottom = 0.319996
 
 [node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(400, 50)
-layout_mode = 0
-offset_right = 400.0
-offset_bottom = 50.0
-color = Color(0.172549, 0.176471, 0.247059, 1)
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.6
+color = Color(0.345098, 0.352941, 0.494118, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0862745, 0.0901961, 0.247059, 1)
 
 [node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_right = 400.0
-offset_bottom = 50.0
+modulate = Color(1, 1, 1, 0.74902)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_c4x1a")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
 button_group = ExtResource("2_d6gx3")
 
-[node name="Label" type="Label" parent="."]
+[node name="LevelLabel" type="Label" parent="."]
 layout_mode = 2
-offset_left = 19.0
-offset_top = 5.0
-offset_right = 391.0
-offset_bottom = 45.0
+anchor_left = 0.006
+anchor_right = 0.994
+anchor_bottom = 0.6
+offset_left = 0.2
+offset_right = -0.200012
 theme = ExtResource("1_c4x1a")
-text = "First"
+text = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCCDDDDDDDDDDEEEEEEEEEE"
+clip_text = true
+
+[node name="DescriptionLabel" type="Label" parent="."]
+layout_mode = 2
+anchor_left = 0.006
+anchor_top = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.2
+offset_right = -5.0
+theme = ExtResource("1_c4x1a")
+theme_override_font_sizes/font_size = 16
+text = "Description goes here. Yay descriptions!"
+clip_text = true
