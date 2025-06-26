@@ -1,6 +1,9 @@
 ## Testing
 After making a change, validate that the game still works.
 Run the game with this command: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests`
+Ignore these errors:
+ - Invalid color name: (0, 0, 0, 1)
+ - ObjectDB instances leaked at exit 
 
 ## Code Style
 - Follow Godot's GDScript style guide

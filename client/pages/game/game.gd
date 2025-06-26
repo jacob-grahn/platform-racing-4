@@ -64,7 +64,6 @@ func activate():
 	tiles.activate_node($Layers)
 	var start_option = Start.get_next_start_option(layers)
 	var character = CHARACTER.instantiate()
-	character.tiles = tiles
 	
 	Session.set_current_player_layer(start_option.layer_name)
 	minimap_penciler.update_minimap_view(start_option.layer_name)
@@ -76,6 +75,7 @@ func activate():
 	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)
 	character.active = true
 	player_holder.add_child(character)
+	character.init(tiles)
 	character.set_depth(layer.depth)
 	
 	layers.calc_used_rect()

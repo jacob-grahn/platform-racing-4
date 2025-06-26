@@ -143,7 +143,7 @@ func _on_explore_load(level_id):
 	$HTTPRequest.request_completed.connect(_on_explore_load_completed)
 
 
-func _on_explore_load_completed(result, response_code, headers, body):
+func _on_explore_load_completed(result, response_code, _headers, body):
 	if result != OK or response_code != 200:
 		push_error("Failed to fetch level.")
 		return

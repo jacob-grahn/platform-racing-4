@@ -21,13 +21,13 @@ var zoom_controller: ZoomController = ZoomController.new()
 var active_colors = EditorMenu.COLORS.tools.active
 var inactive_colors = EditorMenu.COLORS.tools.inactive
 
-@onready var editor_events: Node2D = get_node("/root/Main/LevelEditor/EditorEvents")
+@onready var editor_events: Node2D = get_node("/root/Main/LEVEL_EDITOR/EditorEvents")
 
 func _ready():
 	super._ready()
 	
 	# Add the zoom controller as a child
-	get_parent().add_child(zoom_controller)
+	get_parent().call_deferred("add_child", zoom_controller)
 	zoom_controller.zoom_changed.connect(_on_control_event)
 	
 	# Add tools

@@ -59,12 +59,18 @@ func decode_lines(layer_name: String, objects: Array) -> void:
 			points_array.append({"x": point.x, "y": point.y})
 			
 		# Emit add line event
+		var line_color
+		if typeof(object.color) == TYPE_STRING:
+			line_color = object.color
+		else:
+			line_color = Color(object.color[0], object.color[1], object.color[2], object.color[3]).to_html()
+
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LINE,
 			"layer_name": layer_name,
 			"position": {"x": object.x, "y": object.y},
 			"points": points_array,
-			"color": object.color,
+			"color": line_color,
 			"thickness": object.thickness
 		})
 

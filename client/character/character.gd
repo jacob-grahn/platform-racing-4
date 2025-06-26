@@ -44,13 +44,16 @@ func _ready() -> void:
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
 	animation = AnimationController.new(display, sjaura)
+
+
+func init(tiles_node: Tiles) -> void:
+	tiles = tiles_node
 	tile_interaction = TileInteractionController.new(tiles, low_area, high_area)
-	
 	tile_interaction.last_safe_position = Vector2(position)
 
 
 func _physics_process(delta: float) -> void:
-	if not active:
+	if not active or not tile_interaction:
 		return
 	
 	# Update hitbox based on crouch state

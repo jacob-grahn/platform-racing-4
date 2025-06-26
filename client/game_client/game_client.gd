@@ -55,6 +55,20 @@ func _on_connect_editor() -> void:
 	editor_clear_button = $"../LEVEL_EDITOR/UI/Clear"
 	
 	editor_events.connect("send_level_event", _on_send_level_event)
+
+func _on_disconnect_editor() -> void:
+	if editor_events:
+		editor_events.disconnect("send_level_event", _on_send_level_event)
+	
+	popup_panel = null
+	host_success_panel = null
+	editor_events = null
+	now_editing_panel = null
+	layers = null
+	editor_cursors = null
+	editor_explore_button = null
+	editor_load_button = null
+	editor_clear_button = null
 	
 	if !isFirstOpenEditor:
 		var data_room = {
@@ -67,7 +81,8 @@ func _on_connect_editor() -> void:
 		send_queue.push_back(data_room)
 	
 	isFirstOpenEditor = false
-	editor_cursors.add_new_cursor(Session.get_username())
+	if editor_cursors:
+		editor_cursors.add_new_cursor(Session.get_username())
 	toggle_editor_buttons(is_live_editing)
 	
 func _on_send_level_event(event: Dictionary) -> void:

@@ -19,14 +19,11 @@ func _ready():
 		"icon": Color("2a9fd6")
 	}
 	
-	# Create size texture
-	var size_texture = load("res://mega_menu/icons/magnify.png")
-	
 	# Add size picker buttons
 	for size in brush_sizes:
 		var button = ICON_BUTTON.instantiate()
 		add_slider(button)
-		button.init(size_texture, active_colors, inactive_colors)
+		button.init(null, active_colors, inactive_colors)
 		
 		# Add text overlay
 		var label = Label.new()

@@ -35,9 +35,10 @@ func remove_cursor(myUserID: String, removeUserID: String):
 			child.queue_free()
 
 func update_cursor_position_local(pos: Vector2, block_id: int):
-	var cursor = get_children()[0]
-	cursor.position = pos
-	cursor.set_block_icon(block_id)
+	if get_child_count() > 0:
+		var cursor = get_children()[0]
+		cursor.position = pos
+		cursor.set_block_icon(block_id)
 	
 func update_cursor_position_remote(userID: String, pos: Vector2, layer: String, block_id: int):
 	if !position_history.has(userID):

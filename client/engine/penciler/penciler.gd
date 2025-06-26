@@ -70,7 +70,10 @@ func _on_level_event(event: Dictionary) -> void:
 		
 		# Set line color and width if provided in the event
 		if event.has("color"):
-			line.default_color = Color(event.color) # Handle hex string format (FFFFFFFF)
+			if event.color is Color:
+				line.default_color = event.color
+			else:
+				line.default_color = Color(event.color)
 		if event.has("width"):
 			line.width = event.width
 		if event.has("thickness"):
@@ -116,7 +119,10 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.SET_BACKGROUND:
 		if bg:
-			bg.set_bg(event.bg, Color(event.fade_color))
+			if event.fade_color is Color:
+				bg.set_bg(event.bg, event.fade_color)
+			else:
+				bg.set_bg(event.bg, Color(event.fade_color))
 
 
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:

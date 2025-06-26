@@ -32,15 +32,31 @@ var current_scene: Node
 
 
 func _ready():
+	Main.instance = self
 	if "--run-tests" in OS.get_cmdline_args():
-		Game.pr2_level_id = "50815"
-		_set_scene(GAME)
-		var timer = get_tree().create_timer(3.0)
-		timer.timeout.connect(func(): get_tree().quit())
+		_run_tests()
 		return
 
-	Main.instance = self
 	set_scene(TITLE)
+
+
+func _run_tests():
+	# Load the game scene and let it run for a few seconds
+	Game.pr2_level_id = "50815"
+	_set_scene(GAME)
+	await get_tree().create_timer(3.0).timeout
+
+	# Unload the game scene and load the level editor
+	var level_editor = _set_scene(LEVEL_EDITOR)
+	await get_tree().process_frame
+	await get_tree().create_timer(2.0).timeout
+	
+	# Click the test button
+	level_editor._on_test_pressed()
+	await get_tree().create_timer(3.0).timeout
+
+	# Quit the application
+	get_tree().quit()
 
 
 static func set_scene(scene_name: String) -> Node:
