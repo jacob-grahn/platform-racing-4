@@ -10,9 +10,11 @@ var layers: Node2D
 @onready var row_holder = $ScrollContainer/RowHolder
 @onready var new_button = $NewButton
 @onready var delete_button = $DeleteButton
-@onready var rotation_picker = $Popup/RotationPicker
-@onready var depth_picker = $Popup/DepthPicker
-@onready var popup: Popup = $Popup
+@onready var rotation_picker = $LayerSettingsPopup/RotationPicker
+@onready var depth_picker = $LayerSettingsPopup/DepthPicker
+@onready var rename_layer = $NewLayerNamePopup/RenameLayerPanel
+@onready var layer_settings_popup: Popup = $LayerSettingsPopup
+@onready var new_layer_name_popup: Popup = $NewLayerNamePopup
 
 
 func _ready():
@@ -30,6 +32,8 @@ func _ready():
 	depth_picker.max = 16
 	depth_picker.step = 1
 	depth_picker.connect("value_change", _depth_change)
+	
+	rename_layer.connect("name_change", _set_layer_name)
 
 
 func init(new_layers: Node2D) -> void:
@@ -47,11 +51,13 @@ func render() -> void:
 		row_holder.add_child(row)
 		
 		var label_button = row.get_node("LabelButton")
+		var visible_button = row.get_node("VisibleButton")
 		label_button.pressed.connect(_row_pressed.bind(layer.name))
 		if layers.get_target_layer() == layer.name:
 			label_button.button_pressed = true
 		
-		row.get_node("VisibleButton").pressed.connect(_row_visible_pressed.bind(layer.name))
+		row.get_node("RenameButton").pressed.connect(_row_layer_name_pressed.bind(layer.name))
+		row.get_node("VisibleButton").pressed.connect(_row_visible_pressed.bind(layer.name, visible_button))
 		row.get_node("GearButton").pressed.connect(_row_config_pressed.bind(layer.name))
 	update_pickers()
 
@@ -61,7 +67,6 @@ func update_pickers() -> void:
 	if layer:
 		depth_picker.set_value(layer.depth)
 		rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
-
 
 func clear() -> void:
 	for child in row_holder.get_children():
@@ -98,15 +103,33 @@ func _row_pressed(layer_name: String):
 	})
 
 
-func _row_visible_pressed(layer_name: String):
-	pass
+func _row_layer_name_pressed(layer_name: String):
+	_row_pressed(layer_name)
+	var mouse_pos := get_global_mouse_position()
+	rename_layer.new_layer_name.text = layer_name
+	new_layer_name_popup.popup(Rect2i(mouse_pos.x, mouse_pos.y, 380, 64))
+
+
+func _row_visible_pressed(layer_name: String, Button):
+	_row_pressed(layer_name)
+	var visibility = true
+	if Button.modulate.a > 0.5:
+		Button.modulate.a = 0.5
+		visibility = false
+	else:
+		Button.modulate.a = 1
+	emit_signal("level_event", {
+		"type": EditorEvents.VISIBLE_LAYER,
+		"layer_name": layer_name,
+		"visibility": visibility
+	})
 
 
 func _row_config_pressed(layer_name: String):
 	_row_pressed(layer_name)
 	update_pickers()
 	var mouse_pos := get_global_mouse_position()
-	popup.popup(Rect2i(mouse_pos.x, mouse_pos.y, 470, 150))
+	layer_settings_popup.popup(Rect2i(mouse_pos.x, mouse_pos.y, 308, 112))
 
 
 func _rotation_change(rotation):
@@ -123,3 +146,12 @@ func _depth_change(depth):
 		"layer_name": layers.get_target_layer(),
 		"depth": depth
 	})
+
+func _set_layer_name(new_layer_name):
+	emit_signal("level_event", {
+		"type": EditorEvents.RENAME_LAYER,
+		"layer_name": layers.get_target_layer(),
+		"new_layer_name": new_layer_name
+	})
+	new_layer_name_popup.visible = false
+	render()
