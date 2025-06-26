@@ -16,10 +16,13 @@ var minimap_penciler: MinimapDrawer
 
 
 func _ready():
+	Global.layers = $Layers
+	Global.minimaps = $UI/Minimaps
+	Global.bg = $BG
 	tiles.init_defaults()
 	back.connect("pressed", _on_back_pressed)
 	Jukebox.play("pr1-future-penumbra")
-	
+
 	# Create minimap_penciler instance
 	minimap_penciler = MINIMAP_PENCILER.new()
 	add_child(minimap_penciler)
@@ -52,6 +55,9 @@ func init(level: Dictionary):
 	player_holder.add_child(character)
 	character.init(tiles)
 	character.set_depth(layer.depth)
+
+	Global.tile_map = layer.get_node("TileMap")
+	Global.item_holder = character.get_node("Display/ItemHolder")
 
 	layers.calc_used_rect()
 

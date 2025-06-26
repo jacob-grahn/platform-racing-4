@@ -3,6 +3,7 @@ class_name RandomBlockItem
 
 @onready var timer = $Timer
 @onready var tile_atlas = $TileAtlas
+var character: Character
 var tile_id: int = 0
 var using: bool = false
 var remove: bool = false

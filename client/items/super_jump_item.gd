@@ -1,7 +1,7 @@
 extends Node2D
 class_name SuperJumpItem
 
-@onready var character = get_node("../../..")
+var character: Character
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)

@@ -14,5 +14,3 @@ position = Vector2(400, 349)
 position = Vector2(568, 1679)
 
 [node name="Art 1" type="ParallaxBackground" parent="Layers"]
-
-[node name="Blocks" type="ParallaxBackground" parent="Layers"]

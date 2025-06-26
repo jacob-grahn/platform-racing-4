@@ -39,6 +39,7 @@ var tile_interaction: TileInteractionController
 
 
 func _ready() -> void:
+	Global.character = self
 	# Initialize all the controllers
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
@@ -157,7 +158,7 @@ func set_depth(depth: int) -> void:
 
 
 func set_item(new_item_id: int) -> void:
-	item_manager.set_item_id(new_item_id)
+	item_manager.set_item_id(new_item_id, self)
 
 
 func get_tiles_overlapping_area(area: Area2D) -> Array:

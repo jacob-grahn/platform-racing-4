@@ -1,7 +1,7 @@
 extends Node2D
 class_name PortableBlockItem
 
-@onready var character = get_node("../../..")
+var character: Character
 @onready var spawn = get_node("../../../..")
 @onready var VisualAid = $VisualAid
 var using: bool = false

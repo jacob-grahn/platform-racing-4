@@ -6,7 +6,7 @@ class_name IceWaveItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-@onready var character = get_node("../../..")
+var character: Character
 var using: bool = false
 var remove: bool = false
 var uses: int = 3

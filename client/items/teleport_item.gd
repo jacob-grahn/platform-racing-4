@@ -5,7 +5,7 @@ var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
 var uses: int = 1
-@onready var character = get_node("../../..")
+var character: Character
 
 func _physics_process(delta):
 	check_if_used()

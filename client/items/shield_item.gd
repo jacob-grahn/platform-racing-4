@@ -3,7 +3,7 @@ class_name ShieldItem
 
 # @onready var shield = get_node("../../../Shield")
 @onready var Shield = $Shield
-@onready var character = get_node("../../..")
+var character: Character
 var using: bool = false
 var remove: bool = false
 var timer: float = 0

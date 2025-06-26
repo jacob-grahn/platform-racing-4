@@ -3,7 +3,7 @@ class_name Layer
 
 @onready var lines: Node2D = $Lines
 @onready var tile_map = $TileMap
-@onready var minimap_container: Control = get_node_or_null("../../UI/Minimaps")
+@onready var minimap_container: Control = Global.minimaps
 
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10

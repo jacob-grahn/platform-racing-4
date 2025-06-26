@@ -37,6 +37,22 @@ var default_level: Dictionary = {
 
 
 func _ready():
+	Global.ui = $UI
+	Global.game_client = get_node("/root/Main/GameClient")
+	Global.editor_events = $EditorEvents
+	Global.layers = $Layers
+	Global.editor_cursors = $EditorCursorLayer/EditorCursors
+	Global.bg = $BG
+	Global.layer_panel = $UI/LayerPanel
+	Global.popup_panel = $UI/PopupPanel
+	Global.host_success_panel = $UI/HostSuccessPanel
+	Global.now_editing_panel = $UI/NowEditingPanel
+	Global.editor_explore_button = $UI/Explore
+	Global.editor_load_button = $UI/Load
+	Global.editor_clear_button = $UI/Clear
+	Global.users_host_edit_panel = $UI/HostEditPanel
+	Global.users_join_edit_panel = $UI/JoinEditPanel
+	Global.users_quit_edit_panel = $UI/QuitEditPanel
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
 	explore.connect("pressed", _on_explore_pressed)
@@ -76,7 +92,7 @@ func _ready():
 func _on_back_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	FileManager.save_to_file(LevelEditor.current_level)
-	Main.set_scene(Main.TITLE)
+	await Main.set_scene(Main.TITLE)
 
 
 func _on_explore_pressed():
@@ -101,8 +117,7 @@ func _on_save_pressed():
 func _on_test_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	FileManager.save_to_file(LevelEditor.current_level)
-	var tester = Main.set_scene(Main.TESTER)
-	tester.init(LevelEditor.current_level)
+	await Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
 
 
 func _on_clear_pressed():

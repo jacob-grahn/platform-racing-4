@@ -44,15 +44,15 @@ func _ready() -> void:
 		scale_multiple_instances()
 	
 func _on_connect_editor() -> void:
-	popup_panel = $"../LEVEL_EDITOR/UI/PopupPanel"
-	host_success_panel = $"../LEVEL_EDITOR/UI/HostSuccessPanel"
-	editor_events = $"../LEVEL_EDITOR/EditorEvents"
-	now_editing_panel = $"../LEVEL_EDITOR/UI/NowEditingPanel"
-	layers = $"../LEVEL_EDITOR/Layers"
-	editor_cursors = $"../LEVEL_EDITOR/EditorCursorLayer/EditorCursors"
-	editor_explore_button = $"../LEVEL_EDITOR/UI/Explore"
-	editor_load_button = $"../LEVEL_EDITOR/UI/Load"
-	editor_clear_button = $"../LEVEL_EDITOR/UI/Clear"
+	popup_panel = Global.popup_panel
+	host_success_panel = Global.host_success_panel
+	editor_events = Global.editor_events
+	now_editing_panel = Global.now_editing_panel
+	layers = Global.layers
+	editor_cursors = Global.editor_cursors
+	editor_explore_button = Global.editor_explore_button
+	editor_load_button = Global.editor_load_button
+	editor_clear_button = Global.editor_clear_button
 	
 	editor_events.connect("send_level_event", _on_send_level_event)
 
@@ -210,8 +210,9 @@ func _retry_connect() -> void:
 
 func _process(delta: float) -> void:
 	if layers && is_instance_valid(layers):
-		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
-		if layer:
+		var layer_node = layers.get_node(layers.get_target_layer())
+		if layer_node is ParallaxBackground:
+			var layer: ParallaxBackground = layer_node
 			var tilemap: TileMap = layer.get_node("TileMap")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -282,7 +283,7 @@ func _process(delta: float) -> void:
 				if !is_host:
 					return
 				
-				var level_encoder: Node2D = $"../EDITOR/LevelEncoder"
+				var level_encoder: Node2D = get_node("../EDITOR/LevelEncoder")
 				if !level_encoder:
 					return
 					

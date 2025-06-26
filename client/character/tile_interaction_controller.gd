@@ -96,8 +96,9 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 						0, 
 						(1 * Settings.tile_size.y) - 22
 				)).rotated(tilemap.global_rotation + character.rotation)
-				var layers = tilemap.get_node("../../")
-				last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
+				var layers = Global.layers
+				if layers:
+					last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
 	if lightning.direction.length() > 0 and lightning.fire_power > 0:
