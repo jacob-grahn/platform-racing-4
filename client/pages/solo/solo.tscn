@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cjvhjlc36tb2w"]
 
-[ext_resource type="Script" path="res://pages/solo/solo.gd" id="1_3nlag"]
+[ext_resource type="Script" uid="uid://cynpvir7d8e33" path="res://pages/solo/solo.gd" id="1_3nlag"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_u2wx8"]
 
 [node name="Solo" type="Control"]
