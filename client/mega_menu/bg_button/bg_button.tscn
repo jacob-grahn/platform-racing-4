@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://crtdujoghh1ur"]
 
 [ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_irewg"]
-[ext_resource type="Script" path="res://mega_menu/bg_button/bg_button.gd" id="2_c3th7"]
+[ext_resource type="Script" uid="uid://dd56rmbcpnv7a" path="res://mega_menu/bg_button/bg_button.gd" id="2_c3th7"]
 
 [node name="IconButton" instance=ExtResource("1_irewg")]
 script = ExtResource("2_c3th7")
