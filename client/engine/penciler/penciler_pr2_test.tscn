@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://j3rijd2nm4ek"]
 
-[ext_resource type="Script" path="res://engine/penciler/penciler_pr_2_test.gd" id="1_j7kml"]
+[ext_resource type="Script" uid="uid://dwp2jhr5cr8bc" path="res://engine/penciler/penciler_pr_2_test.gd" id="1_j7kml"]
 [ext_resource type="Texture2D" uid="uid://bi1640d2utua4" path="res://engine/penciler/Screenshot 2025-04-11 at 10.51.59 AM.png" id="2_sti2m"]
 [ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="3_my3sq"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="3_nrp08"]
