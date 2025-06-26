@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bd5s00pd0hnyw"]
 
-[ext_resource type="Script" path="res://pages/level_editor/join_edit_panel/join_edit_panel.gd" id="1_mrp5k"]
+[ext_resource type="Script" uid="uid://bsaxjhyjna6n4" path="res://pages/level_editor/join_edit_panel/join_edit_panel.gd" id="1_mrp5k"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_w6k5q"]
 
 [node name="JoinEditPanel" type="Control"]
