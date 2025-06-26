@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://4jj8pvbr5gdq"
+path="res://.godot/imported/PR3OuchSound.ogg-2ab44bb9646ccdbc0e768069797b3db4.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Currently unused but you can use these sounds if you want/PR3OuchSound.ogg"
+dest_files=["res://.godot/imported/PR3OuchSound.ogg-2ab44bb9646ccdbc0e768069797b3db4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

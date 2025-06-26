@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bt74gsncw4gl2"
+path="res://.godot/imported/PR1Run3Sound.ogg-289d8b6a414f7c391448cdf506097603.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Currently unused but you can use these sounds if you want/PR1Run3Sound.ogg"
+dest_files=["res://.godot/imported/PR1Run3Sound.ogg-289d8b6a414f7c391448cdf506097603.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

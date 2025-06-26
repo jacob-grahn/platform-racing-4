@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cwttsijm8mf20"
+path="res://.godot/imported/EnterWaterSound.ogg-4051c5ef08abd44ccc06bcb4ddd3309e.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Currently unused but you can use these sounds if you want/EnterWaterSound.ogg"
+dest_files=["res://.godot/imported/EnterWaterSound.ogg-4051c5ef08abd44ccc06bcb4ddd3309e.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
