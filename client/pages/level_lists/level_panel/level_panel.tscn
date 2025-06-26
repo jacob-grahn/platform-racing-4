@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7adgqavn0stv"]
 
-[ext_resource type="Script" path="res://pages/level_lists/level_panel/level_panel.gd" id="1_tl1gd"]
+[ext_resource type="Script" uid="uid://cheygnkm08xjc" path="res://pages/level_lists/level_panel/level_panel.gd" id="1_tl1gd"]
 [ext_resource type="PackedScene" uid="uid://cyn14d54c83tf" path="res://pages/level_lists/level_panel/level_tab.tscn" id="2_lnt5f"]
 
 [node name="LevelPanel" type="Node2D"]
