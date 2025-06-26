@@ -35,9 +35,12 @@ func _physics_process(delta):
 	velocity += gravity * delta
 	move_and_slide()
 	check_collision()
+	detect_players()
 
 func detect_players():
 	var collision: Array = SightArea.get_overlapping_areas()
+	if len(collision) > 0:
+		print("we touched something!")
 
 
 func set_depth(depth: int) -> void:
