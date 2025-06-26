@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://buc3eqhfknkqg"]
 
-[ext_resource type="Script" path="res://pages/level_editor/host_edit_panel/host_success_panel.gd" id="1_l7ruu"]
+[ext_resource type="Script" uid="uid://dq05so4e2fnxm" path="res://pages/level_editor/host_edit_panel/host_success_panel.gd" id="1_l7ruu"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_q0jy2"]
 
 [node name="HostSuccessPanel" type="Control"]
