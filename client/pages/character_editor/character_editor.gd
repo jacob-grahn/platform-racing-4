@@ -9,25 +9,14 @@ var default_layers: Dictionary = {
 		"depth": 10
 	}]
 }
-@onready var editor_events: EditorEvents = $EditorEvents
-@onready var layers: Layers = $SubViewportContainer/SubViewport/Layers
-@onready var cursor: Cursor = $UI/Cursor
-@onready var editor_menu: Node2D = $UI/EditorMenu
-@onready var layer_panel: Node2D = $UI/LayerPanel
 @onready var character_display: CharacterDisplay = $UI/CharacterDisplay
 @onready var character_display_timer: Timer = $UI/CharacterDisplayTimer
-@onready var level_decoder: Node2D = $LevelDecoder
-@onready var penciler: Node2D = $Penciler
 @onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 
 
 func _ready() -> void:
-	cursor.init(editor_menu, layers)
-	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
+	EngineOrchestrator.init_character_editor_scene(self)
 	character_display_timer.timeout.connect(_update_character_display)
-	layer_panel.init(layers)
-	penciler.init(layers, null, editor_events)
-	level_decoder.decode(default_layers, true, layers)
 
 
 func _update_character_display() -> void:

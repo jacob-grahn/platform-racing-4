@@ -1,4 +1,5 @@
 extends Node2D
+class_name LevelDecoder
 
 signal level_event
 
@@ -16,7 +17,7 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	})
 	Jukebox.play(properties.get("music", ""))
 	
-	for encoded_layer in level.layers:
+	for encoded_layer in level.get("layers", []):
 		# Emit add layer event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LAYER,

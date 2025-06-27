@@ -1,12 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://gotxkw71bwdq"]
+[gd_scene load_steps=21 format=3 uid="uid://gotxkw71bwdq"]
 
 [ext_resource type="Script" path="res://pages/level_editor/level_editor.gd" id="1_8rp7f"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor_camera.tscn" id="2_bfjim"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="3_snr4q"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="4_fynqk"]
-[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_it2eq"]
-[ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://engine/level_encoder.tscn" id="6_prs2r"]
-[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="7_rwsth"]
+[ext_resource type="PackedScene" path="res://engine/level_manager.tscn" id="5_it2eq"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="8_1a1os"]
 [ext_resource type="PackedScene" uid="uid://cxcg4h4nj2njc" path="res://cursors/editor_cursors.tscn" id="9_fdh4p"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="10_l66nm"]
@@ -33,11 +31,7 @@ zoom = Vector2(0.5, 0.5)
 
 [node name="BG" parent="." instance=ExtResource("4_fynqk")]
 
-[node name="Layers" parent="." instance=ExtResource("5_it2eq")]
-
-[node name="LevelEncoder" parent="." instance=ExtResource("6_prs2r")]
-
-[node name="LevelDecoder" parent="." instance=ExtResource("7_rwsth")]
+[node name="LevelManager" parent="." instance=ExtResource("5_it2eq")]
 
 [node name="Penciler" parent="." instance=ExtResource("8_1a1os")]
 
