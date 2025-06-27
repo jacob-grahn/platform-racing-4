@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
-[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="2_dbxag"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
+[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="3_yuilv"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/minimaps.tscn" id="5_bs0oa"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
@@ -13,7 +13,7 @@ script = ExtResource("1_cq41v")
 
 [node name="BG" parent="." instance=ExtResource("2_drtex")]
 
-[node name="LevelManager" parent="." instance=ExtResource("2_dbxag")]
+[node name="LevelManager" parent="." instance=ExtResource("3_yuilv")]
 
 [node name="PlayerManager" parent="." instance=ExtResource("7_abcde")]
 
