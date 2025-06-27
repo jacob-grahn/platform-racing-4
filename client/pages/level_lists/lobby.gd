@@ -1,6 +1,5 @@
 extends Control
 
-@onready var text_edit: TextEdit = $TextEdit
 @onready var back_button: Button = $BackButton
 @onready var solo_button: Button = $SoloButton
 @onready var level_editor_button: Button = $LevelEditorButton

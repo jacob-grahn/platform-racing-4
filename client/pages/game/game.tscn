@@ -4,20 +4,18 @@
 [ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="2_dbxag"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
 [ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/minimaps.tscn" id="5_bs0oa"]
-[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_m5d4g"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
+[ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_cq41v")
 
 [node name="BG" parent="." instance=ExtResource("2_drtex")]
 
-[node name="Layers" parent="." instance=ExtResource("5_m5d4g")]
-position = Vector2(268, 504)
+[node name="LevelManager" parent="." instance=ExtResource("2_dbxag")]
 
-[node name="LevelDecoder" parent="." instance=ExtResource("2_dbxag")]
-position = Vector2(268, 504)
+[node name="PlayerManager" parent="." instance=ExtResource("7_abcde")]
 
 [node name="EditorEvents" parent="." instance=ExtResource("5_mko5n")]
 

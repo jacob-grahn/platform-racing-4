@@ -4,7 +4,6 @@ class_name LevelEditor
 static var current_level: Dictionary
 static var current_level_description: String
 
-var tiles: Tiles = Tiles.new()
 var default_level: Dictionary = {
 	"layers": [{
 		"name": "Layer 1",
@@ -13,9 +12,7 @@ var default_level: Dictionary = {
 		"depth": 10
 	}]
 }
-@onready var layers = $Layers
-@onready var level_encoder = $LevelEncoder
-@onready var level_decoder = $LevelDecoder
+@onready var level_manager: LevelManager = $LevelManager
 @onready var game_client = get_node("/root/Main/GameClient")
 @onready var back = $UI/Back
 @onready var test = $UI/Test
@@ -23,38 +20,22 @@ var default_level: Dictionary = {
 @onready var load = $UI/Load
 @onready var save = $UI/Save
 @onready var clear = $UI/Clear
-@onready var editor_menu = $UI/EditorMenu
 @onready var layer_panel = $UI/LayerPanel
 @onready var save_panel = $UI/SavePanel
 @onready var load_panel = $UI/LoadPanel
 @onready var explore_panel = $UI/ExplorePanel
 @onready var confirm_delete_panel = $UI/ConfirmDeletePanel
-@onready var cursor: Cursor = $UI/Cursor
 @onready var http_request = $HTTPRequest
-@onready var editor_events: EditorEvents = $EditorEvents
-@onready var penciler: Node2D = $Penciler
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
-@onready var bg: Node2D = $BG
+
+
+func init(data: Dictionary = {}):
+	_on_connect_editor()
 
 
 func _ready():
-	Global.ui = $UI
-	Global.game_client = get_node("/root/Main/GameClient")
-	Global.editor_events = $EditorEvents
-	Global.layers = $Layers
-	Global.editor_cursors = $EditorCursorLayer/EditorCursors
-	Global.bg = $BG
-	Global.layer_panel = $UI/LayerPanel
-	Global.popup_panel = $UI/PopupPanel
-	Global.host_success_panel = $UI/HostSuccessPanel
-	Global.now_editing_panel = $UI/NowEditingPanel
-	Global.editor_explore_button = $UI/Explore
-	Global.editor_load_button = $UI/Load
-	Global.editor_clear_button = $UI/Clear
-	Global.users_host_edit_panel = $UI/HostEditPanel
-	Global.users_join_edit_panel = $UI/JoinEditPanel
-	Global.users_quit_edit_panel = $UI/QuitEditPanel
+	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
 	explore.connect("pressed", _on_explore_pressed)
@@ -66,34 +47,19 @@ func _ready():
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 	
-	tiles.init_defaults()
-	layers.init(tiles)
-	editor_events.connect_to([cursor, editor_menu, layer_panel, level_decoder])
-	editor_events.set_game_client(game_client)
-	penciler.init(layers, bg, editor_events)
-	cursor.init(editor_menu, layers)
-	now_editing_panel.init(editor_menu)
+	EngineOrchestrator.init_level_editor_scene(self)
+	
 	editor_camera.target_zoom = 0.5
 	editor_camera.change_camera_zoom(0.5)
 	
 	# Connect control events for camera zoom changes
-	editor_menu.control_event.connect(_on_control_event)
-
-	if LevelEditor.current_level:
-		level_decoder.decode(LevelEditor.current_level, true, layers)
-	else:
-		var saved_level = FileManager.load_from_file()
-		if saved_level:
-			level_decoder.decode(saved_level, true, layers)
-		else:
-			level_decoder.decode(default_level, true, layers)
-
-	layer_panel.init(layers)
-	Jukebox.end_music = true
+	$UI/EditorMenu.control_event.connect(_on_control_event)
+	now_editing_panel.init($UI/EditorMenu)
+  Jukebox.end_music = true
 
 
 func _on_back_pressed():
-	LevelEditor.current_level = level_encoder.encode()
+	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level)
 	await Main.set_scene(Main.TITLE)
 
@@ -113,7 +79,7 @@ func _on_load_pressed():
 
 
 func _on_save_pressed():
-	LevelEditor.current_level = level_encoder.encode()
+	LevelEditor.current_level = level_manager.encode_level()
 	explore_panel.close()
 	load_panel.close()
 	confirm_delete_panel.close()
@@ -121,9 +87,9 @@ func _on_save_pressed():
 
 
 func _on_test_pressed():
-	LevelEditor.current_level = level_encoder.encode()
+	LevelEditor.current_level = level_manager.encode_level()
 	FileManager.save_to_file(LevelEditor.current_level)
-	await Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
+	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
 
 
 func _on_clear_pressed():
@@ -140,21 +106,19 @@ func _on_level_load(level_name = ""):
 	if (level_name != ""):
 		selected_level = FileManager.load_from_file(level_name)
 		
-	layers.clear()
-	tiles.clear()
+	level_manager.clear()
 	LevelEditor.current_level = selected_level
 	await get_tree().create_timer(0.1).timeout
-	level_decoder.decode(selected_level, true, layers)
-	layers.init(tiles)
+	level_manager.decode_level(selected_level, true)
+	level_manager.layers.init(level_manager.tiles)
 
 
 func _on_request_editor_load():
 	FileManager.set_current_level_name("")
-	layers.clear()
-	tiles.clear()
+	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
-	level_decoder.decode(LevelEditor.current_level, true, layers)
-	layers.init(tiles)
+	level_manager.decode_level(LevelEditor.current_level, true)
+	level_manager.layers.init(level_manager.tiles)
 
 
 func _on_explore_load(level_id):
@@ -186,12 +150,11 @@ func _on_explore_load_completed(result, response_code, _headers, body):
 	level_data = JSON.parse_string(level_data)
 	FileManager.set_current_level_name(level_name)
 
-	layers.clear()
-	tiles.clear()
+	level_manager.clear()
 	LevelEditor.current_level = level_data
 	await get_tree().create_timer(0.1).timeout
-	level_decoder.decode(LevelEditor.current_level, true, layers)
-	layers.init(tiles)
+	level_manager.decode_level(LevelEditor.current_level, true)
+	level_manager.layers.init(level_manager.tiles)
 
 
 func _on_control_event(event: Dictionary) -> void:
@@ -199,3 +162,37 @@ func _on_control_event(event: Dictionary) -> void:
 		var zoom_value = event.get("zoom")
 		if zoom_value:
 			editor_camera.change_camera_zoom(zoom_value)
+
+
+func _on_connect_editor() -> void:
+	$EditorEvents.connect("send_level_event", game_client._on_send_level_event)
+
+
+func _on_disconnect_editor() -> void:
+	if $EditorEvents:
+		$EditorEvents.disconnect("send_level_event", game_client._on_send_level_event)
+	
+	Global.popup_panel = null
+	Global.host_success_panel = null
+	Global.editor_events = null
+	Global.now_editing_panel = null
+	Global.layers = null
+	Global.editor_cursors = null
+	Global.editor_explore_button = null
+	Global.editor_load_button = null
+	Global.editor_clear_button = null
+	
+	if !game_client.isFirstOpenEditor:
+		var data_room = {
+			"module": "RequestRoomModule",
+			"id": Session.get_username(),
+			"ms": 5938,
+			"room" : game_client.room,
+			"ret": true,
+		}
+		game_client.send_queue.push_back(data_room)
+	
+	game_client.isFirstOpenEditor = false
+	if Global.editor_cursors:
+		Global.editor_cursors.add_new_cursor(Session.get_username())
+	game_client.toggle_editor_buttons(game_client.is_live_editing)

@@ -43,47 +43,6 @@ func _ready() -> void:
 	if is_scale_multiple_instances:
 		scale_multiple_instances()
 	
-func _on_connect_editor() -> void:
-	popup_panel = Global.popup_panel
-	host_success_panel = Global.host_success_panel
-	editor_events = Global.editor_events
-	now_editing_panel = Global.now_editing_panel
-	layers = Global.layers
-	editor_cursors = Global.editor_cursors
-	editor_explore_button = Global.editor_explore_button
-	editor_load_button = Global.editor_load_button
-	editor_clear_button = Global.editor_clear_button
-	
-	editor_events.connect("send_level_event", _on_send_level_event)
-	
-func _on_disconnect_editor() -> void:
-	if editor_events:
-		editor_events.disconnect("send_level_event", _on_send_level_event)
-	popup_panel = null
-	host_success_panel = null
-	editor_events = null
-	now_editing_panel = null
-	layers = null
-	editor_cursors = null
-	editor_explore_button = null
-	editor_load_button = null
-	editor_clear_button = null
-	
-	if !isFirstOpenEditor:
-		var data_room = {
-			"module": "RequestRoomModule",
-			"id": Session.get_username(),
-			"ms": 5938,
-			"room" : room,
-			"ret": true,
-		}
-		send_queue.push_back(data_room)
-	
-	isFirstOpenEditor = false
-	if editor_cursors:
-		editor_cursors.add_new_cursor(Session.get_username())
-	toggle_editor_buttons(is_live_editing)
-	
 func _on_send_level_event(event: Dictionary) -> void:
 	if !is_live_editing:
 		return

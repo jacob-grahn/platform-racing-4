@@ -10,8 +10,6 @@ var push_force_stand_idle = 1250
 var push_force_bump = 1250 #
 var phantom_push_force_bump = 400
 var phantom_push_force_bump_decay = 0.85
-
-
 func init():
 	matter_type = Tile.SOLID
 
@@ -55,8 +53,8 @@ func push(node: Node2D, tilemap: Node2D, coords: Vector2i, push_dir: Vector2):
 	
 	# add effect
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-arrow"
-	var existing_effect = tilemap.get_node(effect_name)
-	if existing_effect:
+	if tilemap.has_node(effect_name):
+		var existing_effect = tilemap.get_node(effect_name)
 		existing_effect.get_node("AnimationPlayer").seek(0)
 		return
 	var effect = ArrowActivateEffect.instantiate()

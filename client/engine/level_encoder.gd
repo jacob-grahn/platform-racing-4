@@ -1,11 +1,9 @@
 extends Node2D
+class_name LevelEncoder
 
 var chunk_size = Vector2i(10, 10)
-@onready var layers: Node2D = get_node("../Layers")
 
-
-func encode() -> Dictionary:
-	var bg = get_node("../BG")
+func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 	var level = {
 		"layers": [],
 		"properties": {

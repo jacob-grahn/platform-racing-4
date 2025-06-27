@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bc0t2mpm7g5p2"]
+[gd_scene load_steps=12 format=3 uid="uid://bc0t2mpm7g5p2"]
 
 [ext_resource type="Script" uid="uid://ckpayj3dvm5hb" path="res://pages/character_editor/character_editor.gd" id="1_rv2ev"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="2_xj8yj"]
@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor_camera.tscn" id="3_sehmu"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="3_uqdsa"]
 [ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://mega_menu/editor_menu.tscn" id="4_hhash"]
-[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="4_lb6a5"]
 [ext_resource type="Texture2D" uid="uid://b36h3oox5qxi3" path="res://pages/character_editor/pr4_character_template.png" id="4_ngwbt"]
-[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_5aycx"]
-[ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://engine/level_encoder.tscn" id="5_6whrk"]
+[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="5_5aycx"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="5_qytr1"]
 [ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://engine/layer_panel/layer_panel.tscn" id="6_mhoaf"]
 
@@ -17,10 +15,6 @@
 script = ExtResource("1_rv2ev")
 
 [node name="EditorEvents" parent="." instance=ExtResource("2_xj8yj")]
-
-[node name="LevelDecoder" parent="." instance=ExtResource("4_lb6a5")]
-
-[node name="LevelEncoder" parent="." instance=ExtResource("5_6whrk")]
 
 [node name="Penciler" parent="." instance=ExtResource("5_qytr1")]
 
@@ -41,7 +35,7 @@ render_target_update_mode = 4
 position = Vector2(256, 304)
 texture = ExtResource("4_ngwbt")
 
-[node name="Layers" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_5aycx")]
+[node name="LevelManager" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_5aycx")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
