@@ -36,7 +36,12 @@ var default_level: Dictionary = {
 @onready var bg: Node2D = $BG
 
 
+func init(data: Dictionary = {}):
+	_on_connect_editor()
+
+
 func _ready():
+	tree_exiting.connect(_on_disconnect_editor)
 	Global.ui = $UI
 	Global.game_client = get_node("/root/Main/GameClient")
 	Global.editor_events = $EditorEvents
@@ -117,7 +122,7 @@ func _on_save_pressed():
 func _on_test_pressed():
 	LevelEditor.current_level = level_encoder.encode()
 	FileManager.save_to_file(LevelEditor.current_level)
-	await Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
+	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
 
 
 func _on_clear_pressed():
@@ -190,3 +195,47 @@ func _on_control_event(event: Dictionary) -> void:
 		var zoom_value = event.get("zoom")
 		if zoom_value:
 			editor_camera.change_camera_zoom(zoom_value)
+
+
+func _on_connect_editor() -> void:
+	Global.popup_panel = $UI/PopupPanel
+	Global.host_success_panel = $UI/HostSuccessPanel
+	Global.editor_events = $EditorEvents
+	Global.now_editing_panel = $UI/NowEditingPanel
+	Global.layers = $Layers
+	Global.editor_cursors = $EditorCursorLayer/EditorCursors
+	Global.editor_explore_button = $UI/Explore
+	Global.editor_load_button = $UI/Load
+	Global.editor_clear_button = $UI/Clear
+	
+	editor_events.connect("send_level_event", game_client._on_send_level_event)
+
+
+func _on_disconnect_editor() -> void:
+	if editor_events:
+		editor_events.disconnect("send_level_event", game_client._on_send_level_event)
+	
+	Global.popup_panel = null
+	Global.host_success_panel = null
+	Global.editor_events = null
+	Global.now_editing_panel = null
+	Global.layers = null
+	Global.editor_cursors = null
+	Global.editor_explore_button = null
+	Global.editor_load_button = null
+	Global.editor_clear_button = null
+	
+	if !game_client.isFirstOpenEditor:
+		var data_room = {
+			"module": "RequestRoomModule",
+			"id": Session.get_username(),
+			"ms": 5938,
+			"room" : game_client.room,
+			"ret": true,
+		}
+		game_client.send_queue.push_back(data_room)
+	
+	game_client.isFirstOpenEditor = false
+	if Global.editor_cursors:
+		Global.editor_cursors.add_new_cursor(Session.get_username())
+	game_client.toggle_editor_buttons(game_client.is_live_editing)

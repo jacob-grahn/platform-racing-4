@@ -32,7 +32,8 @@ func _on_back_pressed():
 	Main.set_scene(Main.LEVEL_EDITOR)
 
 
-func init(level: Dictionary):
+func init(data: Dictionary):
+	var level = data.get("level", {})
 	penciler.init(layers, bg, editor_events)
 	minimap_penciler.init(layers, editor_events, minimap_container)
 	editor_events.connect_to([level_decoder])

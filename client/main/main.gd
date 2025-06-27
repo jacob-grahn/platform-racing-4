@@ -76,12 +76,8 @@ func _set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 	current_scene.name = scene_name
 	add_child(current_scene)
 	
-	if scene_name == LEVEL_EDITOR:
-		game_client._on_connect_editor()
-	
-	if scene_name == TESTER:
-		if data.has("level"):
-			current_scene.init(data.level)
+	if current_scene.has_method("init"):
+		current_scene.init(data)
 
 	Global.spawn = current_scene
 		
