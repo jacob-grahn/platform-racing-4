@@ -55,7 +55,7 @@ func _ready():
 	# Connect control events for camera zoom changes
 	$UI/EditorMenu.control_event.connect(_on_control_event)
 	now_editing_panel.init($UI/EditorMenu)
-  Jukebox.end_music = true
+	Jukebox.end_music = true
 
 
 func _on_back_pressed():
