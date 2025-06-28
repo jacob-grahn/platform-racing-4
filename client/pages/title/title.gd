@@ -27,7 +27,7 @@ func _online_pressed():
 		#Main.set_scene(Main.LOBBY)
 	#else:
 		#if OS.has_feature('web'):
-			#JavaScriptBridge.eval('window.location.replace("' + ApiManager.get_base_url() + '/auth-ui/registration")')
+			#JavaScriptBridge.eval('window.location.replace("' + ApiManager.Helpers.get_base_url() + '/auth-ui/registration")')
 
 
 func _logout_pressed():

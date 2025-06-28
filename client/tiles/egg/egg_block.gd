@@ -5,11 +5,13 @@ const EGG_ENEMY = preload("res://tiles/egg/egg_enemy.tscn")
 
 var timer: Timer
 var egg_atlas_coords: Vector2i = Vector2i(0, 3)
+var egg_counter = 0
 
 
 func init():
 	matter_type = Tile.GAS
 	is_safe = false
+	egg_counter = 0
 
 
 func activate_tilemap(tile_map: TileMap) -> void:
@@ -18,6 +20,7 @@ func activate_tilemap(tile_map: TileMap) -> void:
 	# add an egg enemy at the tile position
 	var coord_list: Array = tile_map.get_used_cells_by_id(0, 0, egg_atlas_coords)
 	for coords: Vector2i in coord_list:
+		egg_counter += 1
 		add_egg_enemy(tile_map, coords)
 	
 	# make the egg tile invisible
@@ -31,7 +34,8 @@ func add_egg_enemy(tile_map: TileMap, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
 	var depth = Helpers.get_depth(tile_map)
 	egg_enemy.position = get_center_position(tile_map, coords)
-	tile_map.add_child(egg_enemy)
+	egg_enemy.name = "EggEnemy" + str(egg_counter)
+	tile_map.get_node("../Enemies").add_child(egg_enemy)
 	egg_enemy.set_depth(depth)
 
 

@@ -21,9 +21,11 @@ signal position_changed(x: float, y: float)
 @onready var display := $Display
 @onready var sjaura := $SuperJumpAura
 @onready var animations: AnimationPlayer = $Display/Animations
+@onready var audioplayer: AudioStreamPlayer2D = $AudioPlayer
 
 var active := false
 var item: Node2D
+var game: Node2D
 var shielded: bool = false
 var tiles: Tiles
 
@@ -39,13 +41,13 @@ var tile_interaction: TileInteractionController
 
 
 func _ready() -> void:
-	Global.character = self
 	# Initialize all the controllers
+	Global.character = self
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
 	animation = AnimationController.new(display, sjaura)
-
+	
 
 func init(tiles_node: Tiles) -> void:
 	tiles = tiles_node
@@ -140,8 +142,8 @@ func freeze() -> void:
 	movement.freeze(stats.get_skill_bonus())
 
 
-func hitstun(hitstun_time: float) -> void:
-	movement.hitstun(hitstun_time, shielded)
+func hitstun(base_hitstun_time: float) -> void:
+	movement.hitstun((base_hitstun_time * 2) / stats.get_skill_bonus(), shielded)
 
 
 func is_in_solid() -> bool:

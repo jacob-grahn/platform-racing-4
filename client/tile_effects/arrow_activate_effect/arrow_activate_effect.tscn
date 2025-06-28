@@ -70,8 +70,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c2hf1"]
 _data = {
-"RESET": SubResource("Animation_e4cxn"),
-"push": SubResource("Animation_ajwye")
+&"RESET": SubResource("Animation_e4cxn"),
+&"push": SubResource("Animation_ajwye")
 }
 
 [node name="ArrowActivateEffect" type="Node2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db753dcpsi48c"]
 
-[ext_resource type="Script" path="res://cursors/erase_cursor.gd" id="1_68myx"]
+[ext_resource type="Script" uid="uid://cwgfd7pbwxyg7" path="res://cursors/erase_cursor.gd" id="1_68myx"]
 
 [node name="EraseCursor" type="Node2D"]
 script = ExtResource("1_68myx")

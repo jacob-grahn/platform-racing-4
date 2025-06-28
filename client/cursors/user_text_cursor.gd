@@ -27,6 +27,9 @@ func on_mouse_down():
 			"x": mouse_position.round().x,
 			"y": mouse_position.round().y
 		},
+		"width": 1,
+		"height": 1,
+		"text_rotation": 0,
 		"usertext": "Text!",
 		"font": usertextbox_font,
 		"font_size": usertextbox_font_size

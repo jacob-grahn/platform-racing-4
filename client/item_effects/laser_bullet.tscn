@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ch24f5sy82uud"]
 
-[ext_resource type="Script" path="res://item_effects/laser_bullet.gd" id="1_50gli"]
+[ext_resource type="Script" uid="uid://cnrgeqh7dcxcy" path="res://item_effects/laser_bullet.gd" id="1_50gli"]
 [ext_resource type="Texture2D" uid="uid://b4ba46wwd02p1" path="res://item_effects/laser_bullet.png" id="1_ytyyu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_actp8"]

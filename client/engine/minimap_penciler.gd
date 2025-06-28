@@ -3,8 +3,8 @@ class_name MinimapDrawer
 
 const MINIMAP_PREFAB = preload("res://pages/game/minimap.tscn")
 
-var minimap_y_percentage = 0.2
-var minimap_y_padding = 20
+var minimap_y_percentage = 0.1
+var minimap_y_padding = 28.0
 var layers: Layers
 var editor_events: Node2D
 var minimap_container: Control

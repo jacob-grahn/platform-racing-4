@@ -26,32 +26,25 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 		else:
 			display.play(CharacterDisplay.RECOVER)
 	
-	# Animation speed adjustment for frozen or charging states
+	# Animation speed adjustment for frozen state
 	if movement.frozen:
 		display.set_speed_scale(1 - movement.frozen_display_node.modulate.a)
-	elif super_jump.is_locking() and super_jump.charge_precentage() < 1:
-		display.set_speed_scale(1 / super_jump.CHARGE_TIMER_MAX)
 	else:
 		display.set_speed_scale(1)
 	
-	# Crouching
-	if !movement.hurt and movement.is_crouching:
-		if control_vector.x != 0:
-			display.play(CharacterDisplay.CRAWL)
-		else:
-			display.play(CharacterDisplay.CROUCH)
-	
-	# Wall sliding
-	elif !movement.hurt and movement.is_wall_sliding:
-		display.play(CharacterDisplay.WALL_SLIDE)
-	
 	# On ground
-	elif !movement.hurt and character.is_on_floor():
+	if !movement.hurt and character.is_on_floor():
 		if super_jump.is_locking():
 			if super_jump.charge_precentage() < 1:
 				display.play(CharacterDisplay.CHARGE)
 			else:
 				display.play(CharacterDisplay.CHARGE_HOLD)
+			display.animations.seek(super_jump.charge_precentage())
+		elif !movement.hurt and movement.is_crouching:
+			if control_vector.x != 0:
+				display.play(CharacterDisplay.CRAWL)
+			else:
+				display.play(CharacterDisplay.CROUCH)
 		elif control_vector.x != 0:
 			display.play(CharacterDisplay.RUN)
 		else:
@@ -60,6 +53,8 @@ func process(character: Character, movement: MovementController, super_jump: Sup
 	# In the air
 	elif !movement.hurt and movement.swimming:
 		display.play(CharacterDisplay.SWIM)
+	elif !movement.hurt and movement.is_wall_sliding:
+		display.play(CharacterDisplay.WALL_SLIDE)
 	elif !movement.hurt:
 		display.play(CharacterDisplay.JUMP)
 	

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhesowg0amb2t"]
 
-[ext_resource type="Script" path="res://pages/title/voter/voter_test.gd" id="1_g1uhd"]
+[ext_resource type="Script" uid="uid://dsdr1pcfs57du" path="res://pages/title/voter/voter_test.gd" id="1_g1uhd"]
 [ext_resource type="PackedScene" uid="uid://d64ctr6phhc6" path="res://pages/title/voter/voter.tscn" id="1_u7pbu"]
 
 [node name="VoterTest" type="Node2D"]

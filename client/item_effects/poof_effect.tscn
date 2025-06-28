@@ -205,8 +205,8 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qbq0"]
 _data = {
-"RESET": SubResource("Animation_y1mka"),
-"poof": SubResource("Animation_mauuj")
+&"RESET": SubResource("Animation_y1mka"),
+&"poof": SubResource("Animation_mauuj")
 }
 
 [node name="PoofEffect" type="Node2D"]

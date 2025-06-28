@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://me7so7q3ljtk"]
 
-[ext_resource type="Script" path="res://items/laser_gun_item.gd" id="1_2prxe"]
+[ext_resource type="Script" uid="uid://v1o7goa8ex4u" path="res://items/laser_gun_item.gd" id="1_2prxe"]
 [ext_resource type="Texture2D" uid="uid://b2p6l8ifg3cyk" path="res://items/laser_gun_item.svg" id="1_40mt0"]
 
 [sub_resource type="Animation" id="Animation_gjbqt"]
@@ -88,9 +88,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u3u4d"]
 _data = {
-"RESET": SubResource("Animation_gjbqt"),
-"idle": SubResource("Animation_uwjoc"),
-"shoot": SubResource("Animation_d4j8t")
+&"RESET": SubResource("Animation_gjbqt"),
+&"idle": SubResource("Animation_uwjoc"),
+&"shoot": SubResource("Animation_d4j8t")
 }
 
 [node name="LaserGunItem" type="Node2D"]

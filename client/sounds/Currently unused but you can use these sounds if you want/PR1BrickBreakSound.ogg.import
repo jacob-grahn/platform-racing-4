@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b6dcrv1vomxwg"
+path="res://.godot/imported/PR1BrickBreakSound.ogg-8a5ae21825316a982d1c7ebe86874691.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Currently unused but you can use these sounds if you want/PR1BrickBreakSound.ogg"
+dest_files=["res://.godot/imported/PR1BrickBreakSound.ogg-8a5ae21825316a982d1c7ebe86874691.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,12 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://r85gefbjuj1w"]
 
-[ext_resource type="Script" path="res://character/character_hitbox.gd" id="1_jsvaa"]
+[ext_resource type="Script" uid="uid://b2wps3sqmg8l1" path="res://character/character_hitbox.gd" id="1_jsvaa"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e83cq"]
-radius = 32.0
-height = 64.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p8f2e"]
+size = Vector2(64, 64)
 
 [node name="CharacterHitbox" type="CollisionShape2D"]
 position = Vector2(0, -32)
-shape = SubResource("CapsuleShape2D_e83cq")
+shape = SubResource("RectangleShape2D_p8f2e")
 script = ExtResource("1_jsvaa")

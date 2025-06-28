@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://puyix383bcci"]
 
-[ext_resource type="Script" path="res://tiles/appear/appear_effect.gd" id="1_egy7u"]
+[ext_resource type="Script" uid="uid://cpwpqr1xtqkj4" path="res://tiles/appear/appear_effect.gd" id="1_egy7u"]
 
 [node name="AppearEffect" type="Node2D"]
 script = ExtResource("1_egy7u")

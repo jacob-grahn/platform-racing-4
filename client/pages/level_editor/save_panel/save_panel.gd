@@ -3,6 +3,7 @@ extends Control
 @onready var save_button = $SaveButton
 @onready var back_button: Button = $BackButton
 @onready var title_edit: TextEdit = $TitleEdit
+@onready var description_edit: TextEdit = $DescriptionEdit
 @onready var publish_check_box: CheckBox = $PublishCheckBox
 @onready var http_request: HTTPRequest = $HTTPRequest
 
@@ -36,6 +37,7 @@ func _save_pressed(current_level: Dictionary):
 	var post_data = {
 		"level_data": encoded_string,
 		"level_name": title_edit.text,
+		"level_description": description_edit.text,
 	}
 
 	var json_string = JSON.stringify(post_data)

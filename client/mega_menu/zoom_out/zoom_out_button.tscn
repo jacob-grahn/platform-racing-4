@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dthhmyq4ilj2w"]
 
 [ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_rkcuy"]
-[ext_resource type="Script" path="res://mega_menu/zoom_out/zoom_out_button.gd" id="2_uo65q"]
+[ext_resource type="Script" uid="uid://bpm0mu3602jvt" path="res://mega_menu/zoom_out/zoom_out_button.gd" id="2_uo65q"]
 
 [node name="ZoomOutButton" instance=ExtResource("1_rkcuy")]
 script = ExtResource("2_uo65q")

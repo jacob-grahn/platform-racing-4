@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://2abefujwdjsl"]
 
-[ext_resource type="Script" path="res://tiles/egg/egg_enemy.gd" id="1_l1sxf"]
+[ext_resource type="Script" uid="uid://cqfrq1tys8r7w" path="res://tiles/egg/egg_enemy.gd" id="1_l1sxf"]
 [ext_resource type="Texture2D" uid="uid://chtb6uaw70hao" path="res://character_display/styles/pr4_character_racer.png" id="4_bowk4"]
 [ext_resource type="Texture2D" uid="uid://5q3hv5k8v60n" path="res://tiles/egg/egg_color.svg" id="5_3wetp"]
 [ext_resource type="Texture2D" uid="uid://b8htaupqlayja" path="res://tiles/egg/egg_outline.svg" id="6_mrex7"]
@@ -247,14 +247,12 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h1vgd"]
 _data = {
-"RESET": SubResource("Animation_itr6u"),
-"run": SubResource("Animation_8v124"),
-"walk": SubResource("Animation_h882w")
+&"RESET": SubResource("Animation_itr6u"),
+&"run": SubResource("Animation_8v124"),
+&"walk": SubResource("Animation_h882w")
 }
 
 [node name="EggEnemy" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_l1sxf")
 
 [node name="Display" type="Node2D" parent="."]

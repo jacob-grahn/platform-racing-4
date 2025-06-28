@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dns831c4ggmtw"]
 
-[ext_resource type="Script" path="res://item_effects/black_hole.gd" id="1_1ej34"]
+[ext_resource type="Script" uid="uid://c4teiebaanbgb" path="res://item_effects/black_hole.gd" id="1_1ej34"]
 [ext_resource type="Texture2D" uid="uid://cth35wxod0y4f" path="res://item_effects/black_hole_1.png" id="1_kwytd"]
 [ext_resource type="Texture2D" uid="uid://bm5bvoom8myje" path="res://item_effects/black_hole_2.png" id="2_7p2ie"]
 [ext_resource type="Texture2D" uid="uid://cs7txbdwvdm6o" path="res://item_effects/black_hole_3.png" id="3_ysk3y"]
@@ -66,8 +66,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wqj24"]
 _data = {
-"RESET": SubResource("Animation_vgpcd"),
-"swirl": SubResource("Animation_7iq6q")
+&"RESET": SubResource("Animation_vgpcd"),
+&"swirl": SubResource("Animation_7iq6q")
 }
 
 [node name="CharacterBody2D" type="CharacterBody2D"]

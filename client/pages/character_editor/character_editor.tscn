@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bc0t2mpm7g5p2"]
 
-[ext_resource type="Script" path="res://pages/character_editor/character_editor.gd" id="1_rv2ev"]
+[ext_resource type="Script" uid="uid://ckpayj3dvm5hb" path="res://pages/character_editor/character_editor.gd" id="1_rv2ev"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="2_xj8yj"]
 [ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="3_s6f3x"]
 [ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor_camera.tscn" id="3_sehmu"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ba1ljm5s8vhfc"]
 
-[ext_resource type="Script" path="res://engine/layer_panel/number_picker.gd" id="1_cyeae"]
+[ext_resource type="Script" uid="uid://bppqj402keb0e" path="res://engine/layer_panel/number_picker.gd" id="1_cyeae"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_67vul"]
 
 [node name="NumberPicker" type="Node2D"]

@@ -2,6 +2,7 @@ extends Node2D
 class_name LevelEditor
 
 static var current_level: Dictionary
+static var current_level_description: String
 
 var default_level: Dictionary = {
 	"layers": [{
@@ -23,6 +24,7 @@ var default_level: Dictionary = {
 @onready var save_panel = $UI/SavePanel
 @onready var load_panel = $UI/LoadPanel
 @onready var explore_panel = $UI/ExplorePanel
+@onready var confirm_delete_panel = $UI/ConfirmDeletePanel
 @onready var http_request = $HTTPRequest
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
@@ -53,6 +55,7 @@ func _ready():
 	# Connect control events for camera zoom changes
 	$UI/EditorMenu.control_event.connect(_on_control_event)
 	now_editing_panel.init($UI/EditorMenu)
+	Jukebox.end_music = true
 
 
 func _on_back_pressed():
@@ -64,12 +67,14 @@ func _on_back_pressed():
 func _on_explore_pressed():
 	save_panel.close()
 	load_panel.close()
+	confirm_delete_panel.close()
 	explore_panel.initialize()
 
 
 func _on_load_pressed():
 	explore_panel.close()
 	save_panel.close()
+	confirm_delete_panel.close()
 	load_panel.initialize()
 
 
@@ -77,6 +82,7 @@ func _on_save_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
 	explore_panel.close()
 	load_panel.close()
+	confirm_delete_panel.close()
 	save_panel.initialize(LevelEditor.current_level)
 
 
@@ -87,7 +93,10 @@ func _on_test_pressed():
 
 
 func _on_clear_pressed():
-	_on_level_load("")
+	save_panel.close()
+	load_panel.close()
+	explore_panel.close()
+	confirm_delete_panel.initialize(self, "clear")
 
 
 func _on_level_load(level_name = ""):

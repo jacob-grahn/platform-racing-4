@@ -8,7 +8,7 @@ func init():
 
 
 func rotate_player_clockwise(player: Node2D, tile_map: Node2D, coords: Vector2i) -> void:
-	if cooldown(tile_map, coords, 0.25):
+	if cooldown(tile_map, coords, 1):
 		return
 		
 	player.gravity.target_rotation += PI / 2

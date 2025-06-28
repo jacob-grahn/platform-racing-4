@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://d08ojau48q8ee"]
 
-[ext_resource type="Script" path="res://items/sword_item.gd" id="1_c371v"]
+[ext_resource type="Script" uid="uid://ft5i32nxebc5" path="res://items/sword_item.gd" id="1_c371v"]
 [ext_resource type="Texture2D" uid="uid://deleoq8dalbdc" path="res://items/sword_item.png" id="1_ey3kf"]
 
 [sub_resource type="Animation" id="Animation_btdj3"]
@@ -101,9 +101,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jphj6"]
 _data = {
-"RESET": SubResource("Animation_btdj3"),
-"idle": SubResource("Animation_xn2st"),
-"swing": SubResource("Animation_n63xt")
+&"RESET": SubResource("Animation_btdj3"),
+&"idle": SubResource("Animation_xn2st"),
+&"swing": SubResource("Animation_n63xt")
 }
 
 [node name="SwordItem" type="Node2D"]
