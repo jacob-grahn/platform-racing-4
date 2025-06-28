@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://c4b6khd33tysp"]
 
-[ext_resource type="Script" path="res://character/character.gd" id="1_phdif"]
+[ext_resource type="Script" uid="uid://bymgxy1psd45h" path="res://character/character.gd" id="1_phdif"]
 [ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="2_kipoy"]
 [ext_resource type="PackedScene" uid="uid://r85gefbjuj1w" path="res://character/character_hitbox.tscn" id="2_qkr1y"]
 [ext_resource type="Texture2D" uid="uid://df4gd67ml4g6u" path="res://character/fire_01.png" id="3_14ic5"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cwwkryv7oh4jm" path="res://character/ice.svg" id="7_l8eep"]
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
-[ext_resource type="Script" path="res://items/item.gd" id="14_rudt7"]
+[ext_resource type="Script" uid="uid://cho1gwvbolta2" path="res://items/item.gd" id="14_rudt7"]
 
 [sub_resource type="Curve" id="Curve_7bwiu"]
 _data = [Vector2(0, 0.741988), 0.0, 0.0, 0, 0, Vector2(0.155052, 0.98471), 0.0, 0.0, 0, 0, Vector2(0.989547, 0), 0.0, 0.0, 0, 0]
@@ -100,9 +100,9 @@ radial_accel_min = 5.0
 radial_accel_max = 5.0
 alpha_curve = SubResource("CurveTexture_s340r")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gpy5w"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdlk0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fase5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ju3rb"]
 
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_phdif")
@@ -159,7 +159,7 @@ collision_layer = 2
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LowArea"]
-shape = SubResource("CircleShape2D_gpy5w")
+shape = SubResource("RectangleShape2D_hdlk0")
 
 [node name="HighArea" type="Area2D" parent="."]
 position = Vector2(0, -180)
@@ -167,7 +167,7 @@ collision_layer = 2
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea"]
-shape = SubResource("CircleShape2D_fase5")
+shape = SubResource("RectangleShape2D_ju3rb")
 
 [node name="ItemManager" type="Node2D" parent="."]
 position = Vector2(-6, -128)
@@ -189,3 +189,5 @@ position = Vector2(-4, 0)
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("7_l8eep")
 offset = Vector2(0, -180)
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]

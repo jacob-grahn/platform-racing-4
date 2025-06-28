@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://daguooscqk06f"]
 
 [ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_2a8m1"]
-[ext_resource type="Script" path="res://mega_menu/music_selector/music_selector.gd" id="2_yrcps"]
+[ext_resource type="Script" uid="uid://fm3t6qknyo6n" path="res://mega_menu/music_selector/music_selector.gd" id="2_yrcps"]
 
 [node name="MusicSelector" instance=ExtResource("1_2a8m1")]
 script = ExtResource("2_yrcps")

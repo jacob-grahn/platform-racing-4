@@ -83,6 +83,14 @@ func decode_usertextboxes(layer_name: String, usertextboxobjects: Array, isEditi
 		if "font" not in usertextboxobject.keys():
 			usertextboxobject.font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 		
+		if usertextboxobject.has("text_width") or usertextboxobject.has("text_height"):
+			usertextboxobject.erase("text_width")
+			usertextboxobject.get_or_add("width")
+			usertextboxobject.erase("text_height")
+			usertextboxobject.get_or_add("height")
+			usertextboxobject.width = 1
+			usertextboxobject.height = 1
+		
 		if "text_rotation" not in usertextboxobject.keys():
 			usertextboxobject.text_rotation = 0
 		
@@ -94,8 +102,8 @@ func decode_usertextboxes(layer_name: String, usertextboxobjects: Array, isEditi
 			"usertext": usertextboxobject.usertext,
 			"font": usertextboxobject.font,
 			"font_size": usertextboxobject.font_size,
-			"text_width": usertextboxobject.text_width,
-			"text_height": usertextboxobject.text_height,
+			"width": usertextboxobject.width,
+			"height": usertextboxobject.height,
 			"text_rotation": usertextboxobject.text_rotation,
 			"is_editing": isEditing
 		})

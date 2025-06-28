@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dv6v6vw5w7rts"]
 
-[ext_resource type="Script" path="res://pages/level_editor/explore_panel/explore_panel.gd" id="1_wkxf3"]
+[ext_resource type="Script" uid="uid://cyt5hvbp5qyv0" path="res://pages/level_editor/explore_panel/explore_panel.gd" id="1_wkxf3"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_a8s5x"]
 
 [node name="NowEditingPanel" type="Node2D"]

@@ -2,6 +2,14 @@ class_name Tiles
 
 var map = {}
 
+# PR3 non-custom block data goes like this: block: XY
+# X is the style of the block. (b1 = desert, b2 = industrial, b3 = jungle, b4 = space, b5 = underwater, b = classic.)
+# Y is the block ID. (0 = start, 1-4 = basics (2-4 (white, x, and waffle) are unused in pr3.), 5 = brick,
+# 6 = crumble, 7 = finish, 8 = happy, 9 = ice, 10 = infinite, 11 = item, 12 = mine, 13 = move, 14 = push,
+# 15 = rotateleft, 16 = rotateright, 17 = sad, 18 = safetynet, 19 = vanish, 20 = water, 21 = redteleport,
+# 22 = blueteleport, 23 = yellowteleport, 24 = bounce, 25 = change, 26 = up, 27 = down, 28 = left, 29 = right)
+# IMPORTANT: If the block category is classic, then the block data is just "b" followed by the block id
+# (b8-b9-b10-b11). Otherwise, for numbers 0 through 9, an extra 0 is added before the block id (b108-b109-b110-b11).
 
 func init_defaults() -> void:
 	map['1'] = Tile.new()

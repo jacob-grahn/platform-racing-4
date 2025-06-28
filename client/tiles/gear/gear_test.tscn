@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://da5j3mqnuv3ki"]
 
-[ext_resource type="Script" path="res://tiles/gear/gear_test.gd" id="1_xau6t"]
+[ext_resource type="Script" uid="uid://c8hrdtv7sqkl" path="res://tiles/gear/gear_test.gd" id="1_xau6t"]
 [ext_resource type="TileSet" uid="uid://88sly8e3w83r" path="res://tiles/pr4_tileset.tres" id="1_xhnup"]
 [ext_resource type="PackedScene" uid="uid://c4b6khd33tysp" path="res://character/character.tscn" id="2_ex56a"]
 

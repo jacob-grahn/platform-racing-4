@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cf5qile02la1e"]
 
-[ext_resource type="Script" path="res://items/teleport_item.gd" id="1_7le66"]
+[ext_resource type="Script" uid="uid://djskfcsk5r0vn" path="res://items/teleport_item.gd" id="1_7le66"]
 [ext_resource type="Texture2D" uid="uid://bytwbuxuisyva" path="res://items/teleport_item.png" id="1_devbc"]
 
 [node name="TeleportItem" type="Node2D"]

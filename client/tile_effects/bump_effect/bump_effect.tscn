@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3x826fs5wb6t"]
 
-[ext_resource type="Script" path="res://tile_effects/bump_effect/bump_effect.gd" id="1_fwhhp"]
+[ext_resource type="Script" uid="uid://s3m42bkbe7hj" path="res://tile_effects/bump_effect/bump_effect.gd" id="1_fwhhp"]
 [ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="2_wfa1f"]
 
 [sub_resource type="Animation" id="Animation_lfeve"]
@@ -75,8 +75,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xhyxf"]
 _data = {
-"RESET": SubResource("Animation_lfeve"),
-"bump": SubResource("Animation_nu0l5")
+&"RESET": SubResource("Animation_lfeve"),
+&"bump": SubResource("Animation_nu0l5")
 }
 
 [node name="BumpEffect" type="Node2D"]

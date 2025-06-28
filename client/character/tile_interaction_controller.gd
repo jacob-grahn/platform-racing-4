@@ -3,7 +3,9 @@ class_name TileInteractionController
 ## Handles collision detection, tile effects, and character depth management.
 
 const OUT_OF_BOUNDS_BLOCK_COUNT = 10
+const BUMP_SOUND := preload("res://sounds/BumpSound.ogg")
 
+var game: Node2D
 var _tiles: Tiles
 var low_area: Area2D
 var high_area: Area2D
@@ -18,6 +20,16 @@ func _init(tiles_node: Tiles, low_area_node: Area2D, high_area_node: Area2D):
 	high_area = high_area_node
 	last_safe_position = Vector2(0, 0)
 
+func get_tile_covering_high_area(character: Character) -> Dictionary:
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	
+	if tiles.size() == 0:
+		push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
+		return {}
+	
+	var tile = tiles[0]
+	var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
+	return tile
 
 func bump_tile_covering_high_area(character: Character) -> void:
 	var tiles: Array = get_tiles_overlapping_area(high_area)
@@ -27,15 +39,21 @@ func bump_tile_covering_high_area(character: Character) -> void:
 		return
 	
 	var tile = tiles[0]
-	var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
+	var tile_type = Helpers.to_block_id(tile.atlas_coords)
 	
-	_tiles.on("bottom", tile_type, character, tile.tile_map, tile.coords)
-	_tiles.on("any_side", tile_type, character, tile.tile_map, tile.coords)
-	_tiles.on("bump", tile_type, character, tile.tile_map, tile.coords)
+	character.movement.attempting_bump = true
+	if tile != character.movement.last_bumped_block:
+		_tiles.on("bottom", tile_type, character, tile.tile_map, tile.coords)
+		_tiles.on("any_side", tile_type, character, tile.tile_map, tile.coords)
+		_tiles.on("bump", tile_type, character, tile.tile_map, tile.coords)
+		character.movement.last_bumped_block = tile
+		character.audioplayer.set_stream(BUMP_SOUND)
+		character.audioplayer.set_volume_db(1)
+		character.audioplayer.play()
 
 
 func should_crouch(character: Character) -> bool:
-	if character.movement.is_crouching and !character.is_on_floor():
+	if !character.is_on_floor():
 		return false
 	var tiles_overlapping: Array = get_tiles_overlapping_area(high_area)
 	for tile_data in tiles_overlapping:
@@ -68,6 +86,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	var coords = tilemap.get_coords_for_body_rid(rid)
 	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
 	var tile_type = CoordinateUtils.to_block_id(atlas_coords)
+	var bumped_tile = {"tile_map": tilemap, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
 	
 	character.movement.last_collision_normal = normal
 	
@@ -80,9 +99,17 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 			_tiles.on("any_side", tile_type, character, tilemap, coords)
 	else:
 		if normal.y > 0:
-			_tiles.on("bottom", tile_type, character, tilemap, coords)
-			_tiles.on("any_side", tile_type, character, tilemap, coords)
-			_tiles.on("bump", tile_type, character, tilemap, coords)
+			character.movement.attempting_bump = true
+			if bumped_tile != character.movement.last_bumped_block and tile_type != 7:
+				_tiles.on("bottom", tile_type, character, tilemap, coords)
+				_tiles.on("any_side", tile_type, character, tilemap, coords)
+				_tiles.on("bump", tile_type, character, tilemap, coords)
+				character.movement.last_bumped_block = bumped_tile
+				character.movement.jumped = false
+				character.movement.jump_timer = 0
+				character.audioplayer.set_stream(BUMP_SOUND)
+				character.audioplayer.set_volume_db(1)
+				character.audioplayer.play()
 		else:
 			_tiles.on("top", tile_type, character, tilemap, coords)
 			_tiles.on("any_side", tile_type, character, tilemap, coords)

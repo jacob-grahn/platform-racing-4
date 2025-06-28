@@ -8,7 +8,7 @@ func _ready():
 	Global.minimaps = $UI/Minimaps
 	Global.bg = $BG
 	back.connect("pressed", _on_back_pressed)
-	Jukebox.play("pr1-future-penumbra")
+  # Jukebox.play("pr1-future-penumbra")
 
 func _on_back_pressed():
 	Main.set_scene(Main.LEVEL_EDITOR)

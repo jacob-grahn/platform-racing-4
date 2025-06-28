@@ -7,6 +7,8 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 	var level = {
 		"layers": [],
 		"properties": {
+			# "title": LevelEditor.current_level,
+			# "description": LevelEditor.current_description,
 			"background": bg.id,
 			"music": Jukebox.song_id
 		}
@@ -84,8 +86,8 @@ func encode_usertext(node: Node2D) -> Array:
 			"usertext": usertextbox.get_node("UserText").text,
 			"font": usertextbox.usertext_font,
 			"font_size": usertextbox.get_node("UserText").get("theme_override_font_sizes/font_size"),
-			"text_width": usertextbox.get_node("UserText").size.x,
-			"text_height": usertextbox.get_node("UserText").size.y,
+			"width": usertextbox.get_node("UserText").scale.x,
+			"height": usertextbox.get_node("UserText").scale.y,
 			"text_rotation": usertextbox.rotation
 		}
 		usertextboxobjects.push_back(usertextboxobject)

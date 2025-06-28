@@ -25,6 +25,22 @@ func get_skill_bonus() -> float:
 	return 1 + (skill / 50.0)
 
 
+func get_exact_jump() -> float:
+	return jump
+
+
+func get_exact_speed() -> float:
+	return speed
+
+
+func get_exact_accel() -> float:
+	return accel
+
+
+func get_exact_skill() -> float:
+	return skill
+
+
 func set_force(num: float) -> void:
 	force = num
 
@@ -40,6 +56,12 @@ func inc_all(num: int) -> void:
 	skill += num
 	enforce_limits()
 
+func set_stats(newspeed: int, newaccel: int, newjump: int, newskill: int) -> void:
+	speed = newspeed
+	accel = newaccel
+	jump = newjump
+	skill = newskill
+
 
 func enforce_limits() -> void:
 	jump = clamp(jump, 0, 100)
@@ -48,5 +70,5 @@ func enforce_limits() -> void:
 	skill = clamp(skill, 0, 100)
 
 
-func get_total() -> int:
-	return jump + speed + accel + skill
+func get_total() -> Array:
+	return [speed, accel, jump, skill]

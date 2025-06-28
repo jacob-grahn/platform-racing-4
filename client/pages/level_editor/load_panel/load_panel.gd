@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 signal level_load
 
@@ -32,7 +32,7 @@ func render() -> void:
 	for level_name in save_level_array:
 		var row = LOAD_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
-		row.get_node("Label").text = level_name
+		row.get_node("LevelLabel").text = level_name
 		row_holder.add_child(row)
 		var button = row.get_node("Button")
 		button.pressed.connect(_row_pressed.bind(level_name))

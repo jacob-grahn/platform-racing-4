@@ -31,8 +31,7 @@ func on_drag():
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
 	var tilemap: TileMap = layer.get_node("TileMap")
 	var camera: Camera2D = get_viewport().get_camera_2d()
-	
-	# Get screen position of mouse
+	# Get screen position of mouseAdd commentMore actions
 	var viewport_mouse_pos = get_viewport().get_mouse_position()
 	
 	# Convert to world position taking into account camera position, zoom, and layer scale

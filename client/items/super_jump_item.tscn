@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bo54jw72qjwc2"]
 
-[ext_resource type="Script" path="res://items/super_jump_item.gd" id="1_d027e"]
+[ext_resource type="Script" uid="uid://c4xiv16jj8ulw" path="res://items/super_jump_item.gd" id="1_d027e"]
 [ext_resource type="Texture2D" uid="uid://6sqvq64xpti0" path="res://items/super_jump_item.png" id="1_dsvh3"]
 
 [node name="SuperjumpItem" type="Node2D"]

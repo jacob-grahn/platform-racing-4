@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://d3ul8rfnnwv3p"]
 
-[ext_resource type="Script" path="res://character_display/character_display.gd" id="1_a0uep"]
+[ext_resource type="Script" uid="uid://d31xedau7l00s" path="res://character_display/character_display.gd" id="1_a0uep"]
 [ext_resource type="Texture2D" uid="uid://chtb6uaw70hao" path="res://character_display/styles/pr4_character_racer.png" id="2_ohmqh"]
 
 [sub_resource type="Animation" id="Animation_5crqw"]
@@ -2055,20 +2055,20 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rfx8m"]
 _data = {
-"RESET": SubResource("Animation_5crqw"),
-"airborn": SubResource("Animation_qhbdg"),
-"charge": SubResource("Animation_lk06q"),
-"charge_hold": SubResource("Animation_8xrj2"),
-"crawl": SubResource("Animation_lwjgd"),
-"crouch": SubResource("Animation_1h2pk"),
-"hurt": SubResource("Animation_fkrgf"),
-"hurt_start": SubResource("Animation_gxmh0"),
-"idle": SubResource("Animation_rdh48"),
-"jump": SubResource("Animation_f26m5"),
-"recover": SubResource("Animation_vibsf"),
-"run": SubResource("Animation_eoogh"),
-"swim": SubResource("Animation_00g4m"),
-"wall_slide": SubResource("Animation_a1244")
+&"RESET": SubResource("Animation_5crqw"),
+&"airborn": SubResource("Animation_qhbdg"),
+&"charge": SubResource("Animation_lk06q"),
+&"charge_hold": SubResource("Animation_8xrj2"),
+&"crawl": SubResource("Animation_lwjgd"),
+&"crouch": SubResource("Animation_1h2pk"),
+&"hurt": SubResource("Animation_fkrgf"),
+&"hurt_start": SubResource("Animation_gxmh0"),
+&"idle": SubResource("Animation_rdh48"),
+&"jump": SubResource("Animation_f26m5"),
+&"recover": SubResource("Animation_vibsf"),
+&"run": SubResource("Animation_eoogh"),
+&"swim": SubResource("Animation_00g4m"),
+&"wall_slide": SubResource("Animation_a1244")
 }
 
 [node name="CharacterDisplay" type="Node2D"]

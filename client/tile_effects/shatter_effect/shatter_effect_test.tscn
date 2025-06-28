@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c3uul10paeryl"]
 
-[ext_resource type="Script" path="res://tile_effects/shatter_effect/shatter_effect_test.gd" id="1_qsg67"]
+[ext_resource type="Script" uid="uid://clbxt1ovqbudi" path="res://tile_effects/shatter_effect/shatter_effect_test.gd" id="1_qsg67"]
 
 [node name="ShatterEffectTest" type="Node2D"]
 script = ExtResource("1_qsg67")

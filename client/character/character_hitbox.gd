@@ -35,11 +35,11 @@ func run(character: Character) -> void:
 
 func go_high() -> void:
 	mode = "high"
-	shape.height = HIGH
+	shape.size.y = HIGH
 	position.y = round(-HIGH / 2.0)
 
 
 func go_low() -> void:
 	mode = "low"
-	shape.height = LOW
+	shape.size.y = LOW
 	position.y = round(-LOW / 2.0)

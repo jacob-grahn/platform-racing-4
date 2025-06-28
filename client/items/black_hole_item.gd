@@ -2,8 +2,8 @@ extends Node2D
 class_name BlackHoleItem
 
 @onready var hole = load("res://item_effects/black_hole.tscn")
+@onready var spawn = get_node("../../../../../Projectiles")
 var character: Character
-@onready var spawn = get_node("../../../..")
 var using: bool = false
 var remove: bool = false
 var uses: int = 1

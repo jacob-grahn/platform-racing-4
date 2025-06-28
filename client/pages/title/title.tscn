@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bhw1mbgjp7dby"]
 
-[ext_resource type="Script" path="res://pages/title/title.gd" id="1_d2gdb"]
-[ext_resource type="FontFile" uid="uid://b8dxmqion7w1k" path="res://fonts/gwibble/GWIBBLE_.TTF" id="2_a4giu"]
+[ext_resource type="Script" uid="uid://dyjok55lmblxb" path="res://pages/title/title.gd" id="1_d2gdb"]
+[ext_resource type="FontFile" uid="uid://b8dxmqion7w1k" path="res://fonts/Gwibble/Gwibble.ttf" id="2_a4giu"]
 [ext_resource type="PackedScene" uid="uid://5j8rklfmops0" path="res://pages/title/parallax_bg/parallax_bg.tscn" id="3_033iv"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_k3j40"]
 [ext_resource type="Texture2D" uid="uid://bteadegxvoxj1" path="res://pages/title/title_text_fill.png" id="5_giwdd"]
@@ -93,8 +93,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h14ik"]
 _data = {
-"RESET": SubResource("Animation_e1rso"),
-"scroll": SubResource("Animation_ht0b2")
+&"RESET": SubResource("Animation_e1rso"),
+&"scroll": SubResource("Animation_ht0b2")
 }
 
 [node name="Title" type="Control"]
