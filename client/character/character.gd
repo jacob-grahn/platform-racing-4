@@ -42,7 +42,7 @@ var tile_interaction: TileInteractionController
 
 func _ready() -> void:
 	# Initialize all the controllers
-  	Global.character = self
+	Global.character = self
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
 	movement = MovementController.new(ice)
