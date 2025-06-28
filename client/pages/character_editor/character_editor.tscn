@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bc0t2mpm7g5p2"]
+[gd_scene load_steps=11 format=3 uid="uid://bc0t2mpm7g5p2"]
 
 [ext_resource type="Script" uid="uid://ckpayj3dvm5hb" path="res://pages/character_editor/character_editor.gd" id="1_rv2ev"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="2_xj8yj"]
