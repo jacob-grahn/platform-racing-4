@@ -6,8 +6,7 @@
 follow_viewport_enabled = true
 script = ExtResource("1_wroxk")
 
-[node name="TileMap" type="TileMap" parent="."]
-format = 2
+[node name="TileMap" type="TileMapLayer" parent="."]
 
 [node name="MovingTileMaps" type="Node2D" parent="."]
 

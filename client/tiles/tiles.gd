@@ -58,7 +58,7 @@ func init_defaults() -> void:
 		map[tile_id].init()
 
 
-func on(event: String, tile_type: int, player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
+func on(event: String, tile_type: int, player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
 		tile.on(event, player, tilemap, coords)
@@ -88,18 +88,18 @@ func is_safe(tile_type: int) -> bool:
 
 
 func activate_node(node: Node):
-	if node is TileMap:
+	if node is TileMapLayer:
 		activate_tilemap(node)
 		return
 		
 	for child in node.get_children():
-		if child is TileMap:
+		if child is TileMapLayer:
 			activate_tilemap(child)
 		elif child is Node2D || child is ParallaxBackground:
 			activate_node(child)
 
 
-func activate_tilemap(tilemap: TileMap):
+func activate_tilemap(tilemap: TileMapLayer):
 	for tile_id in map:
 		map[tile_id].activate_tilemap(tilemap)
 

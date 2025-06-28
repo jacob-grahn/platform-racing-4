@@ -9,7 +9,7 @@ func init():
 	any_side.push_back(bounce)
 
 
-func bounce(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
+func bounce(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 	var tile_position_local = (coords * Settings.tile_size) + Settings.tile_size_half
 	var tile_position_global = tilemap.to_global(tile_position_local)
 	

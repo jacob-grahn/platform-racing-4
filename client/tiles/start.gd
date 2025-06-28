@@ -10,8 +10,8 @@ func init():
 	Start.i = 0
 
 
-func activate_tilemap(tilemap: TileMap) -> void:
-	var coord_list = tilemap.get_used_cells_by_id(0, 0, Vector2i(1, 1))
+func activate_tilemap(tilemap: TileMapLayer) -> void:
+	var coord_list = tilemap.get_used_cells_by_id(0, Vector2i(1, 1))
 	for coords in coord_list:
 		var start_option = {
 			"layer_name": str(tilemap.get_parent().name),

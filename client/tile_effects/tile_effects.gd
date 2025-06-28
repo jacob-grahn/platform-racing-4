@@ -5,13 +5,13 @@ const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/shatter_effect
 const BUMP_EFFECT = preload("res://tile_effects/bump_effect/bump_effect.tscn")
 
 
-static func shatter(tile_map: TileMap, coords: Vector2i):
+static func shatter(tile_map: TileMapLayer, coords: Vector2i):
 	crumble(tile_map, coords)
-	tile_map.set_cell(-1, coords)
+	tile_map.set_cell(coords, -1)
 
 
-static func crumble(tile_map: TileMap, coords: Vector2i):
-	var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
+static func crumble(tile_map: TileMapLayer, coords: Vector2i):
+	var atlas_coords = tile_map.get_cell_atlas_coords(coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
 	var tile_atlas = tile_map.tile_set.get_source(0).texture
@@ -21,8 +21,8 @@ static func crumble(tile_map: TileMap, coords: Vector2i):
 	tile_map.add_child(shatter_effect)
 	
 
-static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
-	var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
+static func bump(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
+	var atlas_coords = tile_map.get_cell_atlas_coords(coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
 	
@@ -33,7 +33,7 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 		animation_player.seek(0.1)
 		return
 	
-	var alt_id: int = tile_map.get_cell_alternative_tile(0, coords)
+	var alt_id: int = tile_map.get_cell_alternative_tile(coords)
 	if alt_id == Tile.INVISIBLE_ALT_ID:
 		return
 	
@@ -45,6 +45,6 @@ static func bump(player: Node2D, tile_map: TileMap, coords: Vector2i):
 	bump_effect.set_tile(tile_map, coords, -bump_effect.rotation)
 	
 	if alt_id == Tile.DEACTIVATED_ALT_ID:
-		tile_map.set_cell(0, coords, 0, atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
+		tile_map.set_cell(coords, 0, atlas_coords, Tile.INVISIBLE_DEACTIVATED_ALT_ID)
 	else:
-		tile_map.set_cell(0, coords, 0, atlas_coords, Tile.INVISIBLE_ALT_ID)
+		tile_map.set_cell(coords, 0, atlas_coords, Tile.INVISIBLE_ALT_ID)

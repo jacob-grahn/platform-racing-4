@@ -10,8 +10,8 @@ func init():
 	matter_type = Tile.SOLID
 	any_side.push_back(appear)
 
-func appear(player: Node2D, tilemap: TileMap, coords: Vector2i):
-	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+func appear(player: Node2D, tilemap: TileMapLayer, coords: Vector2i):
+	var atlas_coords = tilemap.get_cell_atlas_coords(coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
 
@@ -39,7 +39,7 @@ func remove_from_appear_dict(coords: Vector2i) -> void:
 	appear_effects.erase(coords)
 	print("remove ", coords)
 
-func activate_tilemap(tilemap: TileMap) -> void:
-	var coord_list = tilemap.get_used_cells_by_id(0, 0, atlas_coords)
+func activate_tilemap(tilemap: TileMapLayer) -> void:
+	var coord_list = tilemap.get_used_cells_by_id(0, atlas_coords)
 	for coords in coord_list:
-		tilemap.get_cell_tile_data(0, coords).modulate.a = 0
+		tilemap.get_cell_tile_data(coords).modulate.a = 0

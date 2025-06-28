@@ -8,5 +8,5 @@ func init():
 	is_safe = false
 
 
-func shatter(player: Node2D, tilemap: TileMap, coords: Vector2i):
+func shatter(player: Node2D, tilemap: TileMapLayer, coords: Vector2i):
 	TileEffects.shatter(tilemap, coords)

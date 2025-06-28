@@ -17,7 +17,7 @@ func init(tiles: Tiles) -> void:
 	if minimap_container:
 		var minimap_tile_set = create_tile_set(tiles, false)
 		for child in minimap_container.get_children():
-			var tile_map_mini: TileMap = child.get_node("TileMapMini")
+			var tile_map_mini: TileMapLayer = child.get_node("TileMapMini")
 			tile_map_mini.tile_set = minimap_tile_set
 		
 	set_depth(depth)

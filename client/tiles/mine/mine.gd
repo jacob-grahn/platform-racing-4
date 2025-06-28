@@ -10,7 +10,7 @@ func init():
 	is_safe = false
 
 
-func explode(player: Node2D, tilemap: TileMap, coords: Vector2i):
+func explode(player: Node2D, tilemap: TileMapLayer, coords: Vector2i):
 	if player.invincibility.is_active():
 		return
 	TileEffects.shatter(tilemap, coords)
@@ -21,4 +21,3 @@ func explode(player: Node2D, tilemap: TileMap, coords: Vector2i):
 	effect.position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
 	tilemap.add_child(effect)
 	player.hitstun(2.5)
-	

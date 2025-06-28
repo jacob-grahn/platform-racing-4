@@ -12,6 +12,6 @@ func init() -> void:
 	bump.push_back(finish)
 
 
-func finish(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
+func finish(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 	# todo: this is not hacky at all
 	player.get_parent().get_parent().get_parent().get_parent().finish()

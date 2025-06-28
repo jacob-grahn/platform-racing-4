@@ -29,7 +29,7 @@ func on_mouse_down():
 
 func on_drag():
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
-	var tilemap: TileMap = layer.get_node("TileMap")
+	var tilemap: TileMapLayer = layer.get_node("TileMap")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	# Get screen position of mouseAdd commentMore actions
 	var viewport_mouse_pos = get_viewport().get_mouse_position()
@@ -55,7 +55,7 @@ func on_drag():
 	var coords = tilemap.local_to_map(rotated_pos)
 	
 	var atlas_coords = CoordinateUtils.to_atlas_coords(block_id)
-	var existing_atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+	var existing_atlas_coords = tilemap.get_cell_atlas_coords(coords)
 	if atlas_coords != existing_atlas_coords:
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_TILE,

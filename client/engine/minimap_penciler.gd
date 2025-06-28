@@ -74,7 +74,7 @@ func _update_minimap_tile(event: Dictionary) -> void:
 	var atlas_coords = CoordinateUtils.to_atlas_coords(event.block_id)
 	var alternative_tile = 0
 	
-	tile_map_mini.set_cell(0, coords, source_id, atlas_coords, alternative_tile)
+	tile_map_mini.set_cell(coords, source_id, atlas_coords, alternative_tile)
 
 
 func _show_selected_layer_minimap(layer_name: String) -> void:

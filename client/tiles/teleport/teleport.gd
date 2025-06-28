@@ -14,8 +14,8 @@ func init():
 	is_safe = false
 
 
-func activate_tilemap(tilemap: TileMap) -> void:
-	var coord_list = tilemap.get_used_cells_by_id(0, 0, atlas_coords)
+func activate_tilemap(tilemap: TileMapLayer) -> void:
+	var coord_list = tilemap.get_used_cells_by_id(0, atlas_coords)
 	for coords in coord_list:
 		var position = {
 			"layer_name": str(tilemap.get_parent().name),
@@ -31,7 +31,7 @@ func clear():
 	recent_teleports = []
 
 
-func teleport(player: Node2D, tilemap: TileMap, coords: Vector2i) -> void:
+func teleport(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 	var layer_name: String = str(tilemap.get_parent().name)
 	var is_throttled = is_teleport_throttled(str(player.name), layer_name, coords)
 	if is_throttled:
@@ -106,4 +106,3 @@ func get_next_position(source_position: Dictionary) -> Dictionary:
 	
 	# return the next match
 	return positions[k]
-	

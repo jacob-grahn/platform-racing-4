@@ -14,7 +14,7 @@ func init():
 	any_side.push_back(crumble)
 
 
-func crumble(player: Node2D, tile_map: TileMap, coords: Vector2i):
+func crumble(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
 	var key = get_slug(tile_map, coords)
 	
 	# oh shit, math

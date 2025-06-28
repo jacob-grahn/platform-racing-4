@@ -9,7 +9,7 @@ func init():
 	bump.push_back(dispense_item)
 
 
-func dispense_item(player: Node2D, tile_map: TileMap, coords: Vector2i):
+func dispense_item(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
 	if !is_active(tile_map, coords):
 		return
 	

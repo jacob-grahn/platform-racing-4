@@ -14,11 +14,11 @@ func init():
 	egg_counter = 0
 
 
-func activate_tilemap(tile_map: TileMap) -> void:
+func activate_tilemap(tile_map: TileMapLayer) -> void:
 	# add_timer()
 	
 	# add an egg enemy at the tile position
-	var coord_list: Array = tile_map.get_used_cells_by_id(0, 0, egg_atlas_coords)
+	var coord_list: Array = tile_map.get_used_cells_by_id(0, egg_atlas_coords)
 	for coords: Vector2i in coord_list:
 		egg_counter += 1
 		add_egg_enemy(tile_map, coords)
@@ -26,11 +26,11 @@ func activate_tilemap(tile_map: TileMap) -> void:
 	# make the egg tile invisible
 	if len(coord_list) > 0:
 		var coords: Vector2i = coord_list[0]
-		var data = tile_map.get_cell_tile_data(0, coords)
+		var data = tile_map.get_cell_tile_data(coords)
 		data.modulate = Color(1.0, 1.0, 1.0, 0.0)
 
 
-func add_egg_enemy(tile_map: TileMap, coords: Vector2i) -> void:
+func add_egg_enemy(tile_map: TileMapLayer, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
 	var depth = Helpers.get_depth(tile_map)
 	egg_enemy.position = get_center_position(tile_map, coords)

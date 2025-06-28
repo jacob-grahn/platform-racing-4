@@ -8,7 +8,7 @@ var using: bool = false
 var remove: bool = false
 var uses: int = 1
 var tile_id = 0
-var tile_map: TileMap
+var tile_map: TileMapLayer
 var spawn_position: Vector2
 var tilemap_position: Vector2
 var coords: Vector2i
@@ -27,7 +27,7 @@ func _ready():
 	set_block_position()
 
 func set_block_position():
-	tile_map = get_node("../../../../../TileMap")
+	tile_map = Global.tile_map
 	spawn_position = to_local(Vector2(0, 0))
 	tilemap_position = tile_map.to_local(character.global_position)
 	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size

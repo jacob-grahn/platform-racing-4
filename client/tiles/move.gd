@@ -17,12 +17,12 @@ func init():
 	is_safe = false
 
 
-func activate_tilemap(tile_map: TileMap) -> void:
+func activate_tilemap(tile_map: TileMapLayer) -> void:
 	tile_maps.push_back(tile_map)
 	add_timer()
 
 
-func move_track(player: Node2D, tile_map: TileMap, coords: Vector2i):
+func move_track(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
 	connected_objects.push_back({
 		"object": player,
 		"tile_map": tile_map,
@@ -37,8 +37,8 @@ func remove_stale_connected_objects() -> void:
 	
 
 func do_plan():
-	for tile_map: TileMap in tile_maps:
-		var coord_list: Array = tile_map.get_used_cells_by_id(0, 0, move_atlas_coords)
+	for tile_map: TileMapLayer in tile_maps:
+		var coord_list: Array = tile_map.get_used_cells_by_id(0, move_atlas_coords)
 		for coords: Vector2i in coord_list:
 			var rand = randi_range(0, 3)
 			var dir = Vector2i(0, 0)
@@ -55,8 +55,8 @@ func do_plan():
 func do_move():
 	remove_stale_connected_objects()
 	
-	for tile_map: TileMap in tile_maps:
-		var coord_list: Array = tile_map.get_used_cells_by_id(0, 0, move_atlas_coords)
+	for tile_map: TileMapLayer in tile_maps:
+		var coord_list: Array = tile_map.get_used_cells_by_id(0, move_atlas_coords)
 		for coords: Vector2i in coord_list:
 			var rand = randi_range(0, 3)
 			var dir = Vector2i(0, 0)
@@ -70,12 +70,12 @@ func do_move():
 				dir.y = -1
 			
 			# bail if there is something in the way
-			if tile_map.get_cell_atlas_coords(0, coords + dir) != Vector2i(-1, -1):
+			if tile_map.get_cell_atlas_coords(coords + dir) != Vector2i(-1, -1):
 				continue
 			
 			# move!
-			tile_map.set_cell(-1, coords)
-			tile_map.set_cell(0, coords + dir, 0, move_atlas_coords)
+			tile_map.set_cell(coords, -1)
+			tile_map.set_cell(coords + dir, 0, move_atlas_coords)
 
 			# remove any lingering bounce effects
 			var effect_name = str(coords.x) + "-" + str(coords.y) + "-bump"

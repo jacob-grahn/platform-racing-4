@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cow7p4hc0rpk4"]
+[gd_scene load_steps=6 format=4 uid="uid://cow7p4hc0rpk4"]
 
 [ext_resource type="Script" uid="uid://cnaeap0h146f6" path="res://layers/layer_test.gd" id="1_hkgdh"]
 [ext_resource type="PackedScene" uid="uid://h5onwupb7ju1" path="res://layers/layer.tscn" id="2_hcswu"]
@@ -24,7 +24,7 @@ texture = ExtResource("3_mhgad")
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_uk4kw")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMapLayer" parent="."]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAAAA0AAAACAAAAAAABAA0AAAACAAAAAAACAA0AAAACAAAAAAADAA0AAAACAAAAAAAEAA0AAAACAAAAAAAFAA0AAAACAAAAAAAGAA0AAAACAAAAAAAHAA0AAAACAAAAAAAIAA0AAAACAAAAAAA=")
 tile_set = ExtResource("4_h42oi")
-format = 2
-layer_0/tile_data = PackedInt32Array(851968, 131072, 0, 851969, 131072, 0, 851970, 131072, 0, 851971, 131072, 0, 851972, 131072, 0, 851973, 131072, 0, 851974, 131072, 0, 851975, 131072, 0, 851976, 131072, 0)

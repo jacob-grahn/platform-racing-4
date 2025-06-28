@@ -78,13 +78,13 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 		return false
 		
 	var tilemap = collision.get_collider()
-	if tilemap.get_class() != "TileMap":
+	if not (tilemap is TileMapLayer):
 		return false
 
 	var normal = collision.get_normal().rotated(-character.rotation)
 	var rid = collision.get_collider_rid()
 	var coords = tilemap.get_coords_for_body_rid(rid)
-	var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+	var atlas_coords = tilemap.get_cell_atlas_coords(coords)
 	var tile_type = CoordinateUtils.to_block_id(atlas_coords)
 	var bumped_tile = {"tile_map": tilemap, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
 	
@@ -158,10 +158,10 @@ func get_tiles_overlapping_area(area: Area2D) -> Array:
 	var tiles = []
 	var bodies: Array = area.get_overlapping_bodies()
 	for tile_map in bodies:
-		if !(tile_map is TileMap):
+		if !(tile_map is TileMapLayer):
 			continue
 		var coords = tile_map.local_to_map(tile_map.to_local(area.to_global(Vector2.ZERO)))
-		var atlas_coords = tile_map.get_cell_atlas_coords(0, coords)
+		var atlas_coords = tile_map.get_cell_atlas_coords(coords)
 		var block_id = CoordinateUtils.to_block_id(atlas_coords)
 		if block_id != 0:
 			tiles.push_back({

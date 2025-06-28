@@ -10,8 +10,7 @@ anchor_bottom = 0.139
 offset_bottom = -0.12001
 script = ExtResource("1_mju3q")
 
-[node name="TileMapMini" type="TileMap" parent="."]
-format = 2
+[node name="TileMapMini" type="TileMapLayer" parent="."]
 
 [node name="PlayerIcon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(1, 1)

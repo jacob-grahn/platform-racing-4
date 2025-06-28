@@ -27,12 +27,12 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 	return level
 
 
-func encode_chunks(tilemap: TileMap) -> Array:
+func encode_chunks(tilemap: TileMapLayer) -> Array:
 	var chunk_map = {}
 	var chunks = []
-	var used_coords = tilemap.get_used_cells(0)
+	var used_coords = tilemap.get_used_cells()
 	for coords in used_coords:
-		var atlas_coords = tilemap.get_cell_atlas_coords(0, coords)
+		var atlas_coords = tilemap.get_cell_atlas_coords(coords)
 		var block_id = CoordinateUtils.to_block_id(atlas_coords)
 		var chunk_coords: Vector2i = Vector2i((Vector2(coords) / Vector2(chunk_size)).floor())
 		var chunk_data_coords = coords - (chunk_coords * chunk_size)
