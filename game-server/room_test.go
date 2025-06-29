@@ -144,3 +144,46 @@ func TestInactiveRoomRemoval(t *testing.T) {
 		t.Errorf("Expected inactive room to be removed, but it was not")
 	}
 }
+
+func TestTwoClients(t *testing.T) {
+	hub := newHub()
+	go hub.run()
+
+	// Client 1 is the host
+	room := NewLevelEditorRoom("test-room", "client-1")
+	hub.rooms[room.Name] = room
+
+	client1 := &Client{ID: "client-1", Room: "test-room", send: make(chan []byte, 10)}
+	hub.clients[client1] = true
+
+	client2 := &Client{ID: "client-2", Room: "test-room", send: make(chan []byte, 10)}
+	hub.clients[client2] = true
+	room.AddMember("client-2", hub)
+
+	// Send two updates from client1
+	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
+	hub.broadcast <- update1
+	update2 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update2"}}
+	hub.broadcast <- update2
+
+	// client1 should not receive any updates since it is the sender
+	checkForUpdates(t, client1, 0)
+	// client2 should receive the two updates
+	checkForUpdates(t, client2, 2)
+}
+
+func checkForUpdates(t *testing.T, client *Client, expected int) {
+	timeout := time.After(1 * time.Second)
+	receivedCount := 0
+	for i := 0; i < expected; i++ {
+		select {
+		case <-client.send:
+			receivedCount++
+		case <-timeout:
+			t.Fatalf("Timed out waiting for updates for client %s. Received %d of %d", client.ID, receivedCount, expected)
+		}
+	}
+	if receivedCount != expected {
+		t.Errorf("Expected client %s to receive %d updates, but got %d", client.ID, expected, receivedCount)
+	}
+}
