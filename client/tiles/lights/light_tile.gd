@@ -31,7 +31,7 @@ func activate_tilemap(tilemap: TileMapLayer) -> void:
 
 func charge_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 	# avoid drawing the player into the same light again too soon
-	if player.lightbreak_src_tile == coords:
+	if player.lightbreak.src_tile == coords:
 		return
 	
 	# draw the player into the center of the light
@@ -41,29 +41,29 @@ func charge_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
 	var target_velocity = dist * 3
 	player.velocity = target_velocity
 	player.light.color = display_color
-	player.lightbreak_direction = Vector2.ZERO
-	player.lightbreak_windup += player.get_physics_process_delta_time() * 2
-	player.is_crouching = true
+	player.lightbreak.direction = Vector2.ZERO
+	player.lightbreak.windup += player.get_physics_process_delta_time() * 2
+	player.movement.is_crouching = true
 	
 	# get into the lightbreak faster if you release dir keys and hit the direction you want
 	if player.control_vector.length() == 0:
-		player.lightbreak_input_primed = true
-	if player.control_vector.length() != 0 && player.lightbreak_input_primed:
+		player.lightbreak.input_primed = true
+	if player.control_vector.length() != 0 && player.lightbreak.input_primed:
 		start_lightbreak(player, coords)
 		return
 	
 	# at the light timeout, either go in the direction that is being pressed or drop out
-	if player.lightbreak_windup >= 1:
+	if player.lightbreak.windup >= 1:
 		if player.control_vector.length() != 0:
 			start_lightbreak(player, coords)
 		else:
 			player.end_lightbreak()
-			player.lightbreak_src_tile = coords
+			player.lightbreak.src_tile = coords
 
 
 func start_lightbreak(player: Node2D, coords: Vector2i) -> void:
-	player.lightbreak_direction = Vector2(player.control_vector)
-	player.lightbreak_src_tile = coords
-	player.lightbreak_input_primed = false
-	player.lightbreak_windup = 0.1
-	player.lightbreak_type = lightbreak_type
+	player.lightbreak.direction = Vector2(player.control_vector)
+	player.lightbreak.src_tile = coords
+	player.lightbreak.input_primed = false
+	player.lightbreak.windup = 0.1
+	player.lightbreak.type = lightbreak_type

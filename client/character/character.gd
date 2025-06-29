@@ -38,6 +38,7 @@ var lightbreak: LightbreakController
 var movement: MovementController
 var animation: AnimationController
 var tile_interaction: TileInteractionController
+var control_vector: Vector2
 
 
 func _ready() -> void:
@@ -77,7 +78,7 @@ func _physics_process(delta: float) -> void:
 	velocity = movement.process(delta, self, stats, gravity, super_jump)
 	
 	# Process lightbreak
-	var control_vector := Input.get_vector("left", "right", "up", "down")
+	control_vector = Input.get_vector("left", "right", "up", "down")
 	var lightbreak_velocity := lightbreak.process(delta, control_vector, self)
 	if lightbreak_velocity != Vector2.ZERO:
 		velocity = lightbreak_velocity

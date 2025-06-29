@@ -11,4 +11,4 @@ func init():
 
 func start_lightbreak(player: Node2D, coords: Vector2i) -> void:
 	super(player, coords)
-	player.lightbreak_fire_power += 1
+	player.lightbreak.fire_power += 1

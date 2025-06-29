@@ -11,4 +11,4 @@ func init():
 
 func start_lightbreak(player: Node2D, coords: Vector2i) -> void:
 	super(player, coords)
-	player.lightbreak_moon_timer = 0.05
+	player.lightbreak.moon_timer = 0.05
