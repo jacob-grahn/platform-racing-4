@@ -17,7 +17,11 @@ func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
 	})
 	Jukebox.play(properties.get("music", ""))
 	
-	for encoded_layer in level.get("layers", []):
+	var level_layers = level.get("layers", [])
+	if level_layers.is_empty():
+		level_layers.append({"name": "Layer 1"})
+
+	for encoded_layer in level_layers:
 		# Emit add layer event
 		emit_signal("level_event", {
 			"type": EditorEvents.ADD_LAYER,

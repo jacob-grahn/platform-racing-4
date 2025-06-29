@@ -75,16 +75,16 @@ static func init_tester_scene(scene: Node, data: Dictionary) -> void:
 	minimap_penciler.init(level_manager.layers, editor_events, minimap_container)
 	editor_events.connect_to([level_manager.level_decoder])
 	
-	var level = data.get("level", {})
+	var level = data.get("level", FileManager.load_from_file())
 	level_manager.decode_level(level, false)
 	level_manager.activate_node()
 	
-	var player_manager: PlayerManager = scene.get_node("PlayerManager")
-	var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
-	
 	var start_option = Start.get_next_start_option(level_manager.layers)
-	for child in minimap_container.get_children():
-		child.visible = child.name == start_option.layer_name
+	if start_option:
+		var player_manager: PlayerManager = scene.get_node("PlayerManager")
+		var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
+		for child in minimap_container.get_children():
+			child.visible = child.name == start_option.layer_name
 		
 	level_manager.calc_used_rect()
 

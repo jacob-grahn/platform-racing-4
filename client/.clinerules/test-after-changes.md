@@ -1,10 +1,10 @@
 ## Testing
 After making a change, validate that the game still works.
-Run the game with this command: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests`
+Run all the tests with this command: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests all`
+You can also run specific tests as a comma separated list. See test_runner.gd for the tests that exist. Prefer running specific tests if possible, as it is much faster. Example: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests game,editor`
+
 Ignore these errors:
- - Invalid color name: (0, 0, 0, 1)
  - ObjectDB instances leaked at exit 
- - Node not found: "Blocks" (relative to "/root/Main/LEVEL_EDITOR/Layers")
 
 ## Code Style
 - Follow Godot's GDScript style guide

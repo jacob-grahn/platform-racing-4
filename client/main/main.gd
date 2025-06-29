@@ -1,6 +1,8 @@
 extends Control
 class_name Main
 
+const TestRunner = preload("res://test_runner.gd")
+
 static var FILE_URL = "https://files.platformracing.com"
 static var instance: Main
 
@@ -31,33 +33,19 @@ var scenes = {
 var current_scene: Node
 
 
+func _init():
+	var test_runner = TestRunner.new()
+	test_runner.name = "TestRunner"
+	add_child(test_runner)
+
+
 func _ready():
 	Main.instance = self
-	if "--run-tests" in OS.get_cmdline_args():
-		_run_tests()
+	if await TestRunner.run_tests(self):
 		return
 
 	
 	await set_scene(TITLE)
-
-
-func _run_tests():
-	# Load the game scene and let it run for a few seconds
-	Game.pr2_level_id = "50815"
-	await _set_scene(GAME)
-	await get_tree().create_timer(3.0).timeout
-
-	# Unload the game scene and load the level editor
-	var level_editor = await _set_scene(LEVEL_EDITOR)
-	await get_tree().process_frame
-	await get_tree().create_timer(3.0).timeout
-	
-	# Click the test button
-	await level_editor._on_test_pressed()
-	await get_tree().create_timer(3.0).timeout
-
-	# Quit the application
-	get_tree().quit()
 
 
 static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:
