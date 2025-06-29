@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"sync"
 	"time"
 )
@@ -13,7 +12,7 @@ type Room interface {
 	GetLastUpdateTime() time.Time
 	AddMember(string, *Hub)
 	RemoveMember(string)
-	HandleUpdate(*Update, *Hub)
+	HandleUpdate([]byte, *Hub)
 	SetMaxUpdates(int)
 }
 
@@ -21,7 +20,7 @@ type Room interface {
 type BaseRoom struct {
 	Name           string
 	MembersID      []string
-	updates        []*Update
+	updates        [][]byte
 	MaxUpdates     int
 	lastUpdateTime time.Time
 	mu             sync.RWMutex
@@ -56,7 +55,7 @@ func (r *BaseRoom) GetLastUpdateTime() time.Time {
 func (r *BaseRoom) AddMember(memberID string, h *Hub) {
 	r.mu.Lock()
 	r.MembersID = append(r.MembersID, memberID)
-	updates := make([]*Update, len(r.updates))
+	updates := make([][]byte, len(r.updates))
 	copy(updates, r.updates)
 	r.mu.Unlock()
 
@@ -64,23 +63,12 @@ func (r *BaseRoom) AddMember(memberID string, h *Hub) {
 }
 
 // sendInitialUpdates sends the initial updates to a new member.
-func (r *BaseRoom) sendInitialUpdates(memberID string, updates []*Update, h *Hub) {
+func (r *BaseRoom) sendInitialUpdates(memberID string, updates [][]byte, h *Hub) {
 	for _, update := range updates {
-		// Create a copy of the update to avoid modifying the original
-		updateCopy := *update
-		updateCopy.TargetUserID = memberID
-		updateCopy.Ret = true // Ensure the update is sent
-
-		jsonData, err := json.Marshal(updateCopy)
-		if err != nil {
-			// Handle error, maybe log it
-			continue
-		}
-
 		for client := range h.clients {
 			if client.ID == memberID {
 				select {
-				case client.send <- jsonData:
+				case client.send <- update:
 				default:
 					close(client.send)
 					delete(h.clients, client)
@@ -107,7 +95,7 @@ func (r *BaseRoom) SetMaxUpdates(maxUpdates int) {
 }
 
 // HandleUpdate stores and handles updates for the room.
-func (r *BaseRoom) HandleUpdate(update *Update, h *Hub, handleSpecificUpdate func(*Update, *Hub)) {
+func (r *BaseRoom) HandleUpdate(update []byte, h *Hub, handleSpecificUpdate func([]byte, *Hub)) {
 	r.mu.Lock()
 	r.updates = append(r.updates, update)
 	if len(r.updates) > r.MaxUpdates {

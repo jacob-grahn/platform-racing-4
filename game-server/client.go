@@ -71,29 +71,35 @@ func (c *Client) readPump() {
 			break
 		}
 
-		update := &Update{}
-		if err := json.Unmarshal(message, &update); err != nil {
+		var data map[string]interface{}
+		if err := json.Unmarshal(message, &data); err != nil {
 			fmt.Println("Invalid JSON received:", err)
-			break
+			continue
 		}
 
 		// persist room so it does not need to be sent with every request
-		if update.Room != "" {
-			c.Room = update.Room
+		if room, ok := data["room"].(string); ok && room != "" {
+			c.Room = room
 		} else {
-			update.Room = c.Room
+			data["room"] = c.Room
 		}
 
-		// perist user id so it does not need to be sent with every request
+		// persist user id so it does not need to be sent with every request
 		// todo: this field should not be set by the client, but fetched from session
-		if update.ID != "" {
-			c.ID = update.ID
+		if id, ok := data["id"].(string); ok && id != "" {
+			c.ID = id
 		} else {
-			update.ID = c.ID
+			data["id"] = c.ID
 		}
 
-		update.ErrorMessage = string(EmptyErrorMessage)
-		c.hub.broadcast <- update
+		// Re-marshal the message with the added fields
+		newMessage, err := json.Marshal(data)
+		if err != nil {
+			fmt.Println("Error re-marshalling message:", err)
+			continue
+		}
+
+		c.hub.broadcast <- newMessage
 	}
 }
 

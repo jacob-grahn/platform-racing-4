@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"testing"
 	"time"
 )
@@ -32,8 +33,13 @@ func TestUpdateHistory(t *testing.T) {
 
 	// Send some updates to the room
 	for i := 0; i < 10; i++ {
-		update := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update"}}
-		room.HandleUpdate(update, hub)
+		update := LevelEditorIncomingUpdate{
+			Module: EditorModule,
+			ID:     "client-1",
+			Editor: &LevelEditorContent{Data: "update"},
+		}
+		message, _ := json.Marshal(update)
+		room.HandleUpdate(message, hub)
 	}
 
 	if len(room.updates) != 5 {
@@ -52,11 +58,13 @@ func TestNewUserReceivesHistory(t *testing.T) {
 	room.AddMember(client.ID, hub)
 
 	// Send some updates to the room
-	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
-	room.HandleUpdate(update1, hub)
+	update1 := LevelEditorIncomingUpdate{Module: EditorModule, ID: "client-1", Editor: &LevelEditorContent{Data: "update1"}}
+	message1, _ := json.Marshal(update1)
+	room.HandleUpdate(message1, hub)
 
-	update2 := &Update{Module: string(ChatModule), ID: "client-1", Room: "test-room"}
-	room.HandleUpdate(update2, hub)
+	update2 := LevelEditorIncomingUpdate{Module: ChatModule, ID: "client-1", Chat: &ChatUpdate{Message: "hello"}}
+	message2, _ := json.Marshal(update2)
+	room.HandleUpdate(message2, hub)
 
 	// A new user joins
 	newUserClient := &Client{ID: "user-2", Room: "test-room", send: make(chan []byte, 10)}
@@ -91,8 +99,9 @@ func TestMessageOrder(t *testing.T) {
 	room.AddMember(client.ID, hub)
 
 	// Send some updates to the room
-	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
-	room.HandleUpdate(update1, hub)
+	update1 := LevelEditorIncomingUpdate{Module: EditorModule, ID: "client-1", Editor: &LevelEditorContent{Data: "update1"}}
+	message1, _ := json.Marshal(update1)
+	room.HandleUpdate(message1, hub)
 
 	// A new user joins
 	newUserClient := &Client{ID: "user-2", Room: "test-room", send: make(chan []byte, 10)}
@@ -100,21 +109,19 @@ func TestMessageOrder(t *testing.T) {
 	room.AddMember("user-2", hub)
 
 	// Send another update while the new user is receiving history
-	update3 := &Update{Module: string(ChatModule), ID: "client-1", Room: "test-room"}
-	room.HandleUpdate(update3, hub)
+	update3 := LevelEditorIncomingUpdate{Module: ChatModule, ID: "client-1", Chat: &ChatUpdate{Message: "hello"}}
+	message3, _ := json.Marshal(update3)
+	room.HandleUpdate(message3, hub)
 
 	// The new user should receive the historical update first, then the new update
 	timeout := time.After(1 * time.Second)
-	var receivedUpdates []*Update
+	var receivedUpdates [][]byte
 
 	// Drain the channel
 	for {
 		select {
-		case <-newUserClient.send:
-			var u Update
-			// We don't need to unmarshal, just counting them is enough for this test
-			// but in a real scenario you would.
-			receivedUpdates = append(receivedUpdates, &u)
+		case msg := <-newUserClient.send:
+			receivedUpdates = append(receivedUpdates, msg)
 		case <-timeout:
 			goto endLoop
 		}
@@ -165,10 +172,27 @@ func TestTwoClients(t *testing.T) {
 	room.AddMember("client-2", hub)
 
 	// Send two updates from client1
-	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
-	hub.broadcast <- update1
-	update2 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update2"}}
-	hub.broadcast <- update2
+	update1 := map[string]interface{}{
+		"module": string(EditorModule),
+		"id":     "client-1",
+		"room":   "test-room",
+		"editor": map[string]interface{}{
+			"data": "update1",
+		},
+	}
+	message1, _ := json.Marshal(update1)
+	hub.broadcast <- message1
+
+	update2 := map[string]interface{}{
+		"module": string(EditorModule),
+		"id":     "client-1",
+		"room":   "test-room",
+		"editor": map[string]interface{}{
+			"data": "update2",
+		},
+	}
+	message2, _ := json.Marshal(update2)
+	hub.broadcast <- message2
 
 	// client1 should not receive any updates since it is the sender
 	checkForUpdates(t, client1, 0)

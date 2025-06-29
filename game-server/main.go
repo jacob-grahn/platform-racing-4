@@ -7,23 +7,6 @@ import (
 	"net/http"
 )
 
-type PositionUpdate struct {
-	X         float64 `json:"x"`
-	Y         float64 `json:"y"`
-	VelX      float64 `json:"vel_x"`
-	VelY      float64 `json:"vel_y"`
-	ScaleX    int     `json:"scale_x"`
-	Timestamp int64   `json:"timestamp"`
-	Frame     int     `json:"frame"`
-	Character string  `json:"character"`
-	Animation string  `json:"animation"`
-}
-
-type ChatUpdate struct {
-	Timestamp int64  `json:"timestamp"`
-	Message   string `json:"message"`
-}
-
 var addr = flag.String("addr", ":8081", "http service address")
 
 func main() {
