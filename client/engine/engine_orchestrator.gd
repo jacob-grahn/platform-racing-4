@@ -8,10 +8,6 @@ static func init_game_scene(scene: Node) -> void:
 	var editor_events: EditorEvents = scene.get_node("EditorEvents")
 	var minimap_container = scene.get_node("UI/Minimaps")
 	
-	Global.layers = level_manager.layers
-	Global.minimaps = minimap_container
-	Global.bg = bg
-	
 	var minimap_penciler = preload("res://engine/minimap_penciler.gd").new()
 	scene.add_child(minimap_penciler)
 	
@@ -64,10 +60,6 @@ static func init_tester_scene(scene: Node, data: Dictionary) -> void:
 	var editor_events: EditorEvents = scene.get_node("EditorEvents")
 	var minimap_container = scene.get_node("UI/Minimaps")
 	
-	Global.layers = level_manager.layers
-	Global.minimaps = minimap_container
-	Global.bg = bg
-	
 	var minimap_penciler = preload("res://engine/minimap_penciler.gd").new()
 	scene.add_child(minimap_penciler)
 	
@@ -98,23 +90,6 @@ static func init_level_editor_scene(scene: Node) -> void:
 	var editor_menu = scene.get_node("UI/EditorMenu")
 	var layer_panel = scene.get_node("UI/LayerPanel")
 	var game_client = scene.get_node("/root/Main/GameClient")
-	
-	Global.ui = scene.get_node("UI")
-	Global.game_client = game_client
-	Global.editor_events = editor_events
-	Global.layers = level_manager.layers
-	Global.editor_cursors = scene.get_node("EditorCursorLayer/EditorCursors")
-	Global.bg = bg
-	Global.layer_panel = layer_panel
-	Global.popup_panel = scene.get_node("UI/PopupPanel")
-	Global.host_success_panel = scene.get_node("UI/HostSuccessPanel")
-	Global.now_editing_panel = scene.get_node("UI/NowEditingPanel")
-	Global.editor_explore_button = scene.get_node("UI/Explore")
-	Global.editor_load_button = scene.get_node("UI/Load")
-	Global.editor_clear_button = scene.get_node("UI/Clear")
-	Global.users_host_edit_panel = scene.get_node("UI/HostEditPanel")
-	Global.users_join_edit_panel = scene.get_node("UI/JoinEditPanel")
-	Global.users_quit_edit_panel = scene.get_node("UI/QuitEditPanel")
 	
 	editor_events.connect_to([cursor, editor_menu, layer_panel, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)

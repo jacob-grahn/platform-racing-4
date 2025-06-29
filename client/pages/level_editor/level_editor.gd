@@ -46,6 +46,23 @@ func _ready():
 	load_panel.connect("level_load", _on_level_load)
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
+
+	Global.ui = $UI
+	Global.game_client = get_node("/root/Main/GameClient")
+	Global.editor_events = $EditorEvents
+	Global.layers = $LevelManager.layers
+	Global.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
+	Global.bg = $BG
+	Global.layer_panel = $UI/LayerPanel
+	Global.popup_panel = $UI/PopupPanel
+	Global.host_success_panel = $UI/HostSuccessPanel
+	Global.now_editing_panel = $UI/NowEditingPanel
+	Global.editor_explore_button = $UI/Explore
+	Global.editor_load_button = $UI/Load
+	Global.editor_clear_button = $UI/Clear
+	Global.users_host_edit_panel = $UI/HostEditPanel
+	Global.users_join_edit_panel = $UI/JoinEditPanel
+	Global.users_quit_edit_panel = $UI/QuitEditPanel
 	
 	EngineOrchestrator.init_level_editor_scene(self)
 	

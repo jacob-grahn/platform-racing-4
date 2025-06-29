@@ -9,6 +9,11 @@ static var game: Game
 
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)
+	
+	Global.layers = $LevelManager.layers
+	Global.minimaps = $UI/Minimaps
+	Global.bg = $BG
+	
 	EngineOrchestrator.init_game_scene(self)
 	Game.game = self
 
