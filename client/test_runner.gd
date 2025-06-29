@@ -33,7 +33,16 @@ static func run_tests(main_instance: Main):
 static func _run_game_test(main_instance: Main):
 	Game.pr2_level_id = "50815"
 	await main_instance._set_scene(Main.GAME)
-	await main_instance.get_tree().create_timer(3.0).timeout
+	await main_instance.get_tree().create_timer(2.0).timeout
+
+	var character = Global.character
+	if character:
+		if not character.is_on_floor():
+			print("Character is not on the floor at the end of the game test.")
+			main_instance.get_tree().quit(1)
+	else:
+		print("Failed to get character instance.")
+		main_instance.get_tree().quit(1)
 
 
 static func _run_editor_test(main_instance: Main):
