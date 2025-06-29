@@ -135,7 +135,7 @@ func (h *Hub) broadcastUpdate(update *Update) {
 func (h *Hub) handleUpdate(update *Update) {
 	fmt.Println("Received update: Module(", update.Module+"),  From("+update.ID+")")
 
-	if Module(update.Module) == HostEditorModule {
+	if Module(update.Module) == CreateRoomModule {
 		if update.Room == "" {
 			h.setError(update, RoomNotFoundErrorMessage, update.ID)
 			return
@@ -149,16 +149,16 @@ func (h *Hub) handleUpdate(update *Update) {
 		var room Room
 		switch update.RoomType {
 		case "level-editor":
-			room = NewLevelEditorRoom(update.Room, update.ID)
+			room = NewLevelEditorRoom(update.Room)
 		case "game":
-			room = NewGameRoom(update.Room, update.ID)
+			room = NewGameRoom(update.Room)
 		default:
 			h.setError(update, UnknownRoomTypeErrorMessage, update.ID)
 			return
 		}
 
 		h.rooms[update.Room] = room
-		update.Module = string(HostSuccessModule)
+		update.Module = string(CreateRoomSuccessModule)
 		update.TargetUserID = update.ID
 		return
 	}

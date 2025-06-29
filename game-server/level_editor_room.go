@@ -8,9 +8,9 @@ type LevelEditorRoom struct {
 }
 
 // NewLevelEditorRoom creates a new level editor room.
-func NewLevelEditorRoom(name, hostID string) *LevelEditorRoom {
+func NewLevelEditorRoom(name string) *LevelEditorRoom {
 	return &LevelEditorRoom{
-		BaseRoom: NewBaseRoom(name, hostID, 99999),
+		BaseRoom: NewBaseRoom(name, 99999),
 	}
 }
 
@@ -25,27 +25,20 @@ func (r *LevelEditorRoom) handleSpecificUpdate(update *Update, h *Hub) {
 		r.AddMember(update.ID, h)
 		update.Module = string(JoinSuccessModule)
 		update.MemberIDList = r.GetMembersID()
-		update.HostID = r.GetHostID()
 	case QuitEditorModule:
 		r.RemoveMember(update.ID)
-		if r.GetHostID() == update.ID {
-			if len(r.GetMembersID()) > 0 {
-				r.HostID = r.GetMembersID()[0]
-			} else {
-				h.removeRoom(r.GetName())
-			}
+		if len(r.GetMembersID()) == 0 {
+			h.removeRoom(r.GetName())
 		}
 		update.Module = string(QuitSuccessModule)
 		update.MemberIDList = r.GetMembersID()
-		update.HostID = r.GetHostID()
 	case RequestEditorModule:
-		update.TargetUserID = r.GetHostID()
+		// broadcast to all members
 	case ResponseEditorModule:
 		// No special handling needed
 	case RequestRoomModule:
 		update.Module = string(ResponseRoomModule)
 		update.MemberIDList = r.GetMembersID()
-		update.HostID = r.GetHostID()
 	case EditorModule:
 		if update.Editor == nil {
 			update.Editor = &LevelEditorUpdate{}

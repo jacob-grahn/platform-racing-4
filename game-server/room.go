@@ -9,7 +9,6 @@ import (
 // Room is an interface for a room that can handle updates.
 type Room interface {
 	GetName() string
-	GetHostID() string
 	GetMembersID() []string
 	GetLastUpdateTime() time.Time
 	AddMember(string, *Hub)
@@ -21,7 +20,6 @@ type Room interface {
 // BaseRoom is a struct that contains the basic information for a room.
 type BaseRoom struct {
 	Name           string
-	HostID         string
 	MembersID      []string
 	updates        []*Update
 	MaxUpdates     int
@@ -30,11 +28,10 @@ type BaseRoom struct {
 }
 
 // NewBaseRoom creates a new base room.
-func NewBaseRoom(name, hostID string, maxUpdates int) BaseRoom {
+func NewBaseRoom(name string, maxUpdates int) BaseRoom {
 	return BaseRoom{
 		Name:           name,
-		HostID:         hostID,
-		MembersID:      []string{hostID},
+		MembersID:      []string{},
 		MaxUpdates:     maxUpdates,
 		lastUpdateTime: time.Now(),
 	}
@@ -43,11 +40,6 @@ func NewBaseRoom(name, hostID string, maxUpdates int) BaseRoom {
 // GetName returns the name of the room.
 func (r *BaseRoom) GetName() string {
 	return r.Name
-}
-
-// GetHostID returns the ID of the host of the room.
-func (r *BaseRoom) GetHostID() string {
-	return r.HostID
 }
 
 // GetMembersID returns the IDs of the members of the room.

@@ -6,9 +6,9 @@ type GameRoom struct {
 }
 
 // NewGameRoom creates a new game room.
-func NewGameRoom(name, hostID string) *GameRoom {
+func NewGameRoom(name string) *GameRoom {
 	return &GameRoom{
-		BaseRoom: NewBaseRoom(name, hostID, 99999),
+		BaseRoom: NewBaseRoom(name, 99999),
 	}
 }
 

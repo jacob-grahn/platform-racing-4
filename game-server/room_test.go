@@ -21,17 +21,18 @@ func TestMain(m *testing.M) {
 }
 
 func TestUpdateHistory(t *testing.T) {
-	room := NewLevelEditorRoom("test-room", "host-1")
+	room := NewLevelEditorRoom("test-room")
 	room.SetMaxUpdates(5)
 	hub := newHub()
 
-	// Add a client for the host
-	hostClient := &Client{ID: "host-1", Room: "test-room", send: make(chan []byte, 10)}
-	hub.addClient(hostClient)
+	// Add a client
+	client := &Client{ID: "client-1", Room: "test-room", send: make(chan []byte, 10)}
+	hub.addClient(client)
+	room.AddMember(client.ID, hub)
 
 	// Send some updates to the room
 	for i := 0; i < 10; i++ {
-		update := &Update{Module: string(EditorModule), ID: "host-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update"}}
+		update := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update"}}
 		room.HandleUpdate(update, hub)
 	}
 
@@ -41,19 +42,20 @@ func TestUpdateHistory(t *testing.T) {
 }
 
 func TestNewUserReceivesHistory(t *testing.T) {
-	room := NewLevelEditorRoom("test-room", "host-1")
+	room := NewLevelEditorRoom("test-room")
 	room.SetMaxUpdates(2)
 	hub := newHub()
 
-	// Add a client for the host
-	hostClient := &Client{ID: "host-1", Room: "test-room", send: make(chan []byte, 10)}
-	hub.addClient(hostClient)
+	// Add a client
+	client := &Client{ID: "client-1", Room: "test-room", send: make(chan []byte, 10)}
+	hub.addClient(client)
+	room.AddMember(client.ID, hub)
 
 	// Send some updates to the room
-	update1 := &Update{Module: string(EditorModule), ID: "host-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
+	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
 	room.HandleUpdate(update1, hub)
 
-	update2 := &Update{Module: string(ChatModule), ID: "host-1", Room: "test-room"}
+	update2 := &Update{Module: string(ChatModule), ID: "client-1", Room: "test-room"}
 	room.HandleUpdate(update2, hub)
 
 	// A new user joins
@@ -79,16 +81,17 @@ func TestNewUserReceivesHistory(t *testing.T) {
 }
 
 func TestMessageOrder(t *testing.T) {
-	room := NewLevelEditorRoom("test-room", "host-1")
+	room := NewLevelEditorRoom("test-room")
 	room.SetMaxUpdates(5)
 	hub := newHub()
 
-	// Add a client for the host
-	hostClient := &Client{ID: "host-1", Room: "test-room", send: make(chan []byte, 10)}
-	hub.addClient(hostClient)
+	// Add a client
+	client := &Client{ID: "client-1", Room: "test-room", send: make(chan []byte, 10)}
+	hub.addClient(client)
+	room.AddMember(client.ID, hub)
 
 	// Send some updates to the room
-	update1 := &Update{Module: string(EditorModule), ID: "host-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
+	update1 := &Update{Module: string(EditorModule), ID: "client-1", Room: "test-room", Editor: &LevelEditorUpdate{Data: "update1"}}
 	room.HandleUpdate(update1, hub)
 
 	// A new user joins
@@ -97,7 +100,7 @@ func TestMessageOrder(t *testing.T) {
 	room.AddMember("user-2", hub)
 
 	// Send another update while the new user is receiving history
-	update3 := &Update{Module: string(ChatModule), ID: "host-1", Room: "test-room"}
+	update3 := &Update{Module: string(ChatModule), ID: "client-1", Room: "test-room"}
 	room.HandleUpdate(update3, hub)
 
 	// The new user should receive the historical update first, then the new update
@@ -131,7 +134,7 @@ func TestInactiveRoomRemoval(t *testing.T) {
 
 	// Create a room and make it inactive
 	roomName := "test-room-inactive"
-	room := NewLevelEditorRoom(roomName, "host-1")
+	room := NewLevelEditorRoom(roomName)
 	room.lastUpdateTime = time.Now().Add(-61 * time.Second)
 	room.MembersID = []string{}
 	hub.rooms[roomName] = room
@@ -149,12 +152,13 @@ func TestTwoClients(t *testing.T) {
 	hub := newHub()
 	go hub.run()
 
-	// Client 1 is the host
-	room := NewLevelEditorRoom("test-room", "client-1")
+	// Client 1 is a member
+	room := NewLevelEditorRoom("test-room")
 	hub.rooms[room.Name] = room
 
 	client1 := &Client{ID: "client-1", Room: "test-room", send: make(chan []byte, 10)}
 	hub.clients[client1] = true
+	room.AddMember(client1.ID, hub)
 
 	client2 := &Client{ID: "client-2", Room: "test-room", send: make(chan []byte, 10)}
 	hub.clients[client2] = true

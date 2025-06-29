@@ -9,8 +9,8 @@ type ErrorMessage string
 const (
 	// JoinEditorModule is the module for joining the editor.
 	JoinEditorModule Module = "join-editor"
-	// HostEditorModule is the module for hosting the editor.
-	HostEditorModule Module = "host-editor"
+	// CreateRoomModule is the module for creating a room.
+	CreateRoomModule Module = "create-room"
 	// QuitEditorModule is the module for quitting the editor.
 	QuitEditorModule Module = "quit-editor"
 	// RequestEditorModule is the module for requesting the editor.
@@ -28,8 +28,8 @@ const (
 
 	// JoinSuccessModule is the module for a successful join.
 	JoinSuccessModule Module = "join-success"
-	// HostSuccessModule is the module for a successful host.
-	HostSuccessModule Module = "host-success"
+	// CreateRoomSuccessModule is the module for a successful room creation.
+	CreateRoomSuccessModule Module = "create-room-success"
 	// QuitSuccessModule is the module for a successful quit.
 	QuitSuccessModule Module = "quit-success"
 	// ResponseRoomModule is the module for a successful room response.
@@ -57,7 +57,6 @@ type Update struct {
 	TargetUserID string             `json:"target_user_id"`
 	ErrorMessage string             `json:"error_message"`
 	MemberIDList []string           `json:"member_id_list"`
-	HostID       string             `json:"host_id"`
 	Editor       *LevelEditorUpdate `json:"editor,omitempty"`
 }
 
