@@ -124,3 +124,23 @@ endLoop:
 		t.Errorf("Expected new user to receive at least the historical update, but got %d", len(receivedUpdates))
 	}
 }
+
+func TestInactiveRoomRemoval(t *testing.T) {
+	hub := newHubWithTicker(1 * time.Millisecond)
+	go hub.run()
+
+	// Create a room and make it inactive
+	roomName := "test-room-inactive"
+	room := NewLevelEditorRoom(roomName, "host-1")
+	room.lastUpdateTime = time.Now().Add(-61 * time.Second)
+	room.MembersID = []string{}
+	hub.rooms[roomName] = room
+
+	// Wait for the ticker to run
+	time.Sleep(50 * time.Millisecond)
+
+	// Check if the room was removed
+	if _, found := hub.findRoom(roomName); found {
+		t.Errorf("Expected inactive room to be removed, but it was not")
+	}
+}

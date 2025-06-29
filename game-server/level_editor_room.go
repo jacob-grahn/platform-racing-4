@@ -10,12 +10,7 @@ type LevelEditorRoom struct {
 // NewLevelEditorRoom creates a new level editor room.
 func NewLevelEditorRoom(name, hostID string) *LevelEditorRoom {
 	return &LevelEditorRoom{
-		BaseRoom: BaseRoom{
-			Name:       name,
-			HostID:     hostID,
-			MembersID:  []string{hostID},
-			MaxUpdates: 99999,
-		},
+		BaseRoom: NewBaseRoom(name, hostID, 99999),
 	}
 }
 

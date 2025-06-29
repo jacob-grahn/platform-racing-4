@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // Hub maintains the set of active clients and broadcasts messages to the
@@ -22,22 +23,38 @@ type Hub struct {
 
 	// Rooms
 	rooms map[string]Room
+
+	// tickerDuration is the duration between ticks.
+	tickerDuration time.Duration
 }
 
 func newHub() *Hub {
+	return newHubWithTicker(30 * time.Second)
+}
+
+func newHubWithTicker(tickerDuration time.Duration) *Hub {
 	return &Hub{
-		broadcast:  make(chan *Update),
-		register:   make(chan *Client),
-		unregister: make(chan *Client),
-		clients:    make(map[*Client]bool),
-		rooms:      make(map[string]Room),
+		broadcast:      make(chan *Update),
+		register:       make(chan *Client),
+		unregister:     make(chan *Client),
+		clients:        make(map[*Client]bool),
+		rooms:          make(map[string]Room),
+		tickerDuration: tickerDuration,
 	}
 }
 
 func (h *Hub) run() {
+	ticker := time.NewTicker(h.tickerDuration)
+	defer ticker.Stop()
+
 	for {
 		select {
-
+		case <-ticker.C:
+			for roomName, room := range h.rooms {
+				if len(room.GetMembersID()) == 0 && time.Since(room.GetLastUpdateTime()) > 60*time.Second {
+					h.removeRoom(roomName)
+				}
+			}
 		case client := <-h.register:
 			h.clients[client] = true
 

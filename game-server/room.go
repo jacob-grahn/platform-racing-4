@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"sync"
+	"time"
 )
 
 // Room is an interface for a room that can handle updates.
@@ -10,6 +11,7 @@ type Room interface {
 	GetName() string
 	GetHostID() string
 	GetMembersID() []string
+	GetLastUpdateTime() time.Time
 	AddMember(string, *Hub)
 	RemoveMember(string)
 	HandleUpdate(*Update, *Hub)
@@ -18,12 +20,24 @@ type Room interface {
 
 // BaseRoom is a struct that contains the basic information for a room.
 type BaseRoom struct {
-	Name       string
-	HostID     string
-	MembersID  []string
-	updates    []*Update
-	MaxUpdates int
-	mu         sync.RWMutex
+	Name           string
+	HostID         string
+	MembersID      []string
+	updates        []*Update
+	MaxUpdates     int
+	lastUpdateTime time.Time
+	mu             sync.RWMutex
+}
+
+// NewBaseRoom creates a new base room.
+func NewBaseRoom(name, hostID string, maxUpdates int) BaseRoom {
+	return BaseRoom{
+		Name:           name,
+		HostID:         hostID,
+		MembersID:      []string{hostID},
+		MaxUpdates:     maxUpdates,
+		lastUpdateTime: time.Now(),
+	}
 }
 
 // GetName returns the name of the room.
@@ -39,6 +53,11 @@ func (r *BaseRoom) GetHostID() string {
 // GetMembersID returns the IDs of the members of the room.
 func (r *BaseRoom) GetMembersID() []string {
 	return r.MembersID
+}
+
+// GetLastUpdateTime returns the last update time of the room.
+func (r *BaseRoom) GetLastUpdateTime() time.Time {
+	return r.lastUpdateTime
 }
 
 // AddMember adds a member to the room and sends them the update history.
@@ -102,6 +121,7 @@ func (r *BaseRoom) HandleUpdate(update *Update, h *Hub, handleSpecificUpdate fun
 	if len(r.updates) > r.MaxUpdates {
 		r.updates = r.updates[len(r.updates)-r.MaxUpdates:]
 	}
+	r.lastUpdateTime = time.Now()
 	r.mu.Unlock()
 
 	handleSpecificUpdate(update, h)

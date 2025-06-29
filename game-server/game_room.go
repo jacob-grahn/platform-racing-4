@@ -8,12 +8,7 @@ type GameRoom struct {
 // NewGameRoom creates a new game room.
 func NewGameRoom(name, hostID string) *GameRoom {
 	return &GameRoom{
-		BaseRoom: BaseRoom{
-			Name:       name,
-			HostID:     hostID,
-			MembersID:  []string{hostID},
-			MaxUpdates: 99999,
-		},
+		BaseRoom: NewBaseRoom(name, hostID, 99999),
 	}
 }
 
