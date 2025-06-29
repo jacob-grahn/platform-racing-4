@@ -5,12 +5,21 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 var addr = flag.String("addr", ":8081", "http service address")
+var jwtKey []byte
 
 func main() {
 	flag.Parse()
+
+	jwtKeyStr := os.Getenv("JWT_SECRET")
+	if jwtKeyStr == "" {
+		log.Fatal("JWT_SECRET environment variable not set")
+	}
+	jwtKey = []byte(jwtKeyStr)
+
 	hub := newHub()
 	go hub.run()
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

@@ -12,7 +12,7 @@ type Room interface {
 	GetLastUpdateTime() time.Time
 	AddMember(string, *Hub)
 	RemoveMember(string)
-	HandleUpdate([]byte, *Hub)
+	HandleUpdate(*AuthenticatedClient, *Hub)
 	SetMaxUpdates(int)
 }
 
@@ -95,14 +95,14 @@ func (r *BaseRoom) SetMaxUpdates(maxUpdates int) {
 }
 
 // HandleUpdate stores and handles updates for the room.
-func (r *BaseRoom) HandleUpdate(update []byte, h *Hub, handleSpecificUpdate func([]byte, *Hub)) {
+func (r *BaseRoom) HandleUpdate(authenticatedClient *AuthenticatedClient, h *Hub, handleSpecificUpdate func(*AuthenticatedClient, *Hub)) {
 	r.mu.Lock()
-	r.updates = append(r.updates, update)
+	r.updates = append(r.updates, authenticatedClient.Message)
 	if len(r.updates) > r.MaxUpdates {
 		r.updates = r.updates[len(r.updates)-r.MaxUpdates:]
 	}
 	r.lastUpdateTime = time.Now()
 	r.mu.Unlock()
 
-	handleSpecificUpdate(update, h)
+	handleSpecificUpdate(authenticatedClient, h)
 }

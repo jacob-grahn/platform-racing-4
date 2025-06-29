@@ -13,7 +13,7 @@ type Hub struct {
 	clients map[*Client]bool
 
 	// Inbound messages from the clients.
-	broadcast chan []byte
+	broadcast chan *AuthenticatedClient
 
 	// Register requests from the clients.
 	register chan *Client
@@ -34,7 +34,7 @@ func newHub() *Hub {
 
 func newHubWithTicker(tickerDuration time.Duration) *Hub {
 	return &Hub{
-		broadcast:      make(chan []byte),
+		broadcast:      make(chan *AuthenticatedClient),
 		register:       make(chan *Client),
 		unregister:     make(chan *Client),
 		clients:        make(map[*Client]bool),
@@ -72,8 +72,8 @@ func (h *Hub) run() {
 				close(client.send)
 			}
 
-		case message := <-h.broadcast:
-			h.handleIncomingMessage(message)
+		case authenticatedClient := <-h.broadcast:
+			h.handleIncomingMessage(authenticatedClient)
 		}
 	}
 }
@@ -91,13 +91,13 @@ func (h *Hub) broadcastUpdate(roomName string, message []byte, excludeClientID s
 	}
 }
 
-func (h *Hub) handleIncomingMessage(message []byte) {
+func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
 	var genericUpdate struct {
 		Module Module `json:"module"`
 		Room   string `json:"room"`
 		ID     string `json:"id"`
 	}
-	if err := json.Unmarshal(message, &genericUpdate); err != nil {
+	if err := json.Unmarshal(authenticatedClient.Message, &genericUpdate); err != nil {
 		fmt.Println("Error unmarshalling generic update:", err)
 		return
 	}
@@ -106,7 +106,7 @@ func (h *Hub) handleIncomingMessage(message []byte) {
 
 	switch genericUpdate.Module {
 	case JoinRoomModule:
-		h.handleJoinRoom(message)
+		h.handleJoinRoom(authenticatedClient)
 	default:
 		room, found := h.findRoom(genericUpdate.Room)
 		if !found {
@@ -115,13 +115,13 @@ func (h *Hub) handleIncomingMessage(message []byte) {
 			return
 		}
 		// The room is responsible for decoding its own specific update types
-		room.HandleUpdate(message, h)
+		room.HandleUpdate(authenticatedClient, h)
 	}
 }
 
-func (h *Hub) handleJoinRoom(message []byte) {
+func (h *Hub) handleJoinRoom(authenticatedClient *AuthenticatedClient) {
 	var update IncomingJoinUpdate
-	if err := json.Unmarshal(message, &update); err != nil {
+	if err := json.Unmarshal(authenticatedClient.Message, &update); err != nil {
 		fmt.Println("Error unmarshalling join room update:", err)
 		return
 	}
@@ -169,21 +169,4 @@ func (h *Hub) findRoom(roomName string) (Room, bool) {
 
 func (h *Hub) removeRoom(roomName string) {
 	delete(h.rooms, roomName)
-}
-
-// IncomingJoinUpdate is sent by the client to join (or create) a room.
-type IncomingJoinUpdate struct {
-	Module   Module `json:"module"`
-	Room     string `json:"room"`
-	RoomType string `json:"room_type"`
-	ID       string `json:"id"` // Client ID
-}
-
-// OutgoingJoinUpdate is sent back to the client to confirm the result.
-type OutgoingJoinUpdate struct {
-	Module       Module   `json:"module"`
-	Success      bool     `json:"success"`
-	Room         string   `json:"room"`
-	ErrorMessage string   `json:"error_message,omitempty"`
-	MemberIDList []string `json:"member_id_list,omitempty"`
 }

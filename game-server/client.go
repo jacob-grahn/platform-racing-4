@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/websocket"
 )
 
@@ -84,13 +85,7 @@ func (c *Client) readPump() {
 			data["room"] = c.Room
 		}
 
-		// persist user id so it does not need to be sent with every request
-		// todo: this field should not be set by the client, but fetched from session
-		if id, ok := data["id"].(string); ok && id != "" {
-			c.ID = id
-		} else {
-			data["id"] = c.ID
-		}
+		data["id"] = c.ID
 
 		// Re-marshal the message with the added fields
 		newMessage, err := json.Marshal(data)
@@ -99,7 +94,7 @@ func (c *Client) readPump() {
 			continue
 		}
 
-		c.hub.broadcast <- newMessage
+		c.hub.broadcast <- &AuthenticatedClient{Client: c, Message: newMessage}
 	}
 }
 
@@ -150,12 +145,42 @@ func (c *Client) writePump() {
 
 // serveWs handles websocket requests from the peer.
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	tokenString := r.URL.Query().Get("token")
+	if tokenString == "" {
+		http.Error(w, "token is required", http.StatusUnauthorized)
+		return
+	}
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		http.Error(w, "invalid token", http.StatusUnauthorized)
+		return
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		http.Error(w, "invalid token", http.StatusUnauthorized)
+		return
+	}
+
+	userID, ok := claims["user_id"].(string)
+	if !ok {
+		http.Error(w, "user_id not found in token", http.StatusUnauthorized)
+		return
+	}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), ID: userID}
 	client.hub.register <- client
 
 	// Allow collection of memory referenced by the caller by doing all work in
