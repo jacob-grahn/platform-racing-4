@@ -15,7 +15,18 @@ var default_layers: Dictionary = {
 
 
 func _ready() -> void:
-	EngineOrchestrator.init_character_editor_scene(self)
+	var level_manager: LevelManager = get_node("SubViewportContainer/SubViewport/LevelManager")
+	var penciler: Node2D = get_node("Penciler")
+	var editor_events: EditorEvents = get_node("EditorEvents")
+	var cursor: Cursor = get_node("UI/Cursor")
+	var editor_menu = get_node("UI/EditorMenu")
+	var layer_panel = get_node("UI/LayerPanel")
+	
+	cursor.init(editor_menu, level_manager.layers)
+	editor_events.connect_to([cursor, editor_menu, layer_panel, level_manager.level_decoder])
+	penciler.init(level_manager.layers, null, editor_events)
+	level_manager.decode_level(default_layers, true)
+	layer_panel.init(level_manager.layers)
 	character_display_timer.timeout.connect(_update_character_display)
 
 

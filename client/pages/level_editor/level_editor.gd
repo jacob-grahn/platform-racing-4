@@ -64,7 +64,29 @@ func _ready():
 	Global.users_join_edit_panel = $UI/JoinEditPanel
 	Global.users_quit_edit_panel = $UI/QuitEditPanel
 	
-	EngineOrchestrator.init_level_editor_scene(self)
+	var penciler: Node2D = get_node("Penciler")
+	var bg: Node2D = get_node("BG")
+	var editor_events: EditorEvents = get_node("EditorEvents")
+	var cursor: Cursor = get_node("UI/Cursor")
+	var editor_menu = get_node("UI/EditorMenu")
+	var layer_panel_node = get_node("UI/LayerPanel")
+	var game_client_node = get_node("/root/Main/GameClient")
+	
+	editor_events.connect_to([cursor, editor_menu, layer_panel_node, level_manager.level_decoder])
+	editor_events.set_game_client(game_client_node)
+	penciler.init(level_manager.layers, bg, editor_events)
+	cursor.init(editor_menu, level_manager.layers)
+	
+	if LevelEditor.current_level:
+		level_manager.decode_level(LevelEditor.current_level, true)
+	else:
+		var saved_level = FileManager.load_from_file()
+		if saved_level:
+			level_manager.decode_level(saved_level, true)
+		else:
+			level_manager.decode_level(default_level, true)
+			
+	layer_panel_node.init(level_manager.layers)
 	
 	editor_camera.target_zoom = 0.5
 	editor_camera.change_camera_zoom(0.5)
