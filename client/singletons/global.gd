@@ -1,46 +1,21 @@
 extends Node
 
-var character: Node2D
-var spawn: Node
-var ui: Node
-var game_client: Node
-var editor_events: Node
-var layers: Node
+# The editor_cursors global is used to manage the cursors of other players in the level editor.
 var editor_cursors: Node
+# The layers global is used to manage the layers in the game.
+var layers: Node
+# The minimaps global is used to display the minimaps in the UI.
 var minimaps: Node
-var tile_map: Node
-var bg: Node
-var layer_panel: Node
-var popup_panel: Node
-var host_success_panel: Node
-var now_editing_panel: Node
-var editor_explore_button: Node
-var editor_load_button: Node
-var editor_clear_button: Node
+# The users_host_edit_panel global is used to manage the host edit panel in the level editor.
 var users_host_edit_panel: Node
+# The users_join_edit_panel global is used to manage the join edit panel in the level editor.
 var users_join_edit_panel: Node
+# The users_quit_edit_panel global is used to manage the quit edit panel in the level editor.
 var users_quit_edit_panel: Node
-var item_holder: Node
-
 func clear():
-	character = null
-	spawn = null
-	ui = null
-	game_client = null
-	editor_events = null
-	layers = null
 	editor_cursors = null
+	layers = null
 	minimaps = null
-	tile_map = null
-	bg = null
-	layer_panel = null
-	popup_panel = null
-	host_success_panel = null
-	now_editing_panel = null
-	editor_explore_button = null
-	editor_load_button = null
-	editor_clear_button = null
 	users_host_edit_panel = null
 	users_join_edit_panel = null
 	users_quit_edit_panel = null
-	item_holder = null

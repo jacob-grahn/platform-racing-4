@@ -5,12 +5,13 @@ var last_cleanup_time = 0
 var tile_update_timestamps = {}
 var layers: Layers
 var bg: Node2D
+var layer_panel: Node2D
 
-@onready var layer_panel: Node2D = Global.layer_panel
 @onready var edit_cursors: Node2D = Global.editor_cursors
 
 
-func init(p_layers: Layers, p_bg, event_source) -> void:
+func init(p_layers: Layers, p_bg, event_source, p_layer_panel: Node2D) -> void:
+	layer_panel = p_layer_panel
 	layers = p_layers
 	bg = p_bg
 	event_source.connect("level_event", _on_level_event)

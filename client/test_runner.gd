@@ -32,10 +32,11 @@ static func run_tests(main_instance: Main):
 
 static func _run_game_test(main_instance: Main):
 	Game.pr2_level_id = "50815"
-	await main_instance._set_scene(Main.GAME)
+	var game_scene = await main_instance._set_scene(Main.GAME)
 	await main_instance.get_tree().create_timer(2.0).timeout
 
-	var character = Global.character
+	var player_manager = game_scene.get_node("PlayerManager")
+	var character = player_manager.get_character()
 	if character:
 		if not character.is_on_floor():
 			print("Character is not on the floor at the end of the game test.")

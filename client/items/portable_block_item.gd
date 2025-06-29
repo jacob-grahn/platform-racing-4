@@ -21,13 +21,14 @@ func _physics_process(delta):
 	set_block_position()
 	check_if_used()
 
+
 func _ready():
-	
 	tile_id = 18
 	set_block_position()
 
+
 func set_block_position():
-	tile_map = Global.tile_map
+	tile_map = get_node("../../../../../TileMap")
 	spawn_position = to_local(Vector2(0, 0))
 	tilemap_position = tile_map.to_local(character.global_position)
 	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size
@@ -49,15 +50,18 @@ func set_block_position():
 		VisualAid.scale.x = 1
 		VisualAid.scale.y = 1
 
+
 func check_if_used():
 	if uses < 1:
 		remove = true
+
 
 func activate_item():
 	if !using:
 		using = true
 		use_block()
 		uses -= 1
+
 
 func use_block():
 	set_block_position()
@@ -72,6 +76,7 @@ func use_block():
 	block.coords = Vector2i(coords.x + below_zero.x, coords.y + below_zero.y)
 	block.atlas_coords = atlas_coords
 	spawn.add_child.call_deferred(block)
+
 
 func still_have_item():
 	if !remove:

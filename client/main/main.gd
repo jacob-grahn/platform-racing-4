@@ -68,6 +68,4 @@ func _set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 	if current_scene.has_method("init"):
 		current_scene.init(data)
 
-	Global.spawn = current_scene
-		
 	return current_scene

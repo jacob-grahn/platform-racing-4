@@ -47,19 +47,8 @@ func _ready():
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
-	Global.ui = $UI
-	Global.game_client = get_node("/root/Main/GameClient")
-	Global.editor_events = $EditorEvents
-	Global.layers = $LevelManager.layers
 	Global.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
-	Global.bg = $BG
-	Global.layer_panel = $UI/LayerPanel
-	Global.popup_panel = $UI/PopupPanel
-	Global.host_success_panel = $UI/HostSuccessPanel
-	Global.now_editing_panel = $UI/NowEditingPanel
-	Global.editor_explore_button = $UI/Explore
-	Global.editor_load_button = $UI/Load
-	Global.editor_clear_button = $UI/Clear
+	Global.editor_cursors.init($LevelManager.layers)
 	Global.users_host_edit_panel = $UI/HostEditPanel
 	Global.users_join_edit_panel = $UI/JoinEditPanel
 	Global.users_quit_edit_panel = $UI/QuitEditPanel
@@ -74,7 +63,7 @@ func _ready():
 	
 	editor_events.connect_to([cursor, editor_menu, layer_panel_node, level_manager.level_decoder])
 	editor_events.set_game_client(game_client_node)
-	penciler.init(level_manager.layers, bg, editor_events)
+	penciler.init(level_manager.layers, bg, editor_events, layer_panel)
 	cursor.init(editor_menu, level_manager.layers)
 	
 	if LevelEditor.current_level:
@@ -211,15 +200,7 @@ func _on_disconnect_editor() -> void:
 	if $EditorEvents:
 		$EditorEvents.disconnect("send_level_event", game_client._on_send_level_event)
 	
-	Global.popup_panel = null
-	Global.host_success_panel = null
-	Global.editor_events = null
-	Global.now_editing_panel = null
-	Global.layers = null
 	Global.editor_cursors = null
-	Global.editor_explore_button = null
-	Global.editor_load_button = null
-	Global.editor_clear_button = null
 	
 	if !game_client.isFirstOpenEditor:
 		var data_room = {

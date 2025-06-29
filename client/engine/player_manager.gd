@@ -3,11 +3,18 @@ class_name PlayerManager
 
 const CHARACTER = preload("res://character/character.tscn")
 
+var character: CharacterBody2D
+
+
+func get_character() -> CharacterBody2D:
+	return character
+
+
 func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
 	var start_option = Start.get_next_start_option(layers)
 	if !start_option:
 		return null
-	var character = CHARACTER.instantiate()
+	character = CHARACTER.instantiate()
 	
 	Session.set_current_player_layer(start_option.layer_name)
 	
@@ -20,8 +27,5 @@ func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
 	player_holder.add_child(character)
 	character.init(tiles)
 	character.set_depth(layer.depth)
-	
-	Global.tile_map = layer.get_node("TileMap")
-	Global.item_holder = character.get_node("Display/ItemHolder")
 	
 	return character

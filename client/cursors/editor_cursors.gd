@@ -1,8 +1,12 @@
 extends Node2D
 
-@onready var layers = Global.layers
 const Editor_Cursor = preload("res://cursors/editor_cursor.tscn")
 var cursor: Node2D = null
+var layers: Node
+
+
+func init(layers_node: Node):
+	layers = layers_node
 
 var position_history = {}
 

@@ -43,7 +43,7 @@ func teleport(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 		"color": color
 	}
 	var next_position = get_next_position(source_position)
-	var layers = Global.layers
+	var layers = tilemap.get_parent().get_parent()
 	var layer = layers.get_node(next_position.layer_name)
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tilemap.global_rotation)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tilemap.global_rotation)

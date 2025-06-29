@@ -32,7 +32,7 @@ func _set_tile_id(new_tile_id: int) -> void:
 
 func activate_item():
 	using = true
-	var tile_map: TileMapLayer = Global.tile_map
+	var tile_map: TileMapLayer = get_node("../../../../../TileMap")
 	var global_position = to_global(Vector2(0, 0))
 	var tilemap_position = tile_map.to_local(global_position)
 	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size

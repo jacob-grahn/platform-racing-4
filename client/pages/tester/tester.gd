@@ -4,9 +4,7 @@ extends Node2D
 @onready var level_manager: LevelManager = $LevelManager
 
 func _ready():
-	Global.layers = level_manager.layers
 	Global.minimaps = $UI/Minimaps
-	Global.bg = $BG
 	back.connect("pressed", _on_back_pressed)
   # Jukebox.play("pr1-future-penumbra")
 
@@ -22,7 +20,7 @@ func init(data: Dictionary):
 	var minimap_penciler = preload("res://engine/minimap_penciler.gd").new()
 	add_child(minimap_penciler)
 	
-	penciler.init(level_manager.layers, bg, editor_events)
+	penciler.init(level_manager.layers, bg, editor_events, null)
 	minimap_penciler.init(level_manager.layers, editor_events, minimap_container)
 	editor_events.connect_to([level_manager.level_decoder])
 	

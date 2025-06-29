@@ -10,9 +10,7 @@ static var game: Game
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)
 	
-	Global.layers = $LevelManager.layers
 	Global.minimaps = $UI/Minimaps
-	Global.bg = $BG
 	
 	var penciler: Node2D = get_node("Penciler")
 	var editor_events: EditorEvents = get_node("EditorEvents")
@@ -22,7 +20,7 @@ func _ready():
 	add_child(minimap_penciler)
 	
 	editor_events.connect_to([level_manager.level_decoder])
-	penciler.init(level_manager.layers, $BG, editor_events)
+	penciler.init(level_manager.layers, $BG, editor_events, null)
 	minimap_penciler.init(level_manager.layers, editor_events, minimap_container)
 	
 	if !Game.pr2_level_id or Game.pr2_level_id == '0':
