@@ -19,7 +19,7 @@ func init():
 
 func activate_tilemap(tile_map: TileMapLayer) -> void:
 	tile_maps.push_back(tile_map)
-	add_timer()
+	add_timer(tile_map)
 
 
 func move_track(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
@@ -89,23 +89,14 @@ func do_move():
 					break
 
 
-func add_timer() -> void:
+func add_timer(tile_map: TileMapLayer) -> void:
 	if timer:
 		return
 	timer = Timer.new()
-	var main_scene = Engine.get_main_loop().root
-	main_scene.add_child(timer)
+	tile_map.add_child(timer)
 	timer.wait_time = 0.5
 	timer.connect("timeout", _on_timeout)
 	timer.start()
-
-
-func remove_timer() -> void:
-	if timer:
-		timer.stop()
-		var main_scene = Engine.get_main_loop().root
-		main_scene.remove_child.call_deferred(timer)
-		timer = null
 
 
 func _on_timeout():
@@ -120,5 +111,7 @@ func _on_timeout():
 func clear():
 	tile_maps = []
 	connected_objects = []
-	remove_timer()
+	if timer:
+		timer.queue_free()
+		timer = null
 	mode = PLAN
