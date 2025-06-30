@@ -39,8 +39,6 @@ func (r *LevelEditorRoom) handleSpecificUpdate(authenticatedClient *Authenticate
 	switch update.Module {
 	case EditorModule:
 		outgoingUpdate.Editor = update.Editor
-	case ChatModule:
-		outgoingUpdate.Chat = update.Chat
 	default:
 		// Handle unknown module for this room type
 		return

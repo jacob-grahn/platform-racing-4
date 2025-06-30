@@ -95,7 +95,7 @@ func (h *Hub) broadcastUpdate(roomName string, message []byte, excludeClientID s
 func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
 	var genericUpdate struct {
 		Module Module `json:"module"`
-		RoomId string `json:"room_id"`
+		Room   string `json:"room"`
 		ID     string `json:"id"`
 	}
 	if err := json.Unmarshal(authenticatedClient.Message, &genericUpdate); err != nil {
@@ -103,16 +103,16 @@ func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
 		return
 	}
 
-	fmt.Println("Received update: Module(", genericUpdate.Module, "), From(", genericUpdate.ID, "), Room(", genericUpdate.RoomId, ")")
+	fmt.Println("Received update: Module(", genericUpdate.Module, "), From(", genericUpdate.ID, "), Room(", genericUpdate.Room, ")")
 
 	switch genericUpdate.Module {
 	case JoinRoomModule:
 		h.handleJoinRoom(authenticatedClient)
 	default:
-		room, found := h.findRoom(genericUpdate.RoomId)
+		room, found := h.findRoom(genericUpdate.Room)
 		if !found {
 			// Optionally, send an error back to the client
-			fmt.Println("Room not found:", genericUpdate.RoomId)
+			fmt.Println("Room not found:", genericUpdate.Room)
 			return
 		}
 		// The room is responsible for decoding its own specific update types
@@ -127,11 +127,11 @@ func (h *Hub) handleJoinRoom(authenticatedClient *AuthenticatedClient) {
 		return
 	}
 
-	room, exists := h.findRoom(update.RoomId)
+	room, exists := h.findRoom(update.Room)
 	if !exists {
-		parts := strings.SplitN(update.RoomId, "/", 2)
+		parts := strings.SplitN(update.Room, "/", 2)
 		if len(parts) != 2 {
-			// Handle invalid room_id format
+			// Handle invalid room format
 			return
 		}
 		roomType := parts[0]
@@ -146,7 +146,7 @@ func (h *Hub) handleJoinRoom(authenticatedClient *AuthenticatedClient) {
 			// Handle unknown room type error
 			return
 		}
-		h.rooms[update.RoomId] = room
+		h.rooms[update.Room] = room
 	}
 
 	// Add member to the room

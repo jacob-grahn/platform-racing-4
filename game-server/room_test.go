@@ -68,7 +68,7 @@ func TestNewUserReceivesHistory(t *testing.T) {
 	message1, _ := json.Marshal(update1)
 	room.HandleUpdate(&AuthenticatedClient{Client: client, Message: message1}, hub)
 
-	update2 := LevelEditorIncomingUpdate{Module: ChatModule, ID: "client-1", Chat: &ChatUpdate{Message: "hello"}}
+	update2 := LevelEditorIncomingUpdate{Module: EditorModule, ID: "client-1", Editor: &LevelEditorContent{Data: "update2"}}
 	message2, _ := json.Marshal(update2)
 	room.HandleUpdate(&AuthenticatedClient{Client: client, Message: message2}, hub)
 
@@ -115,7 +115,7 @@ func TestMessageOrder(t *testing.T) {
 	room.AddMember("user-2", hub)
 
 	// Send another update while the new user is receiving history
-	update3 := LevelEditorIncomingUpdate{Module: ChatModule, ID: "client-1", Chat: &ChatUpdate{Message: "hello"}}
+	update3 := LevelEditorIncomingUpdate{Module: EditorModule, ID: "client-1", Editor: &LevelEditorContent{Data: "update3"}}
 	message3, _ := json.Marshal(update3)
 	room.HandleUpdate(&AuthenticatedClient{Client: client, Message: message3}, hub)
 
@@ -223,7 +223,6 @@ func checkForUpdates(t *testing.T, client *Client, expected int) {
 }
 
 func TestServeWsAuth(t *testing.T) {
-	t.Setenv("JWT_SECRET", "abc123")
 	jwtKey = []byte("abc123")
 	hub := newHub()
 	go hub.run()
