@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -26,9 +25,6 @@ type Hub struct {
 
 	// tickerDuration is the duration between ticks.
 	tickerDuration time.Duration
-
-	// globalHandler handles updates that are not associated with a room.
-	globalHandler *GlobalHandler
 }
 
 func newHub() *Hub {
@@ -43,7 +39,6 @@ func newHubWithTicker(tickerDuration time.Duration) *Hub {
 		clients:        make(map[*Client]bool),
 		rooms:          make(map[string]Room),
 		tickerDuration: tickerDuration,
-		globalHandler:  NewGlobalHandler(),
 	}
 }
 
@@ -96,24 +91,12 @@ func (h *Hub) broadcastUpdate(roomName string, message []byte, excludeClientID s
 }
 
 func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
-	var genericUpdate struct {
-		Room string `json:"room"`
-	}
-	if err := json.Unmarshal(authenticatedClient.Message, &genericUpdate); err != nil {
-		fmt.Println("Error unmarshalling generic update:", err)
+	room, found := h.findRoom(authenticatedClient.Client.Room)
+	if !found {
+		fmt.Println("Room not found:", authenticatedClient.Client.Room)
 		return
 	}
-
-	if genericUpdate.Room != "" {
-		room, found := h.findRoom(genericUpdate.Room)
-		if !found {
-			fmt.Println("Room not found:", genericUpdate.Room)
-			return
-		}
-		room.HandleUpdate(authenticatedClient, h)
-	} else {
-		h.globalHandler.HandleUpdate(authenticatedClient, h)
-	}
+	room.HandleUpdate(authenticatedClient, h)
 }
 
 func (h *Hub) findRoom(roomName string) (Room, bool) {

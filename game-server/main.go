@@ -25,7 +25,7 @@ func main() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(w, "ok")
 	})
-	http.HandleFunc("/gameserver", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/gameserver/", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})
 	err := http.ListenAndServe(*addr, nil)

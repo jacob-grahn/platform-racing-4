@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -78,12 +79,7 @@ func (c *Client) readPump() {
 			continue
 		}
 
-		if room, ok := data["room"].(string); ok && room != "" {
-			c.Room = room
-		} else if c.Room != "" {
-			data["room"] = c.Room
-		}
-
+		data["room"] = c.Room
 		data["id"] = c.ID
 
 		// Re-marshal the message with the added fields
@@ -144,6 +140,12 @@ func (c *Client) writePump() {
 
 // serveWs handles websocket requests from the peer.
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	roomID := strings.TrimPrefix(r.URL.Path, "/gameserver/")
+	if roomID == "" {
+		http.Error(w, "room is required", http.StatusBadRequest)
+		return
+	}
+
 	tokenString := r.URL.Query().Get("token")
 	if tokenString == "" {
 		http.Error(w, "token is required", http.StatusUnauthorized)
@@ -179,8 +181,31 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), ID: userID}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), ID: userID, Room: roomID}
 	client.hub.register <- client
+
+	room, exists := hub.findRoom(roomID)
+	if !exists {
+		parts := strings.SplitN(roomID, "/", 2)
+		if len(parts) != 2 {
+			// Handle invalid room format
+			return
+		}
+		roomType := parts[0]
+		roomName := parts[1]
+
+		switch roomType {
+		case "level-editor":
+			room = NewLevelEditorRoom(roomName)
+		case "game":
+			room = NewGameRoom(roomName)
+		default:
+			// Handle unknown room type error
+			return
+		}
+		hub.rooms[roomID] = room
+	}
+	room.AddMember(client.ID, hub)
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

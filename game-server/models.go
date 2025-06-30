@@ -34,10 +34,3 @@ type LevelEditorOutgoingUpdate struct {
 	MemberIDList []string            `json:"member_id_list,omitempty"`
 	Timestamp    int64               `json:"timestamp"`
 }
-
-// IncomingJoinUpdate is sent by the client to join (or create) a room.
-type IncomingJoinUpdate struct {
-	Module Module `json:"module"`
-	Room   string `json:"room"`
-	ID     string `json:"id"` // Client ID
-}
