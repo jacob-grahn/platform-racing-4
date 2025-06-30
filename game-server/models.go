@@ -4,8 +4,6 @@ package main
 type Module string
 
 const (
-	// JoinRoomModule is the module for joining a room.
-	JoinRoomModule Module = "join-room"
 	// EditorModule is the module for the level editor.
 	EditorModule Module = "editor"
 )

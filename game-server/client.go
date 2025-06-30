@@ -78,10 +78,9 @@ func (c *Client) readPump() {
 			continue
 		}
 
-		// persist room so it does not need to be sent with every request
 		if room, ok := data["room"].(string); ok && room != "" {
 			c.Room = room
-		} else {
+		} else if c.Room != "" {
 			data["room"] = c.Room
 		}
 
