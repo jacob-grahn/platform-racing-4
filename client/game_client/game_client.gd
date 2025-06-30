@@ -69,14 +69,15 @@ func quit(room_name: String) -> void:
 	send_queue.push_back(data)
 
 func join(room_name: String, is_host_requested: bool) -> void:
+	var room_type = "editor"
 	if is_host_requested:
 		current_module = "HostEditorModule"
 	else:
 		current_module = "JoinEditorModule"
-		
+
 	_clear()
 	connect_attempt_count = 0
-	room = room_name
+	room = room_type + "/" + room_name
 	target_state = OPEN
 	_attempt_connect(false)
 
@@ -150,12 +151,14 @@ func _attempt_connect(isReconnect: bool) -> void:
 	# Send data.
 	if isReconnect:
 		current_module = "ReconnectModule"
+	else:
+		current_module = "join-room"
 		
 	var data = {
 		"module": current_module,
 		"id": Session.get_username(),
 		"ms": 5938,
-		"room" : room,
+		"room_id" : room,
 		"ret": true
 	}
 	send_queue.push_back(data)
@@ -259,31 +262,6 @@ func _process(delta: float) -> void:
 						"level_data": encoded_data,
 					}
 				}
-				send_queue.push_back(data)
-			elif parsed_packet.module == "JoinSuccessModule":
-				if now_editing_panel && is_instance_valid(now_editing_panel):
-					if parsed_packet.id != Session.get_username() && is_live_editing:
-						now_editing_panel.add_member(parsed_packet.id)
-				if is_host or parsed_packet.id != Session.get_username():
-					if !editor_cursors || !is_instance_valid(editor_cursors):
-						return
-						
-					for member_id in parsed_packet.member_id_list:
-						editor_cursors.add_new_cursor(member_id)
-					return
-				
-				var data = {
-					"module": "RequestEditorModule",
-					"id": Session.get_username(),
-					"ms": 5938,
-					"room" : room,
-					"ret": true,
-				}
-				
-				for member_id in parsed_packet.member_id_list:
-					cached_member_id_list.append(member_id)
-				cached_host_id =  parsed_packet.host_id
-				
 				send_queue.push_back(data)
 			elif parsed_packet.module == "HostSuccessModule":
 				if parsed_packet.id != Session.get_username():

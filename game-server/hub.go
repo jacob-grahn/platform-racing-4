@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -94,7 +95,7 @@ func (h *Hub) broadcastUpdate(roomName string, message []byte, excludeClientID s
 func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
 	var genericUpdate struct {
 		Module Module `json:"module"`
-		Room   string `json:"room"`
+		RoomId string `json:"room_id"`
 		ID     string `json:"id"`
 	}
 	if err := json.Unmarshal(authenticatedClient.Message, &genericUpdate); err != nil {
@@ -102,16 +103,16 @@ func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
 		return
 	}
 
-	fmt.Println("Received update: Module(", genericUpdate.Module, "), From(", genericUpdate.ID, "), Room(", genericUpdate.Room, ")")
+	fmt.Println("Received update: Module(", genericUpdate.Module, "), From(", genericUpdate.ID, "), Room(", genericUpdate.RoomId, ")")
 
 	switch genericUpdate.Module {
 	case JoinRoomModule:
 		h.handleJoinRoom(authenticatedClient)
 	default:
-		room, found := h.findRoom(genericUpdate.Room)
+		room, found := h.findRoom(genericUpdate.RoomId)
 		if !found {
 			// Optionally, send an error back to the client
-			fmt.Println("Room not found:", genericUpdate.Room)
+			fmt.Println("Room not found:", genericUpdate.RoomId)
 			return
 		}
 		// The room is responsible for decoding its own specific update types
@@ -126,40 +127,33 @@ func (h *Hub) handleJoinRoom(authenticatedClient *AuthenticatedClient) {
 		return
 	}
 
-	room, exists := h.findRoom(update.Room)
+	room, exists := h.findRoom(update.RoomId)
 	if !exists {
-		switch update.RoomType {
+		parts := strings.SplitN(update.RoomId, "/", 2)
+		if len(parts) != 2 {
+			// Handle invalid room_id format
+			return
+		}
+		roomType := parts[0]
+		roomName := parts[1]
+
+		switch roomType {
 		case "level-editor":
-			room = NewLevelEditorRoom(update.Room)
+			room = NewLevelEditorRoom(roomName)
 		case "game":
-			room = NewGameRoom(update.Room)
+			room = NewGameRoom(roomName)
 		default:
 			// Handle unknown room type error
 			return
 		}
-		h.rooms[update.Room] = room
+		h.rooms[update.RoomId] = room
 	}
 
 	// Add member to the room
 	// This assumes the client's ID is part of the message, which needs to be handled.
 	// For now, we'll need to adjust how the client ID is passed with the message.
 	// Let's assume the client ID is part of the IncomingJoinUpdate for now.
-	// room.AddMember(update.ID, h)
-
-	// Create and send success response
-	response := OutgoingJoinUpdate{
-		Module:       JoinRoomSuccessModule,
-		Success:      true,
-		Room:         update.Room,
-		MemberIDList: room.GetMembersID(),
-	}
-	jsonResponse, _ := json.Marshal(response)
-
-	// This needs a way to target the specific client that sent the request.
-	// The current broadcast logic isn't suitable for a direct response.
-	// This highlights a needed change in how we handle client-specific responses.
-	// For now, we will broadcast, but this is not ideal.
-	h.broadcastUpdate(update.Room, jsonResponse, "")
+	room.AddMember(update.ID, h)
 }
 
 func (h *Hub) findRoom(roomName string) (Room, bool) {

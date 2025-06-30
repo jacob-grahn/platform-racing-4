@@ -6,8 +6,6 @@ type Module string
 const (
 	// JoinRoomModule is the module for joining a room.
 	JoinRoomModule Module = "join-room"
-	// JoinRoomSuccessModule is the module for a successful room join.
-	JoinRoomSuccessModule Module = "join-room-success"
 	// EditorModule is the module for the level editor.
 	EditorModule Module = "editor"
 	// ChatModule is the module for chat messages.
@@ -50,17 +48,7 @@ type LevelEditorOutgoingUpdate struct {
 
 // IncomingJoinUpdate is sent by the client to join (or create) a room.
 type IncomingJoinUpdate struct {
-	Module   Module `json:"module"`
-	Room     string `json:"room"`
-	RoomType string `json:"room_type"`
-	ID       string `json:"id"` // Client ID
-}
-
-// OutgoingJoinUpdate is sent back to the client to confirm the result.
-type OutgoingJoinUpdate struct {
-	Module       Module   `json:"module"`
-	Success      bool     `json:"success"`
-	Room         string   `json:"room"`
-	ErrorMessage string   `json:"error_message,omitempty"`
-	MemberIDList []string `json:"member_id_list,omitempty"`
+	Module Module `json:"module"`
+	RoomId string `json:"room_id"`
+	ID     string `json:"id"` // Client ID
 }
