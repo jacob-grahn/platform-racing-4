@@ -1,142 +1,133 @@
 extends Node
 
-var http = HTTPRequest.new()
-var http_logout = HTTPRequest.new()
-var player_id = ""
-var nickname = ""
-var is_guest = true
-var _current_scene_name: String = ""
-var _current_player_layer: String = ""
-var _username: String
-var _used_rects: Dictionary = {}
-var _player_position: Vector2 = Vector2.ZERO
-var _current_block_id = 0
+signal login_success
+signal login_failure(error_message)
+signal logout_success
+
+const TOKEN_FILE = "user://session.dat"
+
+var access_token: String = ""
+var refresh_token: String = ""
+var nickname: String = ""
+var _last_login_nickname: String = ""
+
+var http_login: HTTPRequest
+var http_register: HTTPRequest
+var http_refresh: HTTPRequest
 
 func _ready():
-	add_child(http)
-	add_child(http_logout)
-	_username = StringUtils.generate_username()
-	http.request_completed.connect(_request_completed)
-	http_logout.request_completed.connect(_logout_request_completed)
-	await Engine.get_main_loop().process_frame
-	refresh()
+	http_login = HTTPRequest.new()
+	http_register = HTTPRequest.new()
+	http_refresh = HTTPRequest.new()
+	add_child(http_login)
+	add_child(http_register)
+	add_child(http_refresh)
 
+	http_login.request_completed.connect(_on_login_request_completed)
+	http_register.request_completed.connect(_on_register_request_completed)
+	http_refresh.request_completed.connect(_on_refresh_request_completed)
 
-func set_current_block_id(value: int) -> void:
-	_current_block_id = value
+	load_tokens()
+	if refresh_token:
+		refresh_access_token()
 
+func login(p_nickname: String, p_password: String):
+	_last_login_nickname = p_nickname
+	var body = {
+		"nickname": p_nickname,
+		"password": p_password
+	}
+	var headers = ["Content-Type: application/json"]
+	http_login.request(ApiManager.get_base_url() + "/auth/login", headers, HTTPClient.METHOD_POST, JSON.stringify(body))
 
-func get_current_block_id() -> int:
-	return _current_block_id
+func register(p_nickname: String, p_password: String, p_email: String = ""):
+	var body = {
+		"nickname": p_nickname,
+		"password": p_password,
+		"email": p_email
+	}
+	var headers = ["Content-Type: application/json"]
+	http_register.request(ApiManager.get_base_url() + "/auth/register", headers, HTTPClient.METHOD_POST, JSON.stringify(body))
 
-
-func set_current_scene_name(value: String) -> void:
-	_current_scene_name = value
-
-
-func get_current_scene_name() -> String:
-	return _current_scene_name
-
-
-func set_current_player_layer(value: String) -> void:
-	_current_player_layer = value
-
-
-func get_current_player_layer() -> String:
-	return _current_player_layer
-
-
-func get_username() -> String:
-	return _username
-	
-
-func set_username(value: String) -> void:
-	_username = value
-
-
-func set_used_rect(layer_name: String, value: Rect2i) -> void:
-	_used_rects[layer_name] = value
-
-
-func get_used_rect() -> Rect2i:
-	if _used_rects.has(_current_player_layer):
-		return _used_rects[_current_player_layer]
-	else:
-		return Rect2i(0, 0, 0, 0)
-
-
-func set_player_position(value: Vector2) -> void:
-	_player_position = value
-
-
-func get_player_position() -> Vector2:
-	return _player_position
-
-
-func _request_completed(result, response_code, headers, body):
-	if result != HTTPRequest.RESULT_SUCCESS:
-		print("Session couldn't be fetched. Result: " + str(result))
+func refresh_access_token():
+	if !refresh_token:
 		return
-		
-	if response_code == 401:
-		player_id = ""
-		print("Session::_request_completed - no session")
-		return
-		
-	var json = JSON.new()
-	var error = json.parse(body.get_string_from_utf8())
-	if error != OK:
-		print("Session::_request_completed - json parse error: ", error)
-		return
-		
-	var data = json.data
-	player_id = data.identity.id
-	nickname = data.identity.traits.nickname
-	is_guest = false
-	print("Session::_request_completed - loaded session: ", nickname)
 
+	var headers = ["Content-Type: application/json", "Authorization: " + refresh_token]
+	http_refresh.request(ApiManager.get_base_url() + "/auth/refresh", headers, HTTPClient.METHOD_POST, "")
 
-func refresh():
-	pass
-	#http.request(ApiManager.get_base_url() + "/auth/sessions/whoami")
-
-
-func start_guest_session():
-	player_id = ""
-	nickname = "guest " + str(randi_range(0, 999))
-	is_guest = true
-
-
-func end():
-	player_id = ""
-	is_guest = true
+func logout():
+	access_token = ""
+	refresh_token = ""
 	nickname = ""
-	if OS.has_feature('web'):
-		http_logout.request(ApiManager.get_base_url() + '/auth/self-service/logout/browser')
-	
-	
-func _logout_request_completed(result: int, response_code: int, headers, body):
-	if result != HTTPRequest.RESULT_SUCCESS:
-		print("Session couldn't be deleted. Result: " + str(result))
-		return
-		
-	if response_code != 200:
-		print("Session::_logout_request_completed - response code: ", response_code)
-		return
-		
-	var json = JSON.new()
-	var error = json.parse(body.get_string_from_utf8())
-	if error != OK:
-		print("Session::_logout_request_completed - json parse error: ", error)
-		return
-		
-	var data = json.data
-	if (data.error):
-		print(data.error)
-		return
-		
-	JavaScriptBridge.eval("window.location = '" + data.logout_url + "';")
-
+	save_tokens()
+	emit_signal("logout_success")
 
 func is_logged_in() -> bool:
-	return nickname != ""
+	return access_token != ""
+
+func _on_login_request_completed(result, response_code, headers, body):
+	if response_code == 200:
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		if json:
+			access_token = json.get("access_token", "")
+			refresh_token = json.get("refresh_token", "")
+			nickname = _last_login_nickname
+			save_tokens()
+			emit_signal("login_success")
+		else:
+			emit_signal("login_failure", "Invalid response from server.")
+	else:
+		var error_message = "Login failed."
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		if json and json.has("error"):
+			error_message = json["error"]
+		emit_signal("login_failure", error_message)
+
+func _on_register_request_completed(result, response_code, headers, body):
+	if response_code == 201:
+		# Automatically log in after successful registration
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		# Assuming the registration request had nickname and password
+		# This is a bit of a simplification. A better approach might be to have the register endpoint return tokens.
+		# For now, we'll just tell the user to log in.
+		emit_signal("login_failure", "Registration successful! Please log in.")
+	else:
+		var error_message = "Registration failed."
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		if json and json.has("error"):
+			error_message = json["error"]
+		emit_signal("login_failure", error_message)
+
+
+func _on_refresh_request_completed(result, response_code, headers, body):
+	if response_code == 200:
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		if json:
+			access_token = json.get("access_token", "")
+			save_tokens()
+			emit_signal("login_success")
+		else:
+			logout() # Invalid response, so log out
+	else:
+		# If refresh fails, clear tokens
+		logout()
+
+func save_tokens():
+	var file = FileAccess.open(TOKEN_FILE, FileAccess.WRITE)
+	if file:
+		var data = {
+			"refresh_token": refresh_token,
+			"nickname": nickname
+		}
+		file.store_string(JSON.stringify(data))
+
+func load_tokens():
+	if FileAccess.file_exists(TOKEN_FILE):
+		var file = FileAccess.open(TOKEN_FILE, FileAccess.READ)
+		if file:
+			var content = file.get_as_text()
+			var data = JSON.parse_string(content)
+			if data:
+				refresh_token = data.get("refresh_token", "")
+				nickname = data.get("nickname", "")

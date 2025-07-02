@@ -15,6 +15,8 @@ const LOBBY = "LOBBY"
 const SOLO = "SOLO"
 const TESTER = "TESTER"
 const CHARACTER_EDITOR = "CHARACTER_EDITOR"
+const LOGIN = "LOGIN"
+const REGISTER = "REGISTER"
 
 var scenes = {
 	TITLE: preload("res://pages/title/title.tscn"),
@@ -24,7 +26,9 @@ var scenes = {
 	LOBBY: preload("res://pages/level_lists/lobby.tscn"),
 	SOLO: preload("res://pages/solo/solo.tscn"),
 	TESTER: preload("res://pages/tester/tester.tscn"),
-	CHARACTER_EDITOR: preload("res://pages/character_editor/character_editor.tscn")
+	CHARACTER_EDITOR: preload("res://pages/character_editor/character_editor.tscn"),
+	LOGIN: preload("res://pages/login/login.tscn"),
+	REGISTER: preload("res://pages/register/register.tscn")
 }
 
 

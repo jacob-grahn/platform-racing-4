@@ -1,7 +1,7 @@
 ## Testing
 After making a change, validate that the game still works.
-Run specific tests as a comma separated list. See test_runner.gd for the tests that exist. Prefer running specific tests if possible, as it is much faster. Example: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests game,editor`
-Run all the tests with `all`: `/Applications/Godot.app/Contents/MacOS/Godot --run-tests all`
+Run specific tests as a comma separated list. See test_runner.gd for the tests that exist. Prefer running specific tests if possible, as it is much faster. Example: `godot --run-tests game,editor`
+Run all tests: `godot --run-tests all`
 
 ## Code Style
 - Indentation: Tabs (not spaces)

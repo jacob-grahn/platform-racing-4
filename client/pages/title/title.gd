@@ -1,34 +1,38 @@
 extends Control
 
-@onready var guest_menu = $GuestMenu
-@onready var online_button = $GuestMenu/OnlineButton
-@onready var timer = $Timer
-@onready var nickname_label: Label = $NicknameLabel
+@onready var play_button = $PlayButton
+@onready var nickname_label = $HBoxContainer/NicknameLabel
+@onready var logout_button = $HBoxContainer/LogoutButton
 
 
 func _ready():
 	Jukebox.play("noodletown-4-remake")
-	#$Voter.init('2024/07/28', ['Just make all of the PR2 blocks work', 'Add a couple of new blocks', 'Save and share levels'])
-	#$EditorButton.pressed.connect(_on_editor_pressed)
 	
-	online_button.pressed.connect(_online_pressed)
-	timer.timeout.connect(_check_session)
+	play_button.pressed.connect(_on_play_pressed)
+	logout_button.pressed.connect(_on_logout_pressed)
 	
-	_check_session()
+	Session.login_success.connect(_update_ui)
+	Session.logout_success.connect(_update_ui)
+	
+	_update_ui()
 
 
-func _check_session():
-	nickname_label.text = Session.nickname
+func _update_ui():
+	if Session.is_logged_in():
+		nickname_label.text = Session.nickname
+		nickname_label.show()
+		logout_button.show()
+	else:
+		nickname_label.hide()
+		logout_button.hide()
 
 
-func _online_pressed():
-	Main.set_scene(Main.LOBBY)
-	#if Session.is_logged_in():
-		#Main.set_scene(Main.LOBBY)
-	#else:
-		#if OS.has_feature('web'):
-			#JavaScriptBridge.eval('window.location.replace("' + ApiManager.Helpers.get_base_url() + '/auth-ui/registration")')
+func _on_play_pressed():
+	if Session.is_logged_in():
+		Main.set_scene(Main.LOBBY)
+	else:
+		Main.set_scene(Main.LOGIN)
 
 
-func _logout_pressed():
-	Session.end()
+func _on_logout_pressed():
+	Session.logout()

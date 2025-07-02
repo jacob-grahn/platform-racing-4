@@ -109,29 +109,27 @@ script = ExtResource("1_d2gdb")
 [node name="ParallaxBg" parent="." instance=ExtResource("3_033iv")]
 position = Vector2(2048, 0)
 
-[node name="NicknameLabel" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1853.0
-offset_bottom = 77.0
+offset_left = -400.0
+offset_bottom = 50.0
 grow_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="NicknameLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
 theme = ExtResource("3_k3j40")
-text = "-- Nickname --"
-horizontal_alignment = 2
+text = "Nickname"
 
-[node name="GuestMenu" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="LogoutButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Logout"
 
-[node name="OnlineButton" type="Button" parent="GuestMenu"]
+[node name="PlayButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -147,10 +145,6 @@ grow_vertical = 2
 theme = ExtResource("3_k3j40")
 theme_override_font_sizes/font_size = 32
 text = "Play!"
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.25
-autostart = true
 
 [node name="Title1" type="Label" parent="."]
 layout_mode = 1
@@ -245,6 +239,6 @@ texture = ExtResource("5_giwdd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_h14ik")
+&"": SubResource("AnimationLibrary_h14ik")
 }
 autoplay = "scroll"
