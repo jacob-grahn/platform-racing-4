@@ -3,6 +3,7 @@ extends Node
 signal login_success
 signal login_failure(error_message)
 signal logout_success
+signal session_updated
 
 const TOKEN_FILE = "user://session.dat"
 
@@ -65,6 +66,10 @@ func logout():
 
 func is_logged_in() -> bool:
 	return access_token != ""
+
+func set_nickname(new_nickname: String):
+	nickname = new_nickname
+	emit_signal("session_updated")
 
 func _on_login_request_completed(result, response_code, headers, body):
 	if response_code == 200:

@@ -17,8 +17,10 @@ const TESTER = "TESTER"
 const CHARACTER_EDITOR = "CHARACTER_EDITOR"
 const LOGIN = "LOGIN"
 const REGISTER = "REGISTER"
+const USER_SETTINGS = "USER_SETTINGS"
 
 var scenes = {
+	USER_SETTINGS: preload("res://pages/user_settings/user_settings.tscn"),
 	TITLE: preload("res://pages/title/title.tscn"),
 	CREDITS: preload("res://pages/credits/credits.tscn"),
 	LEVEL_EDITOR: preload("res://pages/level_editor/level_editor.tscn"),

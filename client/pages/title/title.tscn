@@ -129,6 +129,11 @@ layout_mode = 2
 theme = ExtResource("3_k3j40")
 text = "Logout"
 
+[node name="UserSettingsButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Settings"
+
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8

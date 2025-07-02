@@ -15,7 +15,7 @@ static func run_tests(main_instance: Main):
 		tests_to_run = ["game"]
 
 	if "all" in tests_to_run:
-		tests_to_run = ["game", "editor", "tester"]
+		tests_to_run = ["game", "editor", "tester", "login", "user_settings"]
 
 	for test in tests_to_run:
 		match test:
@@ -25,6 +25,10 @@ static func run_tests(main_instance: Main):
 				await _run_editor_test(main_instance)
 			"tester":
 				await _run_tester_test(main_instance)
+			"login":
+				await _run_login_test(main_instance)
+			"user_settings":
+				await _run_user_settings_test(main_instance)
 
 	main_instance.get_tree().quit()
 	return true
@@ -55,3 +59,72 @@ static func _run_editor_test(main_instance: Main):
 static func _run_tester_test(main_instance: Main):
 	await main_instance._set_scene(Main.TESTER)
 	await main_instance.get_tree().create_timer(3.0).timeout
+
+
+static func _run_login_test(main_instance: Main):
+	var login_scene = await main_instance._set_scene(Main.LOGIN)
+	login_scene.get_node("Panel/VBoxContainer/NicknameEdit").text = "aaaa"
+	login_scene.get_node("Panel/VBoxContainer/PasswordEdit").text = "aaaa"
+	login_scene.get_node("Panel/VBoxContainer/LoginButton").pressed.emit()
+	await main_instance.get_tree().create_timer(2.0).timeout
+	if not Session.is_logged_in():
+		print("Login test failed.")
+		main_instance.get_tree().quit(1)
+
+
+static func _run_user_settings_test(main_instance: Main):
+	# Login first
+	var login_scene = await main_instance._set_scene(Main.LOGIN)
+	login_scene.get_node("Panel/VBoxContainer/NicknameEdit").text = "aaaa"
+	login_scene.get_node("Panel/VBoxContainer/PasswordEdit").text = "aaaa"
+	login_scene.get_node("Panel/VBoxContainer/LoginButton").pressed.emit()
+	await main_instance.get_tree().create_timer(2.0).timeout
+	if not Session.is_logged_in():
+		print("Login failed, cannot run user settings test.")
+		main_instance.get_tree().quit(1)
+
+	# Go to user settings
+	var user_settings_scene = await main_instance._set_scene(Main.USER_SETTINGS)
+	await main_instance.get_tree().process_frame
+
+	# Change nickname
+	user_settings_scene.get_node("VBoxContainer/NewNicknameEdit").text = "bbbb"
+	user_settings_scene.get_node("VBoxContainer/NicknamePasswordEdit").text = "aaaa"
+	user_settings_scene.get_node("VBoxContainer/UpdateNicknameButton").pressed.emit()
+	await Session.session_updated
+	if Session.nickname != "bbbb":
+		print("Nickname was not updated in session.")
+		main_instance.get_tree().quit(1)
+	if user_settings_scene.get_node("VBoxContainer/StatusLabel").text != "User information updated successfully":
+		print("Nickname update failed: " + user_settings_scene.get_node("VBoxContainer/StatusLabel").text)
+		main_instance.get_tree().quit(1)
+
+	# Change password
+	user_settings_scene.get_node("VBoxContainer/CurrentPasswordEdit").text = "aaaa"
+	user_settings_scene.get_node("VBoxContainer/NewPasswordEdit").text = "bbbb"
+	user_settings_scene.get_node("VBoxContainer/UpdatePasswordButton").pressed.emit()
+	await main_instance.get_tree().create_timer(2.0).timeout
+	if user_settings_scene.get_node("VBoxContainer/StatusLabel").text != "User information updated successfully":
+		print("Password update failed: " + user_settings_scene.get_node("VBoxContainer/StatusLabel").text)
+		main_instance.get_tree().quit(1)
+
+	# Change nickname back
+	user_settings_scene.get_node("VBoxContainer/NewNicknameEdit").text = "aaaa"
+	user_settings_scene.get_node("VBoxContainer/NicknamePasswordEdit").text = "bbbb"
+	user_settings_scene.get_node("VBoxContainer/UpdateNicknameButton").pressed.emit()
+	await Session.session_updated
+	if Session.nickname != "aaaa":
+		print("Nickname was not changed back in session.")
+		main_instance.get_tree().quit(1)
+	if user_settings_scene.get_node("VBoxContainer/StatusLabel").text != "User information updated successfully":
+		print("Nickname change back failed: " + user_settings_scene.get_node("VBoxContainer/StatusLabel").text)
+		main_instance.get_tree().quit(1)
+
+	# Change password back
+	user_settings_scene.get_node("VBoxContainer/CurrentPasswordEdit").text = "bbbb"
+	user_settings_scene.get_node("VBoxContainer/NewPasswordEdit").text = "aaaa"
+	user_settings_scene.get_node("VBoxContainer/UpdatePasswordButton").pressed.emit()
+	await main_instance.get_tree().create_timer(2.0).timeout
+	if user_settings_scene.get_node("VBoxContainer/StatusLabel").text != "User information updated successfully":
+		print("Password change back failed: " + user_settings_scene.get_node("VBoxContainer/StatusLabel").text)
+		main_instance.get_tree().quit(1)

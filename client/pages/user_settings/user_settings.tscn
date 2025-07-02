@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu2y7tqwl1wxf"]
+
+[ext_resource type="Script" path="res://pages/user_settings/user_settings.gd" id="1_abcde"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_fghij"]
+
+[node name="UserSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="NicknameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "New Nickname"
+
+[node name="NewNicknameEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+placeholder_text = "Enter new nickname"
+
+[node name="NicknamePasswordLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "Current Password"
+
+[node name="NicknamePasswordEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+secret = true
+theme = ExtResource("2_fghij")
+placeholder_text = "Enter current password"
+
+[node name="UpdateNicknameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "Update Nickname"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PasswordLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "Current Password"
+
+[node name="CurrentPasswordEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+secret = true
+theme = ExtResource("2_fghij")
+placeholder_text = "Enter current password"
+
+[node name="NewPasswordLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "New Password"
+
+[node name="NewPasswordEdit" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+secret = true
+theme = ExtResource("2_fghij")
+placeholder_text = "Enter new password"
+
+[node name="UpdatePasswordButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "Update Password"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = "Back"
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_fghij")
+text = ""
+horizontal_alignment = 1
+
+[node name="UpdateNicknameRequest" type="HTTPRequest" parent="."]
+
+[node name="UpdatePasswordRequest" type="HTTPRequest" parent="."]
