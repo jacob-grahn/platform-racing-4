@@ -9,6 +9,7 @@ var room_id = ""
 var is_live_editing = false
 var is_host = false
 var member_id_list: Array[String] = []
+var level_editor: Node
 
 @onready var game_client: Node2D = get_node("/root/Main/GameClient")
 @onready var http_request = $HTTPRequest
@@ -16,9 +17,9 @@ var member_id_list: Array[String] = []
 @onready var users_host_button = $TabContainer/Users/HostButton
 @onready var users_join_quit_button = $TabContainer/Users/JoinQuitButton
 @onready var users_room_edit = $TabContainer/Users/RoomEdit
-@onready var users_host_edit_panel = LevelEditor.level_editor.users_host_edit_panel
-@onready var users_join_edit_panel = LevelEditor.level_editor.users_join_edit_panel
-@onready var users_quit_edit_panel = LevelEditor.level_editor.users_quit_edit_panel
+var users_host_edit_panel
+var users_join_edit_panel
+var users_quit_edit_panel
 @onready var users_offline_label: Label = $TabContainer/Users/OfflineLabel
 
 @onready var chat_tab_container = $TabContainer
@@ -31,15 +32,19 @@ var member_id_list: Array[String] = []
 
 
 func _ready():
-	users_host_button.pressed.connect(_users_host_pressed)
-	users_join_quit_button.pressed.connect(_users_join_quit_pressed)
-	chat_send_button.pressed.connect(chat_send_message)
 	chat_message_edit.editable = false
 	chat_send_button.disabled = true
 	chat_unread_dot.hide()
 
 
-func init(menu) -> void:
+func init(menu, p_level_editor) -> void:
+	level_editor = p_level_editor
+	users_host_edit_panel = level_editor.users_host_edit_panel
+	users_join_edit_panel = level_editor.users_join_edit_panel
+	users_quit_edit_panel = level_editor.users_quit_edit_panel
+	users_host_button.pressed.connect(_users_host_pressed)
+	users_join_quit_button.pressed.connect(_users_join_quit_pressed)
+	chat_send_button.pressed.connect(chat_send_message)
 	menu.control_event.connect(_on_control_event)
 
 

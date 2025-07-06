@@ -41,7 +41,7 @@ func init(data: Dictionary = {}):
 
 
 func _ready():
-	level_editor = self
+	LevelEditor.level_editor = self
 	users_host_edit_panel = $UI/HostEditPanel
 	users_join_edit_panel = $UI/JoinEditPanel
 	users_quit_edit_panel = $UI/QuitEditPanel
@@ -89,7 +89,7 @@ func _ready():
 	
 	# Connect control events for camera zoom changes
 	$UI/EditorMenu.control_event.connect(_on_control_event)
-	now_editing_panel.init($UI/EditorMenu)
+	now_editing_panel.init($UI/EditorMenu, self)
 	Jukebox.end_music = true
 
 
