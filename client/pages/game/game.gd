@@ -7,6 +7,30 @@ static var game: Game
 @onready var back_button = $UI/BackButton
 @onready var level_manager: LevelManager = $LevelManager
 
+var used_rects: Dictionary = {}
+var current_player_layer: String = ""
+
+
+func set_used_rect(layer_name: String, rect: Rect2i) -> void:
+	used_rects[layer_name] = rect
+
+
+func get_used_rect(layer_name: String) -> Rect2i:
+	return used_rects.get(layer_name, Rect2i())
+
+
+func clear_used_rects() -> void:
+	used_rects.clear()
+
+
+func set_current_player_layer(layer_name: String) -> void:
+	current_player_layer = layer_name
+
+
+func get_current_player_layer() -> String:
+	return current_player_layer
+
+
 func _ready():
 	back_button.connect("pressed", _on_back_pressed)
 	
@@ -67,6 +91,7 @@ func finish():
 
 func _exit_tree():
 	level_manager.clear()
+	clear_used_rects()
 	Game.game = null
 
 func _on_back_pressed():

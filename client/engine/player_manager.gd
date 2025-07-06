@@ -16,7 +16,8 @@ func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
 		return null
 	character = CHARACTER.instantiate()
 	
-	Session.set_current_player_layer(start_option.layer_name)
+	if Game.game:
+		Game.game.set_current_player_layer(start_option.layer_name)
 	
 	var layer = layers.get_node(start_option.layer_name)
 	if !layer:

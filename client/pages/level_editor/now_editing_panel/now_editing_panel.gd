@@ -16,9 +16,9 @@ var member_id_list: Array[String] = []
 @onready var users_host_button = $TabContainer/Users/HostButton
 @onready var users_join_quit_button = $TabContainer/Users/JoinQuitButton
 @onready var users_room_edit = $TabContainer/Users/RoomEdit
-@onready var users_host_edit_panel = Global.users_host_edit_panel
-@onready var users_join_edit_panel = Global.users_join_edit_panel
-@onready var users_quit_edit_panel = Global.users_quit_edit_panel
+@onready var users_host_edit_panel = LevelEditor.level_editor.users_host_edit_panel
+@onready var users_join_edit_panel = LevelEditor.level_editor.users_join_edit_panel
+@onready var users_quit_edit_panel = LevelEditor.level_editor.users_quit_edit_panel
 @onready var users_offline_label: Label = $TabContainer/Users/OfflineLabel
 
 @onready var chat_tab_container = $TabContainer

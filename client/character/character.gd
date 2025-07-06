@@ -106,9 +106,6 @@ func _physics_process(delta: float) -> void:
 	
 	# Check boundaries
 	tile_interaction.check_out_of_bounds(self)
-	
-	# Update session
-	Session.set_player_position(position)
 
 
 func _process_item_forces(delta: float) -> void:

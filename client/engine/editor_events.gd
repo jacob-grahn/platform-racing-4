@@ -89,4 +89,3 @@ func redo() -> void:
 	var event = redo_events.pop_back()
 	events.push_back(event)
 	emit_signal("level_event", event)
-	

@@ -44,8 +44,9 @@ func _add_minimap_layer(layer_name: String) -> void:
 	minimap_instance.name = layer_name
 	minimap_container.add_child(minimap_instance)
 	
-	var current_player_layer = Session.get_current_player_layer()
-	minimap_instance.visible = (layer_name == current_player_layer)
+	if Game.game:
+		var current_player_layer = Game.game.get_current_player_layer()
+		minimap_instance.visible = (layer_name == current_player_layer)
 
 
 func _remove_minimap_layer(layer_name: String) -> void:

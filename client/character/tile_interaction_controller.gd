@@ -123,9 +123,10 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 						0, 
 						(1 * Settings.tile_size.y) - 22
 				)).rotated(tilemap.global_rotation + character.rotation)
-				var layers = Global.layers
-				if layers:
-					last_safe_layer = layers.get_node(str(str(tilemap.get_parent().name)))
+				if Game.game:
+					var level_manager = Game.game.get_node("LevelManager")
+					if level_manager:
+						last_safe_layer = level_manager.layers.get_node(str(str(tilemap.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
 	if lightning.direction.length() > 0 and lightning.fire_power > 0:
@@ -137,7 +138,12 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 
 
 func check_out_of_bounds(character: Character) -> void:
-	var map_used_rect = Session.get_used_rect()
+	if not Game.game:
+		return
+	var current_layer = Game.game.get_current_player_layer()
+	if not current_layer:
+		return
+	var map_used_rect = Game.game.get_used_rect(current_layer)
 	
 	var min_x = map_used_rect.position.x - OUT_OF_BOUNDS_BLOCK_COUNT
 	var max_x = map_used_rect.position.x + map_used_rect.size.x + OUT_OF_BOUNDS_BLOCK_COUNT

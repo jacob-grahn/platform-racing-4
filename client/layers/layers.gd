@@ -52,4 +52,5 @@ func calc_used_rect() -> void:
 	for layer in get_children():
 		var tilemap = layer.get_node("TileMap")
 		var map_used_rect = tilemap.get_used_rect()
-		Session.set_used_rect(layer.name, map_used_rect)
+		if Game.game:
+			Game.game.set_used_rect(layer.name, map_used_rect)

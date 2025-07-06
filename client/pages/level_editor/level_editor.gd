@@ -4,6 +4,11 @@ class_name LevelEditor
 static var editor_cursors: Node
 static var current_level: Dictionary
 static var current_level_description: String
+static var level_editor: Node
+
+var users_host_edit_panel: Control
+var users_join_edit_panel: Control
+var users_quit_edit_panel: Control
 
 var default_level: Dictionary = {
 	"layers": [{
@@ -36,6 +41,10 @@ func init(data: Dictionary = {}):
 
 
 func _ready():
+	level_editor = self
+	users_host_edit_panel = $UI/HostEditPanel
+	users_join_edit_panel = $UI/JoinEditPanel
+	users_quit_edit_panel = $UI/QuitEditPanel
 	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
@@ -50,9 +59,6 @@ func _ready():
 
 	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
 	LevelEditor.editor_cursors.init($LevelManager.layers)
-	Global.users_host_edit_panel = $UI/HostEditPanel
-	Global.users_join_edit_panel = $UI/JoinEditPanel
-	Global.users_quit_edit_panel = $UI/QuitEditPanel
 	
 	var penciler: Node2D = get_node("Penciler")
 	var bg: Node2D = get_node("BG")
