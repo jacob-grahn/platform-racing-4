@@ -30,7 +30,6 @@ var host_success_panel: Control = null
 var editor_events: Node2D = null
 var now_editing_panel: Node2D = null
 var layers: Node2D = null
-var editor_cursors: Node2D = null
 var editor_explore_button: Button = null
 var editor_load_button: Button = null
 var editor_clear_button: Button = null
@@ -177,8 +176,8 @@ func _process(delta: float) -> void:
 			var tilemap: TileMapLayer = layer.get_node("TileMap")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
-			if editor_cursors && is_instance_valid(editor_cursors):
-				editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
+			if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
+				LevelEditor.editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
 		
 	# only proceed if socket exists
 	if !socket:
@@ -233,9 +232,9 @@ func _process(delta: float) -> void:
 				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, cached_member_id_list, cached_host_id)
 				
-				if editor_cursors && is_instance_valid(editor_cursors):
+				if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
 					for member_id in cached_member_id_list:
-						editor_cursors.add_new_cursor(member_id)
+						LevelEditor.editor_cursors.add_new_cursor(member_id)
 					cached_member_id_list.clear()
 				
 				if popup_panel && is_instance_valid(popup_panel):
@@ -297,15 +296,15 @@ func _process(delta: float) -> void:
 				for member_id in parsed_packet.member_id_list:
 					member_id_list.append(member_id)
 					
-					if editor_cursors && is_instance_valid(editor_cursors):
-						editor_cursors.add_new_cursor(member_id)
+					if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
+						LevelEditor.editor_cursors.add_new_cursor(member_id)
 				
 				if now_editing_panel && is_instance_valid(now_editing_panel):
 					now_editing_panel.join_room(parsed_packet.room, member_id_list, parsed_packet.host_id)
 			elif parsed_packet.module == "CursorEditorModule":
-				if editor_cursors && is_instance_valid(editor_cursors):
+				if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
 					var cursor_update = parsed_packet.cursor_update
-					editor_cursors.update_cursor_position_remote(
+					LevelEditor.editor_cursors.update_cursor_position_remote(
 						parsed_packet.id, 
 						Vector2(cursor_update.coords.x, cursor_update.coords.y), 
 						cursor_update.layer,
@@ -332,8 +331,8 @@ func _process(delta: float) -> void:
 						
 					now_editing_panel.quit_room(isMe, parsed_packet.id, member_id_list, parsed_packet.host_id)
 				
-				if editor_cursors && is_instance_valid(editor_cursors):
-					editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
+				if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
+					LevelEditor.editor_cursors.remove_cursor(Session.get_username(), parsed_packet.id)
 				
 				if popup_panel && is_instance_valid(popup_panel) && isMe:
 					popup_panel.initialize("Quit Success", "You have successfully left the room: " + parsed_packet.room)

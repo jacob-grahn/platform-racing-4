@@ -1,6 +1,7 @@
 extends Node2D
 class_name LevelEditor
 
+static var editor_cursors: Node
 static var current_level: Dictionary
 static var current_level_description: String
 
@@ -47,8 +48,8 @@ func _ready():
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
-	Global.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
-	Global.editor_cursors.init($LevelManager.layers)
+	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
+	LevelEditor.editor_cursors.init($LevelManager.layers)
 	Global.users_host_edit_panel = $UI/HostEditPanel
 	Global.users_join_edit_panel = $UI/JoinEditPanel
 	Global.users_quit_edit_panel = $UI/QuitEditPanel
@@ -200,7 +201,7 @@ func _on_disconnect_editor() -> void:
 	if $EditorEvents:
 		$EditorEvents.disconnect("send_level_event", game_client._on_send_level_event)
 	
-	Global.editor_cursors = null
+	LevelEditor.editor_cursors = null
 	
 	if !game_client.isFirstOpenEditor:
 		var data_room = {
@@ -213,6 +214,6 @@ func _on_disconnect_editor() -> void:
 		game_client.send_queue.push_back(data_room)
 	
 	game_client.isFirstOpenEditor = false
-	if Global.editor_cursors:
-		Global.editor_cursors.add_new_cursor(Session.get_username())
+	if LevelEditor.editor_cursors:
+		LevelEditor.editor_cursors.add_new_cursor(Session.get_username())
 	game_client.toggle_editor_buttons(game_client.is_live_editing)

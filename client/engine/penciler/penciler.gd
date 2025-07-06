@@ -7,9 +7,6 @@ var layers: Layers
 var bg: Node2D
 var layer_panel: Node2D
 
-@onready var edit_cursors: Node2D = Global.editor_cursors
-
-
 func init(p_layers: Layers, p_bg, event_source, p_layer_panel: Node2D) -> void:
 	layer_panel = p_layer_panel
 	layers = p_layers

@@ -16,6 +16,7 @@ var http_login: HTTPRequest
 var http_register: HTTPRequest
 var http_refresh: HTTPRequest
 
+
 func _ready():
 	http_login = HTTPRequest.new()
 	http_register = HTTPRequest.new()
@@ -32,6 +33,7 @@ func _ready():
 	if refresh_token:
 		refresh_access_token()
 
+
 func login(p_nickname: String, p_password: String):
 	_last_login_nickname = p_nickname
 	var body = {
@@ -40,6 +42,7 @@ func login(p_nickname: String, p_password: String):
 	}
 	var headers = ["Content-Type: application/json"]
 	http_login.request(ApiManager.get_base_url() + "/auth/login", headers, HTTPClient.METHOD_POST, JSON.stringify(body))
+
 
 func register(p_nickname: String, p_password: String, p_email: String = ""):
 	var body = {
@@ -50,12 +53,14 @@ func register(p_nickname: String, p_password: String, p_email: String = ""):
 	var headers = ["Content-Type: application/json"]
 	http_register.request(ApiManager.get_base_url() + "/auth/register", headers, HTTPClient.METHOD_POST, JSON.stringify(body))
 
+
 func refresh_access_token():
 	if !refresh_token:
 		return
 
 	var headers = ["Content-Type: application/json", "Authorization: " + refresh_token]
 	http_refresh.request(ApiManager.get_base_url() + "/auth/refresh", headers, HTTPClient.METHOD_POST, "")
+
 
 func logout():
 	access_token = ""
@@ -64,14 +69,17 @@ func logout():
 	save_tokens()
 	emit_signal("logout_success")
 
+
 func is_logged_in() -> bool:
 	return access_token != ""
+
 
 func set_nickname(new_nickname: String):
 	nickname = new_nickname
 	emit_signal("session_updated")
 
-func _on_login_request_completed(result, response_code, headers, body):
+
+func _on_login_request_completed(_result, response_code, _headers, body):
 	if response_code == 200:
 		var json = JSON.parse_string(body.get_string_from_utf8())
 		if json:
@@ -89,13 +97,11 @@ func _on_login_request_completed(result, response_code, headers, body):
 			error_message = json["error"]
 		emit_signal("login_failure", error_message)
 
-func _on_register_request_completed(result, response_code, headers, body):
+
+func _on_register_request_completed(_result, response_code, _headers, body):
 	if response_code == 201:
 		# Automatically log in after successful registration
-		var json = JSON.parse_string(body.get_string_from_utf8())
-		# Assuming the registration request had nickname and password
-		# This is a bit of a simplification. A better approach might be to have the register endpoint return tokens.
-		# For now, we'll just tell the user to log in.
+		var _json = JSON.parse_string(body.get_string_from_utf8())
 		emit_signal("login_failure", "Registration successful! Please log in.")
 	else:
 		var error_message = "Registration failed."
@@ -105,7 +111,7 @@ func _on_register_request_completed(result, response_code, headers, body):
 		emit_signal("login_failure", error_message)
 
 
-func _on_refresh_request_completed(result, response_code, headers, body):
+func _on_refresh_request_completed(_result, response_code, _headers, body):
 	if response_code == 200:
 		var json = JSON.parse_string(body.get_string_from_utf8())
 		if json:
@@ -118,6 +124,7 @@ func _on_refresh_request_completed(result, response_code, headers, body):
 		# If refresh fails, clear tokens
 		logout()
 
+
 func save_tokens():
 	var file = FileAccess.open(TOKEN_FILE, FileAccess.WRITE)
 	if file:
@@ -126,6 +133,7 @@ func save_tokens():
 			"nickname": nickname
 		}
 		file.store_string(JSON.stringify(data))
+
 
 func load_tokens():
 	if FileAccess.file_exists(TOKEN_FILE):
