@@ -62,7 +62,6 @@ static func set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 
 func _set_scene(scene_name: String, data: Dictionary = {}) -> Node:
 	if current_scene:
-		Global.clear()
 		current_scene.queue_free()
 	
 	await get_tree().process_frame

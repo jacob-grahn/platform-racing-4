@@ -44,5 +44,6 @@ func init(data: Dictionary):
 func finish():
 	Main.set_scene(Main.LEVEL_EDITOR)
 
+
 func _exit_tree():
 	level_manager.clear()
