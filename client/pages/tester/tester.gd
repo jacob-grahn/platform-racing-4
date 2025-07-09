@@ -5,18 +5,16 @@ extends Node2D
 @onready var level_manager: LevelManager = $LevelManager
 
 var current_player_layer: String = ""
+var used_rects: Dictionary = {}
 
 
 func _ready():
 	back.connect("pressed", _on_back_pressed)
+	Game.game = self
 
 
 func _on_back_pressed():
 	Main.set_scene(Main.LEVEL_EDITOR)
-
-
-func get_current_player_layer() -> String:
-	return current_player_layer
 
 
 func init(data: Dictionary):
@@ -43,6 +41,26 @@ func init(data: Dictionary):
 
 func finish():
 	Main.set_scene(Main.LEVEL_EDITOR)
+
+
+func set_current_player_layer(layer_name: String) -> void:
+	current_player_layer = layer_name
+
+
+func get_current_player_layer() -> String:
+	return current_player_layer
+
+
+func set_used_rect(layer_name: String, rect: Rect2i) -> void:
+	used_rects[layer_name] = rect
+
+
+func get_used_rect(layer_name: String) -> Rect2i:
+	return used_rects.get(layer_name, Rect2i())
+
+
+func clear_used_rects() -> void:
+	used_rects.clear()
 
 
 func _exit_tree():

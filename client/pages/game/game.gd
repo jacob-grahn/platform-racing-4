@@ -2,7 +2,7 @@ extends Node2D
 class_name Game
 
 static var pr2_level_id
-static var game: Game
+static var game: Node2D
 
 @onready var back_button = $UI/Container/BackButton
 @onready var minimap: Minimap = $UI/Container/Minimap
