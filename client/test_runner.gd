@@ -15,7 +15,7 @@ static func run_tests(main_instance: Main):
 		tests_to_run = ["game"]
 
 	if "all" in tests_to_run:
-		tests_to_run = ["game", "editor", "tester"] # "user_settings" is flaky, skip for now
+		tests_to_run = ["game", "editor", "tester", "items"] # "user_settings" is flaky, skip for now
 
 	for test in tests_to_run:
 		match test:
@@ -29,6 +29,8 @@ static func run_tests(main_instance: Main):
 				await _run_login_test(main_instance)
 			"user_settings":
 				await _run_user_settings_test(main_instance)
+			"items":
+				await _run_items_test(main_instance)
 
 	main_instance.get_tree().quit()
 	return true
@@ -48,6 +50,25 @@ static func _run_game_test(main_instance: Main):
 	else:
 		print("Failed to get character instance.")
 		main_instance.get_tree().quit(1)
+
+
+static func _run_items_test(main_instance: Main):
+	Game.pr2_level_id = "50815"
+	var game_scene = await main_instance._set_scene(Main.GAME)
+	await main_instance.get_tree().create_timer(2.0).timeout
+
+	var player_manager = game_scene.get_node("PlayerManager")
+	var character = player_manager.get_character()
+	if not character:
+		print("Failed to get character instance.")
+		main_instance.get_tree().quit(1)
+		return
+
+	for i in range(15):
+		character.set_item(i)
+		await main_instance.get_tree().create_timer(0.5).timeout
+		character.item_manager.use(main_instance.get_process_delta_time())
+		await main_instance.get_tree().create_timer(0.5).timeout
 
 
 static func _run_editor_test(main_instance: Main):

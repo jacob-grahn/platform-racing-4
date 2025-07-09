@@ -1,6 +1,7 @@
 extends Node2D
 class_name LightningItem
 
+var character: Character
 var using: bool = false
 var remove: bool = false
 var uses: int = 1

@@ -29,6 +29,8 @@ func _ready():
 
 func set_block_position():
 	tile_map = get_node("../../../../../TileMap")
+	if not tile_map or not character:
+		return
 	spawn_position = to_local(Vector2(0, 0))
 	tilemap_position = tile_map.to_local(character.global_position)
 	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size

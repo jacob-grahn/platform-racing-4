@@ -60,7 +60,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("SlashArea:position")
+tracks/4/path = NodePath("SwordArea:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -72,7 +72,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("SlashArea:rotation")
+tracks/5/path = NodePath("SwordArea:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -84,7 +84,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("SlashArea:scale")
+tracks/6/path = NodePath("SwordArea:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -173,7 +173,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SlashArea:position")
+tracks/3/path = NodePath("SwordArea:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -185,7 +185,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("SlashArea:rotation")
+tracks/4/path = NodePath("SwordArea:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -197,7 +197,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("SlashArea:scale")
+tracks/5/path = NodePath("SwordArea:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -270,9 +270,9 @@ position = Vector2(23, -7)
 rotation = 0.122173
 shape = SubResource("CapsuleShape2D_ojadg")
 
-[node name="SlashArea" type="Area2D" parent="."]
+[node name="SwordArea" type="Area2D" parent="."]
 
-[node name="SlashArea" type="CollisionShape2D" parent="SlashArea"]
+[node name="SwordArea" type="CollisionShape2D" parent="SwordArea"]
 visible = false
 position = Vector2(23, -7)
 rotation = 0.122173
