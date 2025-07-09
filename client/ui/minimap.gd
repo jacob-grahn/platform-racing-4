@@ -4,6 +4,7 @@ class_name Minimap
 var game
 var layers
 var player
+var dot_size = Vector2(10, 10)
 
 
 func init(game_scene):
@@ -78,8 +79,7 @@ func _process(_delta):
 				player_marker = ColorRect.new()
 				player_marker.name = "PlayerMarker"
 				player_marker.color = Color.RED
-				player_marker.size = Vector2(4, 4)
+				player_marker.size = dot_size * (Vector2.ONE / child.scale)
 				child.add_child(player_marker)
 			
-			var player_pos_on_minimap = player.global_position / (Vector2(Settings.tile_size) * 10) # Adjust scale as needed
-			player_marker.position = player_pos_on_minimap - child.position
+			player_marker.position = player.position - (player_marker.size / 2)

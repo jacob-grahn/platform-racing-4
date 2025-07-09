@@ -48,9 +48,9 @@ grow_vertical = 2
 [node name="Minimap" parent="UI/Container" instance=ExtResource("7_yuilv")]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 280.0
-offset_right = -280.0
-offset_bottom = -841.0
+offset_left = 124.0
+offset_right = -124.0
+offset_bottom = -884.0
 
 [node name="BackButton" type="Button" parent="UI/Container"]
 layout_mode = 1
