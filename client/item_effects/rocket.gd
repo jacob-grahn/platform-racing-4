@@ -14,7 +14,7 @@ func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
 	velx = scale.x
-	life = 3.3
+	life = GameConfig.get_value("rocket_lifetime")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

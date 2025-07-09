@@ -56,91 +56,91 @@ func set_item_id(item_id: int, p_character: Character) -> void:
 	match item_id:
 		0:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_random_block")
 			item = RANDOM_BLOCK_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		1:
 			has_force = true
-			uses = 3
+			uses = GameConfig.get_value("uses_angel_wings")
 			item = ANGEL_WINGS_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		2:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_black_hole")
 			item = BLACK_HOLE_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		3:
 			has_force = false
-			uses = 3
+			uses = GameConfig.get_value("uses_ice_wave")
 			item = ICE_WAVE_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		4:
 			has_force = true
-			uses = 1
+			uses = GameConfig.get_value("uses_jetpack")
 			item = JETPACK_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		5:
 			has_force = false
-			uses = 3
+			uses = GameConfig.get_value("uses_laser_gun")
 			item = LASER_GUN_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		6:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_lightning")
 			item = LIGHTNING_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		7:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_portable_block")
 			item = PORTABLE_BLOCK_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		8:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_portable_mine")
 			item = PORTABLE_MINE_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		9:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_rocket_launcher")
 			item = ROCKET_LAUNCHER_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		10:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_shield")
 			item = SHIELD_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		11:
 			has_force = true
-			uses = 1
+			uses = GameConfig.get_value("uses_speed_burst")
 			item = SPEED_BURST_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		12:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_super_jump")
 			item = SUPER_JUMP_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		13:
 			has_force = false
-			uses = 3
+			uses = GameConfig.get_value("uses_sword")
 			item = SWORD_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character
 		14:
 			has_force = false
-			uses = 1
+			uses = GameConfig.get_value("uses_teleport")
 			item = TELEPORT_ITEM.instantiate()
 			item_holder.add_child(item)
 			item.character = character

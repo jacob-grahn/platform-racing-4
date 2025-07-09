@@ -11,7 +11,7 @@ var uses: int = 1
 
 
 func _ready():
-	timer = 10.0
+	timer = GameConfig.get_value("shield_duration")
 	Shield.visible = false
 	
 	

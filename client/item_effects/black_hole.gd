@@ -15,7 +15,7 @@ var z_indexspawn: int = 0
 func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
-	life = 10.3
+	life = GameConfig.get_value("black_hole_lifetime")
 	BlackHole.modulate.a = 0
 	targetalpha = 0.0
 	animations.play("swirl")

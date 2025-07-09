@@ -10,7 +10,7 @@ var boost = Vector2(0, 0)
 
 
 func _ready():
-	timer = 6.0
+	timer = GameConfig.get_value("speed_burst_duration")
 
 
 func _physics_process(delta):
@@ -29,7 +29,7 @@ func activate_item():
 	if !using:
 		using = true
 		character.speed_particles.emitting = true
-		character.movement.speedburst_boost = 2
+		character.movement.speedburst_boost = GameConfig.get_value("speed_burst_multiplier")
 
 
 func check_if_used():

@@ -15,7 +15,7 @@ func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
 	velx = scale.x
-	life = 0.2
+	life = GameConfig.get_value("sword_slash_lifetime")
 	animations.play("slash")
 
 

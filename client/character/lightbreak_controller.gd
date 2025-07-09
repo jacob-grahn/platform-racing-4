@@ -2,7 +2,6 @@ class_name LightbreakController
 ## Manages the character's lightbreak ability.
 ## Controls different light types (firefly, sun, moon) and their effects.
 
-const LIGHTBREAK_SPEED = 200000.0
 const LightLine2D = preload("res://tiles/lights/light_line_2d.tscn")
 
 var direction: Vector2 = Vector2(0, 0)
@@ -47,7 +46,7 @@ func process(delta: float, control_vector: Vector2, player: Character) -> Vector
 	
 	# Active lightbreak
 	if direction.length() > 0:
-		velocity_change = direction * LIGHTBREAK_SPEED * delta
+		velocity_change = direction * GameConfig.get_value("lightbreak_speed") * delta
 		if (control_vector + direction).length() < 0.5:
 			end_lightbreak()
 	

@@ -48,7 +48,7 @@ func _physics_process(delta):
 	update_animation()
 
 func _ready():
-	timer = 660
+	timer = GameConfig.get_value("jetpack_duration") * 60 # convert to frames
 	jetpackfirescale = 1.0
 	uses = 1
 

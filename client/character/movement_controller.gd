@@ -2,20 +2,9 @@ class_name MovementController
 ## Controls character movement, including walking, jumping, and swimming.
 ## Handles physics, frozen status, and damage hitstun.
 
-const SPEED = 490.0
-const JUMP_VELOCITY = Vector2(0, -155.0)
 const FASTFALL_VELOCITY = Vector2(0, 50.0)
 const MAX_VELOCITY = Vector2(4500.0, 3750.0)
-const SWIM_UP_VELOCITY = Vector2(0, -SPEED * 7)
-const TRACTION = 4000
-const FRICTION = 0.1
-const FRICTION_SWIMMING = 2
-const JUMP_VELOCITY_MULTIPLIER = 0.75
-const JUMP_TIMER_MAX = 10.0
-const WALL_SLIDE_FRICTION = 0.15
-const WALL_JUMP_HORIZONTAL_FORCE = 400.0
-const WALL_JUMP_VERTICAL_FORCE = -250.0
-const WALL_SLIDE_FRICTION_DECAY_TIME = 0.25
+const SWIM_UP_VELOCITY = Vector2(0, -3430.0)
 const JUMP_SOUND := preload("res://sounds/JumpSound.ogg")
 
 var jump_timer: float = 0
@@ -44,7 +33,7 @@ var is_wall_sliding: bool = false
 var wall_sliding_dir: int = 0
 var can_wall_jump: bool = true
 var last_wall_jump_dir: int = 0
-var wall_slide_friction_timer: float = WALL_SLIDE_FRICTION_DECAY_TIME
+var wall_slide_friction_timer: float = 0.25
 
 
 func _init(ice_node = null):
@@ -59,7 +48,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	attempting_bump = false
 	
 	# Process freezing effect
-	var traction = TRACTION
+	var traction = GameConfig.get_value("player_traction")
 	if frozen and frozen_timer >= 0:
 		frozen_timer -= delta
 		if frozen_display_node:
@@ -67,7 +56,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			frozen_display_node.modulate.a = ((1 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
 			frozen_display_node.scale.y = ((0.65 / (3.0 / stats.get_skill_bonus())) * frozen_timer)
 			character.display.modulate = Color(1.0 - (frozen_display_node.modulate.a / 2), 1.0, 1.0)
-		traction = TRACTION / 10.0
+		traction = GameConfig.get_value("player_traction") / 10.0
 	else:
 		if frozen_display_node:
 			frozen_display_node.visible = false
@@ -94,9 +83,9 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 	if not hurt and can_jump and Input.is_action_pressed("jump"):
 		if is_crouching:
 			_bump_tile_covering_high_area(character)
-		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > JUMP_VELOCITY.y * JUMP_VELOCITY_MULTIPLIER:
+		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > GameConfig.get_value("player_jump_velocity") * GameConfig.get_value("player_jump_velocity_multiplier"):
 			jumped = true
-			jump_timer = JUMP_TIMER_MAX
+			jump_timer = GameConfig.get_value("player_coyote_jump_time")
 			character.audioplayer.set_stream(JUMP_SOUND)
 			character.audioplayer.set_volume_db(1)
 			character.audioplayer.play()
@@ -107,7 +96,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		wall_sliding_dir = 0
 		can_wall_jump = true  # Reset wall jump after touching the ground
 		last_wall_jump_dir = 0
-		wall_slide_friction_timer = WALL_SLIDE_FRICTION_DECAY_TIME
+		wall_slide_friction_timer = GameConfig.get_value("player_wall_slide_friction_decay_time")
 	
 	# Check for wall sliding
 	if not_rotating and not character.is_on_floor() and not swimming:
@@ -143,18 +132,18 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		# Wall jump if jump button is pressed OR if opposite direction is pressed
 		if Input.is_action_just_pressed("jump") or opposite_direction_pressed:
 			# Wall jump! Apply force in opposite direction of wall
-			velocity.y = (WALL_JUMP_VERTICAL_FORCE * stats.get_jump_bonus()) * stats.get_skill_bonus()
-			velocity.x = (WALL_JUMP_HORIZONTAL_FORCE * -wall_sliding_dir * stats.get_skill_bonus()) * stats.get_jump_bonus()
+			velocity.y = (GameConfig.get_value("player_wall_jump_vertical_force") * stats.get_jump_bonus()) * stats.get_skill_bonus()
+			velocity.x = (GameConfig.get_value("player_wall_jump_horizontal_force") * -wall_sliding_dir * stats.get_skill_bonus()) * stats.get_jump_bonus()
 			velocity = velocity.rotated(character.rotation)
 			can_wall_jump = false
 			last_wall_jump_dir = wall_sliding_dir
 			jumped = true
 			jump_timer = 0
-			wall_slide_friction_timer = WALL_SLIDE_FRICTION_DECAY_TIME
+			wall_slide_friction_timer = GameConfig.get_value("player_wall_slide_friction_decay_time")
 
 	# Handle jump strength/velocity increment for regular jumps
 	if not_rotating and jumped:
-		velocity += JUMP_VELOCITY.rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / JUMP_TIMER_MAX)
+		velocity += Vector2(0, GameConfig.get_value("player_jump_velocity")).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_coyote_jump_time"))
 		jump_timer -= 1
 		if jump_timer <= 0:
 			jumped = false
@@ -169,8 +158,8 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		if is_wall_sliding and velocity.rotated(-character.rotation).y > 0:
 			wall_slide_friction_timer -= delta
 			if wall_slide_friction_timer > 0:
-				var friction_factor = wall_slide_friction_timer / WALL_SLIDE_FRICTION_DECAY_TIME
-				velocity.y *= 1 - (WALL_SLIDE_FRICTION * friction_factor)
+				var friction_factor = wall_slide_friction_timer / GameConfig.get_value("player_wall_slide_friction_decay_time")
+				velocity.y *= 1 - (GameConfig.get_value("player_wall_slide_friction") * friction_factor)
 			
 		# Cancel jump early by not pressing jump
 		if jumped and not Input.is_action_pressed("jump"):
@@ -185,7 +174,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			wall_sliding_dir = 0
 		# Swimming up
 		if !hurt and swimming and Input.is_action_pressed("up"):
-			velocity += SWIM_UP_VELOCITY.rotated(character.rotation) * delta
+			velocity += Vector2(0, -GameConfig.get_value("player_speed") * GameConfig.get_value("player_swim_up_velocity_multiplier")).rotated(character.rotation) * delta
 		# Extra jump is gone after releasing jump button
 		if not jumped:
 			jump_timer = 0
@@ -197,7 +186,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		if !hurt and is_crouching:
 			control_axis = control_axis / 2
 			
-		var target_velocity = Vector2(control_axis * (SPEED * speedburst_boost) * stats.get_speed_bonus(), 
+		var target_velocity = Vector2(control_axis * (GameConfig.get_value("player_speed") * speedburst_boost) * stats.get_speed_bonus(), 
 			velocity.rotated(-character.rotation).y).rotated(character.rotation)
 		
 		accel = (0.05 + ((1.45 / 100) * stats.get_exact_accel())) * speedburst_boost
@@ -210,9 +199,9 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			velocity = velocity.move_toward(target_velocity, delta * traction * accel)
 	
 	# Add friction
-	var friction = FRICTION
+	var friction = GameConfig.get_value("player_friction")
 	if swimming:
-		friction = FRICTION_SWIMMING
+		friction = GameConfig.get_value("player_swimming_friction")
 	velocity = velocity * (1 - (friction * delta))
 	
 	# Add phantom velocity
@@ -248,7 +237,7 @@ func _bump_tile_covering_high_area(character: Character):
 
 func freeze(skill_bonus: float):
 	frozen = true
-	frozen_timer = 3.0 / skill_bonus
+	frozen_timer = GameConfig.get_value("player_frozen_duration") / skill_bonus
 
 
 func hitstun(duration: float, has_shield: bool):

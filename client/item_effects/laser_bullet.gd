@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 @onready var LaserBullet = $LaserBullet
 @onready var LaserBulletCollision = $LaserBulletCollision
-@export var SPEED = 4800
 
 var dir: float
 var spawnpos: Vector2
@@ -14,11 +13,7 @@ var fromplayer: CharacterBody2D
 func _ready():
 	global_position = spawnpos
 	global_rotation = spawnrot
-	if scale.x < 0:
-		SPEED = -SPEED
-	else:
-		SPEED = SPEED
-	life = 3.3
+	life = GameConfig.get_value("laser_bullet_lifetime")
 
 func check_collision() -> bool:
 	var collision: KinematicCollision2D = get_last_slide_collision()
@@ -29,7 +24,10 @@ func check_collision() -> bool:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	velocity = Vector2(SPEED, 0).rotated(dir)
+	var speed = GameConfig.get_value("laser_bullet_speed")
+	if scale.x < 0:
+		speed *= -1
+	velocity = Vector2(speed, 0).rotated(dir)
 	move_and_slide()
 	var hit_something = check_collision()
 	if life <= 0:

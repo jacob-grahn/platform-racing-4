@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameConfig="*res://singletons/game_config.gd"
 ApiManager="*res://singletons/api_manager.gd"
 CoordinateUtils="*res://singletons/coordinate_utils.gd"
 FileManager="*res://singletons/file_manager.gd"
