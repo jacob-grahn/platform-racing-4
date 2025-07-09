@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build Commands
 - Run the game: Open project.godot in Godot Engine and press F5
-- Build for web: `/Applications/Godot.app/Contents/MacOS/Godot --headless --verbose --export-release "Web" $PWD/build/web/index.html`
+- Build for web: `godot --headless --verbose --export-release "Web" $PWD/build/web/index.html`
 - Tests: Run test scenes directly in Godot (open *_test.tscn files and press F5)
 
 ## Code Style
