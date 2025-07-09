@@ -1,7 +1,6 @@
 extends Node2D
 class_name PortableBlockItem
 
-@onready var spawn = get_node("../../../../../Projectiles")
 @onready var VisualAid = $VisualAid
 var character: Character
 var using: bool = false
@@ -9,6 +8,7 @@ var remove: bool = false
 var uses: int = 1
 var tile_id = 0
 var tile_map: TileMapLayer
+var spawn: Node2D
 var spawn_position: Vector2
 var tilemap_position: Vector2
 var coords: Vector2i
@@ -28,7 +28,10 @@ func _ready():
 
 
 func set_block_position():
-	tile_map = get_node("../../../../../TileMap")
+	var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
+	var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+	tile_map = layer.tile_map
+	spawn = layer.get_node("Projectiles")
 	if not tile_map or not character:
 		return
 	spawn_position = to_local(Vector2(0, 0))

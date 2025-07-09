@@ -243,11 +243,10 @@ func _process(delta: float) -> void:
 				if !is_host:
 					return
 				
-				var level_encoder: Node2D = get_node("../EDITOR/LevelEncoder")
-				if !level_encoder:
+				if !LevelEditor.level_editor.level_manager.level_encoder:
 					return
 					
-				var json_string = JSON.stringify(level_encoder.encode())
+				var json_string = JSON.stringify(LevelEditor.level_editor.level_manager.level_encoder.encode())
 				var encoded_data = Marshalls.utf8_to_base64(json_string)
 	
 				var data = {

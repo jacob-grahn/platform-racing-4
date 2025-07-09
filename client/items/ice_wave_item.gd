@@ -5,8 +5,8 @@ class_name IceWaveItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-@onready var spawn = get_node("../../../../../Projectiles")
 var character: Character
+var spawn: Node2D
 var using: bool = false
 var remove: bool = false
 var uses: int = 3
@@ -55,6 +55,10 @@ func activate_item():
 # acceleration could be reserved for the ice wave?
 
 func shoot():
+	if !spawn:
+		var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
+		var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+		spawn = layer.get_node("Projectiles")
 	var icewave1 = projectile.instantiate()
 	spawn.add_child.call_deferred(icewave1)
 	icewave1.dir = 112.5

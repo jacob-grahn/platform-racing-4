@@ -7,7 +7,7 @@ extends Node2D
 
 # kind of a hack so moving animations over to character_display doesn't break this
 # todo: make this better
-@onready var item_holder: Node2D = get_node("../Display/ItemHolder")
+var item_holder: Node2D
 
 var character: Character
 

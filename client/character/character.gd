@@ -42,6 +42,7 @@ var control_vector: Vector2
 
 
 func _ready() -> void:
+	item_manager.item_holder = $Display/ItemHolder
 	# Initialize all the controllers
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)

@@ -46,6 +46,8 @@ static func _run_game_test(main_instance: Main):
 	if character:
 		if not character.is_on_floor():
 			print("Character is not on the floor at the end of the game test.")
+			print("Character position: ", character.position)
+			print("Character velocity: ", character.velocity)
 			main_instance.get_tree().quit(1)
 	else:
 		print("Failed to get character instance.")

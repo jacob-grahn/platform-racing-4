@@ -2,8 +2,8 @@ extends Node2D
 class_name BlackHoleItem
 
 @onready var hole = load("res://item_effects/black_hole.tscn")
-@onready var spawn = get_node("../../../../../Projectiles")
 var character: Character
+var spawn: Node2D
 var using: bool = false
 var remove: bool = false
 var uses: int = 1
@@ -30,6 +30,10 @@ func activate_item():
 
 func spawn_hole():
 	var blackhole = hole.instantiate()
+	if !spawn:
+		var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
+		var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+		spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(blackhole)
 	blackhole.dir = 0
 	blackhole.spawnpos = global_position

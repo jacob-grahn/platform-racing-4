@@ -5,8 +5,8 @@ class_name RocketLauncherItem
 @onready var timer = $CooldownTimer
 @onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-@onready var spawn = get_node("../../../../../Projectiles")
 var character: Character
+var spawn: Node2D
 var using: bool = false
 var remove: bool = false
 var boost = Vector2(0, 0)
@@ -58,6 +58,10 @@ func launch():
 	rocket.spawnpos = global_position
 	rocket.spawnrot = 0
 	rocket.scale.x = character.display.scale.x
+	if !spawn:
+		var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
+		var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+		spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(rocket)
 
 func _on_timeout():

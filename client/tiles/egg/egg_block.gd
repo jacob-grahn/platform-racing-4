@@ -35,7 +35,8 @@ func add_egg_enemy(tile_map: TileMapLayer, coords: Vector2i) -> void:
 	var depth = Helpers.get_depth(tile_map)
 	egg_enemy.position = get_center_position(tile_map, coords)
 	egg_enemy.name = "EggEnemy" + str(egg_counter)
-	tile_map.get_node("../Enemies").add_child(egg_enemy)
+	var layer = tile_map.get_parent()
+	layer.get_node("Enemies").add_child(egg_enemy)
 	egg_enemy.set_depth(depth)
 
 
