@@ -60,6 +60,10 @@ func _update_minimap_layer_scale(minimap_layer: TileMapLayer):
 	var new_position = Vector2.ZERO
 	new_position.x = (size.x - (used_rect.size.x * Settings.tile_size.x * effective_scale)) / 2
 	new_position.y = (size.y - (used_rect.size.y * Settings.tile_size.y * effective_scale)) / 2
+	
+	new_position.x -= used_rect.position.x * Settings.tile_size.x * effective_scale
+	new_position.y -= used_rect.position.y * Settings.tile_size.y * effective_scale
+	
 	minimap_layer.position = new_position
 
 
