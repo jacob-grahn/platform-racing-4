@@ -28,8 +28,7 @@ func _ready():
 
 
 func set_block_position():
-	var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
-	var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+	var layer = Game.get_target_layer_node()
 	tile_map = layer.tile_map
 	spawn = layer.get_node("Projectiles")
 	if not tile_map or not character:

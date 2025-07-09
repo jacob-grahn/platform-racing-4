@@ -31,8 +31,7 @@ func activate_item():
 func spawn_hole():
 	var blackhole = hole.instantiate()
 	if !spawn:
-		var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
-		var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+		var layer = Game.get_target_layer_node()
 		spawn = layer.get_node("Projectiles")
 	spawn.add_child.call_deferred(blackhole)
 	blackhole.dir = 0

@@ -32,9 +32,8 @@ func _set_tile_id(new_tile_id: int) -> void:
 
 func activate_item():
 	using = true
-	var layers: Layers = Game.game.level_manager.layers
-	var target_layer_name: String = layers.get_target_layer()
-	var tile_map: TileMapLayer = layers.get_node(target_layer_name).tile_map
+	var layer = Game.get_target_layer_node()
+	var tile_map: TileMapLayer = layer.tile_map
 	var global_position = to_global(Vector2(0, 0))
 	var tilemap_position = tile_map.to_local(global_position)
 	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size

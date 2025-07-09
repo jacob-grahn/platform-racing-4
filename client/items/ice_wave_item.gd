@@ -56,8 +56,7 @@ func activate_item():
 
 func shoot():
 	if !spawn:
-		var target_layer_name: String = Game.game.level_manager.layers.get_target_layer()
-		var layer = Game.game.level_manager.layers.get_node(target_layer_name)
+		var layer = Game.get_target_layer_node()
 		spawn = layer.get_node("Projectiles")
 	var icewave1 = projectile.instantiate()
 	spawn.add_child.call_deferred(icewave1)
