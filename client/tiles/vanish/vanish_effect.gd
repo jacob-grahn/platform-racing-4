@@ -18,6 +18,7 @@ func _exit_tree() -> void:
 	_vanish.remove_from_vanish_dict(_coords)
 	_tile_map_layer.set_cell(_coords, 0, _atlas_coords, 0)
 
+
 func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	
 	_tile_map_layer = tile_map_layer
@@ -33,6 +34,7 @@ func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map_layer
 	var depth = Helpers.get_depth(_tile_map_layer)
 	var layer = Helpers.to_bitmask_32(depth * 2 - 1)
 	area.collision_mask = layer
+
 
 func vanish_again() -> void:
 	
@@ -53,6 +55,7 @@ func vanish_again() -> void:
 	animation_player.play("vanish")
 	animation_player.seek(duration - progress)
 
+
 func _try_to_appear() -> void:
 	
 	if animation_player.is_playing():
@@ -68,6 +71,7 @@ func _try_to_appear() -> void:
 	_tile_map_layer.set_cell(_coords, 0, _atlas_coords,1)
 	animation_player.play("appear")
 
+
 func _on_animation_player_animation_finished(animation_name: StringName) -> void:
 	match animation_name:
 		"vanish":
@@ -76,8 +80,10 @@ func _on_animation_player_animation_finished(animation_name: StringName) -> void
 		"appear":
 			queue_free()
 
+
 func _on_invisibility_timer_timeout() -> void:
 	_try_to_appear()
+
 
 func _on_area_body_exited(_body) -> void:
 	_try_to_appear()

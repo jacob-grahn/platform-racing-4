@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_vbo6q"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_sy0tr"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_4ui7b"]
-[ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/tester/stats_panel/stats_panel.tscn" id="7_74ued"]
+[ext_resource type="PackedScene" uid="uid://bex50bhvo5njo" path="res://pages/game/stats_panel/stats_panel.tscn" id="7_74ued"]
 [ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
 [ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_ju48d"]
 

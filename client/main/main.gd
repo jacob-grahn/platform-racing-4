@@ -33,8 +33,6 @@ var scenes = {
 	REGISTER: preload("res://pages/register/register.tscn")
 }
 
-
-
 @onready var game_client: Node2D = $GameClient
 var current_scene: Node
 

@@ -77,8 +77,12 @@ static func _run_items_test(main_instance: Main):
 
 static func _run_editor_test(main_instance: Main):
 	var level_editor = await main_instance._set_scene(Main.LEVEL_EDITOR)
-	await main_instance.get_tree().process_frame
-	await main_instance.get_tree().create_timer(3.0).timeout
+	await main_instance.get_tree().create_timer(1.0).timeout
+
+	var block_cursor = level_editor.cursor.get_node("BlockCursor")
+	block_cursor.on_drag()
+
+	await main_instance.get_tree().create_timer(1.0).timeout
 
 
 static func _run_tester_test(main_instance: Main):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bex50bhvo5njo"]
 
-[ext_resource type="Script" uid="uid://cmys5l606o8br" path="res://pages/tester/stats_panel/stats_panel.gd" id="1_jvs4v"]
+[ext_resource type="Script" uid="uid://cmys5l606o8br" path="res://pages/game/stats_panel/stats_panel.gd" id="1_jvs4v"]
 
 [node name="StatsPanel" type="Control"]
 layout_mode = 3

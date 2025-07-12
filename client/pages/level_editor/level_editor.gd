@@ -6,10 +6,6 @@ static var current_level: Dictionary
 static var current_level_description: String
 static var level_editor: Node
 
-var users_host_edit_panel: Control
-var users_join_edit_panel: Control
-var users_quit_edit_panel: Control
-
 var default_level: Dictionary = {
 	"layers": [{
 		"name": "Layer 1",
@@ -35,7 +31,15 @@ var default_level: Dictionary = {
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
 @onready var game_config_panel = $UI/GameConfigPanel
-
+@onready var cursor = $UI/Cursor
+@onready var penciler: Node2D = $Penciler
+@onready var bg: Node2D = $BG
+@onready var editor_events: EditorEvents = $EditorEvents
+@onready var editor_menu = $UI/EditorMenu
+@onready var layer_panel_node = $UI/LayerPanel
+@onready var users_host_edit_panel: Control = $UI/HostEditPanel
+@onready var users_join_edit_panel: Control = $UI/JoinEditPanel
+@onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
 func init(data: Dictionary = {}):
 	_on_connect_editor()
@@ -43,9 +47,7 @@ func init(data: Dictionary = {}):
 
 func _ready():
 	LevelEditor.level_editor = self
-	users_host_edit_panel = $UI/HostEditPanel
-	users_join_edit_panel = $UI/JoinEditPanel
-	users_quit_edit_panel = $UI/QuitEditPanel
+	
 	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
@@ -58,19 +60,11 @@ func _ready():
 	explore_panel.connect("explore_load", _on_explore_load)
 	game_client.connect("request_editor_load", _on_request_editor_load)
 
-	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors")
+	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
 	LevelEditor.editor_cursors.init($LevelManager.layers)
 	
-	var penciler: Node2D = get_node("Penciler")
-	var bg: Node2D = get_node("BG")
-	var editor_events: EditorEvents = get_node("EditorEvents")
-	var cursor: Cursor = get_node("UI/Cursor")
-	var editor_menu = get_node("UI/EditorMenu")
-	var layer_panel_node = get_node("UI/LayerPanel")
-	var game_client_node = get_node("/root/Main/GameClient")
-	
 	editor_events.connect_to([cursor, editor_menu, layer_panel_node, level_manager.level_decoder])
-	editor_events.set_game_client(game_client_node)
+	editor_events.set_game_client(game_client)
 	penciler.init(level_manager.layers, bg, editor_events, layer_panel)
 	cursor.init(editor_menu, level_manager.layers)
 	
