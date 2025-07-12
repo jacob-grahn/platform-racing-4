@@ -82,7 +82,7 @@ func _on_level_event(event: Dictionary) -> void:
 	if event.type == EditorEvents.ADD_LAYER:
 		var layer := layers.add_layer(event.name)
 		layer.art_scale = event.get("art_scale", 1.0)
-		layer.get_node("TileMap").rotation_degrees = event.get("rotation", 0)
+		layer.get_node("TileMapLayer").rotation_degrees = event.get("rotation", 0)
 		layer.set_depth(event.get("depth", 10))
 	
 	if event.type == EditorEvents.RENAME_LAYER:
@@ -118,7 +118,7 @@ func _on_level_event(event: Dictionary) -> void:
 
 	if event.type == EditorEvents.ROTATE_LAYER:
 		var layer = layers.get_node(event.layer_name)
-		layer.get_node("TileMap").rotation_degrees = event.rotation
+		layer.get_node("TileMapLayer").rotation_degrees = event.rotation
 
 	if event.type == EditorEvents.LAYER_DEPTH:
 		var layer = layers.get_node(event.layer_name)
@@ -139,8 +139,8 @@ func _on_level_event(event: Dictionary) -> void:
 func _set_tile(event: Dictionary, coords: Vector2i, coords_key: String, new_timestamp: int = -1) -> void:
 	var layer = layers.get_node(event.layer_name)
 	if layer.visible:
-		var tilemap: TileMapLayer = layers.get_node(event.layer_name + "/TileMap")
-		tilemap.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
+		var tile_map_layer: TileMapLayer = layers.get_node(event.layer_name + "/TileMapLayer")
+		tile_map_layer.set_cell(coords, 0, CoordinateUtils.to_atlas_coords(event.block_id))
 	
 	if new_timestamp != -1:
 		tile_update_timestamps[coords_key] = new_timestamp

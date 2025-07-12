@@ -8,6 +8,8 @@ static func run_tests(main_instance: Main):
 	if test_arg_index == -1:
 		return false
 
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), -80)
+
 	var tests_to_run: Array
 	if test_arg_index + 1 < args.size() and not args[test_arg_index + 1].begins_with("--"):
 		tests_to_run = args[test_arg_index + 1].split(",")

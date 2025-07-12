@@ -43,9 +43,9 @@ func bump_tile_covering_high_area(character: Character) -> void:
 	
 	character.movement.attempting_bump = true
 	if tile != character.movement.last_bumped_block:
-		_tiles.on("bottom", tile_type, character, tile.tile_map, tile.coords)
-		_tiles.on("any_side", tile_type, character, tile.tile_map, tile.coords)
-		_tiles.on("bump", tile_type, character, tile.tile_map, tile.coords)
+		_tiles.on("bottom", tile_type, character, tile.tile_map_layer, tile.coords)
+		_tiles.on("any_side", tile_type, character, tile.tile_map_layer, tile.coords)
+		_tiles.on("bump", tile_type, character, tile.tile_map_layer, tile.coords)
 		character.movement.last_bumped_block = tile
 		character.audioplayer.set_stream(BUMP_SOUND)
 		character.audioplayer.set_volume_db(1)
@@ -68,7 +68,7 @@ func interact_with_incoporeal_tiles(character: Character):
 	for tile in tiles_overlapping:
 		if _tiles.is_liquid(tile.block_id):
 			character.movement.swimming = true
-		_tiles.on("area", tile.block_id, character, tile.tile_map, tile.coords)
+		_tiles.on("area", tile.block_id, character, tile.tile_map_layer, tile.coords)
 
 
 func interact_with_solid_tiles(character: Character, lightning: LightbreakController) -> bool:
@@ -77,33 +77,33 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	if !collision:
 		return false
 		
-	var tilemap = collision.get_collider()
-	if not (tilemap is TileMapLayer):
+	var tile_map_layer = collision.get_collider()
+	if not (tile_map_layer is TileMapLayer):
 		return false
 
 	var normal = collision.get_normal().rotated(-character.rotation)
 	var rid = collision.get_collider_rid()
-	var coords = tilemap.get_coords_for_body_rid(rid)
-	var atlas_coords = tilemap.get_cell_atlas_coords(coords)
+	var coords = tile_map_layer.get_coords_for_body_rid(rid)
+	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	var tile_type = CoordinateUtils.to_block_id(atlas_coords)
-	var bumped_tile = {"tile_map": tilemap, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
+	var bumped_tile = {"tile_map_layer": tile_map_layer, "coords": coords, "atlas_coords": atlas_coords, "block_id": tile_type}
 	
 	character.movement.last_collision_normal = normal
 	
 	if abs(normal.x) > abs(normal.y):
 		if normal.x > 0:
-			_tiles.on("left", tile_type, character, tilemap, coords)
-			_tiles.on("any_side", tile_type, character, tilemap, coords)
+			_tiles.on("left", tile_type, character, tile_map_layer, coords)
+			_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
 		else:
-			_tiles.on("right", tile_type, character, tilemap, coords)
-			_tiles.on("any_side", tile_type, character, tilemap, coords)
+			_tiles.on("right", tile_type, character, tile_map_layer, coords)
+			_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
 	else:
 		if normal.y > 0:
 			character.movement.attempting_bump = true
 			if bumped_tile != character.movement.last_bumped_block and tile_type != 7:
-				_tiles.on("bottom", tile_type, character, tilemap, coords)
-				_tiles.on("any_side", tile_type, character, tilemap, coords)
-				_tiles.on("bump", tile_type, character, tilemap, coords)
+				_tiles.on("bottom", tile_type, character, tile_map_layer, coords)
+				_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
+				_tiles.on("bump", tile_type, character, tile_map_layer, coords)
 				character.movement.last_bumped_block = bumped_tile
 				character.movement.jumped = false
 				character.movement.jump_timer = 0
@@ -111,26 +111,26 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 				character.audioplayer.set_volume_db(1)
 				character.audioplayer.play()
 		else:
-			_tiles.on("top", tile_type, character, tilemap, coords)
-			_tiles.on("any_side", tile_type, character, tilemap, coords)
-			_tiles.on("stand", tile_type, character, tilemap, coords)
-			if _tiles.is_safe(tile_type) and tilemap.name.contains("gear") == false:
+			_tiles.on("top", tile_type, character, tile_map_layer, coords)
+			_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
+			_tiles.on("stand", tile_type, character, tile_map_layer, coords)
+			if _tiles.is_safe(tile_type) and tile_map_layer.name.contains("gear") == false:
 				var centre_safe_block = Vector2(
 						coords.x * Settings.tile_size_half.x * 2 + Settings.tile_size_half.x,
 						coords.y * Settings.tile_size_half.y * 2 + Settings.tile_size_half.y
-				).rotated(tilemap.global_rotation)
+				).rotated(tile_map_layer.global_rotation)
 				last_safe_position = centre_safe_block - (Vector2(
 						0, 
 						(1 * Settings.tile_size.y) - 22
-				)).rotated(tilemap.global_rotation + character.rotation)
+				)).rotated(tile_map_layer.global_rotation + character.rotation)
 				if Game.game:
 					var level_manager = Game.game.get_node("LevelManager")
 					if level_manager:
-						last_safe_layer = level_manager.layers.get_node(str(str(tilemap.get_parent().name)))
+						last_safe_layer = level_manager.layers.get_node(str(str(tile_map_layer.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
 	if lightning.direction.length() > 0 and lightning.fire_power > 0:
-		TileEffects.shatter(tilemap, coords)
+		TileEffects.shatter(tile_map_layer, coords)
 		lightning.fire_power -= 1
 		return false
 	else:
@@ -163,15 +163,15 @@ func check_out_of_bounds(character: Character) -> void:
 func get_tiles_overlapping_area(area: Area2D) -> Array:
 	var tiles = []
 	var bodies: Array = area.get_overlapping_bodies()
-	for tile_map in bodies:
-		if !(tile_map is TileMapLayer):
+	for tile_map_layer in bodies:
+		if !(tile_map_layer is TileMapLayer):
 			continue
-		var coords = tile_map.local_to_map(tile_map.to_local(area.to_global(Vector2.ZERO)))
-		var atlas_coords = tile_map.get_cell_atlas_coords(coords)
+		var coords = tile_map_layer.local_to_map(tile_map_layer.to_local(area.to_global(Vector2.ZERO)))
+		var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 		var block_id = CoordinateUtils.to_block_id(atlas_coords)
 		if block_id != 0:
 			tiles.push_back({
-				"tile_map": tile_map,
+				"tile_map_layer": tile_map_layer,
 				"coords": coords,
 				"atlas_coords": atlas_coords,
 				"block_id": block_id

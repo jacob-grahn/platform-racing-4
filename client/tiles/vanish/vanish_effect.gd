@@ -8,7 +8,7 @@ class_name VanishEffect
 @onready var animation_player = $AnimationPlayer
 @onready var invisibility_timer = $InvisibilityTimer
 
-var _tile_map: TileMapLayer
+var _tile_map_layer: TileMapLayer
 var _coords: Vector2i
 var _atlas_coords: Vector2i
 var _vanish: Vanish
@@ -16,11 +16,11 @@ var _vanish: Vanish
 
 func _exit_tree() -> void:
 	_vanish.remove_from_vanish_dict(_coords)
-	_tile_map.set_cell(_coords, 0, _atlas_coords, 0)
+	_tile_map_layer.set_cell(_coords, 0, _atlas_coords, 0)
 
-func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map: TileMapLayer, coords: Vector2i) -> void:
+func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	
-	_tile_map = tile_map
+	_tile_map_layer = tile_map_layer
 	_coords = coords
 	_atlas_coords = atlas_coords
 	_vanish = vanish
@@ -30,7 +30,7 @@ func init(vanish: Vanish, atlas: Texture, atlas_coords: Vector2i, tile_map: Tile
 	sprite.region_rect = Rect2i(atlas_coords * Settings.tile_size, Settings.tile_size)
 	
 	# Set mask to detect character layer for the same depth
-	var depth = Helpers.get_depth(tile_map)
+	var depth = Helpers.get_depth(_tile_map_layer)
 	var layer = Helpers.to_bitmask_32(depth * 2 - 1)
 	area.collision_mask = layer
 
@@ -65,13 +65,13 @@ func _try_to_appear() -> void:
 		if body is Character: # TODO: Ignore if wearing top hat
 			return
 	
-	_tile_map.set_cell(_coords, 0, _atlas_coords,1)
+	_tile_map_layer.set_cell(_coords, 0, _atlas_coords,1)
 	animation_player.play("appear")
 
 func _on_animation_player_animation_finished(animation_name: StringName) -> void:
 	match animation_name:
 		"vanish":
-			_tile_map.set_cell(_coords, 0, _atlas_coords, 4)
+			_tile_map_layer.set_cell(_coords, 0, _atlas_coords, 4)
 			invisibility_timer.start()
 		"appear":
 			queue_free()

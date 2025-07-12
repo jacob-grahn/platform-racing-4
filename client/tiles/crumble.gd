@@ -14,8 +14,8 @@ func init():
 	any_side.push_back(crumble)
 
 
-func crumble(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
-	var key = get_slug(tile_map, coords)
+func crumble(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+	var key = get_slug(tile_map_layer, coords)
 	
 	# oh shit, math
 	# we want the velocity of the player, but only the % of the velocity that is moving towards the block
@@ -31,9 +31,9 @@ func crumble(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
 		tile_health -= damage
 		health_dict[key] = tile_health
 		if tile_health <= 0:
-			TileEffects.shatter(tile_map, coords)
+			TileEffects.shatter(tile_map_layer, coords)
 		else:
-			TileEffects.crumble(tile_map, coords)
+			TileEffects.crumble(tile_map_layer, coords)
 	# print({
 	#	"key": key,
 	#	"player_velocity" :player.last_velocity,

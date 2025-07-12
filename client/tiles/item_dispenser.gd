@@ -9,8 +9,8 @@ func init():
 	bump.push_back(dispense_item)
 
 
-func dispense_item(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
-	if !is_active(tile_map, coords):
+func dispense_item(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
+	if !is_active(tile_map_layer, coords):
 		return
 	
 	# grant an item
@@ -18,4 +18,4 @@ func dispense_item(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
 	player.set_item(item_id)
 	
 	# deactivate this tile
-	deactivate(tile_map, coords)
+	deactivate(tile_map_layer, coords)

@@ -2,7 +2,7 @@ extends ParallaxBackground
 class_name Layer
 
 @onready var lines: Node2D = $Lines
-@onready var tile_map = $TileMap
+@onready var tile_map_layer = $TileMapLayer
 
 const TILEATLAS = preload("res://tiles/tileatlas.png")
 var depth = 10
@@ -10,7 +10,7 @@ var art_scale = 1.0
 
 
 func init(tiles: Tiles) -> void:
-	tile_map.tile_set = create_tile_set(tiles, true)
+	tile_map_layer.tile_set = create_tile_set(tiles, true)
 	set_depth(depth)
 
 
@@ -67,7 +67,7 @@ func set_depth(p_depth: int) -> void:
 	depth = p_depth
 	layer = depth
 	
-	var tile_set = tile_map.tile_set
+	var tile_set = tile_map_layer.tile_set
 	if tile_set:
 		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
 		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))

@@ -7,10 +7,10 @@ var using: bool = false
 var remove: bool = false
 var uses: int = 1
 var tile_id = 0
-var tile_map: TileMapLayer
+var tile_map_layer: TileMapLayer
 var spawn: Node2D
 var spawn_position: Vector2
-var tilemap_position: Vector2
+var tile_map_layer_position: Vector2
 var coords: Vector2i
 var atlas_coords: Vector2i
 var below_zero: Vector2
@@ -29,13 +29,13 @@ func _ready():
 
 func set_block_position():
 	var layer = Game.get_target_layer_node()
-	tile_map = layer.tile_map
+	tile_map_layer = layer.tile_map_layer
 	spawn = layer.get_node("Projectiles")
-	if not tile_map or not character:
+	if not tile_map_layer or not character:
 		return
 	spawn_position = to_local(Vector2(0, 0))
-	tilemap_position = tile_map.to_local(character.global_position)
-	coords = Vector2i(tilemap_position.floor()) / Settings.tile_size
+	tile_map_layer_position = tile_map_layer.to_local(character.global_position)
+	coords = Vector2i(tile_map_layer_position.floor()) / Settings.tile_size
 	if character.movement.facing > 0 and floor(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
 		coords.x = coords.x + 1
 	elif character.movement.facing < 0 and ceil(character.global_position.x / Settings.tile_size.x) != round(character.global_position.x / Settings.tile_size.x):
@@ -71,7 +71,7 @@ func use_block():
 	set_block_position()
 	var block = PortableBlock.instantiate()
 	block.global_position = VisualAid.global_position
-	block.tile_map = tile_map
+	block.tile_map_layer = tile_map_layer
 	below_zero = Vector2(0, 0)
 	if character.global_position.x < 0:
 		below_zero.x = -1

@@ -4,7 +4,7 @@ extends Node2D
 @onready var sprite = $Sprite
 @onready var area = $Area
 @onready var animation_player = $AnimationPlayer
-var _tile_map: TileMapLayer
+var _tile_map_layer: TileMapLayer
 var _coords: Vector2i
 var _atlas_coords: Vector2i
 var _appear: Appear
@@ -13,8 +13,8 @@ var appear_disappear_duration: float = 1
 var time_elapsed: float = 0
 var appearing = true
 
-func init(appear: Appear, atlas: Texture, atlas_coords: Vector2i, tile_map: TileMapLayer, coords: Vector2i):
-	_tile_map = tile_map
+func init(appear: Appear, atlas: Texture, atlas_coords: Vector2i, tile_map_layer: TileMapLayer, coords: Vector2i):
+	_tile_map_layer = tile_map_layer
 	_coords = coords
 	_atlas_coords = atlas_coords
 	_appear = appear

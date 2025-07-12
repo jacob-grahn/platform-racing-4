@@ -27,20 +27,20 @@ func _on_resized():
 
 
 func _create_minimap_layer(layer):
-	var tile_map_mini = TileMapLayer.new()
-	tile_map_mini.name = layer.name
+	var tile_map_layer_mini = TileMapLayer.new()
+	tile_map_layer_mini.name = layer.name
 	
-	tile_map_mini.tile_set = layer.tile_map.tile_set
+	tile_map_layer_mini.tile_set = layer.tile_map_layer.tile_set
 	
-	var used_cells = layer.tile_map.get_used_cells()
+	var used_cells = layer.tile_map_layer.get_used_cells()
 	for cell in used_cells:
-		var source_id = layer.tile_map.get_cell_source_id(cell)
-		var atlas_coords = layer.tile_map.get_cell_atlas_coords(cell)
-		tile_map_mini.set_cell(cell, source_id, atlas_coords)
+		var source_id = layer.tile_map_layer.get_cell_source_id(cell)
+		var atlas_coords = layer.tile_map_layer.get_cell_atlas_coords(cell)
+		tile_map_layer_mini.set_cell(cell, source_id, atlas_coords)
 
-	_update_minimap_layer_scale(tile_map_mini)
+	_update_minimap_layer_scale(tile_map_layer_mini)
 	
-	return tile_map_mini
+	return tile_map_layer_mini
 
 
 func _update_minimap_layer_scale(minimap_layer: TileMapLayer):

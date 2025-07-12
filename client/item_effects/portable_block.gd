@@ -5,7 +5,7 @@ extends Node2D
 
 var coords: Vector2i
 var atlas_coords: Vector2i
-var tile_map: TileMapLayer
+var tile_map_layer: TileMapLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,5 +19,5 @@ func _physics_process(delta):
 	pass
 	
 func _place_block():
-	tile_map.set_cell(coords, 0, atlas_coords)
+	tile_map_layer.set_cell(coords, 0, atlas_coords)
 	queue_free()

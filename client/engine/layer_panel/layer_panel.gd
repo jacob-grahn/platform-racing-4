@@ -68,7 +68,7 @@ func update_pickers() -> void:
 	var layer = layers.get_node(layers.get_target_layer())
 	if layer and layer is Layer:
 		depth_picker.set_value(layer.depth)
-		rotation_picker.set_value(round(layer.get_node("TileMap").rotation_degrees))
+		rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
 
 func clear() -> void:
 	for child in row_holder.get_children():

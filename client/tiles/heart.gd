@@ -8,5 +8,5 @@ func init():
 	is_safe = true
 
 
-func shield(player: Node2D, tile_map: TileMapLayer, coords: Vector2i):
+func shield(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	player.invincibility.activate()

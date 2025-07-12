@@ -33,12 +33,12 @@ func _set_tile_id(new_tile_id: int) -> void:
 func activate_item():
 	using = true
 	var layer = Game.get_target_layer_node()
-	var tile_map: TileMapLayer = layer.tile_map
+	var tile_map_layer: TileMapLayer = layer.tile_map_layer
 	var global_position = to_global(Vector2(0, 0))
-	var tilemap_position = tile_map.to_local(global_position)
-	var coords: Vector2i = Vector2i(tilemap_position.round()) / Settings.tile_size
+	var tile_map_layer_position = tile_map_layer.to_local(global_position)
+	var coords: Vector2i = Vector2i(tile_map_layer_position.round()) / Settings.tile_size
 	var atlas_coords: Vector2i = CoordinateUtils.to_atlas_coords(tile_id)
-	tile_map.set_cell(coords, 0, atlas_coords)
+	tile_map_layer.set_cell(coords, 0, atlas_coords)
 	remove = true
 
 
