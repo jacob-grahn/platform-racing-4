@@ -109,48 +109,6 @@ script = ExtResource("1_d2gdb")
 [node name="ParallaxBg" parent="." instance=ExtResource("3_033iv")]
 position = Vector2(2048, 0)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -400.0
-offset_bottom = 50.0
-grow_horizontal = 0
-theme_override_constants/separation = 10
-
-[node name="NicknameLabel" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_k3j40")
-text = "Nickname"
-
-[node name="LogoutButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_k3j40")
-text = "Logout"
-
-[node name="UserSettingsButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_k3j40")
-text = "Settings"
-
-[node name="PlayButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -103.0
-offset_top = 22.0
-offset_right = 106.0
-offset_bottom = 127.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_k3j40")
-theme_override_font_sizes/font_size = 32
-text = "Play!"
-
 [node name="Title1" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -158,10 +116,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -720.0
-offset_top = -445.0
-offset_right = 720.0
-offset_bottom = -275.0
+offset_left = -738.0
+offset_top = -447.5
+offset_right = 738.0
+offset_bottom = -272.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_jjqe5")
@@ -241,6 +199,129 @@ modulate = Color(1, 1, 1, 0.466667)
 position = Vector2(721, 156)
 scale = Vector2(0.644, 0.644)
 texture = ExtResource("5_giwdd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_bottom = 50.0
+grow_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="LogoutButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Logout"
+
+[node name="UserSettingsButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Settings"
+
+[node name="AwaitingLoginPanel" type="Panel" parent="."]
+layout_mode = 2
+offset_left = 822.0
+offset_top = 518.0
+offset_right = 1122.0
+offset_bottom = 598.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AwaitingLoginPanel"]
+layout_mode = 0
+offset_top = 25.0
+offset_right = 300.0
+offset_bottom = 55.0
+
+[node name="Label" type="Label" parent="AwaitingLoginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Checking your login..."
+horizontal_alignment = 1
+
+[node name="NotLoggedInPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 822.0
+offset_top = 518.0
+offset_right = 1122.0
+offset_bottom = 818.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NotLoggedInPanel"]
+layout_mode = 0
+offset_top = 27.0
+offset_right = 300.0
+offset_bottom = 273.0
+
+[node name="LoginButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Login"
+
+[node name="GuestPlayButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Play as a Guest"
+
+[node name="CreateAccountButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Create Account"
+
+[node name="LevelEditorButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Goto Level Editor"
+
+[node name="CreditsButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Credits"
+
+[node name="LoggedInPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 822.0
+offset_top = 518.0
+offset_right = 1122.0
+offset_bottom = 818.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoggedInPanel"]
+layout_mode = 0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 290.0
+
+[node name="NicknameLabel" type="Label" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Welcome, Nickname!"
+horizontal_alignment = 1
+
+[node name="LobbyButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Go To Lobby"
+
+[node name="LevelEditorButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Goto Level Editor"
+
+[node name="CreditsButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Credits"
+
+[node name="UserSettingsButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Account Settings"
+
+[node name="LogoutButton" type="Button" parent="LoggedInPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_k3j40")
+text = "Logout"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
