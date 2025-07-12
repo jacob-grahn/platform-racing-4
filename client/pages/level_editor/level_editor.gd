@@ -31,6 +31,7 @@ var default_level: Dictionary = {
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
 @onready var game_config_panel = $UI/GameConfigPanel
+
 @onready var cursor = $UI/Cursor
 @onready var penciler: Node2D = $Penciler
 @onready var bg: Node2D = $BG
@@ -41,13 +42,13 @@ var default_level: Dictionary = {
 @onready var users_join_edit_panel: Control = $UI/JoinEditPanel
 @onready var users_quit_edit_panel: Control = $UI/QuitEditPanel
 
+
 func init(data: Dictionary = {}):
 	_on_connect_editor()
 
 
 func _ready():
 	LevelEditor.level_editor = self
-	
 	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
@@ -62,6 +63,14 @@ func _ready():
 
 	LevelEditor.editor_cursors = get_node("EditorCursorLayer/EditorCursors") # todo: can this be joined with UI/Cursor?
 	LevelEditor.editor_cursors.init($LevelManager.layers)
+	
+	var penciler: Node2D = get_node("Penciler")
+	var bg: Node2D = get_node("BG")
+	var editor_events: EditorEvents = get_node("EditorEvents")
+	var cursor: Cursor = get_node("UI/Cursor")
+	var editor_menu = get_node("UI/EditorMenu")
+	var layer_panel_node = get_node("UI/LayerPanel")
+	var game_client_node = get_node("/root/Main/GameClient")
 	
 	editor_events.connect_to([cursor, editor_menu, layer_panel_node, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
@@ -206,7 +215,7 @@ func _on_disconnect_editor() -> void:
 	
 	LevelEditor.editor_cursors = null
 	
-	if !game_client.isFirstOpenEditor:
+	if Session.is_logged_in() and !game_client.isFirstOpenEditor:
 		var data_room = {
 			"module": "RequestRoomModule",
 			"id": Session.get_username(),
