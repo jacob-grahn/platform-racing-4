@@ -109,9 +109,9 @@ func _send_cursor_update() -> void:
 		if !layer:
 			return
 			
-		var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
+		var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 		var camera: Camera2D = get_viewport().get_camera_2d()
-		var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+		var mouse_position = tile_map_layer.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 		
 		var data = {
 			"module": "CursorEditorModule",
@@ -173,9 +173,9 @@ func _process(delta: float) -> void:
 		var layer_node = layers.get_node(layers.get_target_layer())
 		if layer_node is ParallaxBackground:
 			var layer: ParallaxBackground = layer_node
-			var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
+			var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 			var camera: Camera2D = get_viewport().get_camera_2d()
-			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+			var mouse_position = tile_map_layer.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 			if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):
 				LevelEditor.editor_cursors.update_cursor_position_local(mouse_position, Session.get_current_block_id())
 		
