@@ -57,11 +57,11 @@ func is_line_intersecting_circle(p1: Vector2, p2: Vector2, circle_center: Vector
 
 func erase_blocks():
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
-	var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
+	var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 	var camera: Camera2D = get_viewport().get_camera_2d()
-	var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
-	var coords = tilemap.local_to_map(mouse_position)
-	var atlas_coords = tilemap.get_cell_atlas_coords(coords)
+	var mouse_position = tile_map_layer.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
+	var coords = tile_map_layer.local_to_map(mouse_position)
+	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	if atlas_coords != Vector2i(-1, -1):
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_TILE,

@@ -28,7 +28,7 @@ func on_mouse_down():
 
 func on_drag(pos: Vector2 = Vector2(-1, -1)):
 	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
-	var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
+	var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var rotated_pos: Vector2
 
@@ -47,19 +47,19 @@ func on_drag(pos: Vector2 = Vector2(-1, -1)):
 		
 		# Account for tilemap rotation
 		rotated_pos = world_pos
-		if tilemap.rotation != 0:
+		if tile_map_layer.rotation != 0:
 			# Inverse rotate the point to get the correct position in rotated space
-			var rotation_radians = -tilemap.rotation
+			var rotation_radians = -tile_map_layer.rotation
 			rotated_pos = Vector2(
 				world_pos.x * cos(rotation_radians) - world_pos.y * sin(rotation_radians),
 				world_pos.x * sin(rotation_radians) + world_pos.y * cos(rotation_radians)
 			)
 	
 	# Convert position to tile coordinates
-	var coords = tilemap.local_to_map(rotated_pos)
+	var coords = tile_map_layer.local_to_map(rotated_pos)
 	
 	var atlas_coords = CoordinateUtils.to_atlas_coords(block_id)
-	var existing_atlas_coords = tilemap.get_cell_atlas_coords(coords)
+	var existing_atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	if atlas_coords != existing_atlas_coords:
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_TILE,
