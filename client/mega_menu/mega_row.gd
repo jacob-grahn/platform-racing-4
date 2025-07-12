@@ -11,6 +11,7 @@ const COLLAB_BUTTON: PackedScene = preload("res://mega_menu/collab_button/collab
 const BG_BUTTON: PackedScene = preload("res://mega_menu/bg_button/bg_button.tscn")
 const ZOOM_IN_BUTTON: PackedScene = preload("res://mega_menu/zoom_in/zoom_in_button.tscn")
 const ZOOM_OUT_BUTTON: PackedScene = preload("res://mega_menu/zoom_out/zoom_out_button.tscn")
+const GAME_CONFIG_BUTTON: PackedScene = preload("res://pages/level_editor/game_config_button.tscn")
 
 var music_selector
 var bg_button
@@ -71,6 +72,10 @@ func _ready():
 	# Add collab toggle
 	var collab_button = COLLAB_BUTTON.instantiate()
 	add_slider(collab_button)
+
+	# Add game config toggle
+	var game_config_button = GAME_CONFIG_BUTTON.instantiate()
+	add_slider(game_config_button)
 	
 	# Add blocks
 	for i in range(1, 41):

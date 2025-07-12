@@ -34,6 +34,7 @@ var default_level: Dictionary = {
 @onready var http_request = $HTTPRequest
 @onready var editor_camera: Camera2D = $EditorCamera
 @onready var now_editing_panel: Node2D = $UI/NowEditingPanel
+@onready var game_config_panel = $UI/GameConfigPanel
 
 
 func init(data: Dictionary = {}):
@@ -197,6 +198,8 @@ func _on_control_event(event: Dictionary) -> void:
 		var zoom_value = event.get("zoom")
 		if zoom_value:
 			editor_camera.change_camera_zoom(zoom_value)
+	elif event.get("type") == "toggle_game_config":
+		game_config_panel.toggle()
 
 
 func _on_connect_editor() -> void:

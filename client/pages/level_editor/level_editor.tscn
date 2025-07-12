@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://bxc2pu2q611e0" path="res://pages/level_editor/popup_panel/popup_panel.tscn" id="22_y0r4o"]
 [ext_resource type="Script" uid="uid://dmbg2bj6kpuvp" path="res://pages/level_editor/confirm_delete_panel/confirm_delete_panel.gd" id="23_8ccle"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="23_560jm"]
+[ext_resource type="PackedScene" uid="uid://b5w5c5j5q5y5r" path="res://pages/level_editor/game_config_panel.tscn" id="24_abcde"]
 
 [node name="LevelEditor" type="Node2D"]
 script = ExtResource("1_8rp7f")
@@ -84,6 +85,9 @@ visible = false
 [node name="ConfirmDeletePanel" parent="UI" instance=ExtResource("22_dncl7")]
 visible = false
 script = ExtResource("23_8ccle")
+
+[node name="GameConfigPanel" parent="UI" instance=ExtResource("24_abcde")]
+visible = false
 
 [node name="Explore" type="Button" parent="UI"]
 anchors_preset = -1

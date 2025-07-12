@@ -10,7 +10,8 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 			# "title": LevelEditor.current_level,
 			# "description": LevelEditor.current_description,
 			"background": bg.id,
-			"music": Jukebox.song_id
+			"music": Jukebox.song_id,
+			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}
 	for group_layer in layers.get_children():

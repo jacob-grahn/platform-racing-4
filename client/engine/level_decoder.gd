@@ -7,7 +7,11 @@ const LAYER = preload("res://layers/layer.tscn")
 
 
 func decode(level: Dictionary, isEditing: bool, layers: Layers) -> void:
+	GameConfig.clear_overrides()
 	var properties = level.get("properties", {})
+	if properties.has("game_config_overrides"):
+		GameConfig.import_overrides(properties.game_config_overrides)
+
 	print("LevelDecoder::decode: ", properties)
 	# Emit background change event
 	emit_signal("level_event", {
