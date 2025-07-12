@@ -100,7 +100,7 @@ static func _run_editor_test(main_instance: Main):
 
 static func _run_tester_test(main_instance: Main):
 	await main_instance._set_scene(Main.TESTER)
-	await main_instance.get_tree().create_timer(7.0).timeout
+	await main_instance.get_tree().create_timer(4.0).timeout
 
 
 static func _run_login_test(main_instance: Main):

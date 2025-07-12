@@ -25,7 +25,14 @@ func init(data: Dictionary):
 	penciler.init(level_manager.layers, bg, editor_events, null)
 	editor_events.connect_to([level_manager.level_decoder])
 	
-	var level = data.get("level", FileManager.load_from_file())
+	var level
+	if data.get("level"):
+		level = data.get("level")
+	else:
+		var file = FileAccess.open("res://test_data/test_level.json", FileAccess.READ)
+		var content = file.get_as_text()
+		level = JSON.parse_string(content)
+
 	level_manager.decode_level(level, false)
 	level_manager.activate_node()
 	
