@@ -14,7 +14,7 @@ func init():
 	egg_counter = 0
 
 
-func activate_tilemap(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 	# add_timer()
 	
 	# add an egg enemy at the tile position
