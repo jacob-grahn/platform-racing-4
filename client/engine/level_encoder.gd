@@ -18,10 +18,10 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 		if group_layer is Layer:
 			var tile_layer = {
 				"name": group_layer.name,
-				"chunks": encode_chunks(group_layer.get_node("TileMap")),
+				"chunks": encode_chunks(group_layer.get_node("TileMapLayer")),
 				"lines": encode_lines(group_layer.get_node("Lines")),
 				"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
-				"rotation": group_layer.get_node("TileMap").rotation_degrees,
+				"rotation": group_layer.get_node("TileMapLayer").rotation_degrees,
 				"depth": group_layer.depth
 			}
 			level.layers.push_back(tile_layer)

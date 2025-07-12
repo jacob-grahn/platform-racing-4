@@ -109,7 +109,7 @@ func _send_cursor_update() -> void:
 		if !layer:
 			return
 			
-		var tilemap: TileMapLayer = layer.get_node("TileMap")
+		var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
 		var camera: Camera2D = get_viewport().get_camera_2d()
 		var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 		
@@ -173,7 +173,7 @@ func _process(delta: float) -> void:
 		var layer_node = layers.get_node(layers.get_target_layer())
 		if layer_node is ParallaxBackground:
 			var layer: ParallaxBackground = layer_node
-			var tilemap: TileMapLayer = layer.get_node("TileMap")
+			var tilemap: TileMapLayer = layer.get_node("TileMapLayer")
 			var camera: Camera2D = get_viewport().get_camera_2d()
 			var mouse_position = tilemap.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
 			if LevelEditor.editor_cursors and is_instance_valid(LevelEditor.editor_cursors):

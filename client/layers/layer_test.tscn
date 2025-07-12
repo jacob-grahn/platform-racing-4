@@ -24,7 +24,7 @@ texture = ExtResource("3_mhgad")
 scale = Vector2(10, 10)
 shape = SubResource("CircleShape2D_uk4kw")
 
-[node name="TileMap" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
 use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAA0AAAACAAAAAAABAA0AAAACAAAAAAACAA0AAAACAAAAAAADAA0AAAACAAAAAAAEAA0AAAACAAAAAAAFAA0AAAACAAAAAAAGAA0AAAACAAAAAAAHAA0AAAACAAAAAAAIAA0AAAACAAAAAAA=")
 tile_set = ExtResource("4_h42oi")

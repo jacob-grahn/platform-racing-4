@@ -80,14 +80,27 @@ static func _run_editor_test(main_instance: Main):
 	await main_instance.get_tree().create_timer(1.0).timeout
 
 	var block_cursor = level_editor.cursor.get_node("BlockCursor")
-	block_cursor.on_drag()
+	var tiles = Tiles.new()
+	tiles.init_defaults()
+	var tile_ids = tiles.map.keys()
 
-	await main_instance.get_tree().create_timer(1.0).timeout
+	var rng = RandomNumberGenerator.new()
+	var viewport_rect = main_instance.get_viewport_rect()
+
+	for tile_id in tile_ids:
+		block_cursor.block_id = int(tile_id)
+		var x = rng.randf_range(0, viewport_rect.size.x)
+		var y = rng.randf_range(0, viewport_rect.size.y)
+		block_cursor.global_position = Vector2(x, y)
+		block_cursor.on_drag(block_cursor.global_position)
+		await main_instance.get_tree().create_timer(0.05).timeout
+
+	await main_instance.get_tree().create_timer(0.1).timeout
 
 
 static func _run_tester_test(main_instance: Main):
 	await main_instance._set_scene(Main.TESTER)
-	await main_instance.get_tree().create_timer(3.0).timeout
+	await main_instance.get_tree().create_timer(7.0).timeout
 
 
 static func _run_login_test(main_instance: Main):
