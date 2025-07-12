@@ -14,12 +14,12 @@ func init():
 	matter_type = Tile.SOLID
 
 
-func push(node: Node2D, tilemap: Node2D, coords: Vector2i, push_dir: Vector2):
+func push(node: Node2D, tile_map_layer: Node2D, coords: Vector2i, push_dir: Vector2):
 	if "velocity" not in node:
 		return
 		
-	var rotated_push_dir = push_dir.rotated(tilemap.global_rotation)
-	var target_global_position = tilemap.to_global((coords * 128) + Vector2i(64, 64)) 
+	var rotated_push_dir = push_dir.rotated(tile_map_layer.global_rotation)
+	var target_global_position = tile_map_layer.to_global((coords * 128) + Vector2i(64, 64)) 
 	var player_global_position = node.to_global(Vector2(0, -100))
 	var player_dir = (player_global_position - target_global_position).normalized()
 	var cross = rotated_push_dir.cross(player_dir)
@@ -53,12 +53,12 @@ func push(node: Node2D, tilemap: Node2D, coords: Vector2i, push_dir: Vector2):
 	
 	# add effect
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-arrow"
-	if tilemap.has_node(effect_name):
-		var existing_effect = tilemap.get_node(effect_name)
+	if tile_map_layer.has_node(effect_name):
+		var existing_effect = tile_map_layer.get_node(effect_name)
 		existing_effect.get_node("AnimationPlayer").seek(0)
 		return
 	var effect = ArrowActivateEffect.instantiate()
 	effect.position = (coords * Settings.tile_size) + Settings.tile_size_half
 	effect.rotation = push_dir.rotated(-PI / 2).angle()
 	effect.name = effect_name
-	tilemap.add_child(effect)
+	tile_map_layer.add_child(effect)
