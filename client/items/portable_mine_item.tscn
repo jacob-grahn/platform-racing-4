@@ -4,13 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://daxkddqv8rxkc" path="res://items/portable_mine_item.png" id="1_jisdh"]
 
 [node name="PortableMineItem" type="Node2D"]
-position = Vector2(50, 15)
 script = ExtResource("1_6gcto")
 
 [node name="VisualAid" type="Sprite2D" parent="."]
 self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
+position = Vector2(50, 15)
 texture = ExtResource("1_jisdh")
 
 [node name="PortableMineItem" type="Sprite2D" parent="."]
+position = Vector2(50, 15)
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("1_jisdh")

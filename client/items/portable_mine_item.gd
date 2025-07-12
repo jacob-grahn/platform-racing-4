@@ -16,7 +16,7 @@ func check_if_used():
 		remove = true
 
 func activate_item():
-	if !using:
+	if !using and can_place:
 		using = true
 		use_block()
 		uses -= 1
