@@ -10,13 +10,13 @@ func init():
 	Start.i = 0
 
 
-func activate_tilemap(tilemap: TileMapLayer) -> void:
-	var coord_list = tilemap.get_used_cells_by_id(0, Vector2i(1, 1))
+func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+	var coord_list = tile_map_layer.get_used_cells_by_id(0, Vector2i(1, 1))
 	for coords in coord_list:
 		var start_option = {
-			"layer_name": str(tilemap.get_parent().name),
+			"layer_name": str(tile_map_layer.get_parent().name),
 			"coords": coords,
-			"tilemap": tilemap,
+			"tile_map_layer": tile_map_layer,
 		}
 		start_options.push_back(start_option)
 
@@ -36,5 +36,5 @@ static func get_next_start_option(layers: Node2D) -> Dictionary:
 		return {
 			"layer_name": layers.get_target_layer(),
 			"coords": Vector2i(0, 0),
-			"tilemap": null,
+			"tile_map_layer": null,
 		}

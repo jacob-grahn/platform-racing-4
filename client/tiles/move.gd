@@ -17,7 +17,7 @@ func init():
 	is_safe = false
 
 
-func activate_tilemap(tile_map_layer: TileMapLayer) -> void:
+func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 	tile_map_layers.push_back(tile_map_layer)
 	add_timer(tile_map_layer)
 
