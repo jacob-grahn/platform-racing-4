@@ -54,6 +54,15 @@ border_color = Color(1, 1, 1, 1)
 border_width = 3.0
 editor_only = false
 
+[node name="MoveTextButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_as_relative = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 50.0
+focus_mode = 1
+flat = true
+
 [node name="TextModifierButtons" type="Control" parent="."]
 anchors_preset = 0
 
@@ -78,6 +87,14 @@ pivot_offset = Vector2(16, 16)
 texture_normal = ExtResource("3_of7fh")
 texture_pressed = ExtResource("3_of7fh")
 texture_hover = ExtResource("3_of7fh")
+
+[node name="FontDropdownButton" type="OptionButton" parent="TextModifierButtons/TextFontButton"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+flat = true
 
 [node name="ResizeTextButton" type="TextureButton" parent="TextModifierButtons"]
 layout_mode = 0
@@ -129,14 +146,15 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("8_36eu6")
 
-[node name="MoveTextButton" type="Button" parent="."]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="TextModifierButtons/ColorTextButton"]
 modulate = Color(1, 1, 1, 0)
-z_as_relative = false
 layout_mode = 0
-offset_right = 18.0
-offset_bottom = 50.0
-focus_mode = 1
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
 flat = true
+color = Color(1, 1, 1, 1)
+edit_alpha = false
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
