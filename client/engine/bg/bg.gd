@@ -8,6 +8,9 @@ var id = ""
 
 func set_bg(p_id: String, fade_color: Color) -> void:
 	id = p_id
+	if id == null or id == "":
+		id = "field"
+
 	if id == "blank":
 		sprite.texture = square
 		sprite.modulate = fade_color
