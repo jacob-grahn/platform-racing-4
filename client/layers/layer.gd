@@ -88,7 +88,7 @@ func set_depth(p_depth: int) -> void:
 	
 	# scale blocks up/down to match scale
 	# currently this scales lines and art as well, which actually we don't want
-	# todo: possibly only put tilemap and players in the viewport
+	# todo: possibly only put tile_map_layer and players in the viewport
 	var base_scale = depth_compat / 10.0
 	follow_viewport_scale = base_scale
 	
