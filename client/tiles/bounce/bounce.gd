@@ -9,9 +9,9 @@ func init():
 	any_side.push_back(bounce)
 
 
-func bounce(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
+func bounce(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	var tile_position_local = (coords * Settings.tile_size) + Settings.tile_size_half
-	var tile_position_global = tilemap.to_global(tile_position_local)
+	var tile_position_global = tile_map_layer.to_global(tile_position_local)
 	
 	if is_moving_towards(player.position, player.movement.previous_velocity, tile_position_global):
 		# bounce, invert velocity
@@ -21,7 +21,7 @@ func bounce(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 		player.velocity = player.velocity * (Vector2(1, 1) + (Vector2(BOUNCINESS, BOUNCINESS) * player.tile_interaction.last_collision.get_normal().abs()))
 		
 		# need a speed limit to keep bouncing back and forth from getting out of hand
-		player.velocity = player.velocity.limit_length(3000)
+		player.velocity = player.velocity.limit_length(12500)
 
 
 # Function to determine if a body is moving towards a block
