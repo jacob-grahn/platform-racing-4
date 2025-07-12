@@ -64,7 +64,7 @@ offset_top = 0.119934
 offset_right = 0.400009
 offset_bottom = 0.0
 
-[node name="UpdateStatsPanel" type="Timer" parent="UI/Container"]
+[node name="UpdateStatsPanelTimer" type="Timer" parent="UI/Container"]
 process_callback = 0
 wait_time = 0.25
 
