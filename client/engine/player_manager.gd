@@ -23,7 +23,7 @@ func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
 	if !layer:
 		return null
 	var player_holder = layer.get_node("Players")
-	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tilemap.global_rotation if start_option.tilemap else 0)
+	character.position = Vector2((start_option.coords * Settings.tile_size) + Settings.tile_size_half).rotated(start_option.tile_map_layer.global_rotation if start_option.tile_map_layer else 0)
 	character.active = true
 	player_holder.add_child(character)
 	character.init(tiles)
