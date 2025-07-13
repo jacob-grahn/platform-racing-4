@@ -6,7 +6,7 @@ var RotationController = preload("res://tiles/gear/rotation_controller.gd")
 func init():
 	is_safe = false
 
-func activate_tilemap(tile_map_layer: TileMapLayer):
+func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 	var gear_coord_list = tile_map_layer.get_used_cells_by_id(0, Vector2i(4, 3))
 	var switch_atlas_coords = Vector2i(5, 3)
 	var holder = tile_map_layer.get_parent()
@@ -23,16 +23,16 @@ func activate_tilemap(tile_map_layer: TileMapLayer):
 		holder.add_child(rotation_controller)
 		holder.move_child(rotation_controller, 4)
 		
-		# Create sub tilemap
+		# Create sub tile_map_layer
 		var sub_tile_map_layer = TileMapLayer.new()
 		sub_tile_map_layer.tile_set = tile_map_layer.tile_set
-		sub_tile_map_layer.name = "gear_" + str(gear_coords) + "_tilemap"
+		sub_tile_map_layer.name = "gear_" + str(gear_coords) + "_tile_map_layer"
 		sub_tile_map_layer.set_cell(Vector2i(0, 0), 0, Vector2i(4, 3))
 		sub_tile_map_layer.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
 		sub_tile_map_layer.use_kinematic_bodies = true
 		rotation_controller.add_child(sub_tile_map_layer)
 		
-		# Transfer tiles connected to the gear into the sub tilemap
+		# Transfer tiles connected to the gear into the sub tile_map_layer
 		var queue = [gear_coords + Vector2i(0, 1)]
 		while(len(queue) > 0):
 			var coords: Vector2i = queue.pop_back()

@@ -15,6 +15,7 @@ extends Control
 @onready var text_modifier_buttons = $TextModifierButtons
 @onready var delete_button = $TextModifierButtons/DeleteTextButton
 @onready var font_button = $TextModifierButtons/TextFontButton
+@onready var font_dropdown_button: OptionButton = $TextModifierButtons/TextFontButton/FontDropdownButton
 @onready var resize_button = $TextModifierButtons/ResizeTextButton
 @onready var edit_button = $TextModifierButtons/EditTextButton
 @onready var rotate_button = $TextModifierButtons/RotateTextButton
@@ -30,15 +31,44 @@ var old_position : Vector2
 var old_scale : Vector2
 var old_mouse_position : Vector2
 var buttonSize = 32
-
 var textRotation = 0
-
 var usertext_bg = StyleBoxFlat.new()
+var font_list = {
+	"poetsenone": {
+		"title": "Poetsen One",
+		"font": poetsenone_font
+	},
+	"arial": {
+		"title": "Arial",
+		"font": arial_font
+	},
+	"verdana": {
+		"title": "Verdana",
+		"font": verdana_font
+	},
+	"actionman": {
+		"title": "Action Man",
+		"font": action_man_font
+	},
+	"gwibble": {
+		"title": "Gwibble",
+		"font": gwibble_font
+	},
+	"quicksand": {
+		"title": "Quicksand",
+		"font": quicksand_font
+	}
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	delete_button.connect("button_down", _delete_text)
-	font_button.connect("pressed", _change_text_font)
+	for slug in font_list:
+		var font_info = font_list[slug]
+		var label = font_list[slug].title
+		font_dropdown_button.add_item(label)
+		font_dropdown_button.set_item_metadata(font_dropdown_button.item_count - 1, font_list[slug].font)
+	font_dropdown_button.item_selected.connect(_change_text_font)
 	resize_button.connect("button_down", _scale_text)
 	edit_button.connect("pressed", _edit_text)
 	rotate_button.connect("button_down", _rotate_text)
@@ -49,7 +79,6 @@ func _ready():
 	user_text.context_menu_enabled = false
 	usertext_bg.set_bg_color(Color(1.0, 1.0, 1.0, 0.0))
 	enable_text_edits()
-	_edit_text()
 
 
 func set_usertext_properties(text, text_font, text_size):
@@ -69,9 +98,19 @@ func _process(_delta):
 	if actiontype == "deleting":
 		self.queue_free()
 	if actiontype == "moving":
-		self.global_position = get_global_mouse_position()
+		var position_x: float = get_global_mouse_position().x - old_mouse_position.x
+		var position_y: float = get_global_mouse_position().y - old_mouse_position.y
+		self.position = Vector2(old_position.x + position_x, old_position.y + position_y)
 	if actiontype == "resizing":
-		resize_text(old_scale.x / (old_mouse_position.x / get_local_mouse_position().x), old_scale.y / (old_mouse_position.y / get_local_mouse_position().y))
+		var scale_x: float = old_scale.x / (old_mouse_position.x / get_local_mouse_position().x)
+		var scale_y: float = old_scale.y / (old_mouse_position.y / get_local_mouse_position().y)
+		if Input.is_action_pressed("shift"):
+			if scale_x >= scale_y:
+				resize_text(scale_x, scale_x)
+			else:
+				resize_text(scale_y, scale_y)
+		else:
+			resize_text(scale_x, scale_y)
 	if actiontype == "rotating":
 		textRotation = atan2(get_global_mouse_position().y - self.global_position.y, get_global_mouse_position().x - self.global_position.x)
 		if Input.is_action_pressed("shift"):
@@ -83,8 +122,13 @@ func _delete_text():
 	actiontype = "deleting"
 	self.queue_free()
 
-func _change_text_font():
+func _change_text_font(index: int) -> void:
 	actiontype = "font"
+	user_text.set("theme_override_fonts/font", load(font_dropdown_button.get_item_metadata(index)))
+	label_text.set("theme_override_fonts/normal_font", load(font_dropdown_button.get_item_metadata(index)))
+	label_text.size = user_text.size
+	label_text.scale = user_text.scale
+	update_display()
 
 func _scale_text():
 	if actiontype != "resizing":
@@ -94,7 +138,7 @@ func _scale_text():
 
 func _move_text():
 	if actiontype != "moving":
-		old_position = global_position
+		old_position = user_text.global_position
 		old_mouse_position = get_global_mouse_position()
 	actiontype = "moving"
 
@@ -115,6 +159,8 @@ func check_for_button_presses():
 			button_is_pressed = true
 	if move_text_button.is_pressed():
 		button_is_pressed = true
+	if font_dropdown_button.is_pressed():
+		button_is_pressed = true
 	if !user_text.has_focus() and !button_is_pressed:
 		actiontype = ""
 
@@ -123,7 +169,7 @@ func check_focus():
 	for button in text_modifier_buttons.get_children():
 		if button.has_focus():
 			is_focused = true
-	if user_text.has_focus() or move_text_button.has_focus():
+	if user_text.has_focus() or move_text_button.has_focus() or font_dropdown_button.has_focus():
 		is_focused = true
 	if is_focused:
 		enable_text_edits()
@@ -175,6 +221,7 @@ func update_display():
 	edit_text_rect.size = Vector2(user_text.size.x * abs(user_text.scale.x), user_text.size.y * abs(user_text.scale.y))
 	edit_text_rect.scale = Vector2(abs(user_text.scale.x) / user_text.scale.x, abs(user_text.scale.y) / user_text.scale.y)
 	delete_button.position = Vector2(-buttonSize / 2, (user_text.size.y * user_text.scale.y) - (buttonSize / 2))
+	font_button.position = Vector2((((user_text.size.x * user_text.scale.x) / 2) - (buttonSize / 2)), (user_text.size.y * user_text.scale.y) - (buttonSize / 2))
 	font_button.position = Vector2((((user_text.size.x * user_text.scale.x) / 2) - (buttonSize / 2)), (user_text.size.y * user_text.scale.y) - (buttonSize / 2))
 	resize_button.position = Vector2((user_text.size.x * user_text.scale.x) - (buttonSize / 2), (user_text.size.y * user_text.scale.y) - (buttonSize / 2))
 	edit_button.position = Vector2(-buttonSize / 2, -buttonSize / 2)

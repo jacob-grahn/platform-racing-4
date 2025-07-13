@@ -60,9 +60,11 @@ func _physics_process(delta: float) -> void:
 	if not active or not tile_interaction:
 		return
 	
-	# Update hitbox based on crouch state
+	# Update hitbox based on crouch state and size
 	movement.is_crouching = tile_interaction.should_crouch(self)
 	hitbox.run(self)
+	low_area.scale = movement.size
+	high_area.scale = movement.size
 	
 	# Process gravity
 	gravity.run(self, delta)
@@ -103,6 +105,7 @@ func _physics_process(delta: float) -> void:
 	camera_controller.process(delta, position, lightbreak.is_active())
 	
 	# Update animations
+	scale = movement.size
 	animation.process(self, movement, super_jump)
 	
 	# Check boundaries

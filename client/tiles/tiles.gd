@@ -25,7 +25,7 @@ func init_defaults() -> void:
 	map['11'] = ItemDispenser.new()
 	map['12'] = Start.new()
 	map['13'] = Bounce.new()
-	map['14'] = Tile.new()
+	map['14'] = Change.new()
 	map['15'] = Tile.new()
 	map['16'] = Ice.new()
 	map['17'] = Finish.new()
@@ -52,18 +52,20 @@ func init_defaults() -> void:
 	map['38'] = Moon.new()
 	map['39'] = Firefly.new()
 	map['40'] = Appear.new()
+	map['41'] = Mega.new()
+	map['42'] = Mini.new()
 	
 	# init
 	for tile_id in map:
 		map[tile_id].init()
 
 
-func on(event: String, tile_type: int, player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
+func on(event: String, tile_type: int, player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	if str(tile_type) in map:
 		var tile:Tile = map[str(tile_type)]
-		tile.on(event, player, tilemap, coords)
+		tile.on(event, player, tile_map_layer, coords)
 		if event == "bump":
-			TileEffects.bump(player, tilemap, coords)
+			TileEffects.bump(player, tile_map_layer, coords)
 
 
 func is_solid(tile_type: int) -> bool:
@@ -89,19 +91,19 @@ func is_safe(tile_type: int) -> bool:
 
 func activate_node(node: Node):
 	if node is TileMapLayer:
-		activate_tilemap(node)
+		activate_tile_map_layer(node)
 		return
 		
 	for child in node.get_children():
 		if child is TileMapLayer:
-			activate_tilemap(child)
+			activate_tile_map_layer(child)
 		elif child is Node2D || child is ParallaxBackground:
 			activate_node(child)
 
 
-func activate_tilemap(tilemap: TileMapLayer):
+func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 	for tile_id in map:
-		map[tile_id].activate_tilemap(tilemap)
+		map[tile_id].activate_tile_map_layer(tile_map_layer)
 
 
 func clear():

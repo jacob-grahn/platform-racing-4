@@ -16,26 +16,26 @@ func init():
 	area.push_back(charge_lightbreak)
 
 
-func activate_tilemap(tilemap: TileMapLayer) -> void:
-	var coords_list = tilemap.get_used_cells_by_id(0, atlas_coords)
+func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+	var coords_list = tile_map_layer.get_used_cells_by_id(0, atlas_coords)
 	
 	for coords in coords_list:
 		
 		# Add a light
 		var light = LightDisplay.instantiate()
-		var holder = tilemap.get_parent()
+		var holder = tile_map_layer.get_parent()
 		light.position = (coords * Settings.tile_size) + Settings.tile_size_half
 		light.get_node("PointLight2D").color = display_color
 		holder.add_child(light)
 
 
-func charge_lightbreak(player: Node2D, tilemap: Node2D, coords: Vector2i)->void:
+func charge_lightbreak(player: Node2D, tile_map_layer: Node2D, coords: Vector2i)->void:
 	# avoid drawing the player into the same light again too soon
 	if player.lightbreak.src_tile == coords:
 		return
 	
 	# draw the player into the center of the light
-	var global_pos = tilemap.to_global((coords * Settings.tile_size) + Settings.tile_size_half)
+	var global_pos = tile_map_layer.to_global((coords * Settings.tile_size) + Settings.tile_size_half)
 	var game_pos = player.get_parent().to_local(global_pos)
 	var dist = game_pos - player.position
 	var target_velocity = dist * 3

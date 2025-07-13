@@ -15,6 +15,7 @@ var can_jump: bool = true
 var is_crouching: bool = false
 var previous_velocity: Vector2 = Vector2(0, 0)
 var last_velocity: Vector2 = Vector2(0, 0)
+var size: Vector2 = Vector2(1, 1)
 var last_collision_normal: Vector2 = Vector2(0, 0)
 var attempting_bump: bool = false
 var last_bumped_block: Dictionary = {}
@@ -23,6 +24,7 @@ var phantom_velocity: Vector2 = Vector2(0, 0)
 var phantom_velocity_decay: float = 0.25
 var accel: float = 0.0
 var speedburst_boost: float = 1.0
+var on_ice: bool = false
 var frozen: bool = false
 var frozen_timer: float = 0.0
 var frozen_display_node = null
@@ -190,6 +192,9 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			velocity.rotated(-character.rotation).y).rotated(character.rotation)
 		
 		accel = (0.05 + ((1.45 / 100) * stats.get_exact_accel())) * speedburst_boost
+		if on_ice:
+			accel *= 0.2
+		on_ice = false
 		
 		if control_axis != 0:
 			if target_velocity.length() > velocity.length():

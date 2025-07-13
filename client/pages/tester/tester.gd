@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var back = $UI/Container/Back
 @onready var minimap: Minimap = $UI/Container/Minimap
+@onready var stats_panel = $UI/Container/StatsPanel
+@onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
 @onready var level_manager: LevelManager = $LevelManager
 
 var current_player_layer: String = ""
@@ -44,6 +46,20 @@ func init(data: Dictionary):
 	
 	minimap.init(self)
 	level_manager.calc_used_rect()
+	update_stats_timer.connect("timeout", update_stats)
+	update_stats_timer.start()
+
+func update_stats():
+	var player_manager: PlayerManager = get_node("PlayerManager")
+	var player = player_manager.get_character()
+	var player_stats = player.stats.get_total()
+	var editor_stats = stats_panel.get_total()
+	var stats_changed: bool = stats_panel.did_stats_changed()
+	if stats_changed:
+		player.stats.set_stats(editor_stats[0], editor_stats[1], editor_stats[2], editor_stats[3])
+		stats_panel.set_stats(editor_stats[0], editor_stats[1], editor_stats[2], editor_stats[3])
+	else:
+		stats_panel.set_stats(player_stats[0], player_stats[1], player_stats[2], player_stats[3])
 
 
 func finish():

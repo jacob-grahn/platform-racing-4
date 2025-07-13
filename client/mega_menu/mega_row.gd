@@ -72,13 +72,13 @@ func _ready():
 	# Add collab toggle
 	var collab_button = COLLAB_BUTTON.instantiate()
 	add_slider(collab_button)
-
+	
 	# Add game config toggle
 	var game_config_button = GAME_CONFIG_BUTTON.instantiate()
 	add_slider(game_config_button)
 	
 	# Add blocks
-	for i in range(1, 41):
+	for i in range(1, 43):
 		var block_button = BLOCK_BUTTON.instantiate()
 		add_slider(block_button)
 		block_button.set_block_id(i)

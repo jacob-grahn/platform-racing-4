@@ -11,28 +11,28 @@ func init():
 	is_safe = false
 
 
-func vanish(_player: Node2D, tilemap: TileMapLayer, coords: Vector2i):
+func vanish(_player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	
-	var atlas_coords = tilemap.get_cell_atlas_coords(coords)
+	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	
 	if atlas_coords == Vector2i(-1, -1):
 		return
 	
-	if tilemap.get_cell_alternative_tile(coords) == 1:
+	if tile_map_layer.get_cell_alternative_tile(coords) == 1:
 		return
 	
 	if vanish_effects.has(coords):
 		vanish_effects.get(coords).vanish_again()
 		return
 	
-	tilemap.set_cell(coords, 0, atlas_coords, 1)
+	tile_map_layer.set_cell(coords, 0, atlas_coords, 1)
 	
-	var tile_atlas = tilemap.tile_set.get_source(0).texture
+	var tile_atlas = tile_map_layer.tile_set.get_source(0).texture
 	var vanish_effect = VANISH_EFFECT.instantiate()
 	
-	tilemap.add_child(vanish_effect)
+	tile_map_layer.add_child(vanish_effect)
 	
-	vanish_effect.init(self, tile_atlas, atlas_coords, tilemap, coords)
+	vanish_effect.init(self, tile_atlas, atlas_coords, tile_map_layer, coords)
 	vanish_effect.position = coords * Settings.tile_size
 	
 	add_to_vanish_dict(coords, vanish_effect)

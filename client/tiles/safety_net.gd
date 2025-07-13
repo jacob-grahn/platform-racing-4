@@ -7,7 +7,7 @@ func init():
 	area.push_back(safety_net)
 
 
-func safety_net(player: Node2D, tilemap: TileMapLayer, coords: Vector2i):
+func safety_net(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	player.position.x = player.tile_interaction.last_safe_position.x
 	player.position.y = player.tile_interaction.last_safe_position.y
 	player.velocity = Vector2(0, 0)

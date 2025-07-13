@@ -2,9 +2,10 @@ extends CollisionShape2D
 ## Controls the character's collision shape.
 ## Adjusts between high and low profiles based on character state.
 
-const HIGH: int = 180
-const LOW: int = 32
+const HIGH: float = 180.0
+const LOW: float = 32.0
 
+var hitbox_size: Vector2 = Vector2(1, 1)
 var mode: String = "high"
 
 
@@ -13,6 +14,7 @@ func _ready():
 
 
 func run(character: Character) -> void:
+	hitbox_size = character.movement.size
 	if character.is_on_floor():
 		go_low()
 	elif character.lightbreak.is_active():
@@ -31,15 +33,16 @@ func run(character: Character) -> void:
 		disabled = true
 	else:
 		disabled = false
+	
+	# position hitbox
+	position.y = round(-shape.size.y / 2.0)
 
 
 func go_high() -> void:
 	mode = "high"
 	shape.size.y = HIGH
-	position.y = round(-HIGH / 2.0)
 
 
 func go_low() -> void:
 	mode = "low"
 	shape.size.y = LOW
-	position.y = round(-LOW / 2.0)

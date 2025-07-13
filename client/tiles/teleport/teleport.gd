@@ -14,14 +14,14 @@ func init():
 	is_safe = false
 
 
-func activate_tilemap(tilemap: TileMapLayer) -> void:
-	var coord_list = tilemap.get_used_cells_by_id(0, atlas_coords)
+func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
+	var coord_list = tile_map_layer.get_used_cells_by_id(0, atlas_coords)
 	for coords in coord_list:
 		var position = {
-			"layer_name": str(tilemap.get_parent().name),
+			"layer_name": str(tile_map_layer.get_parent().name),
 			"coords": coords,
 			"color": color,
-			"tilemap": tilemap
+			"tile_map_layer": tile_map_layer
 		}
 		positions.push_back(position)
 
@@ -31,8 +31,8 @@ func clear():
 	recent_teleports = []
 
 
-func teleport(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
-	var layer_name: String = str(tilemap.get_parent().name)
+func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
+	var layer_name: String = str(tile_map_layer.get_parent().name)
 	var is_throttled = is_teleport_throttled(str(player.name), layer_name, coords)
 	if is_throttled:
 		return
@@ -43,11 +43,11 @@ func teleport(player: Node2D, tilemap: TileMapLayer, coords: Vector2i) -> void:
 		"color": color
 	}
 	var next_position = get_next_position(source_position)
-	var layers = tilemap.get_parent().get_parent()
+	var layers = tile_map_layer.get_parent().get_parent()
 	var layer = layers.get_node(next_position.layer_name)
-	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tilemap.global_rotation)
-	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tilemap.global_rotation)
-	var dist = (player.position - source_block_position).rotated(next_position.tilemap.global_rotation)
+	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tile_map_layer.global_rotation)
+	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tile_map_layer.global_rotation)
+	var dist = (player.position - source_block_position).rotated(next_position.tile_map_layer.global_rotation)
 	
 	player.get_parent().remove_child(player)
 	layer.get_node("Players").add_child(player)

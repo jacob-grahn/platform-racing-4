@@ -18,7 +18,7 @@ func _ready():
 
 func _physics_process(delta):
 	
-	# workaround for a bug when setting tilemap.collision_animatable = true
+	# workaround for a bug when setting tile_map_layer.collision_animatable = true
 	if init_timer > 0:
 		init_timer -= delta
 		for child in get_children():
@@ -45,6 +45,6 @@ func _physics_process(delta):
 	rotation_velocity = rotation_velocity * 0.93
 	rotation += rotation_velocity * delta
 	
-	# this is needed to let the tilemap know something has changed and it needs to update
+	# this is needed to let the tile_map_layer know something has changed and it needs to update
 	for child in get_children():
 		child.rotation = 0

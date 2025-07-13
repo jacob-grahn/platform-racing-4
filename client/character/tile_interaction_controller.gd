@@ -39,7 +39,7 @@ func bump_tile_covering_high_area(character: Character) -> void:
 		return
 	
 	var tile = tiles[0]
-	var tile_type = Helpers.to_block_id(tile.atlas_coords)
+	var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
 	
 	character.movement.attempting_bump = true
 	if tile != character.movement.last_bumped_block:
