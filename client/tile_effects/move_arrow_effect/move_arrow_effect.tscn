@@ -1,0 +1,228 @@
+[gd_scene load_steps=5 format=3 uid="uid://rrrmiwnkjskk"]
+
+[ext_resource type="Script" uid="uid://bhyfms3hvmof8" path="res://tile_effects/move_arrow_effect/move_arrow_effect.gd" id="1_wsesk"]
+
+[sub_resource type="Animation" id="Animation_wsesk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_hrlsf"]
+resource_name = "blink"
+length = 1.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a3o2y"]
+_data = {
+&"RESET": SubResource("Animation_wsesk"),
+&"blink": SubResource("Animation_hrlsf")
+}
+
+[node name="MoveArrowEffect" type="Node2D"]
+script = ExtResource("1_wsesk")
+
+[node name="PR4Arrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR4ArrowRight" type="Polygon2D" parent="PR4Arrows"]
+visible = false
+polygon = PackedVector2Array(54, 0, 31, -17, 31, -6, 0, -6, 0, 6, 31, 6, 31, 17)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR4ArrowLeft" type="Polygon2D" parent="PR4Arrows"]
+visible = false
+polygon = PackedVector2Array(-54, 0, -31, 17, -31, 6, 0, 6, 0, -6, -31, -6, -31, -17)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR4ArrowDown" type="Polygon2D" parent="PR4Arrows"]
+visible = false
+polygon = PackedVector2Array(0, 54, -17, 31, -6, 31, -6, 0, 6, 0, 6, 31, 17, 31)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR4ArrowUp" type="Polygon2D" parent="PR4Arrows"]
+visible = false
+polygon = PackedVector2Array(0, -54, -17, -31, -6, -31, -6, 0, 6, 0, 6, -31, 17, -31)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3DesertArrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR3DesertArrowRight" type="Polygon2D" parent="PR3DesertArrows"]
+visible = false
+polygon = PackedVector2Array(61, -1, 44, -22, 44, -12, 22, -12, 23, -5, 23, 8, 44, 8, 44, 18)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3DesertArrowLeft" type="Polygon2D" parent="PR3DesertArrows"]
+visible = false
+polygon = PackedVector2Array(-60, -1, -44, 18, -44, 8, -22, 8, -23, 0, -23, -12, -44, -12, -44, -17)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3DesertArrowDown" type="Polygon2D" parent="PR3DesertArrows"]
+visible = false
+polygon = PackedVector2Array(0, 59, -20, 42, -8, 42, -8, 23, 4, 23, 12, 22, 12, 42, 20, 42)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3DesertArrowUp" type="Polygon2D" parent="PR3DesertArrows"]
+visible = false
+polygon = PackedVector2Array(1, -61, -18, -44, -8, -44, -8, -22, 0, -23, 12, -23, 12, -44, 20, -44)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3IndustrialArrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR3IndustrialArrowRight" type="Polygon2D" parent="PR3IndustrialArrows"]
+visible = false
+polygon = PackedVector2Array(64, 0, 52, -18, 52, 20)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3IndustrialArrowLeft" type="Polygon2D" parent="PR3IndustrialArrows"]
+visible = false
+polygon = PackedVector2Array(-59, 5, -46, 23, -46, -14)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3IndustrialArrowDown" type="Polygon2D" parent="PR3IndustrialArrows"]
+visible = false
+polygon = PackedVector2Array(3, 61, -18, 49, 21, 49)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3IndustrialArrowUp" type="Polygon2D" parent="PR3IndustrialArrows"]
+visible = false
+polygon = PackedVector2Array(2, -61, -15, -50, 20, -50)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3JungleArrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR3JungleArrowRight" type="Polygon2D" parent="PR3JungleArrows"]
+visible = false
+polygon = PackedVector2Array(62, 0, 40, -23, 40, -11, 27, -11, 27, 7, 30, 11, 40, 11, 40, 23)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3JungleArrowLeft" type="Polygon2D" parent="PR3JungleArrows"]
+visible = false
+polygon = PackedVector2Array(-62, 1, -39, 24, -39, 11, -27, 11, -27, -7, -33, -9, -39, -9, -39, -22)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3JungleArrowDown" type="Polygon2D" parent="PR3JungleArrows"]
+visible = false
+polygon = PackedVector2Array(2, 62, -21, 37, -9, 37, -9, 23, 13, 23, 13, 37, 24, 37)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3JungleArrowUp" type="Polygon2D" parent="PR3JungleArrows"]
+visible = false
+polygon = PackedVector2Array(1, -64, -22, -41, -10, -41, -10, -28, 14, -27, 15, -31, 15, -42, 24, -42)
+uv = PackedVector2Array(-90.5, -66, -121.5, -37, -92.5, -38, -92.5, 11, -71.5, 10, -72.5, -38, -47.5, -39)
+
+[node name="PR3UnderwaterArrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR3UnderWaterArrowRight" type="Polygon2D" parent="PR3UnderwaterArrows"]
+visible = false
+polygon = PackedVector2Array(64, -1, 45, -29, 41, -29, 41, -11, 47, -9, 45, -11, 45, -20, 47, -20, 53, -12, 54, -9, 50, -6, 41, -6, 31, -8, 31, 7, 46, 1, 50, 2, 52, 4, 51, 8, 47, 17, 45, 17, 45, 9, 47, 7, 42, 9, 42, 26, 45, 26)
+uv = PackedVector2Array(-47.5, -59, -83.5, -13, -36.5, -25)
+
+[node name="PR3UnderWaterArrowLeft" type="Polygon2D" parent="PR3UnderwaterArrows"]
+visible = false
+polygon = PackedVector2Array(-64, -1, -44, 26, -40, 26, -40, 11, -43, 7, -42, 11, -42, 18, -46, 15, -52, 3, -34, 3, -29, 7, -29, -9, -40, -6, -50, -6, -50, -10, -45, -22, -43, -22, -43, -11, -45, -9, -41, -11, -41, -28, -45, -28)
+uv = PackedVector2Array(-47.5, -59, -83.5, -13, -36.5, -25)
+
+[node name="PR3UnderWaterArrowDown" type="Polygon2D" parent="PR3UnderwaterArrows"]
+visible = false
+polygon = PackedVector2Array(-1, 63, -27, 43, -27, 40, -10, 40, -9, 45, -11, 43, -21, 43, -7, 52, -4, 52, -3, 44, -9, 27, 8, 27, 4, 42, 4, 50, 9, 50, 20, 45, 11, 43, 8, 45, 11, 40, 26, 40, 26, 44)
+uv = PackedVector2Array(-47.5, -59, -83.5, -13, -36.5, -25)
+
+[node name="PR3UnderWaterArrowUp" type="Polygon2D" parent="PR3UnderwaterArrows"]
+visible = false
+polygon = PackedVector2Array(0, -64, -26, -45, -26, -41, -9, -41, -7, -47, -9, -44, -16, -44, -16, -46, -11, -51, -5, -51, -3, -50, -8, -27, 8, -27, 4, -49, 6, -52, 10, -52, 17, -48, 17, -44, 11, -44, 9, -47, 11, -42, 26, -42, 26, -46)
+uv = PackedVector2Array(-47.5, -59, -83.5, -13, -36.5, -25)
+
+[node name="PR3SpaceArrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR3SpaceArrowRight" type="Polygon2D" parent="PR3SpaceArrows"]
+visible = false
+polygon = PackedVector2Array(62, 0, 48, -14, 48, -10, 30, -10, 22, -1, 32, 10, 48, 10, 48, 14)
+uv = PackedVector2Array(-9.5, -64, -33.5, -35, 5.5, -40)
+
+[node name="PR3SpaceArrowLeft" type="Polygon2D" parent="PR3SpaceArrows"]
+visible = false
+polygon = PackedVector2Array(-58, -1, -46, 12, -46, 8, -29, 8, -20, 0, -28, -10, -46, -10, -46, -14)
+uv = PackedVector2Array(-9.5, -64, -33.5, -35, 5.5, -40)
+
+[node name="PR3SpaceArrowDown" type="Polygon2D" parent="PR3SpaceArrows"]
+visible = false
+polygon = PackedVector2Array(2, 60, -11, 46, -6, 46, -6, 31, 0, 21, 10, 37, 10, 46, 15, 46)
+uv = PackedVector2Array(-9.5, -64, -33.5, -35, 5.5, -40)
+
+[node name="PR3SpaceArrowUp" type="Polygon2D" parent="PR3SpaceArrows"]
+visible = false
+polygon = PackedVector2Array(0, -62, -16, -46, -8, -46, -8, -28, 0, -22, 10, -27, 10, -46, 16, -46)
+uv = PackedVector2Array(-9.5, -64, -33.5, -35, 5.5, -40)
+
+[node name="PR2Arrows" type="Node2D" parent="."]
+visible = false
+
+[node name="PR2ArrowRight" type="Polygon2D" parent="PR2Arrows"]
+visible = false
+polygon = PackedVector2Array(57, 0, 30, -19, 30, -6, 0, -6, 0, 6, 30, 6, 30, 19)
+uv = PackedVector2Array(-2.5, -72, -21.5, -49, 14.5, -47)
+
+[node name="PR2ArrowLeft" type="Polygon2D" parent="PR2Arrows"]
+visible = false
+polygon = PackedVector2Array(-57, 0, -30, 19, -30, 6, 0, 6, 0, -6, -30, -6, -30, -19)
+uv = PackedVector2Array(-2.5, -72, -21.5, -49, 14.5, -47)
+
+[node name="PR2ArrowDown" type="Polygon2D" parent="PR2Arrows"]
+visible = false
+polygon = PackedVector2Array(0, 57, -19, 30, -6, 30, -6, 0, 6, 0, 6, 30, 19, 30)
+uv = PackedVector2Array(-2.5, -72, -21.5, -49, 14.5, -47)
+
+[node name="PR2ArrowUp" type="Polygon2D" parent="PR2Arrows"]
+visible = false
+polygon = PackedVector2Array(0, -57, -19, -30, -6, -30, -6, 0, 6, 0, 6, -30, 19, -30)
+uv = PackedVector2Array(-2.5, -72, -21.5, -49, 14.5, -47)
+
+[node name="Arrow" type="Polygon2D" parent="."]
+uv = PackedVector2Array(-68.5, -67, -99.5, 4, -6.5, 10, -0.5, -65)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a3o2y")
+}
+autoplay = "blink"
