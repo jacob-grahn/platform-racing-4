@@ -3,28 +3,41 @@ class_name Change
 
 var ChangeController = preload("res://tiles/change/change_controller.gd")
 
-var default_change_list: Array = [1, 5, 18, 27, 16, 26, 11, 10, 23, 22, 28, 25, 19, 21, 33, 32, 34, 13, 7, 6, 8, 9, 29, 30, 37, 38, 39]
-var timer: float = 0
+var atlas_coords = Vector2i(3, 31)
+var change_frequency: float
 var pr3_compatibility = true
 
 func init():
+	matter_type = Tile.CHANGE
+	change_frequency = default_change_frequency
 	# is_safe = false
-	pass
 
 func activate_tile_map_layer(tile_map_layer: TileMapLayer):
-	var change_coord_list = tile_map_layer.get_used_cells_by_id(0, Vector2i(3, 1))
+	var change_coord_list = tile_map_layer.get_used_cells_by_id(0, atlas_coords)
 	var holder = tile_map_layer.get_parent()
+	var spawn = holder.get_node("NonStaticTileMapLayers")
+	var change_counter: int = 0
 	
 	for change_coords in change_coord_list:
 		# Erase change blocks from main tile map
 		tile_map_layer.set_cell(change_coords, -1)
 		
 		# Create change controller
+		change_counter += 1
 		var change_controller = ChangeController.new()
 		change_controller.position = Vector2(change_coords * Settings.tile_size)
 		change_controller.rotation = tile_map_layer.rotation
-		holder.add_child(change_controller)
-		holder.move_child(change_controller, 4)
+		if pr3_compatibility:
+			change_controller.change_list = default_change_list.slice(0, 21)
+		else:
+			change_controller.change_list = default_change_list
+		change_controller.change_frequency = change_frequency
+		change_controller.name = "ChangeTile" + str(change_counter)
+		if spawn:
+			spawn.add_child(change_controller)
+		else:
+			holder.add_child(change_controller)
+		# spawn.move_child(change_controller, 4)
 		
 		# Create sub tile_map_layer
 		var sub_tile_map_layer = TileMapLayer.new()
@@ -33,4 +46,5 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer):
 		sub_tile_map_layer.set_cell(Vector2i(0, 0), 0, Vector2i(0, 0))
 		# sub_tile_map.position = -Settings.tile_size_half # doesn't work, workaround in RotationController
 		# sub_tile_map.use_kinematic_bodies = true
+		change_controller.original_tile_map_layer = tile_map_layer
 		change_controller.add_child(sub_tile_map_layer)
