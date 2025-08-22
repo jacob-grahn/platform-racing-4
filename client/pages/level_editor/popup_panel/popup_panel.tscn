@@ -10,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_hsurq")
 script = ExtResource("1_vtnw6")
 
 [node name="BigPanel" type="Panel" parent="."]
@@ -22,7 +23,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SmallPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.356
@@ -35,7 +35,6 @@ offset_right = -0.0800781
 offset_bottom = -0.360046
 
 [node name="TinyPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.369
@@ -90,5 +89,4 @@ offset_left = 0.799988
 offset_top = -0.440033
 offset_right = 0.359985
 offset_bottom = 0.359924
-theme = ExtResource("2_hsurq")
 text = "Close"
