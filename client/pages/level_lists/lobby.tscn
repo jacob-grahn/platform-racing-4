@@ -11,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_4b3kv")
 script = ExtResource("1_aqp3w")
 
 [node name="BackButton" type="Button" parent="."]
@@ -19,7 +20,6 @@ offset_left = 34.0
 offset_top = 28.0
 offset_right = 239.0
 offset_bottom = 99.0
-theme = ExtResource("1_4b3kv")
 text = "Back"
 
 [node name="SoloButton" type="Button" parent="."]
@@ -28,7 +28,6 @@ offset_left = 298.0
 offset_top = 28.0
 offset_right = 503.0
 offset_bottom = 99.0
-theme = ExtResource("1_4b3kv")
 text = "Solo"
 
 [node name="LevelEditorButton" type="Button" parent="."]
@@ -37,7 +36,6 @@ offset_left = 556.0
 offset_top = 28.0
 offset_right = 761.0
 offset_bottom = 99.0
-theme = ExtResource("1_4b3kv")
 text = "Level Editor"
 
 [node name="CharacterEditorButton" type="Button" parent="."]
@@ -46,7 +44,6 @@ offset_left = 806.0
 offset_top = 28.0
 offset_right = 1011.0
 offset_bottom = 99.0
-theme = ExtResource("1_4b3kv")
 text = "Character Editor"
 
 [node name="CreditsButton" type="Button" parent="."]
@@ -55,7 +52,6 @@ offset_left = 1065.0
 offset_top = 28.0
 offset_right = 1270.0
 offset_bottom = 99.0
-theme = ExtResource("1_4b3kv")
 text = "Credits"
 
 [node name="LevelPanel" parent="." instance=ExtResource("3_oq36o")]
