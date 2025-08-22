@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b5w5c5w5c5w5c"]
+[gd_scene load_steps=3 format=3 uid="uid://b5w5c5w5c5w5c"]
 
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_3tikj"]
 [ext_resource type="Script" uid="uid://8p6ye0e4am8e" path="res://pages/login/login.gd" id="1_f5dgr"]
 
 [node name="LoginScreen" type="Control"]
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_3tikj")
 script = ExtResource("1_f5dgr")
 
 [node name="Panel" type="Panel" parent="."]
