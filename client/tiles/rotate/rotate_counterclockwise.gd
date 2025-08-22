@@ -3,7 +3,7 @@ class_name RotateCounterclockwise
 
 
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 	bump.push_back(rotate_player_counterclockwise)
 
 
