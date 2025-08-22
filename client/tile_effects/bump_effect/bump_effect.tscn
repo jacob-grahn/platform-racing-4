@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3x826fs5wb6t"]
 
 [ext_resource type="Script" uid="uid://s3m42bkbe7hj" path="res://tile_effects/bump_effect/bump_effect.gd" id="1_fwhhp"]
-[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="2_wfa1f"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlaspr4.png" id="2_wfa1f"]
 
 [sub_resource type="Animation" id="Animation_lfeve"]
 length = 0.001
@@ -88,9 +88,10 @@ script = ExtResource("1_fwhhp")
 texture = ExtResource("2_wfa1f")
 region_enabled = true
 region_rect = Rect2(0, 0, 128, 128)
+region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_xhyxf")
+&"": SubResource("AnimationLibrary_xhyxf")
 }
 autoplay = "bump"
