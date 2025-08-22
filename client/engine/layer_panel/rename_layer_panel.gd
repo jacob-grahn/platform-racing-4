@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 signal name_change
 

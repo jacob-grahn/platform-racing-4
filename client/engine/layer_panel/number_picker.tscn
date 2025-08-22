@@ -3,44 +3,59 @@
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_rlgcu"]
 [ext_resource type="Script" uid="uid://bppqj402keb0e" path="res://engine/layer_panel/number_picker.gd" id="1_shofn"]
 
-[node name="NumberPicker" type="Node2D"]
+[node name="NumberPicker" type="Control"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 3
+anchor_right = 0.156
+anchor_bottom = 0.046
+offset_right = 0.47998
+offset_bottom = 0.319996
+theme = ExtResource("1_rlgcu")
 script = ExtResource("1_shofn")
 
 [node name="Panel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
-offset_right = 300.0
-offset_bottom = 50.0
-
-[node name="Panel2" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
-offset_right = 150.0
-offset_bottom = 50.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="DownButton" type="Button" parent="."]
 clip_contents = true
-offset_left = 150.0
-offset_right = 200.0
-offset_bottom = 50.0
-theme = ExtResource("1_rlgcu")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.667
+anchor_bottom = 1.0
+offset_right = -0.100021
+offset_bottom = -5.0
 theme_override_font_sizes/font_size = 24
 text = "-"
 text_overrun_behavior = 1
 
 [node name="UpButton" type="Button" parent="."]
 clip_contents = true
-offset_left = 250.0
-offset_right = 300.0
-offset_bottom = 50.0
-theme = ExtResource("1_rlgcu")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.75
+anchor_top = 0.1
+anchor_right = 0.917
+anchor_bottom = 1.0
+offset_left = -1.52588e-05
+offset_right = -0.100006
+offset_bottom = -5.0
 theme_override_font_sizes/font_size = 24
 text = "+"
 text_overrun_behavior = 1
 
 [node name="Label" type="Label" parent="."]
-offset_top = 15.0
-offset_right = 150.0
-offset_bottom = 35.0
-theme = ExtResource("1_rlgcu")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.7
 theme_override_font_sizes/font_size = 16
 text = "Number: 360"
 horizontal_alignment = 1

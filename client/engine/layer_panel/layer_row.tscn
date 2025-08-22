@@ -7,10 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://b3n0l72ku1hs2" path="res://engine/layer_panel/gear.png" id="4_26qbc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wiuq"]
-bg_color = Color(0.24122, 0.241305, 0.336642, 1)
+bg_color = Color(0.239886, 0.46276, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
-bg_color = Color(0.172549, 0.172549, 0.247059, 1)
+bg_color = Color(0.498039, 0.498039, 0.498039, 1)
 
 [node name="LayerRow" type="Control"]
 custom_minimum_size = Vector2(292, 40)
@@ -19,6 +19,7 @@ anchor_right = 0.156
 anchor_bottom = 0.037
 offset_right = -7.52002
 offset_bottom = 0.0400009
+theme = ExtResource("1_w2du1")
 
 [node name="LabelButton" type="Button" parent="."]
 layout_mode = 1
@@ -30,7 +31,6 @@ offset_left = -0.012001
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-theme = ExtResource("1_w2du1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
@@ -45,7 +45,6 @@ anchor_bottom = 1.0
 offset_left = -0.00800323
 offset_right = -0.012001
 focus_mode = 0
-theme = ExtResource("1_w2du1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
@@ -63,7 +62,6 @@ anchor_bottom = 1.0
 offset_left = -0.00400162
 offset_right = -0.00800323
 focus_mode = 0
-theme = ExtResource("1_w2du1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
@@ -79,7 +77,6 @@ anchor_right = 0.137
 anchor_bottom = 1.0
 offset_right = -0.00400162
 focus_mode = 0
-theme = ExtResource("1_w2du1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 toggle_mode = true
@@ -94,7 +91,7 @@ anchor_left = 0.411
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.012001
-theme = ExtResource("1_w2du1")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "Layer Name"
 vertical_alignment = 1

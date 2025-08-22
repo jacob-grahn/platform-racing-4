@@ -1,19 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://bj5dlw7bcynua"]
+[gd_scene load_steps=3 format=3 uid="uid://bj5dlw7bcynua"]
 
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_fcy8e"]
 [ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="1_q0sa4"]
 
-[node name="RenameLayerPanel" type="Node2D"]
+[node name="RenameLayerPanel" type="Control"]
+layout_mode = 3
+anchor_right = 0.198
+anchor_bottom = 0.059
+offset_right = -0.160034
+offset_bottom = 0.279995
+theme = ExtResource("1_fcy8e")
 script = ExtResource("1_q0sa4")
 
 [node name="Panel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 offset_right = 380.0
-offset_bottom = 64.0
-
-[node name="TextPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
-offset_left = 85.0
-offset_right = 285.0
 offset_bottom = 64.0
 
 [node name="Label" type="Label" parent="."]
@@ -28,13 +28,13 @@ vertical_alignment = 1
 
 [node name="NewLayerName" type="LineEdit" parent="."]
 offset_left = 85.0
+offset_top = 12.0
 offset_right = 285.0
-offset_bottom = 64.0
+offset_bottom = 52.0
 size_flags_stretch_ratio = 0.0
 theme_override_font_sizes/font_size = 24
 text = "Layer Name"
 max_length = 50
-flat = true
 
 [node name="OKButton" type="Button" parent="."]
 offset_left = 295.0
