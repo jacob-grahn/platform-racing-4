@@ -1,8 +1,10 @@
 extends Node2D
-class_name NewEditorMenu
+class_name EditorMenu
 
 signal control_event
 signal level_event
+
+@onready var level_options_menu = $LevelOptionsMenu
 
 const COLORS = {
 	"meta": {
@@ -37,7 +39,7 @@ const COLORS = {
 	}
 }
 
-@onready var mega_row: Node2D = $MegaRow
+#@onready var level_options_row: Control = $LevelOptionsMenu
 #@onready var background_row: Node2D = $BackgroundRow
 #@onready var draw_row: Node2D = $DrawRow
 
@@ -45,12 +47,15 @@ const COLORS = {
 func _ready():
 	#background_row.visible = false
 	#draw_row.visible = false
-	add_row(mega_row)
+	#add_row(level_options_row)
 	#add_row(background_row)
 	#add_row(draw_row)
 	get_viewport().size_changed.connect(_on_size_changed)
-	_on_size_changed()
+	level_options_menu.control_event.connect(_on_control_event)
+	#_on_size_changed()
 
+func set_editor_mode(current_editor):
+	level_options_menu.editor = current_editor
 
 func add_row(row: Node) -> void:
 	var window_size = get_viewport().get_visible_rect().size

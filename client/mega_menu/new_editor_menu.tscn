@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bksfgjusb2ghj"]
+
+[ext_resource type="Script" uid="uid://c3xbv8r4v6bc4" path="res://mega_menu/new_editor_menu.gd" id="1_kromo"]
+[ext_resource type="PackedScene" uid="uid://c4svh7sae6f0l" path="res://pages/level_editor/level_options_menu.tscn" id="2_kromo"]
+
+[node name="EditorMenu" type="Node2D"]
+script = ExtResource("1_kromo")
+
+[node name="LevelOptionsMenu" parent="." instance=ExtResource("2_kromo")]

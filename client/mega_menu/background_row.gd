@@ -3,7 +3,7 @@ extends SliderRow
 signal level_event
 
 const BACKGROUND_BUTTON: PackedScene = preload("res://mega_menu/background_button.tscn")
-const BACKGROUND_IDS := ["field", "desert", "dots", "generic", "lake", "skyscraper", "space"]
+const BACKGROUND_IDS := ["pr2_field", "pr2_generic", "pr2_lake", "pr2_desert", "pr2_dots", "pr2_space", "pr2_skyscraper", "pr3_desert", "pr3_industrial", "pr3_jungle", "pr3_space", "pr3_underwater", "pr3_volcano", "pr3_thanksgiving", "pr3_main", "pr3_christmas"]
 
 func _ready():
 	super._ready()

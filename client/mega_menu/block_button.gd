@@ -3,7 +3,7 @@ class_name BlockButton
 
 signal pressed
 
-@onready var tile_texture = preload("res://tiles/tileatlas.png")
+@onready var tile_texture = preload("res://tiles/tileatlaspr4.png")
 var region_sprite: Sprite2D
 var sprite_initialized := false
 

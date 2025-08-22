@@ -1,5 +1,5 @@
 extends SliderRow
-class_name MegaRow
+class_name LevelOptionsMenu
 
 signal control_event
 
@@ -23,8 +23,6 @@ var zoom_controller: ZoomController = ZoomController.new()
 var active_colors = EditorMenu.COLORS.tools.active
 var inactive_colors = EditorMenu.COLORS.tools.inactive
 
-@onready var editor_events: Node2D = get_node("/root/Main/LEVEL_EDITOR/EditorEvents")
-
 func _ready():
 	super._ready()
 	
@@ -34,9 +32,11 @@ func _ready():
 	
 	# Add tools
 	var tool_configs = [
-		{"label": "Draw", "icon": "draw"},
-		{"label": "Erase", "icon": "erase"},
-		{"label": "Text", "icon": "text"}
+		{"label": "BlockMenu", "icon": "blocks", "description": "Design your level."},
+		{"label": "ArtMenu", "icon": "art", "description": "Unleash your inner Da Vincis unto the map."},
+		{"label": "SettingsMenu", "icon": "settings", "description": "Settings for the level. Adjust them to your liking."},
+		{"label": "ExtraOptionsMenu", "icon": "extraoptions", "description": "Save or load levels, or jump to other areas of the game."},
+		{"label": "TestLevelButton", "icon": "test", "description": "Starts the level for playtesting."}
 	]
 	
 	for config in tool_configs:
@@ -44,50 +44,51 @@ func _ready():
 		add_slider(button)
 		var texture = load("res://mega_menu/icons/" + config.icon + ".png")
 		button.init(texture, active_colors, inactive_colors)
-		button.texture_button.pressed.connect(_on_tool_pressed.bind(config.label.to_lower(), button))
+		button.texture_button.pressed.connect(_on_submenu_button_pressed.bind(config.label.to_lower(), button))
+		button.texture_button.tooltip_text = config.description
 		tool_buttons.append(button)
 	
 	# Add BG button
-	bg_button = BG_BUTTON.instantiate()
-	add_slider(bg_button)
-	bg_button.texture_button.pressed.connect(_on_tool_pressed.bind("bg", bg_button))
-	tool_buttons.append(bg_button)
+	#bg_button = BG_BUTTON.instantiate()
+	#add_slider(bg_button)
+	#bg_button.texture_button.pressed.connect(_on_tool_pressed.bind("bg", bg_button))
+	#tool_buttons.append(bg_button)
 	
 	# Add zoom buttons
-	var zoom_out_button = ZOOM_OUT_BUTTON.instantiate()
-	add_slider(zoom_out_button)
-	zoom_out_button.setup(zoom_controller)
+	#var zoom_out_button = ZOOM_OUT_BUTTON.instantiate()
+	#add_slider(zoom_out_button)
+	#zoom_out_button.setup(zoom_controller)
 	
-	var zoom_in_button = ZOOM_IN_BUTTON.instantiate()
-	add_slider(zoom_in_button)
-	zoom_in_button.setup(zoom_controller)
+	#var zoom_in_button = ZOOM_IN_BUTTON.instantiate()
+	#add_slider(zoom_in_button)
+	#zoom_in_button.setup(zoom_controller)
 	
 	# Add music selector
-	music_selector = MUSIC_SELECTOR.instantiate()
-	add_slider(music_selector)
+	#music_selector = MUSIC_SELECTOR.instantiate()
+	#add_slider(music_selector)
 	
 	# Add save
-	var save_button = SAVE_BUTTON.instantiate()
-	add_slider(save_button)
+	#var save_button = SAVE_BUTTON.instantiate()
+	#add_slider(save_button)
 	
 	# Add collab toggle
-	var collab_button = COLLAB_BUTTON.instantiate()
-	add_slider(collab_button)
+	#var collab_button = COLLAB_BUTTON.instantiate()
+	#add_slider(collab_button)
 	
 	# Add game config toggle
-	var game_config_button = GAME_CONFIG_BUTTON.instantiate()
-	add_slider(game_config_button)
+	#var game_config_button = GAME_CONFIG_BUTTON.instantiate()
+	#add_slider(game_config_button)
 	
 	# Add blocks
-	for i in len(BLOCK_LIST):
-		var block_button = BLOCK_BUTTON.instantiate()
-		add_slider(block_button)
-		block_button.set_block_id(BLOCK_LIST[i])
-		block_button.connect("pressed", _on_block_pressed.bind(BLOCK_LIST[i], block_button))
-		tool_buttons.append(block_button)
+	#for i in len(BLOCK_LIST):
+	#	var block_button = BLOCK_BUTTON.instantiate()
+	#	add_slider(block_button)
+	#	block_button.set_block_id(BLOCK_LIST[i])
+	#	block_button.connect("pressed", _on_block_pressed.bind(BLOCK_LIST[i], block_button))
+	#	tool_buttons.append(block_button)
 	
 	# select the first block by default
-	call_deferred("_on_block_pressed", 1, tool_buttons[tool_buttons.size() - 40])
+	call_deferred("_on_submenu_button_pressed", "BlockMenu", tool_buttons[0])
 
 
 func _on_block_pressed(block_id: int, button = null) -> void:
@@ -95,6 +96,17 @@ func _on_block_pressed(block_id: int, button = null) -> void:
 		"type": EditorEvents.SELECT_BLOCK,
 		"block_id": block_id
 	})
+	
+	if button:
+		_deactivate_all_except(button)
+
+
+func _on_submenu_button_pressed(submenu: String, button = null) -> void:
+	#emit_signal("control_event", {
+	#	"type": EditorEvents.SELECT_SUBMENU,
+	#	"submenu": submenu
+	#})
+	pass
 	
 	if button:
 		_deactivate_all_except(button)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckdgvyuraxydl"]
 
-[ext_resource type="Script" uid="uid://bmdgyt2bkcvv1" path="res://mega_menu/mega_row.gd" id="1_u0er4"]
+[ext_resource type="Script" uid="uid://bio8g63f24r8r" path="res://mega_menu/new_mega_row_test.gd" id="1_wqt0d"]
 
 [node name="MegaRow" type="Node2D"]
-script = ExtResource("1_u0er4")
+script = ExtResource("1_wqt0d")
