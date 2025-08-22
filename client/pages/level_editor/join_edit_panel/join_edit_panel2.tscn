@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgcwlfi7lqucc"]
+
+[ext_resource type="Script" uid="uid://bsaxjhyjna6n4" path="res://pages/level_editor/join_edit_panel/join_edit_panel.gd" id="1_ctsxw"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_gb8fo"]
+
+[node name="JoinEditPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_gb8fo")
+script = ExtResource("1_ctsxw")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 684.0
+offset_top = 261.0
+offset_right = 1294.0
+offset_bottom = 576.0
+
+[node name="JoinEditLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 777.0
+offset_top = 281.0
+offset_right = 1206.0
+offset_bottom = 330.0
+theme_override_font_sizes/font_size = 30
+text = "-- Enter code to collaborate --"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 778.0
+offset_top = 360.0
+offset_right = 890.0
+offset_bottom = 409.0
+theme_override_font_sizes/font_size = 30
+text = "Code:"
+horizontal_alignment = 2
+
+[node name="TitleEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 897.0
+offset_top = 356.0
+offset_right = 1197.0
+offset_bottom = 406.0
+theme = ExtResource("2_gb8fo")
+placeholder_text = "Enter code here"
+
+[node name="JoinButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 981.0
+offset_top = 450.0
+offset_right = 1081.0
+offset_bottom = 500.0
+text = "Join"
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1100.0
+offset_top = 451.0
+offset_right = 1200.0
+offset_bottom = 501.0
+text = "Close"
