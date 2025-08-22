@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bex50bhvo5njo"]
+[gd_scene load_steps=3 format=3 uid="uid://bex50bhvo5njo"]
 
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_2hbg0"]
 [ext_resource type="Script" uid="uid://cmys5l606o8br" path="res://pages/game/stats_panel/stats_panel.gd" id="1_jvs4v"]
 
 [node name="StatsPanel" type="Control"]
@@ -8,6 +9,7 @@ anchor_right = 0.13
 anchor_bottom = 0.139
 offset_right = 0.399979
 offset_bottom = -0.12001
+theme = ExtResource("1_2hbg0")
 script = ExtResource("1_jvs4v")
 
 [node name="Panel" type="Panel" parent="."]
