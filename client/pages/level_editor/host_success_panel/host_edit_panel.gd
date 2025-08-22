@@ -1,8 +1,8 @@
 extends Control
 
-@onready var host_button = $HostButton
-@onready var close_button = $CloseButton
-@onready var title_edit: TextEdit = $TitleEdit
+@onready var host_button = $VBoxContainer/ButtonContainer/HostButton
+@onready var close_button = $VBoxContainer/ButtonContainer/CloseButton
+@onready var title_edit: TextEdit = $VBoxContainer/CodeContainer/TitleEdit
 @onready var game_client: Node2D = get_node("/root/Main/GameClient")
 
 func _ready():
