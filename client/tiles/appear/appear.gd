@@ -3,11 +3,11 @@ class_name Appear
 
 const APPEAR_EFFECT = preload("res://tiles/appear/appear_effect.tscn")
 
-var atlas_coords = Vector2i(9, 3)
+var atlas_coords = Vector2i(9, 33)
 var appear_effects = {} 
 
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 	any_side.push_back(appear)
 
 func appear(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
