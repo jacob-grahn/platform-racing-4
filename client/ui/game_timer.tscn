@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://b056qp8qe1oc1"]
+
+[ext_resource type="Script" uid="uid://bvmu0wc3va6bj" path="res://ui/game_timer.gd" id="1_icbrh"]
+[ext_resource type="FontFile" uid="uid://bwaf3qniidpel" path="res://fonts/Arial/Arial.ttf" id="2_4tne8"]
+
+[node name="GameTimer" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 268.0
+offset_bottom = 80.0
+script = ExtResource("1_icbrh")
+
+[node name="PhysicsTimer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="FrameTimer" type="Timer" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimeText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = 250.0
+offset_bottom = 66.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/normal_font = ExtResource("2_4tne8")
+theme_override_font_sizes/normal_font_size = 36
+text = "00:00:00.000"
+horizontal_alignment = 1
+vertical_alignment = 1

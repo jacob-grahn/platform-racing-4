@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfq7acty6r4e5"]
+
+[ext_resource type="Script" uid="uid://coqpn2mf1ktda" path="res://ui/stats_display.gd" id="1_4lnmy"]
+[ext_resource type="FontFile" uid="uid://bwaf3qniidpel" path="res://fonts/Arial/Arial.ttf" id="1_agt1n"]
+
+[node name="StatsDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 268.0
+offset_bottom = 50.0
+script = ExtResource("1_4lnmy")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpeedText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 66.0
+offset_bottom = 46.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("1_agt1n")
+text = "000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="."]
+offset_left = 65.0
+offset_top = 5.0
+offset_right = 73.0
+offset_bottom = 45.0
+
+[node name="AccelText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 4.0
+offset_right = 132.0
+offset_bottom = 46.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("1_agt1n")
+text = "000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="."]
+offset_left = 130.0
+offset_top = 5.0
+offset_right = 138.0
+offset_bottom = 45.0
+
+[node name="JumpText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 4.0
+offset_right = 197.0
+offset_bottom = 46.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("1_agt1n")
+text = "000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="."]
+offset_left = 195.0
+offset_top = 5.0
+offset_right = 203.0
+offset_bottom = 45.0
+
+[node name="SkillText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 5.0
+offset_right = 263.0
+offset_bottom = 47.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("1_agt1n")
+text = "000"
+horizontal_alignment = 1
+vertical_alignment = 1
