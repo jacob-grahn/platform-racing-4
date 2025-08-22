@@ -1,0 +1,343 @@
+[gd_scene load_steps=13 format=3 uid="uid://2fx8rnu1jlwj"]
+
+[ext_resource type="Script" uid="uid://b1ptlej0ruuk5" path="res://pages/level_editor/block_submenu.gd" id="1_17vj3"]
+[ext_resource type="Texture2D" uid="uid://cgrx5oouw1dry" path="res://mega_menu/icons/dragblock.png" id="1_dm6xf"]
+[ext_resource type="Texture2D" uid="uid://byg06nx8shih2" path="res://mega_menu/icons/eraseblock.png" id="2_17vj3"]
+[ext_resource type="Texture2D" uid="uid://b3laclpa364j2" path="res://mega_menu/icons/drawblock.png" id="3_u7n6r"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="5_17vj3"]
+
+[sub_resource type="Gradient" id="Gradient_u7n6r"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_20g40"]
+gradient = SubResource("Gradient_u7n6r")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_xpnty"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sxige"]
+gradient = SubResource("Gradient_xpnty")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_nu4fj"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xvrhh"]
+gradient = SubResource("Gradient_nu4fj")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dm6xf"]
+atlas = ExtResource("5_17vj3")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[node name="BlockSubmenu" type="Control"]
+layout_mode = 3
+anchor_right = 0.47
+anchor_bottom = 0.669
+offset_right = -0.400085
+offset_bottom = -0.520081
+script = ExtResource("1_17vj3")
+
+[node name="BlockMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 88.0
+offset_bottom = 322.0
+
+[node name="Panel" type="Panel" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 88.0
+offset_bottom = 224.0
+
+[node name="SelectionGlow" type="ColorRect" parent="BlockMenu"]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 151.0
+offset_right = 73.0
+offset_bottom = 209.0
+color = Color(1, 1, 0, 1)
+
+[node name="BlockMover" type="Control" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+tooltip_text = "Carefully move blocks to their destination."
+
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockMover"]
+self_modulate = Color(0.552941, 0.286275, 0.980392, 1)
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_20g40")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockMover"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockMover"]
+self_modulate = Color(0.552941, 0.286275, 0.980392, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture_normal = ExtResource("1_dm6xf")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BlockKiller" type="Control" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 88.0
+offset_right = 68.0
+offset_bottom = 136.0
+tooltip_text = "This ruthless eraser destroys any block on contact."
+
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockKiller"]
+self_modulate = Color(1, 0.372549, 0.372549, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_sxige")
+
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockKiller"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockKiller"]
+self_modulate = Color(1, 0.372549, 0.372549, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture_normal = ExtResource("2_17vj3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BlockDropper" type="Control" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 156.0
+offset_right = 68.0
+offset_bottom = 204.0
+tooltip_text = "Draw blocks!"
+
+[node name="TextureRect" type="TextureRect" parent="BlockMenu/BlockDropper"]
+self_modulate = Color(0, 0.752941, 0.372549, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="BlockMenu/BlockDropper"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDropper"]
+self_modulate = Color(0, 0.752941, 0.372549, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture_normal = ExtResource("3_u7n6r")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BlockDrawPanel" type="Panel" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 234.0
+offset_right = 88.0
+offset_bottom = 322.0
+
+[node name="BlockDraw" type="Control" parent="BlockMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 254.0
+offset_right = 68.0
+offset_bottom = 302.0
+
+[node name="TextureButton" type="TextureButton" parent="BlockMenu/BlockDraw"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.375, 0.375)
+texture_normal = SubResource("AtlasTexture_dm6xf")
+
+[node name="BlockPicker" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 98.0
+offset_top = 234.0
+offset_right = 824.0
+offset_bottom = 722.0
+focus_mode = 2
+
+[node name="Panel" type="Panel" parent="BlockPicker"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 726.0
+offset_bottom = 488.0
+
+[node name="TabBar" type="TabBar" parent="BlockPicker"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 706.0
+offset_bottom = 56.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+current_tab = 0
+tab_alignment = 1
+clip_tabs = false
+tab_count = 8
+tab_0/title = "Default"
+tab_1/title = "Desert"
+tab_2/title = "Industrial"
+tab_3/title = "Jungle"
+tab_4/title = "Underwater"
+tab_5/title = "Space"
+tab_6/title = "Classic"
+tab_7/title = "Custom"
+
+[node name="NavagationButtons" type="Control" parent="BlockPicker"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 425.0
+offset_top = 76.0
+offset_right = 705.0
+offset_bottom = 124.0
+
+[node name="LeftButton" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.171
+anchor_bottom = 1.0
+offset_right = 0.119999
+focus_mode = 0
+disabled = true
+text = "<"
+
+[node name="PageButton1" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.207
+anchor_top = 0.104
+anchor_right = 0.379
+anchor_bottom = 0.896
+offset_left = 0.0399933
+offset_top = 0.0079999
+offset_right = -0.120003
+offset_bottom = -0.00800323
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+disabled = true
+text = "1"
+
+[node name="PageButton2" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.414
+anchor_top = 0.104
+anchor_right = 0.586
+anchor_bottom = 0.896
+offset_left = 0.0799866
+offset_top = 0.0079999
+offset_right = -0.0800018
+offset_bottom = -0.00800323
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+disabled = true
+text = "2"
+
+[node name="PageButton3" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.621
+anchor_top = 0.104
+anchor_right = 0.793
+anchor_bottom = 0.896
+offset_left = 0.11998
+offset_top = 0.0079999
+offset_right = -0.0400085
+offset_bottom = -0.00800323
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+disabled = true
+text = "3"
+
+[node name="RightButton" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.829
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.12001
+focus_mode = 0
+disabled = true
+text = ">"
+
+[node name="ColorRect" type="ColorRect" parent="BlockPicker"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 133.0
+offset_right = 708.0
+offset_bottom = 483.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="ColorRect2" type="ColorRect" parent="BlockPicker"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 138.0
+offset_right = 703.0
+offset_bottom = 478.0
+color = Color(0, 0, 0, 0.247059)
+
+[node name="BlockContainer" type="Control" parent="BlockPicker"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 33.0
+offset_top = 148.0
+offset_right = 693.0
+offset_bottom = 468.0

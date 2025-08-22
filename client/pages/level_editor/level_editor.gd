@@ -3,6 +3,7 @@ class_name LevelEditor
 
 static var editor_cursors: Node
 static var current_level: Dictionary
+static var current_level_name: String
 static var current_level_description: String
 static var level_editor: Node
 
@@ -36,7 +37,7 @@ var default_level: Dictionary = {
 @onready var penciler: Node2D = $Penciler
 @onready var bg: Node2D = $BG
 @onready var editor_events: EditorEvents = $EditorEvents
-@onready var editor_menu = $UI/EditorMenu
+@onready var editor_menu: Node2D = $UI/EditorMenu
 @onready var layer_panel_node = $UI/LayerPanel
 @onready var users_host_edit_panel: Control = $UI/HostEditPanel
 @onready var users_join_edit_panel: Control = $UI/JoinEditPanel
@@ -49,6 +50,7 @@ func init(data: Dictionary = {}):
 
 func _ready():
 	LevelEditor.level_editor = self
+	editor_menu.set_editor_mode(self)
 	tree_exiting.connect(_on_disconnect_editor)
 	Jukebox.play("noodletown-4-remake")
 	back.connect("pressed", _on_back_pressed)
@@ -92,14 +94,14 @@ func _ready():
 	editor_camera.change_camera_zoom(0.5)
 	
 	# Connect control events for camera zoom changes
-	$UI/EditorMenu.control_event.connect(_on_control_event)
-	now_editing_panel.init($UI/EditorMenu, self)
+	# $UI/EditorMenu.control_event.connect(_on_control_event)
+	# now_editing_panel.init($UI/EditorMenu, self)
 	Jukebox.end_music = true
 
 
 func _on_back_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	FileManager.save_to_file(LevelEditor.current_level)
+	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	await Main.set_scene(Main.TITLE)
 
 
@@ -127,7 +129,7 @@ func _on_save_pressed():
 
 func _on_test_pressed():
 	LevelEditor.current_level = level_manager.encode_level()
-	FileManager.save_to_file(LevelEditor.current_level)
+	FileManager.save_to_file(LevelEditor.current_level, current_level_name)
 	Main.set_scene(Main.TESTER, { "level": LevelEditor.current_level })
 
 
@@ -138,8 +140,9 @@ func _on_clear_pressed():
 	confirm_delete_panel.initialize(self, "clear")
 
 
-func _on_level_load(level_name = ""):
+func _on_level_load(level_name = "", level_description = ""):
 	FileManager.set_current_level_name(level_name)
+	FileManager.set_current_level_description(level_description)
 	
 	var selected_level = default_level
 	if (level_name != ""):
@@ -154,6 +157,7 @@ func _on_level_load(level_name = ""):
 
 func _on_request_editor_load():
 	FileManager.set_current_level_name("")
+	FileManager.set_current_level_description("")
 	level_manager.clear()
 	await get_tree().create_timer(0.1).timeout
 	level_manager.decode_level(LevelEditor.current_level, true)
@@ -218,7 +222,7 @@ func _on_disconnect_editor() -> void:
 	if Session.is_logged_in() and !game_client.isFirstOpenEditor:
 		var data_room = {
 			"module": "RequestRoomModule",
-			"id": Session.get_username(),
+			"id": "dummy_username", # this doesn't work -> Session.get_username()
 			"ms": 5938,
 			"room" : game_client.room,
 			"ret": true,

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b5w5c5j5q5y5r"]
 
-[ext_resource type="Script" path="res://pages/level_editor/game_config_panel.gd" id="1_w8x5f"]
+[ext_resource type="Script" uid="uid://bgvh15fw3nld6" path="res://pages/level_editor/game_config_panel.gd" id="1_w8x5f"]
 
 [node name="GameConfigPanel" type="PanelContainer"]
 offset_right = 400.0

@@ -1,0 +1,272 @@
+[gd_scene load_steps=13 format=3 uid="uid://c4svh7sae6f0l"]
+
+[ext_resource type="Script" uid="uid://wsk7s4o36abg" path="res://pages/level_editor/level_options_menu.gd" id="1_n2mkv"]
+[ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://mega_menu/icons/blocks.png" id="1_n683b"]
+[ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://mega_menu/icons/art.png" id="2_n2mkv"]
+[ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="3_reton"]
+[ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
+[ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="5_nlf1n"]
+[ext_resource type="Texture2D" uid="uid://di2od85jc5nwr" path="res://mega_menu/icons/test.png" id="6_gk4yk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mj84r"]
+bg_color = Color(1, 1, 1, 0.87451)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.498039, 0.498039, 0.498039, 0.87451)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+shadow_color = Color(0, 0, 0, 0.152941)
+shadow_size = 1
+shadow_offset = Vector2(-10, -10)
+
+[sub_resource type="Gradient" id="Gradient_283ec"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l665r"]
+gradient = SubResource("Gradient_283ec")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_38tde"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ceuls"]
+gradient = SubResource("Gradient_38tde")
+fill_to = Vector2(0, 1)
+
+[node name="LevelOptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1472.0
+offset_right = 1900.0
+offset_bottom = 94.0
+script = ExtResource("1_n2mkv")
+
+[node name="CurrentSubmenu" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -1462.0
+offset_top = 10.0
+offset_right = -1462.0
+offset_bottom = 10.0
+
+[node name="SlightlyLessTallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 68.0
+offset_right = 604.0
+offset_bottom = 146.0
+rotation = 3.14159
+theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
+
+[node name="TallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 428.0
+offset_top = 84.0
+offset_right = 554.0
+offset_bottom = 178.0
+rotation = 3.14159
+theme_override_styles/panel = SubResource("StyleBoxFlat_mj84r")
+
+[node name="SelectionGlow" type="ColorRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 65.0
+offset_bottom = 65.0
+color = Color(1, 1, 0, 1)
+
+[node name="Buttons" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 397.0
+offset_bottom = 76.0
+
+[node name="BlockMenuButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_right = 48.0
+offset_bottom = 48.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/BlockMenuButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_l665r")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/BlockMenuButton"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/BlockMenuButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Design your level."
+texture_normal = ExtResource("1_n683b")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ArtMenuButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 58.0
+offset_right = 106.0
+offset_bottom = 48.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/ArtMenuButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_l665r")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/ArtMenuButton"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/ArtMenuButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Unleash your inner Da Vincis unto the map."
+texture_normal = ExtResource("2_n2mkv")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="LevelSettingsButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 116.0
+offset_right = 164.0
+offset_bottom = 48.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/LevelSettingsButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_l665r")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/LevelSettingsButton"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/LevelSettingsButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Settings for the level. Adjust them to your liking."
+texture_normal = ExtResource("3_reton")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CollabButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 174.0
+offset_right = 222.0
+offset_bottom = 48.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/CollabButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_l665r")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/CollabButton"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/CollabButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Invite your guild, your friends, or random people to start editing your level in real-time!"
+texture_normal = ExtResource("4_k63ob")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ExtraOptionsButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 232.0
+offset_right = 280.0
+offset_bottom = 48.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_l665r")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/ExtraOptionsButton"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+
+[node name="TextureRect2" type="TextureRect" parent="Buttons/ExtraOptionsButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = ExtResource("5_nlf1n")
+expand_mode = 1
+
+[node name="LevelSettingsDropdownButton" type="MenuButton" parent="Buttons/ExtraOptionsButton"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Save/load levels, or jump to other areas of the game."
+toggle_mode = false
+
+[node name="TestLevelButton" type="Control" parent="Buttons"]
+anchors_preset = 0
+offset_left = 321.0
+offset_right = 385.0
+offset_bottom = 64.0
+
+[node name="TextureRect" type="TextureRect" parent="Buttons/TestLevelButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_ceuls")
+
+[node name="ColorRect" type="ColorRect" parent="Buttons/TestLevelButton"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 61.0
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/TestLevelButton"]
+self_modulate = Color(0.164706, 0.623529, 0.839216, 1)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+tooltip_text = "Starts the level for playtesting."
+texture_normal = ExtResource("6_gk4yk")
+ignore_texture_size = true
+stretch_mode = 0
