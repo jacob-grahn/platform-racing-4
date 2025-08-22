@@ -4,12 +4,12 @@ class_name EggBlock
 const EGG_ENEMY = preload("res://tiles/egg/egg_enemy.tscn")
 
 var timer: Timer
-var egg_atlas_coords: Vector2i = Vector2i(0, 3)
+var egg_atlas_coords: Vector2i = Vector2i(0, 33)
 var egg_counter = 0
 
 
 func init():
-	matter_type = Tile.GAS
+	matter_type = Tile.INACTIVE
 	is_safe = false
 	egg_counter = 0
 
@@ -33,10 +33,13 @@ func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
 func add_egg_enemy(tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	var egg_enemy = EGG_ENEMY.instantiate()
 	var depth = Helpers.get_depth(tile_map_layer)
+	var spawn = tile_map_layer.get_parent().get_node("Enemies")
 	egg_enemy.position = get_center_position(tile_map_layer, coords)
 	egg_enemy.name = "EggEnemy" + str(egg_counter)
-	var layer = tile_map_layer.get_parent()
-	layer.get_node("Enemies").add_child(egg_enemy)
+	if spawn:
+		spawn.add_child(egg_enemy)
+	else:
+		tile_map_layer.add_child(egg_enemy)
 	egg_enemy.set_depth(depth)
 
 
