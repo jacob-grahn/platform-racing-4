@@ -3,24 +3,26 @@ class_name Teleport
 
 var positions = []
 var recent_teleports = []
-var color = "none"
-var atlas_coords = Vector2i(0, 0)
+var color = "E22B2E"
+var type = "default"
+var teleport_atlas_coords = Vector2i(2, 33)
 var throttle_ms = 1000
 
 
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 	any_side.push_back(teleport)
 	is_safe = false
 
 
 func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
-	var coord_list = tile_map_layer.get_used_cells_by_id(0, atlas_coords)
+	var coord_list = tile_map_layer.get_used_cells_by_id(0, teleport_atlas_coords)
 	for coords in coord_list:
 		var position = {
 			"layer_name": str(tile_map_layer.get_parent().name),
 			"coords": coords,
 			"color": color,
+			"type": type,
 			"tile_map_layer": tile_map_layer
 		}
 		positions.push_back(position)
@@ -40,7 +42,8 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 	var source_position = {
 		"layer_name": layer_name,
 		"coords": coords,
-		"color": color
+		"color": color,
+		"type": type
 	}
 	var next_position = get_next_position(source_position)
 	var layers = tile_map_layer.get_parent().get_parent()
@@ -88,17 +91,17 @@ func get_next_position(source_position: Dictionary) -> Dictionary:
 	var i = 0
 	while i < len(positions):
 		var position = positions[i]
-		if source_position.color == position.color && source_position.coords == position.coords && source_position.layer_name == position.layer_name:
+		if source_position.color == position.color && source_position.type == position.type && source_position.coords == position.coords && source_position.layer_name == position.layer_name:
 			break
 		i += 1
 	
-	# find next teleport block with the same color
+	# find next teleport block with the same color and type
 	var j = 1
 	var k
 	while j < len(positions) + 1:
 		k = (i + j) % len(positions)
 		var position = positions[k]
-		if source_position.color == position.color:
+		if source_position.color == position.color && source_position.type == position.type:
 			break
 		j += 1
 	

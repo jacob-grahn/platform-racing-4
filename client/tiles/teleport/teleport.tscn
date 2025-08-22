@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cetr1q2qhblqa"]
+
+[node name="Teleport" type="Node2D"]
+
+[node name="TeleportBlock" type="Sprite2D" parent="."]
+
+[node name="TeleportColor" type="Sprite2D" parent="."]
