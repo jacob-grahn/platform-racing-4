@@ -15,6 +15,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 400.0
 offset_bottom = 50.0
+theme = ExtResource("1_twjml")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(400, 50)
@@ -27,7 +28,6 @@ color = Color(0.172549, 0.176471, 0.247059, 1)
 layout_mode = 0
 offset_right = 400.0
 offset_bottom = 50.0
-theme = ExtResource("1_twjml")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1wiuq")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
 disabled = true

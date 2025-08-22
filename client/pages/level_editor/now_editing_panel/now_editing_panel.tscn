@@ -13,6 +13,7 @@ offset_left = 1392.0
 offset_top = 234.0
 offset_right = 1882.0
 offset_bottom = 850.0
+theme = ExtResource("2_7a5oo")
 current_tab = 0
 
 [node name="Users" type="TabBar" parent="TabContainer"]
@@ -63,7 +64,6 @@ offset_left = 58.0
 offset_top = 481.0
 offset_right = 222.0
 offset_bottom = 533.0
-theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Host"
 
@@ -73,7 +73,6 @@ offset_left = 247.0
 offset_top = 480.0
 offset_right = 416.0
 offset_bottom = 532.0
-theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Join"
 
@@ -185,7 +184,6 @@ offset_left = 299.0
 offset_top = 495.0
 offset_right = 464.0
 offset_bottom = 547.0
-theme = ExtResource("2_7a5oo")
 theme_override_font_sizes/font_size = 16
 text = "Send"
 
