@@ -8,6 +8,8 @@ const CHARGE := "charge"
 const CHARGE_HOLD := "charge_hold"
 const CRAWL := "crawl"
 const CROUCH := "crouch"
+const FINISH := "finish"
+const FINISH_START := "finish_start"
 const HURT := "hurt"
 const HURT_START := "hurt_start"
 const IDLE := "idle"
@@ -22,6 +24,8 @@ const ANIMS := [
 	CHARGE_HOLD,
 	CRAWL,
 	CROUCH,
+	FINISH,
+	FINISH_START,
 	HURT,
 	HURT_START,
 	IDLE,
@@ -40,6 +44,7 @@ const ANIMS := [
 @onready var foot_front_lines: Sprite2D = $FootFront/Lines
 @onready var head_color: Sprite2D = $Head/Color
 @onready var head_lines: Sprite2D = $Head/Lines
+@onready var item_holder: Node2D = $ItemHolder
 @onready var animations: AnimationPlayer = $Animations
 
 
