@@ -30,6 +30,6 @@ func _close_pressed():
 func _clear():
 	if instance != null:
 		if delete_type == "clear":
-			instance._on_level_load("")
+			instance._on_level_load("", "")
 	instance = null
 	close()
