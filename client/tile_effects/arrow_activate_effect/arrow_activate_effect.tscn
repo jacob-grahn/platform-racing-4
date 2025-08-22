@@ -5,7 +5,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Polygon2D:scale")
+tracks/0/path = NodePath("Arrow:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -17,7 +17,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Polygon2D:modulate")
+tracks/1/path = NodePath("Arrow:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -29,26 +29,27 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_ajwye"]
 resource_name = "push"
+length = 0.8333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Polygon2D:scale")
+tracks/0/path = NodePath("Arrow:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.166667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(2, 2), Vector2(1, 1)]
+"values": [Vector2(1.902, 1.902), Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Polygon2D:modulate")
+tracks/1/path = NodePath("Arrow:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.8333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -60,7 +61,7 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.8333),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -79,10 +80,62 @@ z_index = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_c2hf1")
+&"": SubResource("AnimationLibrary_c2hf1")
 }
 autoplay = "push"
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="PR3DesertArrow" type="Polygon2D" parent="."]
+visible = false
 position = Vector2(1, -6)
-polygon = PackedVector2Array(-10.5, -40.5, -11, 9, -34, 8, 0, 56, 31, 8, 10, 9, 10, -41)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-11, -45, -11, 18, -31, 18, 1, 59, 31, 19, 16, 19, 16, -45)
+
+[node name="PR3IndustrialArrow" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(1, -6)
+color = Color(0.384314, 0.317647, 0.984314, 1)
+polygon = PackedVector2Array(-11, -34, -11, 18, -23, 18, 1, 50, 26, 16, 13, 16, 13, -34)
+
+[node name="PR3JungleArrow" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(1, -6)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-29, -15, -1, 27, 25, -15)
+
+[node name="PR3UnderwaterArrow" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(1, -6)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-32, 17, 3, 63, 35, 17, 22, 17, 19, -37, -9, -37, -13, -21, -13, 17)
+
+[node name="PR3SpaceArrow" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(1, -6)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-27, 8, 1, 50, 29, 8, 15, 8, 15, 4, 13, 4, 1, 16, -11, 4, -13, 4, -13, 8)
+
+[node name="PR3SpaceArrow2" type="Polygon2D" parent="PR3SpaceArrow"]
+position = Vector2(17, -30)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-30, 27, -16, 41, -2, 27, -2, 18, -5, 18, -16, 29, -27, 18, -30, 18)
+
+[node name="PR3SpaceArrow3" type="Polygon2D" parent="PR3SpaceArrow"]
+position = Vector2(17, -46)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-30, 27, -16, 41, -2, 27, -2, 18, -5, 18, -16, 29, -27, 18, -30, 18)
+
+[node name="PR3SpaceArrow4" type="Polygon2D" parent="PR3SpaceArrow"]
+position = Vector2(17, -62)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-30, 27, -16, 41, -2, 27)
+
+[node name="PR2Arrow" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(1, -6)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-14, -41, -14, 10, -38, 10, -1, 60, 36, 10, 12, 10, 12, -41)
+
+[node name="Arrow" type="Polygon2D" parent="."]
+position = Vector2(1, -6)
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-14, -41, -14, 7, -34, 7, -1, 54, 32, 7, 12, 7, 12, -41)
