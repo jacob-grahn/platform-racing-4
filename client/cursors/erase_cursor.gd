@@ -70,7 +70,8 @@ func erase_blocks():
 				"x": coords.x,
 				"y": coords.y
 			},
-			"block_id": 0
+			"block_id": 0,
+			"atlas_coords": Vector2i(-1, -1)
 		})
 		
 

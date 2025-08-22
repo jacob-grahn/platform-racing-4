@@ -69,6 +69,7 @@ func on_drag(pos: Vector2 = Vector2(-1, -1)):
 				"y": coords.y
 			},
 			"block_id": block_id,
+			"atlas_coords": atlas_coords
 		})
 
 

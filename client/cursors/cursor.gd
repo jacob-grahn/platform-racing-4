@@ -13,10 +13,17 @@ var menu: EditorMenu
 @onready var draw_cursor = $DrawCursor
 @onready var erase_cursor = $EraseCursor
 @onready var user_text_cursor = $UserTextCursor
+@onready var cursor_colorin = $VariousCursors/CursorSprite/CursorColorIn
+@onready var cursor_outline = $VariousCursors/CursorSprite/CursorOutline
 
 
 func _ready():
-	pass
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	cursor_colorin.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
+	cursor_outline.self_modulate = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1))
+
+func _exit_tree() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func init(_menu, layers) -> void:
@@ -42,7 +49,8 @@ func _on_gui_input(event: InputEvent):
 
 
 func _process(_delta):
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !using_gui: # Left click
+	global_position = get_global_mouse_position()
+	if current_cursor != null and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) && !using_gui: # Left click
 		if !mouse_down:
 			current_cursor.on_mouse_down()
 			mouse_down = true
