@@ -34,6 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("3_sy0tr")
 
 [node name="BackgroundPanel" type="Panel" parent="UI/Container"]
 visible = false
@@ -81,5 +82,4 @@ offset_right = -0.840088
 offset_bottom = 0.23999
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_sy0tr")
 text = "Back"
