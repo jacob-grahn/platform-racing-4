@@ -1,0 +1,107 @@
+[gd_scene load_steps=18 format=3 uid="uid://daaf05kp248q5"]
+
+[ext_resource type="Texture2D" uid="uid://bfvtpgfgtq4o0" path="res://engine/bg/PR2BG1-Field.svg" id="2_4q80d"]
+[ext_resource type="Texture2D" uid="uid://doixtom0t63ko" path="res://engine/bg/100x100.png" id="2_dlxkp"]
+[ext_resource type="Texture2D" uid="uid://bu5e0djcw6lbe" path="res://engine/bg/PR2BG2-Generic.svg" id="3_mfpc5"]
+[ext_resource type="Texture2D" uid="uid://bk0t2m358dhnc" path="res://engine/bg/PR2BG3-Lake.svg" id="4_5xhoe"]
+[ext_resource type="Texture2D" uid="uid://h73h4losk6kw" path="res://engine/bg/PR2BG4-Desert.svg" id="5_fb5jb"]
+[ext_resource type="Texture2D" uid="uid://df6gncfg8aoqb" path="res://engine/bg/PR2BG5DotsBlank.svg" id="6_ae6qe"]
+[ext_resource type="Texture2D" uid="uid://cof8hb0ru0gxo" path="res://engine/bg/PR2BG6-Space.svg" id="7_6b5co"]
+[ext_resource type="Texture2D" uid="uid://b4rvf6muix4t0" path="res://engine/bg/PR2BG7-Skyscraper.svg" id="8_u03d2"]
+[ext_resource type="Texture2D" uid="uid://dhccrigaktyj3" path="res://engine/bg/PR3BG1-Desert.png" id="10_dxlm7"]
+[ext_resource type="Texture2D" uid="uid://injxit20fv86" path="res://engine/bg/PR3BG2-Industrial.png" id="11_wt387"]
+[ext_resource type="Texture2D" uid="uid://dvxdvhg08sd6y" path="res://engine/bg/PR3BG3-Jungle.png" id="12_gd6s0"]
+[ext_resource type="Texture2D" uid="uid://c5jihbhhib2ft" path="res://engine/bg/PR3BG4-Space.png" id="13_n282e"]
+[ext_resource type="Texture2D" uid="uid://spedr86janob" path="res://engine/bg/PR3BG5-Underwater.png" id="14_865a4"]
+[ext_resource type="Texture2D" uid="uid://c81keoo7lpoh4" path="res://engine/bg/PR3BG6-Volcano.png" id="15_qb6vw"]
+[ext_resource type="Texture2D" uid="uid://d2kmaau5fllmu" path="res://engine/bg/PR3BG8-Thanksgiving.png" id="16_4cuem"]
+[ext_resource type="Texture2D" uid="uid://bbiojjgd2rd0i" path="res://engine/bg/PR3BG9-Main.png" id="17_mtfhy"]
+[ext_resource type="Texture2D" uid="uid://bnq32twy0aois" path="res://engine/bg/PR3BG10-Christmas.png" id="18_2d5wk"]
+
+[node name="BGs" type="Node2D"]
+
+[node name="BG0" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_dlxkp")
+
+[node name="PR2BG1Field" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_4q80d")
+
+[node name="PR2BG2Generic" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_mfpc5")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -275.0
+offset_top = -200.0
+offset_right = 275.0
+offset_bottom = 200.0
+color = Color(0.666667, 0.694118, 0.792157, 1)
+
+[node name="PR2BG3Lake" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_5xhoe")
+
+[node name="PR2BG4Desert" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_fb5jb")
+region_enabled = true
+region_rect = Rect2(3, 0, 550, 400)
+
+[node name="PR2BG5Dots" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_ae6qe")
+
+[node name="Dots" type="Node2D" parent="PR2BG5Dots"]
+
+[node name="PR2BG6Space" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.5, 31.5)
+texture = ExtResource("7_6b5co")
+region_enabled = true
+region_rect = Rect2(22, 0, 550, 400)
+
+[node name="PR2BG7Skyscraper" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-11, 13)
+texture = ExtResource("8_u03d2")
+region_enabled = true
+region_rect = Rect2(48, 0, 550, 400)
+
+[node name="PR3BG1Desert" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("10_dxlm7")
+
+[node name="PR3BG2Industrial" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("11_wt387")
+
+[node name="PR3BG3Jungle" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("12_gd6s0")
+
+[node name="PR3BG4Space" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("13_n282e")
+
+[node name="PR3BG5Underwater" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("14_865a4")
+
+[node name="PR3BG6Volcano" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("15_qb6vw")
+
+[node name="PR3BG8Thanksgiving" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("16_4cuem")
+
+[node name="PR3BG9Main" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("17_mtfhy")
+
+[node name="PR3BG10Christmas" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("18_2d5wk")
