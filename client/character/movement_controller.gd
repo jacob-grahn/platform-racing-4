@@ -5,7 +5,6 @@ class_name MovementController
 const FASTFALL_VELOCITY = Vector2(0, 50.0)
 const MAX_VELOCITY = Vector2(4500.0, 3750.0)
 const SWIM_UP_VELOCITY = Vector2(0, -3430.0)
-const JUMP_SOUND := preload("res://sounds/JumpSound.ogg")
 
 var jump_timer: float = 0
 var facing: int = 1
@@ -31,11 +30,13 @@ var frozen_display_node = null
 var hurt: bool = false
 var hitstun_timer: float = 0.0
 var hitstun_duration: float = 0.0
+var on_sticky_block: bool = false
 var is_wall_sliding: bool = false
 var wall_sliding_dir: int = 0
 var can_wall_jump: bool = true
 var last_wall_jump_dir: int = 0
 var wall_slide_friction_timer: float = 0.25
+var finished: bool = false
 
 
 func _init(ice_node = null):
@@ -88,9 +89,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > GameConfig.get_value("player_jump_velocity") * GameConfig.get_value("player_jump_velocity_multiplier"):
 			jumped = true
 			jump_timer = GameConfig.get_value("player_coyote_jump_time")
-			character.audioplayer.set_stream(JUMP_SOUND)
-			character.audioplayer.set_volume_db(1)
-			character.audioplayer.play()
+			character.play_sound(AudioManager.JUMP, null)
 	
 	# Reset wall sliding if on floor or swimming
 	if character.is_on_floor() or swimming:
@@ -101,7 +100,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		wall_slide_friction_timer = GameConfig.get_value("player_wall_slide_friction_decay_time")
 	
 	# Check for wall sliding
-	if not_rotating and not character.is_on_floor() and not swimming:
+	if not_rotating and not character.is_on_floor() and not swimming and on_sticky_block:
 		# Check for wall sliding on right walls
 		if character.is_on_wall() and character.get_wall_normal().rotated(-character.rotation).x < -0.7 and last_wall_jump_dir != 1:
 			if control_axis > 0 or (control_axis == 0 and Input.is_action_pressed("left")) or wall_sliding_dir == 1:  # Pressing against the wall
@@ -145,7 +144,12 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 
 	# Handle jump strength/velocity increment for regular jumps
 	if not_rotating and jumped:
-		velocity += Vector2(0, GameConfig.get_value("player_jump_velocity")).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_coyote_jump_time"))
+		var current_jump_velocity
+		if on_sticky_block:
+			current_jump_velocity = GameConfig.get_value("player_jump_velocity") / 8
+		else:
+			current_jump_velocity = GameConfig.get_value("player_jump_velocity")
+		velocity += Vector2(0, current_jump_velocity).rotated(character.rotation) * stats.get_jump_bonus() * (jump_timer / GameConfig.get_value("player_coyote_jump_time"))
 		jump_timer -= 1
 		if jump_timer <= 0:
 			jumped = false
@@ -187,8 +191,15 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 			control_axis = 0
 		if !hurt and is_crouching:
 			control_axis = control_axis / 2
-			
-		var target_velocity = Vector2(control_axis * (GameConfig.get_value("player_speed") * speedburst_boost) * stats.get_speed_bonus(), 
+		
+		var current_speed
+		if on_sticky_block:
+			current_speed = GameConfig.get_value("player_speed") / 2.5
+		else:
+			current_speed = GameConfig.get_value("player_speed")
+		on_sticky_block = false
+		
+		var target_velocity = Vector2(control_axis * (current_speed * speedburst_boost) * stats.get_speed_bonus(), 
 			velocity.rotated(-character.rotation).y).rotated(character.rotation)
 		
 		accel = (0.05 + ((1.45 / 100) * stats.get_exact_accel())) * speedburst_boost
