@@ -10,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_u2wx8")
 script = ExtResource("1_3nlag")
 
 [node name="PlayButton" type="Button" parent="."]
@@ -25,7 +26,6 @@ offset_right = -334.0
 offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_u2wx8")
 text = "Play PR2 Level"
 
 [node name="BackButton" type="Button" parent="."]
@@ -34,7 +34,6 @@ offset_left = 34.0
 offset_top = 28.0
 offset_right = 239.0
 offset_bottom = 99.0
-theme = ExtResource("2_u2wx8")
 text = "Back"
 
 [node name="TextEdit" type="TextEdit" parent="."]
@@ -43,7 +42,6 @@ offset_left = 693.0
 offset_top = 457.0
 offset_right = 1097.0
 offset_bottom = 520.0
-theme = ExtResource("2_u2wx8")
 text = "50815"
 
 [node name="Label" type="Label" parent="."]
