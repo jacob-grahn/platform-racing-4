@@ -4,6 +4,7 @@ signal level_load
 
 const LOAD_ROW = preload("res://pages/level_editor/load_panel/load_row.tscn")
 var selected_level = ""
+var selected_description = ""
 
 @onready var row_holder = $ScrollContainer/RowHolder
 @onready var close_button = $CloseButton
@@ -47,7 +48,7 @@ func _close_pressed():
 	self.visible = false
 		
 func _load_pressed():
-	emit_signal("level_load", selected_level)
+	emit_signal("level_load", selected_level, selected_description)
 
 func _delete_pressed():
 	if selected_level == "":
@@ -55,12 +56,13 @@ func _delete_pressed():
 		
 	FileManager.delete_level(selected_level)
 	for child in row_holder.get_children():
-		var label = child.get_node("Label")
+		var label = child.get_node("LevelLabel")
 		if label.text == selected_level:
 			child.queue_free()
 			break
 			
 	selected_level = ""
+	selected_description = ""
 
 func _row_pressed(level_name: String):
 	selected_level = level_name

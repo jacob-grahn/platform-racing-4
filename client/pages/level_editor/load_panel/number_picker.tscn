@@ -31,6 +31,7 @@ text_overrun_behavior = 1
 [node name="Panel" type="Panel" parent="."]
 offset_right = 168.0
 offset_bottom = 50.0
+theme = ExtResource("2_67vul")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 19.0
