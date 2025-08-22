@@ -8,7 +8,7 @@ script = ExtResource("1_wroxk")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 
-[node name="MovingTileMaps" type="Node2D" parent="."]
+[node name="NonStaticTileMapLayers" type="Node2D" parent="."]
 
 [node name="Stamps" type="Node2D" parent="."]
 
@@ -23,3 +23,5 @@ script = ExtResource("1_wroxk")
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Effects" type="Node2D" parent="."]
