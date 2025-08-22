@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7adgqavn0stv"]
+[gd_scene load_steps=4 format=3 uid="uid://b7adgqavn0stv"]
 
 [ext_resource type="Script" uid="uid://cheygnkm08xjc" path="res://pages/level_lists/level_panel/level_panel.gd" id="1_tl1gd"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_fpmt7"]
 [ext_resource type="PackedScene" uid="uid://cyn14d54c83tf" path="res://pages/level_lists/level_panel/level_tab.tscn" id="2_lnt5f"]
 
 [node name="LevelPanel" type="Node2D"]
@@ -8,10 +9,9 @@ script = ExtResource("1_tl1gd")
 
 [node name="BigPanel" type="Panel" parent="."]
 modulate = Color(1, 1, 1, 0.321569)
-offset_left = -5.0
-offset_top = 63.0
-offset_right = 1915.0
-offset_bottom = 1026.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme = ExtResource("2_fpmt7")
 
 [node name="MediumPanel" type="Panel" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -19,6 +19,7 @@ offset_left = 129.0
 offset_top = 255.0
 offset_right = 1837.0
 offset_bottom = 992.0
+theme = ExtResource("2_fpmt7")
 
 [node name="Top Panel" type="Panel" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -26,6 +27,7 @@ offset_left = 132.0
 offset_top = 174.0
 offset_right = 1834.0
 offset_bottom = 237.0
+theme = ExtResource("2_fpmt7")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 offset_left = 95.0
