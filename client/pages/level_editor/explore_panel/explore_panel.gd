@@ -2,7 +2,7 @@ extends Node2D
 
 signal explore_load
 
-const EXPLORE_ROW = preload("res://pages/level_editor/explore_panel/explore_row.tscn")
+const EXPLORE_ROW = preload("res://pages/level_editor/load_panel/load_row.tscn")
 var selected_level_id = ""
 
 @onready var row_holder = $ScrollContainer/RowHolder
@@ -31,8 +31,9 @@ func render(levels: Array) -> void:
 	for level_data in levels:
 		var level_name = level_data["level_name"]
 		var row = EXPLORE_ROW.instantiate()
+		row.size.x = 400
 		row.position.y = row_holder.get_child_count() * 50
-		row.get_node("Label").text = level_name
+		row.get_node("LevelLabel").text = level_name
 		row_holder.add_child(row)
 		var button = row.get_node("Button")
 		button.pressed.connect(_row_pressed.bind(level_data["id"]))

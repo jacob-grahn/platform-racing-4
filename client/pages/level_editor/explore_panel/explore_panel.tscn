@@ -12,13 +12,14 @@ offset_left = -5.0
 offset_top = 8.0
 offset_right = 1915.0
 offset_bottom = 1072.0
+theme = ExtResource("3_a8s5x")
 
 [node name="MediumPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 offset_left = 778.0
 offset_top = 158.0
 offset_right = 1258.0
 offset_bottom = 734.0
+theme = ExtResource("3_a8s5x")
 
 [node name="SmallPanel" type="Panel" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -26,6 +27,7 @@ offset_left = 820.0
 offset_top = 246.0
 offset_right = 1220.0
 offset_bottom = 715.0
+theme = ExtResource("3_a8s5x")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 offset_left = 820.0
@@ -58,11 +60,12 @@ text = "Load"
 
 [node name="ExploreLabel" type="Label" parent="."]
 offset_left = 827.0
-offset_top = 183.0
+offset_top = 173.0
 offset_right = 1213.0
-offset_bottom = 225.0
-theme_override_font_sizes/font_size = 30
-text = "-- Player-Created Levelsl --"
-horizontal_alignment = 2
+offset_bottom = 233.0
+theme = ExtResource("3_a8s5x")
+theme_override_font_sizes/font_size = 48
+text = "-- Explore --"
+horizontal_alignment = 1
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
