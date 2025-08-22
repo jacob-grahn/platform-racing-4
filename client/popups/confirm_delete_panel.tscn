@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxsh4attymgu0"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_d4q6h"]
+
+[node name="ConfirmDeletePanel" type="Control"]
+layout_mode = 3
+anchor_right = 0.286
+anchor_bottom = 0.324
+offset_right = 0.880005
+offset_bottom = 0.0799866
+theme = ExtResource("1_d4q6h")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WarningLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.227
+anchor_top = 0.054
+anchor_right = 0.773
+anchor_bottom = 0.24
+offset_left = 0.149994
+offset_top = 0.1
+offset_right = -0.149963
+theme_override_font_sizes/font_size = 48
+text = "- WARNING! -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.087
+anchor_top = 0.269
+anchor_right = 0.913
+anchor_bottom = 0.731
+offset_left = 0.149998
+offset_top = -0.150009
+offset_right = -0.150085
+offset_bottom = 0.149994
+text = "Deleting levels/blocks/stamps is like
+burning paper; once the paper has
+been burnt, the paper is gone FOREVER.
+
+Are you sure you want to do this?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YesButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.091
+anchor_top = 0.771
+anchor_right = 0.364
+anchor_bottom = 0.914
+offset_left = -0.0500031
+offset_top = 0.149994
+offset_right = -0.200012
+offset_bottom = 0.0999756
+text = "Yes"
+
+[node name="NoButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.636
+anchor_top = 0.771
+anchor_right = 0.909
+anchor_bottom = 0.914
+offset_left = 0.199982
+offset_top = 0.149994
+offset_right = 0.0499878
+offset_bottom = 0.0999756
+text = "No"

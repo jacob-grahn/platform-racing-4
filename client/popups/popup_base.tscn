@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxiwhl2uem7uk"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_w1038"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x7dxx"]
+bg_color = Color(1, 1, 1, 0.498039)
+
+[node name="PopupBase" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_w1038")
+
+[node name="IntrusivePanel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_x7dxx")
+
+[node name="BasePanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 910.0
+offset_top = 490.0
+offset_right = 1210.0
+offset_bottom = 790.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BasePanel"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 300.0
+alignment = 1
+
+[node name="Button" type="Button" parent="BasePanel/VBoxContainer"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+text = "OK"

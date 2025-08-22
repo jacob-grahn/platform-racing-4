@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://c03ydqpa7hjk8"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_3lpgw"]
+
+[node name="RegisterScreen" type="Control"]
+layout_mode = 3
+anchor_right = 0.312
+anchor_bottom = 0.509
+offset_right = 0.959961
+offset_bottom = 0.279968
+theme = ExtResource("1_3lpgw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.126
+anchor_top = 0.082
+anchor_right = 0.874
+anchor_bottom = 0.918
+offset_left = 141.65
+offset_top = 149.9
+offset_right = -141.65
+offset_bottom = -149.9
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="CreateAccountLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "-- Create Account --"
+horizontal_alignment = 1
+
+[node name="NicknameLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Username:"
+horizontal_alignment = 1
+
+[node name="NicknameEdit" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PasswordLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Password:"
+horizontal_alignment = 1
+
+[node name="PasswordEdit" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+secret = true
+
+[node name="EmailLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Email (Optional):"
+horizontal_alignment = 1
+
+[node name="EmailEdit" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="RegisterButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Register"
+
+[node name="CancelButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ErrorLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
