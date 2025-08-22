@@ -6,6 +6,8 @@ static var game: Node2D
 
 @onready var back_button = $UI/Container/BackButton
 @onready var minimap: Minimap = $UI/Container/Minimap
+@onready var game_timer: GameTimer = $UI/Container/GameTimer
+@onready var stats_display: StatsDisplay = $UI/Container/StatsDisplay
 @onready var level_manager: LevelManager = $LevelManager
 
 var used_rects: Dictionary = {}
@@ -78,6 +80,10 @@ func _activate_game() -> void:
 	var character = player_manager.spawn_player(level_manager.layers, level_manager.tiles)
 	
 	minimap.init(self)
+	game_timer.init(self)
+	stats_display.init(self)
+	game_timer.set_timer(9999)
+	game_timer.start_timer()
 	level_manager.calc_used_rect()
 
 

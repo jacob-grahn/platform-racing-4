@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
+[gd_scene load_steps=11 format=3 uid="uid://ro82b48ln0gj"]
 
 [ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
 [ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
 [ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="3_yuilv"]
 [ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
 [ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="7_3ylxm"]
 [ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
 [ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_yuilv"]
+[ext_resource type="PackedScene" uid="uid://b056qp8qe1oc1" path="res://ui/game_timer.tscn" id="9_lhgqe"]
+[ext_resource type="PackedScene" uid="uid://bfq7acty6r4e5" path="res://ui/stats_display.tscn" id="10_nlto3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_cq41v")
@@ -34,6 +37,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("7_3ylxm")
 
 [node name="BackgroundPanel" type="Panel" parent="UI/Container"]
 visible = false
@@ -48,9 +52,20 @@ grow_vertical = 2
 [node name="Minimap" parent="UI/Container" instance=ExtResource("7_yuilv")]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 124.0
-offset_right = -124.0
-offset_bottom = -884.0
+offset_top = 930.0
+offset_bottom = 0.0
+
+[node name="GameTimer" parent="UI/Container" instance=ExtResource("9_lhgqe")]
+offset_left = 1640.0
+offset_top = 11.0
+offset_right = 1908.0
+offset_bottom = 91.0
+
+[node name="StatsDisplay" parent="UI/Container" instance=ExtResource("10_nlto3")]
+offset_left = 1640.0
+offset_top = 101.0
+offset_right = 1908.0
+offset_bottom = 151.0
 
 [node name="BackButton" type="Button" parent="UI/Container"]
 layout_mode = 1
