@@ -6,7 +6,7 @@ const VANISH_EFFECT = preload("res://tiles/vanish/vanish_effect.tscn")
 var vanish_effects = {} 
 
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 	any_side.push_back(vanish)
 	is_safe = false
 

@@ -77,7 +77,7 @@ shape = SubResource("RectangleShape2D_numk8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_lx6mq")
+&"": SubResource("AnimationLibrary_lx6mq")
 }
 autoplay = "vanish"
 
