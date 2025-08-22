@@ -2,7 +2,7 @@ extends Node2D
 ## Scales the parent node to fit the viewport while maintaining aspect ratio.
 ## Useful for background images and sprites that need to fill the screen.
 
-var size := Vector2(2048, 1024)
+var size := Vector2(0, 0)
 
 
 func _ready():
@@ -15,16 +15,12 @@ func _on_size_changed():
 	var parent = get_parent()
 	if not parent or not parent.texture:
 		return
-	var size = Vector2(
-			parent.texture.get_width(),
-			parent.texture.get_height()
-	)
-	var ratio = window_size / size
-	if ratio.x > ratio.y:
-		ratio.y = ratio.x
+	var size: Vector2
+	if parent.region_enabled:
+		size = Vector2(parent.region_rect.size.x, parent.region_rect.size.y)
 	else:
-		ratio.x = ratio.y
-	parent.scale = ratio
+		size = Vector2(parent.texture.get_width(), parent.texture.get_height())
+	parent.scale = Vector2(window_size.x / size.x, window_size.y / size.y)
 
 
 func trigger():
