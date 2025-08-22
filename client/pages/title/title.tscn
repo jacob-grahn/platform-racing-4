@@ -104,6 +104,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_k3j40")
 script = ExtResource("1_d2gdb")
 
 [node name="ParallaxBg" parent="." instance=ExtResource("3_033iv")]
@@ -242,16 +243,18 @@ horizontal_alignment = 1
 [node name="NotLoggedInPanel" type="Panel" parent="."]
 visible = false
 layout_mode = 2
-offset_left = 822.0
+offset_left = 797.0
 offset_top = 518.0
-offset_right = 1122.0
+offset_right = 1147.0
 offset_bottom = 818.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NotLoggedInPanel"]
 layout_mode = 0
+offset_left = 25.0
 offset_top = 27.0
-offset_right = 300.0
-offset_bottom = 273.0
+offset_right = 325.0
+offset_bottom = 277.0
+alignment = 1
 
 [node name="LoginButton" type="Button" parent="NotLoggedInPanel/VBoxContainer"]
 layout_mode = 2
@@ -281,16 +284,18 @@ text = "Credits"
 [node name="LoggedInPanel" type="Panel" parent="."]
 visible = false
 layout_mode = 2
-offset_left = 822.0
+offset_left = 797.0
 offset_top = 518.0
-offset_right = 1122.0
+offset_right = 1147.0
 offset_bottom = 818.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LoggedInPanel"]
 layout_mode = 0
-offset_top = 10.0
-offset_right = 300.0
-offset_bottom = 290.0
+offset_left = 25.0
+offset_top = 27.0
+offset_right = 325.0
+offset_bottom = 277.0
+alignment = 1
 
 [node name="NicknameLabel" type="Label" parent="LoggedInPanel/VBoxContainer"]
 layout_mode = 2
