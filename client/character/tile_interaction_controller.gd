@@ -47,9 +47,7 @@ func bump_tile_covering_high_area(character: Character) -> void:
 		_tiles.on("any_side", tile_type, character, tile.tile_map_layer, tile.coords)
 		_tiles.on("bump", tile_type, character, tile.tile_map_layer, tile.coords)
 		character.movement.last_bumped_block = tile
-		character.audioplayer.set_stream(BUMP_SOUND)
-		character.audioplayer.set_volume_db(1)
-		character.audioplayer.play()
+		character.play_sound(AudioManager.BUMP, null)
 
 
 func should_crouch(character: Character) -> bool:
@@ -100,16 +98,15 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	else:
 		if normal.y > 0:
 			character.movement.attempting_bump = true
+			character.movement.jumped = false
+			character.movement.jump_timer = 0
+			character.velocity.rotated(character.rotation).y = 0
 			if bumped_tile != character.movement.last_bumped_block and tile_type != 7:
+				character.movement.last_bumped_block = bumped_tile
 				_tiles.on("bottom", tile_type, character, tile_map_layer, coords)
 				_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
 				_tiles.on("bump", tile_type, character, tile_map_layer, coords)
-				character.movement.last_bumped_block = bumped_tile
-				character.movement.jumped = false
-				character.movement.jump_timer = 0
-				character.audioplayer.set_stream(BUMP_SOUND)
-				character.audioplayer.set_volume_db(1)
-				character.audioplayer.play()
+				character.play_sound(AudioManager.BUMP, null)
 		else:
 			_tiles.on("top", tile_type, character, tile_map_layer, coords)
 			_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
@@ -130,7 +127,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 	
 	# Blow up tiles when sun lightbreaking
 	if lightning.direction.length() > 0 and lightning.fire_power > 0:
-		TileEffects.shatter(tile_map_layer, coords)
+		TileEffects.shatter(tile_map_layer, coords, 10)
 		lightning.fire_power -= 1
 		return false
 	else:

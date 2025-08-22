@@ -22,9 +22,7 @@ func run(character: Character, delta: float) -> void:
 					(charge_timer - GameConfig.get_value("super_jump_min_charge_threshold")) / 
 					(GameConfig.get_value("super_jump_charge_time") - GameConfig.get_value("super_jump_min_charge_threshold")))
 		if charge_timer >= GameConfig.get_value("super_jump_min_charge_threshold"):
-			character.audioplayer.set_stream(SUPER_JUMP_SOUND)
-			character.audioplayer.set_volume_db(linear_to_db(sjanim_timer))
-			character.audioplayer.play()
+			character.play_sound(AudioManager.SUPERJUMP, linear_to_db(sjanim_timer))
 		charge_timer = 0
 		sjanim_timer = 0
 		return

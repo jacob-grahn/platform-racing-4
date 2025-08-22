@@ -6,13 +6,14 @@ class_name CameraController
 var camera: Camera2D
 var target_zoom: float = 0.1
 var pos: Vector2 = Vector2(0, 0)
+var camera_rotation: float = 0.0
 
 
 func _init(player_camera: Camera2D):
 	camera = player_camera
 
 
-func process(delta: float, player_position: Vector2, lightbreak_active: bool):
+func process(delta: float, player_position: Vector2, player_rotation: float, lightbreak_active: bool):
 	# Handle zoom based on lightbreak state
 	if lightbreak_active:
 		if target_zoom > GameConfig.get_value("camera_min_zoom"):
@@ -34,3 +35,4 @@ func process(delta: float, player_position: Vector2, lightbreak_active: bool):
 	pos = lerp(pos, player_position, actual_weight)
 	camera.offset.x = pos.x - player_position.x
 	camera.offset.y = pos.y - player_position.y
+	camera_rotation = player_rotation

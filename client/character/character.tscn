@@ -108,3 +108,4 @@ texture = ExtResource("7_l8eep")
 offset = Vector2(0, -180)
 
 [node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
+visible = false

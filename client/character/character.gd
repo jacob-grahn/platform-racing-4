@@ -6,6 +6,7 @@ extends CharacterBody2D
 ## item management and interaction with game tiles.
 
 signal position_changed(x: float, y: float)
+signal increase_time(new_timer: float)
 
 @onready var hitbox := $CharacterHitbox
 @onready var light := $Light
@@ -19,6 +20,7 @@ signal position_changed(x: float, y: float)
 @onready var ice := $Ice
 @onready var invincibility := $Invincibility
 @onready var display := $Display
+@onready var item_holder_display := $Display/ItemHolder
 @onready var sjaura := $SuperJumpAura
 @onready var animations: AnimationPlayer = $Display/Animations
 @onready var audioplayer: AudioStreamPlayer2D = $AudioPlayer
@@ -28,6 +30,7 @@ var item: Node2D
 var game: Node2D
 var shielded: bool = false
 var tiles: Tiles
+var audio : AudioStreamPlaybackPolyphonic
 
 # Component controllers
 var stats: Stats = Stats.new()
@@ -43,6 +46,8 @@ var control_vector: Vector2
 
 func _ready() -> void:
 	item_manager.item_holder = $Display/ItemHolder
+	audioplayer.stream = AudioStreamPolyphonic.new()
+	audioplayer.max_polyphony = 32
 	# Initialize all the controllers
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
@@ -65,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	hitbox.run(self)
 	low_area.scale = movement.size
 	high_area.scale = movement.size
+	display.item_holder.scale = display.scale / movement.size
 	
 	# Process gravity
 	gravity.run(self, delta)
@@ -85,10 +91,10 @@ func _physics_process(delta: float) -> void:
 	if lightbreak_velocity != Vector2.ZERO:
 		velocity = lightbreak_velocity
 	
-	# Move the character if we're not rotating
 	if gravity.not_rotating(delta):
 		movement.previous_velocity = velocity
-		move_and_slide()
+		if !movement.finished:
+			move_and_slide()
 	
 	# Interact with tiles
 	tile_interaction.interact_with_incoporeal_tiles(self)
@@ -99,10 +105,11 @@ func _physics_process(delta: float) -> void:
 		lightbreak.end_lightbreak()
 	
 	# Item usage
-	_process_items(delta)
+	if !movement.finished:
+		_process_items(delta)
 	
 	# Update camera
-	camera_controller.process(delta, position, lightbreak.is_active())
+	camera_controller.process(delta, position, rotation, lightbreak.is_active())
 	
 	# Update animations
 	scale = movement.size
@@ -166,3 +173,13 @@ func set_item(new_item_id: int) -> void:
 
 func get_tiles_overlapping_area(area: Area2D) -> Array:
 	return tile_interaction.get_tiles_overlapping_area(area)
+
+
+func play_sound(audio_stream: AudioStream, volume) -> void:
+	var loaded_audio = audio_stream
+	audioplayer.play()
+	var polyphonicaudio = audioplayer.get_stream_playback()
+	if volume:
+		polyphonicaudio.play_stream(loaded_audio, 0, volume)
+	else:
+		polyphonicaudio.play_stream(loaded_audio)
