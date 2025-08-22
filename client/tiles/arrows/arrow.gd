@@ -11,7 +11,7 @@ var push_force_bump = 1250 #
 var phantom_push_force_bump = 400
 var phantom_push_force_bump_decay = 0.85
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 
 
 func push(node: Node2D, tile_map_layer: Node2D, coords: Vector2i, push_dir: Vector2):
@@ -53,12 +53,20 @@ func push(node: Node2D, tile_map_layer: Node2D, coords: Vector2i, push_dir: Vect
 	
 	# add effect
 	var effect_name = str(coords.x) + "-" + str(coords.y) + "-arrow"
-	if tile_map_layer.has_node(effect_name):
-		var existing_effect = tile_map_layer.get_node(effect_name)
-		existing_effect.get_node("AnimationPlayer").seek(0)
+	var holder = Node2D
+	if "original_tile_map_layer" in tile_map_layer.get_parent():
+		holder = tile_map_layer.get_parent().original_tile_map_layer
+	else:
+		holder = tile_map_layer
+	var effect_node = holder.get_parent().get_node("Effects")
+	if effect_node.has_node(effect_name):
+		var existing_effect = effect_node.get_node(effect_name)
+		var animationplayer = existing_effect.get_node("AnimationPlayer")
+		if animationplayer.current_animation_position >= 0.1667:
+			animationplayer.seek(0.1667)
 		return
 	var effect = ArrowActivateEffect.instantiate()
 	effect.position = (coords * Settings.tile_size) + Settings.tile_size_half
 	effect.rotation = push_dir.rotated(-PI / 2).angle()
 	effect.name = effect_name
-	tile_map_layer.add_child(effect)
+	effect_node.add_child(effect)
