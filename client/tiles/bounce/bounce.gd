@@ -5,7 +5,7 @@ const BOUNCINESS: float = 0.1
 
 
 func init():
-	matter_type = Tile.SOLID
+	matter_type = Tile.ACTIVE
 	any_side.push_back(bounce)
 
 
