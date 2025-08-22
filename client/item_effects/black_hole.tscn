@@ -99,5 +99,5 @@ shape = SubResource("CircleShape2D_g7jpm")
 
 [node name="Animations" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_wqj24")
+&"": SubResource("AnimationLibrary_wqj24")
 }
