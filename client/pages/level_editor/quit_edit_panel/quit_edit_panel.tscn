@@ -10,10 +10,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_4lfod")
 script = ExtResource("1_cxpor")
 
 [node name="BigPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SmallPanel" type="Panel" parent="."]
-modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.357
@@ -77,7 +76,6 @@ offset_left = -0.360046
 offset_top = 0.47998
 offset_right = -0.0400391
 offset_bottom = -0.28009
-theme = ExtResource("2_4lfod")
 text = "Confirm"
 
 [node name="CloseButton" type="Button" parent="."]
@@ -91,5 +89,4 @@ offset_left = 0.039978
 offset_top = 0.47998
 offset_right = 0.359863
 offset_bottom = -0.28009
-theme = ExtResource("2_4lfod")
 text = "Close"
