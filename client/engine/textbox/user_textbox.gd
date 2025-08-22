@@ -1,12 +1,12 @@
 extends Control
 
-@export var usertext_font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 @export var action_man_font = "res://fonts/Action_Man/Action-Man.ttf"
 @export var arial_font = "res://fonts/Arial/Arial.ttf"
 @export var gwibble_font = "res://fonts/Gwibble/Gwibble.ttf"
 @export var poetsenone_font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 @export var quicksand_font = "res://fonts/Quicksand/Quicksand-VariableFont_wght.ttf"
 @export var verdana_font = "res://fonts/Verdana/Verdana.ttf"
+@export var usertext_font = poetsenone_font
 @onready var label_text = $LabelText
 @onready var selected_text_rect = $SelectedTextRect
 @onready var edit_text_color_rect = $EditTextColorRect
@@ -78,16 +78,18 @@ func _ready():
 	user_text.set("theme_override_styles/normal", usertext_bg)
 	user_text.context_menu_enabled = false
 	usertext_bg.set_bg_color(Color(1.0, 1.0, 1.0, 0.0))
-	enable_text_edits()
 
 
-func set_usertext_properties(text, text_font, text_size):
+func set_usertext_properties(text, font, font_size, text_size, just_spawned: bool):
 	user_text.text = text
-	usertext_font = text_font
-	user_text.set("theme_override_fonts/font", load(text_font))
-	user_text.set("theme_override_font_sizes/font_size", text_size)
-	label_text.set("theme_override_fonts/normal_font", load(text_font))
-	label_text.set("theme_override_font_sizes/normal_font_size", text_size)
+	usertext_font = font
+	user_text.size = text_size
+	user_text.set("theme_override_fonts/font", load(font))
+	user_text.set("theme_override_font_sizes/font_size", font_size)
+	label_text.set("theme_override_fonts/normal_font", load(font))
+	label_text.set("theme_override_font_sizes/normal_font_size", font_size)
+	if just_spawned:
+		_edit_text()
 	update_display()
 
 
@@ -126,6 +128,7 @@ func _change_text_font(index: int) -> void:
 	actiontype = "font"
 	user_text.set("theme_override_fonts/font", load(font_dropdown_button.get_item_metadata(index)))
 	label_text.set("theme_override_fonts/normal_font", load(font_dropdown_button.get_item_metadata(index)))
+	usertext_font = user_text.get("theme_override_font_sizes/font")
 	label_text.size = user_text.size
 	label_text.scale = user_text.scale
 	update_display()

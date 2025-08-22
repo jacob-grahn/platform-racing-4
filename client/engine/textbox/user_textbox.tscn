@@ -19,6 +19,7 @@ script = ExtResource("1_vb1cq")
 layout_mode = 0
 offset_right = 18.0
 offset_bottom = 42.0
+text = "test"
 fit_content = true
 autowrap_mode = 0
 vertical_alignment = 1
@@ -38,10 +39,12 @@ border_color = Color(0, 0, 0, 1)
 editor_only = false
 
 [node name="UserText" type="TextEdit" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 18.0
 offset_bottom = 42.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "test"
 scroll_fit_content_height = true
 scroll_fit_content_width = true
 
