@@ -5,19 +5,19 @@ const SHATTER_EFFECT = preload("res://tile_effects/shatter_effect/shatter_effect
 const BUMP_EFFECT = preload("res://tile_effects/bump_effect/bump_effect.tscn")
 
 
-static func shatter(tile_map_layer: TileMapLayer, coords: Vector2i):
-	crumble(tile_map_layer, coords)
+static func shatter(tile_map_layer: TileMapLayer, coords: Vector2i, pieces: int):
+	crumble(tile_map_layer, coords, pieces)
 	tile_map_layer.set_cell(coords, -1)
 
 
-static func crumble(tile_map_layer: TileMapLayer, coords: Vector2i):
+static func crumble(tile_map_layer: TileMapLayer, coords: Vector2i, pieces: int):
 	var atlas_coords = tile_map_layer.get_cell_atlas_coords(coords)
 	if atlas_coords == Vector2i(-1, -1):
 		return
 	var tile_atlas = tile_map_layer.tile_set.get_source(0).texture
 	var shatter_effect = SHATTER_EFFECT.instantiate()
 	shatter_effect.position = coords * Settings.tile_size
-	shatter_effect.add_pieces(tile_atlas, atlas_coords)
+	shatter_effect.add_pieces(tile_atlas, atlas_coords, pieces)
 	tile_map_layer.add_child(shatter_effect)
 	
 
