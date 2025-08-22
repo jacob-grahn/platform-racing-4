@@ -57,6 +57,6 @@ script = ExtResource("1_sfmbf")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_thk1l")
+&"": SubResource("AnimationLibrary_thk1l")
 }
 autoplay = "fade_out"
