@@ -98,10 +98,14 @@ func _on_level_event(event: Dictionary) -> void:
 			var usertextboxes: Node2D = layers.get_node(event.layer_name + "/UserTextboxes")
 			var usertextbox_scene: PackedScene = preload("res://engine/textbox/user_textbox.tscn")
 			var usertextbox = usertextbox_scene.instantiate()
+			var grab_focus: bool
+			if event.has("dont_grab_focus") and event.dont_grab_focus:
+				grab_focus = false
+			else:
+				grab_focus = true
 			usertextboxes.add_child(usertextbox)
-			usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size)
+			usertextbox.set_usertext_properties(event.usertext, event.font, event.font_size, Vector2(event.width, event.height), grab_focus)
 			usertextbox.position = Vector2(event.position.x, event.position.y)
-			usertextbox.scale = Vector2(event.width, event.height)
 			usertextbox.rotation = event.text_rotation
 		
 			# Handle additional properties if provided

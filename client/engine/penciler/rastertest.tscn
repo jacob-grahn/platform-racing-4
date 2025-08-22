@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://id0mse18nrh"]
+
+[ext_resource type="Script" uid="uid://b6yxklqhhbdq8" path="res://engine/penciler/rastertest.gd" id="1_e7ut3"]
+
+[node name="Rastertest" type="Node2D"]
+script = ExtResource("1_e7ut3")
+
+[node name="Background" type="Sprite2D" parent="."]
