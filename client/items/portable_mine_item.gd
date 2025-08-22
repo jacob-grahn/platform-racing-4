@@ -8,7 +8,7 @@ func _physics_process(delta):
 
 func _ready():
 	PortableBlock = load("res://item_effects/portable_mine.tscn")
-	tile_id = 10
+	tile_id = 45
 	set_block_position()
 
 func check_if_used():

@@ -24,7 +24,7 @@ func _physics_process(delta):
 
 
 func _ready():
-	tile_id = 18
+	tile_id = 44
 	set_block_position()
 
 
