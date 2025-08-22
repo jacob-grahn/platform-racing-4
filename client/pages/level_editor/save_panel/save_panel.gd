@@ -17,6 +17,7 @@ func initialize(current_level: Dictionary) -> void:
 	self.visible = true
 
 	title_edit.text = FileManager.get_current_level_name()
+	description_edit.text = FileManager.get_current_level_description()
 	back_button.connect("pressed", _back_pressed)
 	save_button.connect("pressed", func() -> void:
 		_save_pressed(current_level)
@@ -32,12 +33,16 @@ func _save_pressed(current_level: Dictionary):
 	if title_edit.text == "":
 		return
 	
-	var encoded_string = FileManager.save_to_file(LevelEditor.current_level, title_edit.text)
+	LevelEditor.current_level_name = title_edit.text
+	LevelEditor.current_level_description = description_edit.text
+	current_level.get_or_add("title")
+	current_level.title = title_edit.text
+	current_level.get_or_add("description")
+	current_level.description = description_edit.text
+	var encoded_string = FileManager.save_to_file(current_level, title_edit.text)
 	
 	var post_data = {
 		"level_data": encoded_string,
-		"level_name": title_edit.text,
-		"level_description": description_edit.text,
 	}
 
 	var json_string = JSON.stringify(post_data)
