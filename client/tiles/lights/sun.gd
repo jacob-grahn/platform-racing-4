@@ -4,7 +4,7 @@ class_name Sun
 
 func init():
 	display_color = Color("da1500")
-	atlas_coords = Vector2i(6, 3)
+	light_atlas_coords = Vector2i(6, 33)
 	lightbreak_type = LightTile.SUN
 	super()
 	

@@ -7,17 +7,17 @@ const FIREFLY = "firefly"
 
 var LightDisplay: PackedScene = preload("res://tiles/lights/light_display.tscn")
 var display_color: Color = Color("ffffff")
-var atlas_coords: Vector2i
+var light_atlas_coords: Vector2i
 var lightbreak_type: String
 
 
 func init():
-	matter_type = Tile.GAS
+	matter_type = Tile.INACTIVE
 	area.push_back(charge_lightbreak)
 
 
 func activate_tile_map_layer(tile_map_layer: TileMapLayer) -> void:
-	var coords_list = tile_map_layer.get_used_cells_by_id(0, atlas_coords)
+	var coords_list = tile_map_layer.get_used_cells_by_id(0, light_atlas_coords)
 	
 	for coords in coords_list:
 		
