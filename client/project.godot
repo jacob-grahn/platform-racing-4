@@ -26,6 +26,7 @@ StringUtils="*res://singletons/string_utils.gd"
 Session="*res://singletons/session/session.gd"
 Jukebox="*res://singletons/jukebox/jukebox.tscn"
 CachingLoader="*res://singletons/caching_loader.gd"
+AudioManager="*res://singletons/audio_manager.gd"
 
 [display]
 
@@ -37,7 +38,7 @@ window/stretch/aspect="expand"
 
 [gui]
 
-theme/custom="res://theme.tres"
+theme/custom="uid://cf25w553mynfo"
 theme/custom_font="res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
 theme/default_font_multichannel_signed_distance_field=true
 
