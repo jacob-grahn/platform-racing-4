@@ -5,12 +5,13 @@ var chunk_size = Vector2i(10, 10)
 
 func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 	var level = {
+		"title": LevelEditor.current_level_name,
+		"description": LevelEditor.current_level_description,
 		"layers": [],
 		"properties": {
-			# "title": LevelEditor.current_level,
-			# "description": LevelEditor.current_description,
 			"background": bg.id,
 			"music": Jukebox.song_id,
+			"items": [],
 			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}
@@ -70,7 +71,7 @@ func encode_lines(node: Node2D) -> Array:
 		var lineData = {
 			"x": line.position.x,
 			"y": line.position.y,
-			"points": pointObjects.slice(1, len(pointObjects) - 1), # the first point should always be 0,0, we can leave it out
+			"points": pointObjects.slice(1, len(pointObjects)), # the first point should always be 0,0, we can leave it out
 			"color": line.default_color,
 			"thickness": line.width
 		}

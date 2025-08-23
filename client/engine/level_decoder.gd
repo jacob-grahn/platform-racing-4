@@ -56,7 +56,7 @@ func decode_chunks(encoded_layer_name: String, chunks: Array) -> void:
 				"type": EditorEvents.SET_TILE,
 				"layer_name": encoded_layer_name,
 				"coords": {"x": coords.x, "y": coords.y},
-				"block_id": tile_id
+				"block_id": tile_id,
 			})
 
 
@@ -113,5 +113,5 @@ func decode_usertextboxes(layer_name: String, usertextboxobjects: Array, isEditi
 			"width": usertextboxobject.width,
 			"height": usertextboxobject.height,
 			"text_rotation": usertextboxobject.text_rotation,
-			"is_editing": isEditing
+			"dont_grab_focus": true
 		})

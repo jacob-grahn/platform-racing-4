@@ -5,6 +5,7 @@ var camera_zoom = 1.0
 var target_zoom = 1.0
 var is_zooming : bool = false
 var camera_speed_multiplier = 1.0
+var camera_rotation: float = 0.0
 
 
 func _ready():
