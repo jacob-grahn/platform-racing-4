@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://du1753xrp5vqy"]
+
+[ext_resource type="Script" uid="uid://cjfykq5hq2t8o" path="res://layers/blocklayer.gd" id="1_ma2s3"]
+
+[node name="BlockLayer" type="ParallaxBackground"]
+follow_viewport_enabled = true
+script = ExtResource("1_ma2s3")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="NonStaticTileMapLayers" type="Node2D" parent="."]
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Effects" type="Node2D" parent="."]

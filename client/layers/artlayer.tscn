@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://da03wwpyecgcp"]
+
+[ext_resource type="Script" uid="uid://w7q2goyqm4rl" path="res://layers/artlayer.gd" id="1_ichmj"]
+
+[node name="ArtLayer" type="ParallaxBackground"]
+follow_viewport_enabled = true
+script = ExtResource("1_ichmj")
+
+[node name="Stamps" type="Node2D" parent="."]
+
+[node name="Lines" type="Node2D" parent="."]
+
+[node name="Texts" type="Node2D" parent="."]

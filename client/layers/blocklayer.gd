@@ -1,35 +1,22 @@
 extends ParallaxBackground
-class_name Layer
+class_name BlockLayer
 
-@onready var lines: Node2D = $Lines
 @onready var tile_map_layer = $TileMapLayer
 
-const PR2_TILEATLAS = preload("res://tiles/tileatlaspr2.png")
-const PR3DESERT_TILEATLAS = preload("res://tiles/tileatlasdesert.png")
-const PR3INDUSTRIAL_TILEATLAS = preload("res://tiles/tileatlasindustrial.png")
-const PR3JUNGLE_TILEATLAS = preload("res://tiles/tileatlasjungle.png")
-const PR3SPACE_TILEATLAS = preload("res://tiles/tileatlasspace.png")
-const PR3UNDERWATER_TILEATLAS = preload("res://tiles/tileatlasunderwater.png")
-const PR4_TILEATLAS = preload("res://tiles/tileatlaspr4.png")
 const TILEATLAS = preload("res://tiles/tileatlas.png")
-const TILEATLAS_LIST: Array = [PR2_TILEATLAS, PR3DESERT_TILEATLAS, PR3INDUSTRIAL_TILEATLAS, PR3JUNGLE_TILEATLAS, PR3SPACE_TILEATLAS, PR3UNDERWATER_TILEATLAS, PR4_TILEATLAS]
-var z_axis = 10.0
-var depth = 10
-var alpha = 10
-var art_scale = 1.0
+
+var z_axis = 10
+var depth = z_axis # cannot be set by layer panel, mostly here for compatibility with existing code
+var tile_map_rotation = 0
 
 
 func init(tiles: Tiles) -> void:
 	tile_map_layer.tile_set = create_tile_set(tiles, true)
-	set_depth(depth)
-
+	tile_map_layer.tile_set.uv_clipping = true
+	set_z_axis(z_axis)
+	set_block_layer_rotation(tile_map_rotation)
 
 func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
-	var base_source: CompressedTexture2D
-	base_source = PR4_TILEATLAS
-	
-	var block_gap = (base_source.get_width() / Settings.tile_size.x) * (base_source.get_height() / Settings.tile_size.y)
-	
 	var source: TileSetAtlasSource = TileSetAtlasSource.new()
 	source.texture = TILEATLAS
 	source.texture_region_size = Settings.tile_size
@@ -78,35 +65,26 @@ func create_tile_set(tiles: Tiles, enable_collision: bool) -> TileSet:
 	return tile_set
 
 
-func set_depth(p_depth: int) -> void:
-	depth = p_depth
-	layer = depth
+func set_z_axis(p_z_axis: int) -> void:
+	z_axis = p_z_axis
+	depth = z_axis
+	layer = z_axis
 	
 	var tile_set = tile_map_layer.tile_set
 	if tile_set:
-		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((depth * 2) - 1))
-		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((depth * 2) - 1))
-		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(depth * 2))
-		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(depth * 2))
+		tile_set.set_physics_layer_collision_layer(0, Helpers.to_bitmask_32((z_axis * 2) - 1))
+		tile_set.set_physics_layer_collision_mask(0, Helpers.to_bitmask_32((z_axis * 2) - 1))
+		tile_set.set_physics_layer_collision_layer(1, Helpers.to_bitmask_32(z_axis * 2))
+		tile_set.set_physics_layer_collision_mask(1, Helpers.to_bitmask_32(z_axis * 2))
 	
-	# pr2 has an art layer that scrolls at 25% scale
-	# this hack treats depth 2 as 2.5 instead so imported levels look the same
-	# probably there is some better solution, but will need more thinking
-	var depth_compat = float(depth)
-	if depth == 2:
-		depth_compat = 2.5
-	
-	# aaaand pr2 has an art layer that scrolls at 200% scale
-	# but our current setup maxes out at depth 16
-	if depth == 16:
-		depth_compat = 20.0
-	
+	var z_axis_compat = float(z_axis)
 	# scale blocks up/down to match scale
 	# currently this scales lines and art as well, which actually we don't want
 	# todo: possibly only put tile_map_layer and players in the viewport
-	var base_scale = depth_compat / 10.0
+	var base_scale = z_axis_compat / 10.0
 	follow_viewport_scale = base_scale
-	
-	# scale lines to counteract the scaling on the viewport
-	var inverse_scale = 1.0 / base_scale
-	lines.scale = Vector2(inverse_scale * art_scale, inverse_scale * art_scale)
+
+
+func set_block_layer_rotation(p_rotation: float) -> void:
+	tile_map_rotation = p_rotation
+	tile_map_layer.rotation_degrees = tile_map_rotation
