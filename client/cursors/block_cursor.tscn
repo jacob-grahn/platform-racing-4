@@ -1,6 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://capwvms00utqf"]
+[gd_scene load_steps=6 format=3 uid="uid://capwvms00utqf"]
 
 [ext_resource type="Script" uid="uid://b3uhqq2c5ml4x" path="res://cursors/block_cursor.gd" id="1_wjsfm"]
+[ext_resource type="Texture2D" uid="uid://5jj1euvvs12g" path="res://cursors/blockkiller.png" id="2_8ga0u"]
+[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="2_h3wsr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ga0u"]
+atlas = ExtResource("2_h3wsr")
+region = Rect2(0, 0, 128, 128)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4plra"]
+atlas = ExtResource("2_h3wsr")
+region = Rect2(0, 0, 128, 128)
 
 [node name="BlockCursor" type="Node2D"]
 script = ExtResource("1_wjsfm")
+
+[node name="EraserIcon" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_8ga0u")
+
+[node name="BlockIcon" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.498039)
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_8ga0u")
+
+[node name="TeleportColorin" type="Sprite2D" parent="BlockIcon"]
+self_modulate = Color(1, 1, 1, 0.498039)
+show_behind_parent = true
+texture = SubResource("AtlasTexture_4plra")

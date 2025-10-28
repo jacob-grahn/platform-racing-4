@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://joknjf6qnfx5"]
+[gd_scene load_steps=8 format=3 uid="uid://joknjf6qnfx5"]
 
 [ext_resource type="Script" uid="uid://cpyq3gpxiuojd" path="res://cursors/cursor.gd" id="1_bnky5"]
 [ext_resource type="PackedScene" uid="uid://capwvms00utqf" path="res://cursors/block_cursor.tscn" id="2_7h2ej"]
@@ -6,34 +6,22 @@
 [ext_resource type="PackedScene" uid="uid://cauj7mmhr7tdc" path="res://cursors/draw_cursor.tscn" id="3_egyd5"]
 [ext_resource type="Texture2D" uid="uid://djhsmwlv5e757" path="res://cursors/outline.png" id="3_lj3du"]
 [ext_resource type="PackedScene" uid="uid://db753dcpsi48c" path="res://cursors/erase_cursor.tscn" id="4_1xtjb"]
-[ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="4_lj3du"]
 [ext_resource type="PackedScene" uid="uid://jjmfqdooq1yd" path="res://cursors/user_text_cursor.tscn" id="5_5xoxa"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_00gkc"]
-atlas = ExtResource("4_lj3du")
-region = Rect2(0, 0, 128, 128)
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_bnky5")
 
-[node name="VariousCursors" type="Node2D" parent="."]
-
-[node name="CursorSprite" type="Node2D" parent="VariousCursors"]
+[node name="CursorIcon" type="Node2D" parent="."]
 z_index = 4096
 
-[node name="CursorColorIn" type="Sprite2D" parent="VariousCursors/CursorSprite"]
+[node name="CursorColorIn" type="Sprite2D" parent="CursorIcon"]
 texture = ExtResource("2_tar8l")
 offset = Vector2(6.5, 9)
 
-[node name="CursorOutline" type="Sprite2D" parent="VariousCursors/CursorSprite"]
+[node name="CursorOutline" type="Sprite2D" parent="CursorIcon"]
 self_modulate = Color(0, 0, 0, 1)
 texture = ExtResource("3_lj3du")
 offset = Vector2(6.5, 9)
-
-[node name="Sprite2D" type="Sprite2D" parent="VariousCursors"]
-self_modulate = Color(1, 1, 1, 0.498039)
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_00gkc")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -49,4 +37,4 @@ offset_bottom = 3454.0
 
 [node name="EraseCursor" parent="." instance=ExtResource("4_1xtjb")]
 
-[node name="UserTextCursor" parent="." instance=ExtResource("5_5xoxa")]
+[node name="TextCursor" parent="." instance=ExtResource("5_5xoxa")]

@@ -2,7 +2,24 @@ extends Node2D
 
 signal level_event
 
+var active: bool = false
 var layers: Layers
+
+
+func deactivate():
+	active = false
+
+
+func activate():
+	active = true
+
+
+func _process(_delta):
+	if active:
+		visible = true
+		var touching_gui: bool = get_parent().touching_gui
+	else:
+		visible = false
 
 
 func init(_layers: Layers) -> void:
@@ -14,13 +31,14 @@ func on_mouse_down():
 
 
 func on_drag():
-	erase_blocks()
-	erase_lines()
+	if active:
+		erase_blocks()
+		erase_lines()
 
 
 func erase_lines():
 	var radius: float = 20.0
-	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+	var layer: ParallaxBackground = layers.art_layers.get_node(layers.get_target_art_layer())
 	var line_holder: Node2D = layer.get_node("Lines")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var mouse_position = line_holder.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -56,7 +74,7 @@ func is_line_intersecting_circle(p1: Vector2, p2: Vector2, circle_center: Vector
 
 
 func erase_blocks():
-	var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+	var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
 	var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
 	var camera: Camera2D = get_viewport().get_camera_2d()
 	var mouse_position = tile_map_layer.get_local_mouse_position() + camera.get_screen_center_position() - (camera.get_screen_center_position() * (1/layer.follow_viewport_scale))
@@ -65,7 +83,7 @@ func erase_blocks():
 	if atlas_coords != Vector2i(-1, -1):
 		emit_signal("level_event", {
 			"type": EditorEvents.SET_TILE,
-			"layer_name": layers.get_target_layer(),
+			"layer_name": layers.get_target_block_layer(),
 			"coords": {
 				"x": coords.x,
 				"y": coords.y
