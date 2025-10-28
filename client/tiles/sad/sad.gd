@@ -13,4 +13,5 @@ func init():
 func sad(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	if is_active(tile_map_layer, coords):
 		player.stats.inc_all(decrement)
+		Jukebox.play_sound("bumpsad")
 		deactivate(tile_map_layer, coords)
