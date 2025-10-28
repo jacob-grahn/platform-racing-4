@@ -20,12 +20,14 @@ func _ready():
 	logged_in_panel.hide()
 	not_logged_in_panel.hide()
 	awaiting_login_panel.show()
-	Jukebox.play("noodletown-4-remake")
+	Jukebox.play_song("mainframe-domain-pr3-menu-cut")
 	
 	nlip_login_button.pressed.connect(_on_login_pressed)
+	nlip_guest_play_button.pressed.connect(_goto_lobby)
 	nlip_create_account_button.pressed.connect(_on_create_account_pressed)
 	nlip_level_editor_button.pressed.connect(_on_level_editor_pressed)
 	nlip_credits_button.pressed.connect(_on_credits_pressed)
+	lip_lobby_button.pressed.connect(_on_login_pressed)
 	lip_lobby_button.pressed.connect(_on_login_pressed)
 	lip_level_editor_button.pressed.connect(_on_level_editor_pressed)
 	lip_credits_button.pressed.connect(_on_credits_pressed)
@@ -49,6 +51,8 @@ func _update_ui():
 		logged_in_panel.hide()
 		not_logged_in_panel.show()
 
+func _goto_lobby():
+	Main.set_scene(Main.LOBBY)
 
 func _on_login_pressed():
 	if Session.is_logged_in():
