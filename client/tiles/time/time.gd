@@ -14,6 +14,7 @@ func inc_time(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 		return
 	
 	player.emit_signal("increase_time", timer_increment)
+	Jukebox.play_sound("ticktock")
 	
 	# deactivate this tile
 	deactivate(tile_map_layer, coords)
