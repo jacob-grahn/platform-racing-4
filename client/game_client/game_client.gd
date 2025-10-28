@@ -105,7 +105,7 @@ func _send_chat_message(message: String) -> void:
 
 func _send_cursor_update() -> void:
 	if is_live_editing && layers && is_instance_valid(layers):
-		var layer: ParallaxBackground = layers.get_node(layers.get_target_layer())
+		var layer: ParallaxBackground = layers.block_layers.get_node(layers.get_target_block_layer())
 		if !layer:
 			return
 			
@@ -124,7 +124,7 @@ func _send_cursor_update() -> void:
 					"x": mouse_position.x,
 					"y": mouse_position.y
 				},
-				"layer": layers.get_target_layer(),
+				"layer": layers.get_target_block_layer(),
 				"block_id": Session.get_current_block_id()
 			}
 		}
@@ -170,7 +170,7 @@ func _retry_connect() -> void:
 
 func _process(delta: float) -> void:
 	if layers && is_instance_valid(layers):
-		var layer_node = layers.get_node(layers.get_target_layer())
+		var layer_node = layers.block_layers.get_node(layers.get_target_block_layer())
 		if layer_node is ParallaxBackground:
 			var layer: ParallaxBackground = layer_node
 			var tile_map_layer: TileMapLayer = layer.get_node("TileMapLayer")
