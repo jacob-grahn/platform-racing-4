@@ -22,6 +22,8 @@ func bounce(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> v
 		
 		# need a speed limit to keep bouncing back and forth from getting out of hand
 		player.velocity = player.velocity.limit_length(12500)
+		
+	Jukebox.play_sound("sproing")
 
 
 # Function to determine if a body is moving towards a block
