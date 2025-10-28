@@ -46,8 +46,8 @@ func teleport(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) ->
 		"type": type
 	}
 	var next_position = get_next_position(source_position)
-	var layers = tile_map_layer.get_parent().get_parent()
-	var layer = layers.get_node(next_position.layer_name)
+	var block_layers = tile_map_layer.get_parent().get_parent()
+	var layer = block_layers.get_node(next_position.layer_name)
 	var source_block_position = Vector2(coords * Settings.tile_size + Settings.tile_size_half).rotated(tile_map_layer.global_rotation)
 	var next_block_position = Vector2(next_position.coords * Settings.tile_size + Settings.tile_size_half).rotated(next_position.tile_map_layer.global_rotation)
 	var dist = (player.position - source_block_position).rotated(next_position.tile_map_layer.global_rotation)
