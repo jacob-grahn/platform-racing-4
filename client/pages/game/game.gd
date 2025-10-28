@@ -34,9 +34,9 @@ func get_current_player_layer() -> String:
 	return current_player_layer
 
 
-static func get_target_layer_node() -> Node:
-	var target_layer_name: String = game.level_manager.layers.get_target_layer()
-	return game.level_manager.layers.get_node(target_layer_name)
+static func get_target_block_layer_node() -> Node:
+	var target_layer_name: String = game.level_manager.layers.get_target_block_layer()
+	return game.level_manager.layers.block_layers.get_node(target_layer_name)
 	
 
 func _ready():
