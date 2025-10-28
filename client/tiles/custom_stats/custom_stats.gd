@@ -2,10 +2,10 @@ extends Tile
 class_name CustomStats
 
 
-var custom_speed: int = 50
-var custom_accel: int = 50
-var custom_jump: int = 50
-var custom_skill: int = 50
+var custom_speed: int = default_custom_stats[0]
+var custom_accel: int = default_custom_stats[1]
+var custom_jump: int = default_custom_stats[2]
+var custom_skill: int = default_custom_stats[3]
 
 func init():
 	matter_type = Tile.ACTIVE
