@@ -1,0 +1,165 @@
+[gd_scene load_steps=9 format=3 uid="uid://cocjq14xagypf"]
+
+[ext_resource type="Script" uid="uid://cq01bicietkrm" path="res://engine/textbox/textbox.gd" id="1_vb1cq"]
+[ext_resource type="Texture2D" uid="uid://bsqgdwle7h1rl" path="res://engine/textbox/move_text_image.png" id="2_hh26p"]
+[ext_resource type="Texture2D" uid="uid://c5qvre5ew5du2" path="res://engine/textbox/delete_text_image.png" id="3_5bu24"]
+[ext_resource type="Texture2D" uid="uid://bg8aven5qc4cw" path="res://engine/textbox/text_font_image.png" id="3_of7fh"]
+[ext_resource type="Texture2D" uid="uid://thuvioj0d2cd" path="res://engine/textbox/resize_text_image.png" id="4_hxna5"]
+[ext_resource type="Texture2D" uid="uid://cocmyk71nt10q" path="res://engine/textbox/rotate_text_image.png" id="5_twm0i"]
+[ext_resource type="Texture2D" uid="uid://u0slmobjg24g" path="res://engine/textbox/color_base_image.png" id="7_he8hd"]
+[ext_resource type="Texture2D" uid="uid://dh6ftlv6fwta8" path="res://engine/textbox/color_fill_image.png" id="8_36eu6"]
+
+[node name="Textbox" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+focus_mode = 1
+script = ExtResource("1_vb1cq")
+
+[node name="LabelText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+text = "test"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="EditTextColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+
+[node name="EditTextRect" type="ReferenceRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+border_color = Color(0, 0, 0, 1)
+editor_only = false
+
+[node name="EditText" type="TextEdit" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "test"
+scroll_fit_content_height = true
+scroll_fit_content_width = true
+
+[node name="SelectedTextRect" type="ReferenceRect" parent="."]
+z_as_relative = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 42.0
+border_color = Color(1, 1, 1, 1)
+border_width = 3.0
+editor_only = false
+
+[node name="MoveTextButton" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_as_relative = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 50.0
+focus_mode = 1
+flat = true
+
+[node name="TextModifierButtons" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="DeleteTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 26.0
+offset_right = 16.0
+offset_bottom = 58.0
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("3_5bu24")
+texture_pressed = ExtResource("3_5bu24")
+texture_hover = ExtResource("3_5bu24")
+
+[node name="TextFontButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = 26.0
+offset_right = 25.0
+offset_bottom = 58.0
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("3_of7fh")
+texture_pressed = ExtResource("3_of7fh")
+texture_hover = ExtResource("3_of7fh")
+
+[node name="FontDropdownButton" type="OptionButton" parent="TextModifierButtons/TextFontButton"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+flat = true
+
+[node name="ResizeTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 34.0
+offset_bottom = 58.0
+pivot_offset = Vector2(16, 6)
+texture_normal = ExtResource("4_hxna5")
+texture_pressed = ExtResource("4_hxna5")
+texture_hover = ExtResource("4_hxna5")
+
+[node name="EditTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("2_hh26p")
+texture_pressed = ExtResource("2_hh26p")
+texture_hover = ExtResource("2_hh26p")
+
+[node name="RotateTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -16.0
+offset_right = 25.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("5_twm0i")
+texture_pressed = ExtResource("5_twm0i")
+texture_hover = ExtResource("5_twm0i")
+
+[node name="ColorTextButton" type="TextureButton" parent="TextModifierButtons"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = -16.0
+offset_right = 34.0
+offset_bottom = 16.0
+pivot_offset = Vector2(16, 16)
+texture_normal = ExtResource("7_he8hd")
+texture_pressed = ExtResource("7_he8hd")
+texture_hover = ExtResource("7_he8hd")
+
+[node name="TextureRect" type="TextureRect" parent="TextModifierButtons/ColorTextButton"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("8_36eu6")
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="TextModifierButtons/ColorTextButton"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+pivot_offset = Vector2(16, 16)
+flat = true
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 30.0
