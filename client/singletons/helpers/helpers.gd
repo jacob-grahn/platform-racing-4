@@ -10,7 +10,7 @@ func to_bitmask_32(num: int) -> int:
 
 
 func get_depth(node: Node) -> int:
-	if node is Layer:
+	if node is Layer or node is BlockLayer or node is ArtLayer:
 		return node.depth
 	return get_depth(node.get_parent())
 
