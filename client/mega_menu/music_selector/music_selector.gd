@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _on_music_selected(index: int) -> void:
 	current_music_slug = music_option.get_item_metadata(index)
-	Jukebox.play(current_music_slug)
+	Jukebox.play_song(current_music_slug)
 
 
 # Override set_active to prevent this button from being activated
