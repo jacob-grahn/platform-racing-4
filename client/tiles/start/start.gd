@@ -35,7 +35,7 @@ static func get_next_start_option(layers: Node2D) -> Dictionary:
 		return start_option
 	else:
 		return {
-			"layer_name": layers.get_target_layer(),
+			"layer_name": layers.get_target_block_layer(),
 			"coords": Vector2i(0, 0),
 			"tile_map_layer": null,
 		}
