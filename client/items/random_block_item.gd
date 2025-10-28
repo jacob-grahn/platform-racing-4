@@ -32,7 +32,7 @@ func _set_tile_id(new_tile_id: int) -> void:
 
 func activate_item():
 	using = true
-	var layer = Game.get_target_layer_node()
+	var layer = Game.get_target_block_layer_node()
 	var tile_map_layer: TileMapLayer = layer.tile_map_layer
 	var global_position = to_global(Vector2(0, 0))
 	var tile_map_layer_position = tile_map_layer.to_local(global_position)

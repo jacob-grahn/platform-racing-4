@@ -4,10 +4,7 @@
 [ext_resource type="Script" uid="uid://lccadlpm7bin" path="res://items/speed_burst_item.gd" id="1_k2kuu"]
 
 [node name="SpeedBurstItem" type="Node2D"]
-position = Vector2(-1, 0)
 script = ExtResource("1_k2kuu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(45, 15)
-scale = Vector2(1.375, 1.375)
 texture = ExtResource("1_5vik6")

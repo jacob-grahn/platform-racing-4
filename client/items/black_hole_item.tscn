@@ -7,6 +7,5 @@
 script = ExtResource("1_w82ww")
 
 [node name="BlackHoleItem" type="Sprite2D" parent="."]
-position = Vector2(45, 15)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_dgttc")

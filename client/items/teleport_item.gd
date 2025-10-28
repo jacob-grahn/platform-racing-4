@@ -1,36 +1,22 @@
-extends Node2D
+extends Item
 class_name TeleportItem
 
-var using: bool = false
-var remove: bool = false
-var boost = Vector2(0, 0)
-var uses: int = 1
-var character: Character
 
-func _physics_process(delta):
-	check_if_used()
-
-func _ready():
-	pass
-
-func check_if_used():
-	if uses < 1:
-		remove = true
+func _init_item():
+	uses = GameConfig.get_value("uses_teleport")
 
 # basic teleporting works but there is no detection-
 # to stop you from teleporting into a wall.
-
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
 		uses -= 1
-		if character.display.scale.x > 0:
+		if character.movement.facing > 0:
 			character.position.x += 512
 		else:
 			character.position.x -= 512
+		Jukebox.play_sound("teleport")
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+
+func _remove_item():
+	pass

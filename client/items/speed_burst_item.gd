@@ -1,60 +1,40 @@
-extends Node2D
+extends Item
 class_name SpeedBurstItem
 
-var character: Character
-var using: bool = false
-var remove: bool = false
-var timer: float = 0.0
-var speed: float = 0.0
-var boost = Vector2(0, 0)
+var speedburst_timer = Timer.new()
 
 
-func _ready():
-	timer = GameConfig.get_value("speed_burst_duration")
+func _ready() -> void:
+	speedburst_timer.connect("timeout", _speedburst_timeout)
+	speedburst_timer.process_callback = 0
+	speedburst_timer.one_shot = true
 
 
-func _physics_process(delta):
-	check_if_used()
-	# method of applying speed burst to player is-
-	# absolutely sloppy at the moment. does not-
-	# account for super jumping and doesn't cap.
-	var control_axis: float = Input.get_axis("left", "right")
-	if using:
-		timer -= delta
-	else:
-		boost = Vector2(0, 0)
+func _init_item():
+	uses = GameConfig.get_value("uses_speed_burst")
 
 
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
 		character.speed_particles.emitting = true
 		character.movement.speedburst_boost = GameConfig.get_value("speed_burst_multiplier")
+		speedburst_timer.start(GameConfig.get_value("speed_burst_duration"))
+		Jukebox.play_sound("speedup")
 
 
-func check_if_used():
-	if timer > 0:
-		remove = false
-	else:
+func _speedburst_timeout():
+	using = false
+	if character:
 		character.speed_particles.emitting = false
-		character.movement.speedburst_boost = 1
-		remove = true
+		character.movement.speedburst_boost = 1.0
+	uses -= 1
+	Jukebox.play_sound("slowdown")
 
 
-func get_force(delta: float):
+func _remove_item():
+	if character:
+		character.speed_particles.emitting = false
+		character.movement.speedburst_boost = 1.0
 	if using:
-		return boost
-	else:
-		return Vector2(0, 0)
-
-
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
-
-
-func _exit_tree():
-	character.speed_particles.emitting = false
-	character.movement.speedburst_boost = 1
+		Jukebox.play_sound("slowdown")

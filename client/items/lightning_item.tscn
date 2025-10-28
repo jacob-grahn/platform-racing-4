@@ -7,6 +7,4 @@
 script = ExtResource("1_1jbbl")
 
 [node name="LightningItem" type="Sprite2D" parent="."]
-position = Vector2(45, 10)
-scale = Vector2(1.25, 1.25)
 texture = ExtResource("1_1f1oy")

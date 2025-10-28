@@ -9,9 +9,9 @@ script = ExtResource("1_6gcto")
 [node name="VisualAid" type="Sprite2D" parent="."]
 self_modulate = Color(0.623529, 1, 0.623529, 0.498039)
 position = Vector2(50, 15)
+scale = Vector2(2.222, 2.222)
 texture = ExtResource("1_jisdh")
 
 [node name="PortableMineItem" type="Sprite2D" parent="."]
 position = Vector2(50, 15)
-scale = Vector2(0.45, 0.45)
 texture = ExtResource("1_jisdh")

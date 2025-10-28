@@ -1,34 +1,18 @@
-extends Node2D
+extends Item
 class_name SuperJumpItem
 
-var character: Character
-var using: bool = false
-var remove: bool = false
-var boost = Vector2(0, 0)
-var uses: int = 1
 
-
-func _physics_process(delta):
-	check_if_used()
-
-
-func _ready():
-	pass
-
-
-func check_if_used():
-	if uses < 1:
-		remove = true
+func _init_item():
+	uses = GameConfig.get_value("uses_super_jump")
 
 
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
 		character.velocity.y -= 5000
+		Jukebox.play_sound("superjump")
 		uses -= 1
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+
+func _remove_item():
+	pass

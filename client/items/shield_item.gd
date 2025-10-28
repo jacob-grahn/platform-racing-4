@@ -1,48 +1,38 @@
-extends Node2D
+extends Item
 class_name ShieldItem
 
-# @onready var shield = get_node("../../../Shield")
-@onready var Shield = $Shield
-var character: Character
-var using: bool = false
-var remove: bool = false
-var timer: float = 0
-var uses: int = 1
+@onready var shield_sprite = $Shield
+var shield_timer = Timer.new()
 
 
-func _ready():
-	timer = GameConfig.get_value("shield_duration")
-	Shield.visible = false
+func _ready() -> void:
+	shield_timer.connect("timeout", _shield_timeout)
+	shield_timer.process_callback = 0
+	shield_timer.one_shot = true
+
+
+func _init_item() -> void:
+	uses = GameConfig.get_value("uses_shield")
+	shield_sprite.visible = false
+
 	
-	
-func _physics_process(delta):
-	check_if_used()
-	if using:
-		timer -= delta
-
-
-func check_if_used():
-	if timer > 0:
-		remove = false
-	else:
-		character.shielded = false
-		uses - 1
-		remove = true
-
-
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
-		Shield.visible = true
+		shield_sprite.visible = true
 		character.shielded = true
+		shield_timer.start(GameConfig.get_value("shield_duration"))
+		Jukebox.play_sound("shield1")
 
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+func _shield_timeout():
+	shield_sprite.visible = false
+	if character:
+		character.shielded = false
+	uses -= 1
 
 
-func _exit_tree():
-	character.shielded = false
+func _remove_item():
+	shield_sprite.visible = false
+	if character:
+		character.shielded = false

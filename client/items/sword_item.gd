@@ -1,73 +1,50 @@
-extends Node2D
+extends Item
 class_name SwordItem
 
 @onready var swordslash = load("res://item_effects/sword_slash.tscn")
-@onready var timer = $CooldownTimer
-@onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-var character: Character
-var spawn: Node2D
-var using: bool = false
-var remove: bool = false
-var boost = Vector2(0, 0)
-var uses: int = 3
+var animation_timer = Timer.new()
 
-
-func _physics_process(delta):
-	_update_animation()
 
 func _ready():
-	timer.connect("timeout", _on_timeout)
-	animtimer.connect("timeout", _end_animation)
-	
-func _update_animation():
-	if animtimer.time_left > 0:
-		animations.play("swing")
-	else:
-		animations.play("idle")
+	animation_timer.connect("timeout", _play_idle_animation)
+	animation_timer.process_callback = 0
+	animation_timer.one_shot = true
 
-func _end_animation():
+
+func _init_item():
+	uses = GameConfig.get_value("uses_sword")
+
+
+func _play_idle_animation():
 	animations.play("idle")
 
-# no hitboxes/collison for sword slash yet.
 
+# no hitboxes/collison for sword slash yet.
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
 		animations.stop()
-		timer.start()
-		animtimer.start()
+		animations.play("swing")
+		animation_timer.start(animations.get_current_animation_length())
+		reload_timer.start(0.5)
 		slash()
 		if character.display.scale.x < 0:
 			character.velocity.x -= 1000
 		else:
 			character.velocity.x += 1000
 		uses -= 1
-	if uses > 0:
-		remove = false
-	else:
-		remove = true
 
-func use(delta: float):
-	if !using and timer.time_left < 1:
-		activate_item()
 
 func slash():
 	var slash = swordslash.instantiate()
 	slash.dir = 0
 	slash.spawnpos = global_position
 	slash.spawnrot = 0
-	slash.scale.x = character.display.scale.x
-	if !spawn:
-		var layer = Game.get_target_layer_node()
-		spawn = layer.get_node("Projectiles")
+	slash.scale.x = character.movement.facing
 	spawn.add_child.call_deferred(slash)
 
-func _on_timeout():
-	using = false
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+func _remove_item():
+	animation_timer.stop()
+	_play_idle_animation()

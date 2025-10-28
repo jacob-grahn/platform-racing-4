@@ -7,6 +7,4 @@
 script = ExtResource("1_7le66")
 
 [node name="TeleportItem" type="Sprite2D" parent="."]
-position = Vector2(45, 15)
-scale = Vector2(1.375, 1.375)
 texture = ExtResource("1_devbc")

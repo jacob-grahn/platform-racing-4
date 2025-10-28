@@ -2,27 +2,25 @@ extends PortableBlockItem
 class_name PortableMineItem
 
 
-func _physics_process(delta):
-	set_block_position()
-	check_if_used()
-
 func _ready():
 	PortableBlock = load("res://item_effects/portable_mine.tscn")
 	tile_id = 45
-	set_block_position()
 
-func check_if_used():
-	if uses < 1:
-		remove = true
+
+func _init_item():
+	uses = GameConfig.get_value("uses_portable_mine")
+
+
+func _process(delta: float) -> void:
+	if character:
+		set_block_position()
+
 
 func activate_item():
-	if !using and can_place:
+	if character and !using and can_place:
 		using = true
 		use_block()
 		uses -= 1
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+func _remove_item():
+	pass

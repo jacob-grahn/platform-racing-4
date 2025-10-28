@@ -174,27 +174,17 @@ script = ExtResource("1_nk4ot")
 modulate = Color(0.87451, 0.87451, 0.87451, 1)
 position = Vector2(-30, 6)
 rotation = 0.366519
-scale = Vector2(0.7, 0.7)
 texture = ExtResource("1_1u520")
 
 [node name="AngelWing1" type="Node2D" parent="."]
 
 [node name="AngelWing1" type="Sprite2D" parent="AngelWing1"]
 position = Vector2(-37, 21)
-scale = Vector2(0.8, 0.8)
 texture = ExtResource("1_1u520")
-
-[node name="CooldownTimer" type="Timer" parent="."]
-process_callback = 0
-one_shot = true
-
-[node name="AnimationTimer" type="Timer" parent="."]
-wait_time = 0.833
-one_shot = true
 
 [node name="Animations" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_3nrjy")
+&"": SubResource("AnimationLibrary_3nrjy")
 }
 autoplay = "idle"
 playback_default_blend_time = 0.2

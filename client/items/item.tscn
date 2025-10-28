@@ -1,0 +1,87 @@
+[gd_scene load_steps=16 format=3 uid="uid://b4wwcnkcyxad"]
+
+[ext_resource type="Script" uid="uid://cho1gwvbolta2" path="res://items/item.gd" id="1_ei6uv"]
+[ext_resource type="PackedScene" uid="uid://csnioqb2naahd" path="res://items/angel_wings_item.tscn" id="2_bm25b"]
+[ext_resource type="PackedScene" uid="uid://bsadgdf5bo8pp" path="res://items/black_hole_item.tscn" id="3_11j56"]
+[ext_resource type="PackedScene" uid="uid://d2roqhu1iol58" path="res://items/ice_wave_item.tscn" id="4_mcyis"]
+[ext_resource type="PackedScene" uid="uid://2qselvbah70w" path="res://items/jetpack_item.tscn" id="5_3wyiq"]
+[ext_resource type="PackedScene" uid="uid://me7so7q3ljtk" path="res://items/laser_gun_item.tscn" id="6_f6dft"]
+[ext_resource type="PackedScene" uid="uid://dvcap6rqvyb66" path="res://items/lightning_item.tscn" id="7_jp8iv"]
+[ext_resource type="PackedScene" uid="uid://dv3sujajqjjig" path="res://items/portable_block_item.tscn" id="8_2malv"]
+[ext_resource type="PackedScene" uid="uid://b75kfhur51xbc" path="res://items/portable_mine_item.tscn" id="9_08x1c"]
+[ext_resource type="PackedScene" uid="uid://ob60v2rmlyxm" path="res://items/rocket_launcher_item.tscn" id="10_08o4e"]
+[ext_resource type="PackedScene" uid="uid://weat8ojkijk0" path="res://items/shield_item.tscn" id="11_tltwx"]
+[ext_resource type="PackedScene" uid="uid://cnmt3tlufibym" path="res://items/speed_burst_item.tscn" id="12_hgarf"]
+[ext_resource type="PackedScene" uid="uid://bo54jw72qjwc2" path="res://items/super_jump_item.tscn" id="13_luxu8"]
+[ext_resource type="PackedScene" uid="uid://d08ojau48q8ee" path="res://items/sword_item.tscn" id="14_rl1l2"]
+[ext_resource type="PackedScene" uid="uid://cf5qile02la1e" path="res://items/teleport_item.tscn" id="15_wvoki"]
+
+[node name="Item" type="Node2D"]
+script = ExtResource("1_ei6uv")
+
+[node name="AngelWingsItem" parent="." instance=ExtResource("2_bm25b")]
+visible = false
+position = Vector2(-11, -2)
+scale = Vector2(0.7, 0.7)
+
+[node name="BlackHoleItem" parent="." instance=ExtResource("3_11j56")]
+visible = false
+position = Vector2(45, 15)
+scale = Vector2(1.2, 1.2)
+
+[node name="IceWaveItem" parent="." instance=ExtResource("4_mcyis")]
+visible = false
+position = Vector2(50, 5)
+scale = Vector2(0.625, 0.625)
+
+[node name="JetpackItem" parent="." instance=ExtResource("5_3wyiq")]
+visible = false
+position = Vector2(-20, 42)
+
+[node name="LaserGunItem" parent="." instance=ExtResource("6_f6dft")]
+visible = false
+position = Vector2(42, 12)
+scale = Vector2(0.625, 0.625)
+
+[node name="LightningItem" parent="." instance=ExtResource("7_jp8iv")]
+visible = false
+position = Vector2(45, 10)
+scale = Vector2(1.25, 1.25)
+
+[node name="PortableBlockItem" parent="." instance=ExtResource("8_2malv")]
+visible = false
+position = Vector2(50, 15)
+scale = Vector2(0.45, 0.45)
+
+[node name="PortableMineItem" parent="." instance=ExtResource("9_08x1c")]
+visible = false
+position = Vector2(50, 15)
+scale = Vector2(0.45, 0.45)
+
+[node name="RocketLauncherItem" parent="." instance=ExtResource("10_08o4e")]
+visible = false
+position = Vector2(15, 20)
+scale = Vector2(1.25, 1.25)
+
+[node name="ShieldItem" parent="." instance=ExtResource("11_tltwx")]
+visible = false
+position = Vector2(45, 15)
+scale = Vector2(1.375, 1.375)
+
+[node name="SpeedBurstItem" parent="." instance=ExtResource("12_hgarf")]
+visible = false
+position = Vector2(45, 15)
+scale = Vector2(1.375, 1.375)
+
+[node name="SuperJumpItem" parent="." instance=ExtResource("13_luxu8")]
+visible = false
+position = Vector2(45, 15)
+scale = Vector2(1.375, 1.375)
+
+[node name="SwordItem" parent="." instance=ExtResource("14_rl1l2")]
+visible = false
+
+[node name="TeleportItem" parent="." instance=ExtResource("15_wvoki")]
+visible = false
+position = Vector2(45, 15)
+scale = Vector2(1.375, 1.375)

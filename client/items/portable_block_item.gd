@@ -1,14 +1,9 @@
-extends Node2D
+extends Item
 class_name PortableBlockItem
 
 @onready var VisualAid = $VisualAid
-var character: Character
-var using: bool = false
-var remove: bool = false
-var uses: int = 1
 var tile_id = 0
 var tile_map_layer: TileMapLayer
-var spawn: Node2D
 var spawn_position: Vector2
 var tile_map_layer_position: Vector2
 var coords: Vector2i
@@ -18,21 +13,23 @@ var can_place: bool
 var PortableBlock := load("res://item_effects/portable_block.tscn")
 
 
-func _physics_process(delta):
-	set_block_position()
-	check_if_used()
-
-
 func _ready():
 	tile_id = 44
-	set_block_position()
+
+
+func _init_item():
+	uses = GameConfig.get_value("uses_portable_block")
+
+
+func _process(delta: float) -> void:
+	if character:
+		set_block_position()
 
 
 func set_block_position():
 	can_place = false
-	var layer = Game.get_target_layer_node()
+	var layer = Game.get_target_block_layer_node()
 	tile_map_layer = layer.tile_map_layer
-	spawn = layer.get_node("Projectiles")
 	spawn_position = to_local(Vector2(0, 0))
 	tile_map_layer_position = tile_map_layer.to_local(character.global_position)
 	coords = Vector2i(tile_map_layer_position.floor()) / Settings.tile_size
@@ -62,13 +59,8 @@ func set_block_position():
 			VisualAid.self_modulate = Color(1, 0.625, 0.625, 0.5)
 
 
-func check_if_used():
-	if uses < 1:
-		remove = true
-
-
 func activate_item():
-	if !using and can_place:
+	if character and !using and can_place:
 		using = true
 		use_block()
 		uses -= 1
@@ -89,8 +81,5 @@ func use_block():
 	spawn.add_child.call_deferred(block)
 
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+func _remove_item():
+	pass

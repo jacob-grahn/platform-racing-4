@@ -99,15 +99,12 @@ animations = [{
 script = ExtResource("1_2kpgp")
 
 [node name="ShieldItem" type="Sprite2D" parent="."]
-position = Vector2(45, 15)
-scale = Vector2(1.375, 1.375)
 texture = ExtResource("1_wr3rl")
 
 [node name="Shield" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(8, 11)
-scale = Vector2(2, 2)
+position = Vector2(-24, 6)
+scale = Vector2(1.454, 1.454)
 sprite_frames = SubResource("SpriteFrames_f1lnx")
 autoplay = "default"
-frame = 2
-frame_progress = 0.850844
+frame = 13
+frame_progress = 0.32731

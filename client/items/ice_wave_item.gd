@@ -1,49 +1,32 @@
-extends Node2D
+extends Item
 class_name IceWaveItem
 
 @onready var projectile = load("res://item_effects/ice_wave.tscn")
-@onready var timer = $CooldownTimer
-@onready var animtimer = $AnimationTimer
 @onready var animations: AnimationPlayer = $Animations
-var character: Character
-var spawn: Node2D
-var using: bool = false
-var remove: bool = false
-var uses: int = 3
-
-
-func _physics_process(delta):
-	check_if_used()
-	_update_animation()
+var animation_timer = Timer.new()
 
 
 func _ready():
-	timer.connect("timeout", _on_timeout)
-	animtimer.connect("timeout", _end_animation)
+	animation_timer.connect("timeout", _play_idle_animation)
+	animation_timer.process_callback = 0
+	animation_timer.one_shot = true
 
 
-func _update_animation():
-	if animtimer.time_left > 0:
-		animations.play("shoot")
-	else:
-		animations.play("idle")
+func _init_item():
+	uses = GameConfig.get_value("uses_ice_wave")
 
 
-func _end_animation():
+func _play_idle_animation():
 	animations.play("idle")
 
 
-func check_if_used():
-	if uses < 1:
-		remove = true
-
-
 func activate_item():
-	if !using:
+	if character and !using:
 		using = true
 		animations.stop()
-		timer.start()
-		animtimer.start()
+		animations.play("shoot")
+		animation_timer.start(animations.get_current_animation_length())
+		reload_timer.start(1.777)
 		shoot()
 		uses -= 1
 
@@ -55,35 +38,27 @@ func activate_item():
 # acceleration could be reserved for the ice wave?
 
 func shoot():
-	if !spawn:
-		var layer = Game.get_target_layer_node()
-		spawn = layer.get_node("Projectiles")
 	var icewave1 = projectile.instantiate()
 	spawn.add_child.call_deferred(icewave1)
 	icewave1.dir = 112.5
 	icewave1.spawnpos = global_position
 	icewave1.spawnrot = 112.5
-	icewave1.scale.x = character.display.scale.x
+	icewave1.scale.x = character.movement.facing
 	var icewave2 = projectile.instantiate()
 	spawn.add_child.call_deferred(icewave2)
 	icewave2.dir = 0
 	icewave2.spawnpos = global_position
 	icewave2.spawnrot = 0
-	icewave2.scale.x = character.display.scale.x
+	icewave2.scale.x = character.movement.facing
 	var icewave3 = projectile.instantiate()
 	spawn.add_child.call_deferred(icewave3)
 	icewave3.dir = -112.5
 	icewave3.spawnpos = global_position
 	icewave3.spawnrot = -112.5
-	icewave3.scale.x = character.display.scale.x
-	
-	
-func _on_timeout():
-	using = false
+	icewave3.scale.x = character.movement.facing
+	Jukebox.play_sound("icewave")
 
 
-func still_have_item():
-	if !remove:
-		return true
-	else:
-		return false
+func _remove_item():
+	animation_timer.stop()
+	_play_idle_animation()
