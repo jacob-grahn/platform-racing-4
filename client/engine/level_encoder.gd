@@ -7,25 +7,35 @@ func encode(layers: Node2D, bg: Node2D) -> Dictionary:
 	var level = {
 		"title": LevelEditor.current_level_name,
 		"description": LevelEditor.current_level_description,
-		"layers": [],
+		"block_layers": [],
+		"art_layers": [],
 		"properties": {
 			"background": bg.id,
-			"music": Jukebox.song_id,
+			"fadeColor": bg.fade_color,
+			"music": bg.song_id,
 			"items": [],
 			"game_config_overrides": GameConfig.export_overrides()
 		}
 	}
-	for group_layer in layers.get_children():
-		if group_layer is Layer:
+	for group_layer in layers.block_layers.get_children():
+		if group_layer is Layer or group_layer is BlockLayer:
 			var tile_layer = {
 				"name": group_layer.name,
 				"chunks": encode_chunks(group_layer.get_node("TileMapLayer")),
+				"tile_map_rotation": group_layer.tile_map_rotation,
+				"z_axis": group_layer.z_axis
+			}
+			level.block_layers.push_back(tile_layer)
+	for group_layer in layers.art_layers.get_children():
+		if group_layer is Layer or group_layer is ArtLayer:
+			var tile_layer = {
+				"name": group_layer.name,
 				"lines": encode_lines(group_layer.get_node("Lines")),
-				"usertextboxobjects": encode_usertext(group_layer.get_node("UserTextboxes")),
-				"rotation": group_layer.get_node("TileMapLayer").rotation_degrees,
+				"text": encode_texts(group_layer.get_node("Texts")),
+				"rotation": group_layer.get_node("Lines").rotation_degrees,
 				"depth": group_layer.depth
 			}
-			level.layers.push_back(tile_layer)
+			level.art_layers.push_back(tile_layer)
 	return level
 
 
@@ -79,18 +89,18 @@ func encode_lines(node: Node2D) -> Array:
 	return lines
 
 
-func encode_usertext(node: Node2D) -> Array:
-	var usertextboxobjects = []
-	for usertextbox: Control in node.get_children():
-		var usertextboxobject = {
-			"x": usertextbox.position.x,
-			"y": usertextbox.position.y,
-			"usertext": usertextbox.get_node("UserText").text,
-			"font": usertextbox.usertext_font,
-			"font_size": usertextbox.get_node("UserText").get("theme_override_font_sizes/font_size"),
-			"width": usertextbox.get_node("UserText").scale.x,
-			"height": usertextbox.get_node("UserText").scale.y,
-			"text_rotation": usertextbox.rotation
+func encode_texts(node: Node2D) -> Array:
+	var textboxobjects = []
+	for textbox: Control in node.get_children():
+		var textboxobject = {
+			"x": textbox.position.x,
+			"y": textbox.position.y,
+			"text": textbox.get_node("EditText").text,
+			"font": textbox.text_font,
+			"font_size": textbox.get_node("EditText").get("theme_override_font_sizes/font_size"),
+			"width": textbox.get_node("EditText").scale.x,
+			"height": textbox.get_node("EditText").scale.y,
+			"text_rotation": textbox.rotation
 		}
-		usertextboxobjects.push_back(usertextboxobject)
-	return usertextboxobjects
+		textboxobjects.push_back(textboxobject)
+	return textboxobjects

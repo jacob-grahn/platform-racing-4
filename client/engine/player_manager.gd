@@ -11,7 +11,7 @@ func get_character() -> CharacterBody2D:
 
 
 func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
-	var start_option = Start.get_next_start_option(layers)
+	var start_option = Start.get_next_start_option(layers.block_layers)
 	if !start_option:
 		return null
 	character = CHARACTER.instantiate()
@@ -19,7 +19,7 @@ func spawn_player(layers: Layers, tiles: Tiles) -> CharacterBody2D:
 	if Game.game:
 		Game.game.set_current_player_layer(start_option.layer_name)
 	
-	var layer = layers.get_node(start_option.layer_name)
+	var layer = layers.block_layers.get_node(start_option.layer_name)
 	if !layer:
 		return null
 	var player_holder = layer.get_node("Players")
