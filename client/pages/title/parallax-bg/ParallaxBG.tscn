@@ -5,13 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://cgfijobglbq8b" path="res://pages/title/parallax-bg/hay-4.png" id="2_87dh1"]
 [ext_resource type="Texture2D" uid="uid://drdjkcu8ihbyr" path="res://pages/title/parallax-bg/hay-3.png" id="3_0cm3d"]
 [ext_resource type="Texture2D" uid="uid://dyq3v85g8rymf" path="res://pages/title/parallax-bg/hay-2.png" id="4_ctsxs"]
-[ext_resource type="Texture2D" uid="uid://b4rdmr4kk2v8m" path="res://pages/title/parallax-bg/hay-1.png" id="5_7bs72"]
+[ext_resource type="Texture2D" uid="uid://dtunglydt6d7c" path="res://pages/title/parallax-bg/hay-1.png" id="5_7bs72"]
 
 [node name="ParallaxBg" type="Node2D"]
 script = ExtResource("1_8alvo")
 
 [node name="Hay5" type="Node2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(-125, -20)
 
 [node name="Hay-5-1" type="Sprite2D" parent="Hay5"]
 texture = ExtResource("1_b6g57")
