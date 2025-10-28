@@ -11,10 +11,6 @@ var sprite_initialized := false
 func _ready() -> void:
 	super._ready()
 	
-	# Default colors for block buttons
-	active_colors = EditorMenu.COLORS.blocks.active
-	inactive_colors = EditorMenu.COLORS.blocks.inactive
-	
 	# Create a sprite for region support instead of using TextureRect
 	texture_rect.visible = false
 	
@@ -56,8 +52,8 @@ func _render() -> void:
 	super._render()
 	
 	# Only update sprite modulate if it's initialized
-	if sprite_initialized:
-		if active:
-			region_sprite.modulate = active_colors.icon
-		else:
-			region_sprite.modulate = inactive_colors.icon
+	#if sprite_initialized:
+		#if active:
+			# region_sprite.modulate = active_colors.icon
+		#else:
+			# region_sprite.modulate = inactive_colors.icon

@@ -20,8 +20,6 @@ var current_bg_id = ""
 var tool_buttons = []
 var active_button = null
 var zoom_controller: ZoomController = ZoomController.new()
-var active_colors = EditorMenu.COLORS.tools.active
-var inactive_colors = EditorMenu.COLORS.tools.inactive
 
 @onready var editor_events: Node2D = get_node("/root/Main/LEVEL_EDITOR/EditorEvents")
 
@@ -43,7 +41,7 @@ func _ready():
 		var button = ICON_BUTTON.instantiate()
 		add_slider(button)
 		var texture = load("res://mega_menu/icons/" + config.icon + ".png")
-		button.init(texture, active_colors, inactive_colors)
+		#button.init(texture, active_colors, inactive_colors)
 		button.texture_button.pressed.connect(_on_tool_pressed.bind(config.label.to_lower(), button))
 		tool_buttons.append(button)
 	

@@ -5,98 +5,31 @@ signal control_event
 signal level_event
 
 @onready var level_options_menu = $LevelOptionsMenu
-
-const COLORS = {
-	"meta": {
-		"active": {
-			"bg": Color("2a9fd6"),
-			"icon": Color("ffffff")
-		},
-		"inactive": {
-			"bg": Color("ffffff"),
-			"icon": Color("2a9fd6")
-		}
-	},
-	"tools": {
-		"active": {
-			"bg": Color("2a9fd6"),
-			"icon": Color("ffffff")
-		},
-		"inactive": {
-			"bg": Color("ffffff"),
-			"icon": Color("2a9fd6")
-		}
-	},
-	"blocks": {
-		"active": {
-			"bg": Color("2a9fd6"),
-			"icon": Color("ffffff")
-		},
-		"inactive": {
-			"bg": Color("333333"),
-			"icon": Color("ffffff")
-		}
-	}
-}
-
-#@onready var level_options_row: Control = $LevelOptionsMenu
-#@onready var background_row: Node2D = $BackgroundRow
-#@onready var draw_row: Node2D = $DrawRow
+var layers: Node2D
+var editor_events: EditorEvents
 
 
 func _ready():
-	#background_row.visible = false
-	#draw_row.visible = false
-	#add_row(level_options_row)
-	#add_row(background_row)
-	#add_row(draw_row)
 	get_viewport().size_changed.connect(_on_size_changed)
 	level_options_menu.control_event.connect(_on_control_event)
-	#_on_size_changed()
+	level_options_menu.level_event.connect(_on_level_event)
+	_on_size_changed()
+
+
+func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
+	layers = new_layers
+	editor_events = new_editor_events
+	level_options_menu.init(layers, editor_events)
+
 
 func set_editor_mode(current_editor):
 	level_options_menu.editor = current_editor
 
-func add_row(row: Node) -> void:
-	var window_size = get_viewport().get_visible_rect().size
-	row.max_width = window_size.x
-	if row.has_signal("control_event"):
-		row.control_event.connect(_on_control_event)
-	if row.has_signal("level_event"):
-		row.level_event.connect(_on_level_event)
-	_position_rows()
-
-
-func remove_row(row) -> void:
-	remove_child(row)
-	_on_size_changed()
-
-
-func get_width() -> float:
-	var width = 0
-	for row in get_children():
-		width += row.get_dimensions().x
-	return width
-
-
-func get_height() -> float:
-	var height = 0
-	for row in get_children():
-		height += row.get_dimensions().y
-	return height
-
-
-func _position_rows() -> void:
-	var y = 0
-	for row in get_children():
-		row.position.y = y
-		y += row.get_dimensions().y
-	_on_size_changed()
-
 
 func _on_size_changed():
 	var window_size = get_viewport().get_visible_rect().size
-	position = Vector2(window_size.x - get_width(), 0)
+	if window_size.x > 0 and window_size.y > 0:
+		position = Vector2(0, 0)
 
 
 func _on_control_event(event: Dictionary) -> void:
@@ -104,8 +37,8 @@ func _on_control_event(event: Dictionary) -> void:
 	control_event.emit(event)
 	
 	# Handle tool selection visibility
-	if event.get("type") == EditorEvents.SELECT_TOOL:
-		var tool_id = event.get("tool")
+	#if event.get("type") == EditorEvents.SELECT_TOOL:
+		#var tool_id = event.get("tool")
 		#background_row.visible = tool_id == "bg"
 		#draw_row.visible = tool_id == "draw"
 
