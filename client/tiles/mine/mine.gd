@@ -21,3 +21,4 @@ func explode(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	effect.position = Vector2(coords * Settings.tile_size) + Vector2(Settings.tile_size_half)
 	tile_map_layer.add_child(effect)
 	player.hitstun(2.5)
+	Jukebox.play_sound("explosion")
