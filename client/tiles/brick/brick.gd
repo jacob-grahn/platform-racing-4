@@ -10,3 +10,4 @@ func init():
 
 func shatter(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i):
 	TileEffects.shatter(tile_map_layer, coords, 10)
+	Jukebox.play_sound("shatterblock")
