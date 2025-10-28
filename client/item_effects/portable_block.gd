@@ -12,6 +12,7 @@ func _ready():
 	animtimer.connect("timeout", _place_block)
 	animtimer.start()
 	animations.play("spawn")
+	Jukebox.play_sound("mineappear")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

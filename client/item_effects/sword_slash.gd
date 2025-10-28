@@ -17,6 +17,7 @@ func _ready():
 	velx = scale.x
 	life = GameConfig.get_value("sword_slash_lifetime")
 	animations.play("slash")
+	Jukebox.play_sound("swish")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

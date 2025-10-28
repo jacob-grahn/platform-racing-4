@@ -15,6 +15,7 @@ func _ready():
 	global_rotation = spawnrot
 	velx = scale.x
 	life = GameConfig.get_value("rocket_lifetime")
+	Jukebox.play_sound("misslelauncher")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

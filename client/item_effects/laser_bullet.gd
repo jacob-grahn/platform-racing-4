@@ -7,6 +7,7 @@ var dir: float
 var spawnpos: Vector2
 var spawnrot: float
 var life: float = 0.0
+var speed = GameConfig.get_value("laser_bullet_speed")
 var fromplayer: CharacterBody2D
 
 # Called when the node enters the scene tree for the first time.
@@ -24,9 +25,6 @@ func check_collision() -> bool:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var speed = GameConfig.get_value("laser_bullet_speed")
-	if scale.x < 0:
-		speed *= -1
 	velocity = Vector2(speed, 0).rotated(dir)
 	move_and_slide()
 	var hit_something = check_collision()
