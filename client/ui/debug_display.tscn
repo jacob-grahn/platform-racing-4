@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://c2bs3b11phh58"]
+
+[node name="DebugDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="DebugTextContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="DebugTextContainer"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 558.0
+theme_override_font_sizes/normal_font_size = 18
+text = "x: 0
+y: 0
+vel_x: 0
+vel_y: 0
+prev_vel_x: 0
+prev_vel_y: 0
+last_vel_x: 0
+last_vel_y: 0
+size_x: 0
+size_y: 0
+last_bumped_block: {}
+speed: 0
+accel: 0
+jump: 0
+skill: 0
+character_hitbox_mode: \"\"
+gravity: 0
+super_jump_state: \"\"
+frozen: false
+shielded: false
+finished: false
+hurt: false
+current_anim: \"\"
+touched_blocks: {}"

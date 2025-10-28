@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://doa3poitlnl3j"]
+
+[ext_resource type="Script" uid="uid://b1mbnx74gehy1" path="res://ui/colorbutton.gd" id="1_fxmhq"]
+[ext_resource type="Texture2D" uid="uid://7eu75o4bb8an" path="res://mega_menu/icons/colorpicker.png" id="1_o7ufp"]
+[ext_resource type="Texture2D" uid="uid://cetk16320d7uy" path="res://mega_menu/icons/colorpickercolorin.png" id="2_3lv41"]
+[ext_resource type="PackedScene" uid="uid://cunqbock6101b" path="res://ui/colorpicker.tscn" id="4_7bqrn"]
+
+[node name="ColorButton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 48.0
+offset_bottom = 48.0
+script = ExtResource("1_fxmhq")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+texture_normal = ExtResource("1_o7ufp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Colorin" type="TextureRect" parent="TextureButton"]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = ExtResource("2_3lv41")
+expand_mode = 1
+
+[node name="ColorPickerPopup" type="Popup" parent="."]
+transparent_bg = true
+size = Vector2i(430, 452)
+transparent = true
+
+[node name="ColorPicker" parent="ColorPickerPopup" instance=ExtResource("4_7bqrn")]

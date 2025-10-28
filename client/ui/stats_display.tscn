@@ -33,6 +33,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 0
 offset_left = 65.0
 offset_top = 5.0
 offset_right = 73.0
@@ -52,6 +53,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VSeparator2" type="VSeparator" parent="."]
+layout_mode = 0
 offset_left = 130.0
 offset_top = 5.0
 offset_right = 138.0
@@ -71,6 +73,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VSeparator3" type="VSeparator" parent="."]
+layout_mode = 0
 offset_left = 195.0
 offset_top = 5.0
 offset_right = 203.0

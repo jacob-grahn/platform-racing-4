@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7le1iohdrfv2"]
+
+[ext_resource type="Script" uid="uid://cndtiq8ojxjey" path="res://ui/gotopage.gd" id="1_4hmmm"]
+
+[node name="GoToPage" type="Control"]
+layout_mode = 3
+anchor_right = 0.18
+anchor_bottom = 0.116
+offset_right = -0.600006
+offset_bottom = -0.280006
+script = ExtResource("1_4hmmm")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GotoPageText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.043
+anchor_top = 0.12
+anchor_right = 0.42
+anchor_bottom = 0.44
+offset_left = 0.165
+offset_right = 0.0999908
+text = "Goto page:"
+vertical_alignment = 1
+
+[node name="TotalPagesText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.71
+anchor_top = 0.12
+anchor_right = 0.957
+anchor_bottom = 0.44
+offset_left = 0.0499878
+offset_right = -0.165009
+text = " / 0000"
+vertical_alignment = 1
+
+[node name="PageNumberLineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.42
+anchor_top = 0.12
+anchor_right = 0.71
+anchor_bottom = 0.44
+offset_left = 0.0999908
+offset_right = 0.0499878
+focus_mode = 1
+text = "1"
+
+[node name="OKButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.56
+anchor_right = 0.638
+anchor_bottom = 0.88
+offset_left = -2.5
+offset_right = -0.110001
+focus_mode = 1
+text = "OK"
+
+[node name="CancelButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.667
+anchor_top = 0.56
+anchor_right = 0.957
+anchor_bottom = 0.88
+offset_left = -0.115021
+offset_right = -0.165009
+focus_mode = 1
+text = "Cancel"

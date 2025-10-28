@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkn6pehivmaka"]
+
+[ext_resource type="Script" uid="uid://0mli4c5x7y74" path="res://ui/slider.gd" id="1_iisc6"]
+
+[node name="Slider" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 240.0
+offset_bottom = 104.0
+script = ExtResource("1_iisc6")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 104.0
+
+[node name="SliderLineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 60.0
+text = "000000"
+max_length = 6
+
+[node name="OKButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 60.0
+text = "OK"
+
+[node name="Slider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 70.0
+offset_right = 220.0
+offset_bottom = 90.0

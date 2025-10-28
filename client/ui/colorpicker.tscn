@@ -1,0 +1,160 @@
+[gd_scene load_steps=3 format=3 uid="uid://cunqbock6101b"]
+
+[ext_resource type="Script" uid="uid://dp6kxi17feahb" path="res://ui/colorpicker.gd" id="1_redu0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rq6pw"]
+
+[node name="ColorPicker" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 420.0
+offset_bottom = 442.0
+script = ExtResource("1_redu0")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 420.0
+offset_bottom = 442.0
+
+[node name="ColorOptions" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 410.0
+offset_bottom = 220.0
+
+[node name="HSVRectanglePanel" type="Panel" parent="ColorOptions"]
+layout_mode = 0
+offset_top = 42.0
+offset_right = 148.0
+offset_bottom = 172.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rq6pw")
+
+[node name="RGBSlidersPanel" type="Panel" parent="ColorOptions"]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 42.0
+offset_right = 400.0
+offset_bottom = 172.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rq6pw")
+
+[node name="HSVRectangle" type="ColorPicker" parent="ColorOptions"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 44.0
+offset_right = 290.0
+offset_bottom = 298.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/margin = -1
+edit_alpha = false
+deferred_mode = true
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="RGBSliders" type="ColorPicker" parent="ColorOptions"]
+layout_mode = 0
+offset_left = 164.0
+offset_top = 44.0
+offset_right = 470.0
+offset_bottom = 212.0
+scale = Vector2(0.75, 0.75)
+theme_override_constants/margin = 1
+alignment = 1
+edit_alpha = false
+picker_shape = 4
+can_add_swatches = false
+color_modes_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="HexCode" type="LineEdit" parent="ColorOptions"]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 197.0
+offset_bottom = 42.0
+scale = Vector2(0.75, 0.75)
+text = "0XDDDDDD"
+max_length = 8
+emoji_menu_enabled = false
+
+[node name="OKButton" type="Button" parent="ColorOptions"]
+layout_mode = 0
+offset_left = 158.0
+offset_top = 2.0
+offset_right = 274.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 16
+text = "OK"
+
+[node name="CancelButton" type="Button" parent="ColorOptions"]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 2.0
+offset_right = 400.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 16
+text = "Cancel"
+
+[node name="PreviousSelectedRect" type="Control" parent="."]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 192.0
+offset_right = 30.0
+offset_bottom = 212.0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="PreviousSelectedRect"]
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+border_color = Color(1, 1, 1, 1)
+editor_only = false
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="PreviousSelectedRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 19.0
+border_color = Color(0, 0, 0, 1)
+editor_only = false
+
+[node name="CurrentSelectedRect" type="Control" parent="."]
+visible = false
+z_index = 3
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 192.0
+offset_right = 30.0
+offset_bottom = 212.0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CurrentSelectedRect"]
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+border_color = Color(1, 1, 1, 1)
+editor_only = false
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="CurrentSelectedRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 19.0
+offset_bottom = 19.0
+border_color = Color(0, 0, 0, 1)
+editor_only = false
+
+[node name="ColorGrid" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 192.0
+offset_right = 410.0
+offset_bottom = 432.0

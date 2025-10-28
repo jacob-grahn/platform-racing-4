@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://mcscxiumfayq"]
+
+[ext_resource type="Script" uid="uid://cvfwgfsmuaxkq" path="res://ui/navigation.gd" id="1_lyati"]
+[ext_resource type="PackedScene" uid="uid://b7le1iohdrfv2" path="res://ui/gotopage.tscn" id="2_50os1"]
+
+[node name="Navigation" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lyati")
+
+[node name="Holder" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="ButtonSolelyForFocus" type="Button" parent="Holder"]
+visible = false
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+disabled = true
+flat = true
+
+[node name="LeftButton" type="Button" parent="Holder"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+offset_right = 48.0
+offset_bottom = 38.0
+focus_mode = 0
+disabled = true
+text = "<"
+
+[node name="NumberedPagesButtons" type="Control" parent="Holder"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 49.0
+offset_right = 49.0
+offset_bottom = 38.0
+
+[node name="GoToPagePopup" type="PopupPanel" parent="Holder"]
+auto_translate_mode = 1
+size = Vector2i(353, 133)
+min_size = Vector2i(353, 133)
+
+[node name="GoToPage" parent="Holder/GoToPagePopup" instance=ExtResource("2_50os1")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 349.0
+offset_bottom = 129.0
+
+[node name="RightButton" type="Button" parent="Holder"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+offset_left = 50.0
+offset_right = 98.0
+offset_bottom = 38.0
+focus_mode = 0
+disabled = true
+text = ">"

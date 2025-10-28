@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://lxvwkg0y2jia"]
+
+[ext_resource type="Script" uid="uid://bmiwdsd07sgu6" path="res://ui/sliderbutton.gd" id="1_yudoa"]
+[ext_resource type="PackedScene" uid="uid://bkn6pehivmaka" path="res://ui/slider.tscn" id="2_68j5k"]
+
+[sub_resource type="Gradient" id="Gradient_nu4fj"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_68j5k"]
+gradient = SubResource("Gradient_nu4fj")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[node name="Sliderbutton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 48.0
+offset_bottom = 48.0
+script = ExtResource("1_yudoa")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_68j5k")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="LabelText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Label"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ValueText" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SliderButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="SliderPopup" type="Popup" parent="."]
+transparent_bg = true
+size = Vector2i(250, 114)
+transparent = true
+
+[node name="Slider" parent="SliderPopup" instance=ExtResource("2_68j5k")]
