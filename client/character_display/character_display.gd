@@ -47,6 +47,10 @@ const ANIMS := [
 @onready var item_holder: Node2D = $ItemHolder
 @onready var animations: AnimationPlayer = $Animations
 
+var played_footstep = false
+
+func _process(delta: float) -> void:
+	played_footstep = false
 
 func set_style(character_config: Dictionary) -> void:
 	# colors
@@ -94,3 +98,14 @@ func play_random() -> void:
 
 func set_speed_scale(num: float) -> void:
 	animations.speed_scale = num
+
+
+func play_footstep() -> void:
+	if !played_footstep:
+		played_footstep = true
+		var soundid = randi_range(1, 4)
+		match soundid:
+			1: Jukebox.play_sound("run1")
+			2: Jukebox.play_sound("run2")
+			3: Jukebox.play_sound("run3")
+			4: Jukebox.play_sound("run4")
