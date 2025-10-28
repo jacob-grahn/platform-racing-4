@@ -15,3 +15,4 @@ func init() -> void:
 func finish(player: Node2D, tile_map_layer: TileMapLayer, coords: Vector2i) -> void:
 	if !player.movement.finished:
 		player.movement.finished = true
+		Jukebox.play_sound("victory")
