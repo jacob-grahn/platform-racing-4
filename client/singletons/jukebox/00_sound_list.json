@@ -1,0 +1,202 @@
+{
+	"blackhole": {
+		"title": "Black Hole",
+		"file": "blackhole-sound.mp3",
+		"group": "item-sounds"
+	},
+	"bubble1": {
+		"title": "Bubble 1",
+		"file": "bubble1-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bubble2": {
+		"title": "Bubble 2",
+		"file": "bubble2-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bubble3": {
+		"title": "Bubble 3",
+		"file": "bubble3-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bubble4": {
+		"title": "Bubble 4",
+		"file": "bubble4-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bumphappy": {
+		"title": "Bump Happy Block",
+		"file": "bumphappy-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bumpsad": {
+		"title": "Bump Sad Block",
+		"file": "bumpsad-sound.mp3",
+		"group": "block-sounds"
+	},
+	"bump": {
+		"title": "Bump",
+		"file": "bump-sound.mp3",
+		"group": "block-sounds"
+	},
+	"cheer": {
+		"title": "Cheer",
+		"file": "cheer-sound.mp3",
+		"group": "general_sounds"
+	},
+	"engine": {
+		"title": "Engine",
+		"file": "engine-sound.mp3",
+		"group": "item_sounds"
+	},
+	"explosion": {
+		"title": "Explosion",
+		"file": "explosion-sound.mp3",
+		"group": "item_sounds"
+	},
+	"go": {
+		"title": "Go",
+		"file": "go-sound.mp3",
+		"group": "general_sounds"
+	},
+	"icewave": {
+		"title": "Ice Wave",
+		"file": "icewave-sound.mp3",
+		"group": "item_sounds"
+	},
+	"jump": {
+		"title": "Jump",
+		"file": "jump-sound.mp3",
+		"group": "general_sounds"
+	},
+	"laserhit": {
+		"title": "Laser Hit",
+		"file": "laserhit-sound.mp3",
+		"group": "item_sounds"
+	},
+	"laser": {
+		"title": "Laser",
+		"file": "laser-sound.mp3",
+		"group": "item_sounds"
+	},
+	"mineappear": {
+		"title": "Mine Appear",
+		"file": "mineappear-sound.mp3",
+		"group": "item_sounds"
+	},
+	"misslelauncher": {
+		"title": "Missle Launcher",
+		"file": "misslelauncher-sound.mp3",
+		"group": "item_sounds"
+	},
+	"ouch": {
+		"title": "Ouch",
+		"file": "ouch-sound.mp3",
+		"group": "item_sounds"
+	},
+	"ouchcute": {
+		"title": "Ouch (Cute)",
+		"file": "ouchcute-sound.mp3",
+		"group": "item_sounds"
+	},
+	"ouchmanly": {
+		"title": "Ouch (Manly)",
+		"file": "ouchmanly-sound.mp3",
+		"group": "item_sounds"
+	},
+	"ready": {
+		"title": "Ready",
+		"file": "ready-sound.mp3",
+		"group": "general_sounds"
+	},
+	"run1": {
+		"title": "Run 1",
+		"file": "run1-sound.mp3",
+		"group": "general_sounds"
+	},
+	"run2": {
+		"title": "Run 2",
+		"file": "run2-sound.mp3",
+		"group": "general_sounds"
+	},
+	"run3": {
+		"title": "Run 3",
+		"file": "run3-sound.mp3",
+		"group": "general_sounds"
+	},
+	"run4": {
+		"title": "Run 4",
+		"file": "run4-sound.mp3",
+		"group": "general_sounds"
+	},
+	"shatterblock": {
+		"title": "Shatter Block",
+		"file": "shatterblock-sound.mp3",
+		"group": "block_sounds"
+	},
+	"shield1": {
+		"title": "Shield 1",
+		"file": "shield1-sound.mp3",
+		"group": "item_sounds"
+	},
+	"shield2": {
+		"title": "Shield 2",
+		"file": "shield2-sound.mp3",
+		"group": "item_sounds"
+	},
+	"slowdown": {
+		"title": "Slow Down",
+		"file": "slowdown-sound.mp3",
+		"group": "item_sounds"
+	},
+	"speedup": {
+		"title": "Speed Up",
+		"file": "speedup-sound.mp3",
+		"group": "item_sounds"
+	},
+	"sproing": {
+		"title": "Sproing",
+		"file": "sproing-sound.mp3",
+		"group": "block_sounds"
+	},
+	"star": {
+		"title": "Star (Item)",
+		"file": "star-sound.mp3",
+		"group": "block_sounds"
+	},
+	"superjump": {
+		"title": "Super Jump",
+		"file": "superjump-sound.mp3",
+		"group": "general_sounds"
+	},
+	"swish": {
+		"title": "Swish",
+		"file": "swish-sound.mp3",
+		"group": "item_sounds"
+	},
+	"teleport": {
+		"title": "Teleport",
+		"file": "teleport-sound.mp3",
+		"group": "item_sounds"
+	},
+	"ticktock": {
+		"title": "Tick Tock",
+		"file": "ticktock-sound.mp3",
+		"group": "block_sounds"
+	},
+	"victory": {
+		"title": "Victory",
+		"file": "victory-sound.mp3",
+		"group": "general_sounds"
+	},
+	"wingflap": {
+		"title": "Wing Flap",
+		"file": "wingflap-sound.mp3",
+		"group": "item_sounds"
+	},
+	"zap": {
+		"title": "Zap",
+		"file": "zap-sound.mp3",
+		"group": "item_sounds"
+	}
+}

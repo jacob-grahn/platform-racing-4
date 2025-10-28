@@ -4,9 +4,3 @@
 
 [node name="Jukebox" type="Node2D"]
 script = ExtResource("1_2tc2v")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-
-[node name="SongRequest" type="HTTPRequest" parent="."]
-
-[node name="ListRequest" type="HTTPRequest" parent="."]
