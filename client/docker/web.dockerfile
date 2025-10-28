@@ -1,5 +1,5 @@
 # Image to build the app
-FROM barichello/godot-ci:4.3 as build
+FROM barichello/godot-ci:4.5 as build
 COPY ./ /src
 WORKDIR /src
 RUN mkdir -v -p build/web
