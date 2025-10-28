@@ -1,7 +1,7 @@
 extends Tile
 class_name Push
 
-var push_atlas_coords = Vector2i(3, 2)
+var push_atlas_coords = Vector2i(3, 32)
 
 
 func init():
