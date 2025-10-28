@@ -52,7 +52,7 @@ func _ready():
 	LevelEditor.level_editor = self
 	editor_menu.set_editor_mode(self)
 	tree_exiting.connect(_on_disconnect_editor)
-	Jukebox.play("noodletown-4-remake")
+	Jukebox.stop_song(false)
 	back.connect("pressed", _on_back_pressed)
 	explore.connect("pressed", _on_explore_pressed)
 	load.connect("pressed", _on_load_pressed)
@@ -74,10 +74,9 @@ func _ready():
 	var layer_panel_node = get_node("UI/LayerPanel")
 	var game_client_node = get_node("/root/Main/GameClient")
 	
-	editor_events.connect_to([cursor, editor_menu, layer_panel_node, level_manager.level_decoder])
+	editor_events.connect_to([cursor, editor_menu, level_manager.level_decoder])
 	editor_events.set_game_client(game_client)
 	penciler.init(level_manager.layers, bg, editor_events, layer_panel)
-	cursor.init(editor_menu, level_manager.layers)
 	
 	if LevelEditor.current_level:
 		level_manager.decode_level(LevelEditor.current_level, true)
@@ -87,8 +86,11 @@ func _ready():
 			level_manager.decode_level(saved_level, true)
 		else:
 			level_manager.decode_level(default_level, true)
-			
-	layer_panel_node.init(level_manager.layers)
+	
+	cursor.init(editor_menu, level_manager.layers)
+	editor_menu.init(level_manager.layers, editor_events)
+	
+	# layer_panel_node.init(level_manager.layers)
 	
 	editor_camera.target_zoom = 0.5
 	editor_camera.change_camera_zoom(0.5)
@@ -96,7 +98,6 @@ func _ready():
 	# Connect control events for camera zoom changes
 	# $UI/EditorMenu.control_event.connect(_on_control_event)
 	# now_editing_panel.init($UI/EditorMenu, self)
-	Jukebox.end_music = true
 
 
 func _on_back_pressed():
@@ -207,6 +208,14 @@ func _on_control_event(event: Dictionary) -> void:
 			editor_camera.change_camera_zoom(zoom_value)
 	elif event.get("type") == "toggle_game_config":
 		game_config_panel.toggle()
+
+
+func _on_level_event(event: Dictionary) -> void:
+	if event.get("type") == "set_background":
+		var bg_id = event.get("bg")
+		var fade_color = event.get("fade_color")
+		if bg_id:
+			bg.set_bg(bg_id, fade_color)
 
 
 func _on_connect_editor() -> void:

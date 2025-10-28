@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4svh7sae6f0l"]
+[gd_scene load_steps=15 format=3 uid="uid://c4svh7sae6f0l"]
 
 [ext_resource type="Script" uid="uid://wsk7s4o36abg" path="res://pages/level_editor/level_options_menu.gd" id="1_n2mkv"]
 [ext_resource type="Texture2D" uid="uid://b12oaktv1cwqk" path="res://mega_menu/icons/blocks.png" id="1_n683b"]
+[ext_resource type="PackedScene" uid="uid://2fx8rnu1jlwj" path="res://pages/level_editor/block_submenu.tscn" id="2_k63ob"]
 [ext_resource type="Texture2D" uid="uid://rpwfg1hocirp" path="res://mega_menu/icons/art.png" id="2_n2mkv"]
+[ext_resource type="PackedScene" uid="uid://kso4los7xx3d" path="res://pages/level_editor/art_submenu.tscn" id="3_nlf1n"]
 [ext_resource type="Texture2D" uid="uid://rcqloebucoko" path="res://mega_menu/icons/settings.png" id="3_reton"]
 [ext_resource type="Texture2D" uid="uid://chlea1whonog7" path="res://mega_menu/collab_button/partner_exchange_64dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" id="4_k63ob"]
 [ext_resource type="Texture2D" uid="uid://bqufobjqtv1dt" path="res://mega_menu/icons/extraoptions.png" id="5_nlf1n"]
@@ -40,17 +42,23 @@ fill_to = Vector2(0, 1)
 [node name="LevelOptionsMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1472.0
-offset_right = 1900.0
+offset_left = 1482.0
+offset_right = 1910.0
 offset_bottom = 94.0
 script = ExtResource("1_n2mkv")
 
-[node name="CurrentSubmenu" type="Control" parent="."]
-anchors_preset = 0
-offset_left = -1462.0
-offset_top = 10.0
-offset_right = -1462.0
-offset_bottom = 10.0
+[node name="Submenus" type="Node2D" parent="."]
+position = Vector2(-1482, 0)
+
+[node name="BlockSubmenu" parent="Submenus" instance=ExtResource("2_k63ob")]
+anchors_preset = -1
+anchor_left = -37.05
+anchor_right = -37.05
+
+[node name="ArtSubmenu" parent="Submenus" instance=ExtResource("3_nlf1n")]
+anchors_preset = -1
+anchor_left = -37.05
+anchor_right = -37.05
 
 [node name="SlightlyLessTallPanel" type="Panel" parent="."]
 layout_mode = 0
@@ -111,6 +119,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Design your level."
+focus_mode = 1
 texture_normal = ExtResource("1_n683b")
 ignore_texture_size = true
 stretch_mode = 0
@@ -141,6 +150,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Unleash your inner Da Vincis unto the map."
+focus_mode = 1
 texture_normal = ExtResource("2_n2mkv")
 ignore_texture_size = true
 stretch_mode = 0
@@ -171,6 +181,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Settings for the level. Adjust them to your liking."
+focus_mode = 1
 texture_normal = ExtResource("3_reton")
 ignore_texture_size = true
 stretch_mode = 0
@@ -201,6 +212,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Invite your guild, your friends, or random people to start editing your level in real-time!"
+focus_mode = 1
 texture_normal = ExtResource("4_k63ob")
 ignore_texture_size = true
 stretch_mode = 0
@@ -239,6 +251,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 tooltip_text = "Save/load levels, or jump to other areas of the game."
+focus_mode = 1
 toggle_mode = false
 
 [node name="TestLevelButton" type="Control" parent="Buttons"]
@@ -267,6 +280,7 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 tooltip_text = "Starts the level for playtesting."
+focus_mode = 1
 texture_normal = ExtResource("6_gk4yk")
 ignore_texture_size = true
 stretch_mode = 0

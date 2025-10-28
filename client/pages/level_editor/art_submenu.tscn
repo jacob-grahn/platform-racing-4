@@ -1,0 +1,570 @@
+[gd_scene load_steps=19 format=3 uid="uid://kso4los7xx3d"]
+
+[ext_resource type="Script" uid="uid://clutforpytf1e" path="res://pages/level_editor/art_submenu.gd" id="1_6w04l"]
+[ext_resource type="Texture2D" uid="uid://bfvtpgfgtq4o0" path="res://engine/bg/pr2bg1-field.svg" id="2_776et"]
+[ext_resource type="Texture2D" uid="uid://b5vip8mr03xki" path="res://mega_menu/icons/draw.png" id="3_feflp"]
+[ext_resource type="Texture2D" uid="uid://djbe0fjis31o6" path="res://mega_menu/icons/erase.png" id="4_bvixj"]
+[ext_resource type="Texture2D" uid="uid://nwxvmjjoyfqt" path="res://mega_menu/icons/stamp.png" id="5_xomac"]
+[ext_resource type="Texture2D" uid="uid://7eu75o4bb8an" path="res://mega_menu/icons/colorpicker.png" id="6_vii2p"]
+[ext_resource type="Texture2D" uid="uid://cetk16320d7uy" path="res://mega_menu/icons/colorpickercolorin.png" id="7_ot6en"]
+[ext_resource type="Texture2D" uid="uid://c4fcbpv0exy6s" path="res://engine/stamp/cactus-graphic.svg" id="8_le1wt"]
+[ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/new_layer_panel.tscn" id="8_vii2p"]
+[ext_resource type="PackedScene" uid="uid://doa3poitlnl3j" path="res://ui/colorbutton.tscn" id="9_776et"]
+[ext_resource type="Texture2D" uid="uid://b7vybldnyxo0x" path="res://mega_menu/icons/text.png" id="9_mh3pe"]
+[ext_resource type="PackedScene" uid="uid://lxvwkg0y2jia" path="res://ui/sliderbutton.tscn" id="11_feflp"]
+
+[sub_resource type="Gradient" id="Gradient_u7n6r"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_20g40"]
+gradient = SubResource("Gradient_u7n6r")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_xpnty"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sxige"]
+gradient = SubResource("Gradient_xpnty")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_776et"]
+colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xvrhh"]
+gradient = SubResource("Gradient_776et")
+width = 48
+height = 48
+fill_to = Vector2(0, 1)
+
+[node name="ArtSubmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6w04l")
+
+[node name="ArtMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 108.0
+offset_bottom = 380.0
+
+[node name="ArtMenuPanel" type="Panel" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 88.0
+offset_bottom = 360.0
+
+[node name="SelectionGlow" type="ColorRect" parent="ArtMenu"]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 83.0
+offset_right = 73.0
+offset_bottom = 141.0
+color = Color(1, 1, 0, 1)
+
+[node name="BackgroundBox" type="Control" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/BackgroundBox"]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_20g40")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/BackgroundBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="BackgroundTexture" type="TextureRect" parent="ArtMenu/BackgroundBox"]
+layout_mode = 1
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+texture = ExtResource("2_776et")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="ArtMenu/BackgroundBox"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Background
+Change the level's background."
+focus_mode = 1
+flat = true
+
+[node name="BrushBox" type="Control" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 88.0
+offset_right = 68.0
+offset_bottom = 136.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/BrushBox"]
+self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_sxige")
+
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/BrushBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/BrushBox"]
+self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Paintbrush
+Draw stuff, yay!"
+focus_mode = 1
+texture_normal = ExtResource("3_feflp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="EraserBox" type="Control" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 156.0
+offset_right = 68.0
+offset_bottom = 204.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/EraserBox"]
+self_modulate = Color(0.921569, 0.541176, 0.623529, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/EraserBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/EraserBox"]
+self_modulate = Color(0.920218, 0.541366, 0.622343, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Eraser
+Erase stuff, yay!"
+focus_mode = 1
+texture_normal = ExtResource("4_bvixj")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="StampBox" type="Control" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 224.0
+offset_right = 68.0
+offset_bottom = 272.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/StampBox"]
+self_modulate = Color(0.745098, 0.545098, 0.380392, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/StampBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/StampBox"]
+self_modulate = Color(0.744162, 0.54631, 0.381538, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+tooltip_text = "Stamp
+Place stamps, yay!"
+focus_mode = 1
+texture_normal = ExtResource("5_xomac")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TextBox" type="Control" parent="ArtMenu"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 292.0
+offset_right = 68.0
+offset_bottom = 340.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtMenu/TextBox"]
+self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtMenu/TextBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="TextureButton" type="TextureButton" parent="ArtMenu/TextBox"]
+self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+tooltip_text = "Text
+Type text, yay!"
+focus_mode = 1
+texture_normal = ExtResource("9_mh3pe")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ArtSettings" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 380.0
+offset_right = 98.0
+offset_bottom = 468.0
+
+[node name="ArtSettingsPanel" type="Panel" parent="ArtSettings"]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 88.0
+offset_bottom = 88.0
+
+[node name="OldColorBox" type="Control" parent="ArtSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureButton" type="ColorPickerButton" parent="ArtSettings/OldColorBox"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+offset_right = 48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+flat = true
+edit_alpha = false
+
+[node name="ColorPicker" type="TextureRect" parent="ArtSettings/OldColorBox/TextureButton"]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = ExtResource("6_vii2p")
+expand_mode = 1
+
+[node name="ColorPickerColorin" type="TextureRect" parent="ArtSettings/OldColorBox/TextureButton"]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = ExtResource("7_ot6en")
+expand_mode = 1
+
+[node name="ColorBox" parent="ArtSettings" instance=ExtResource("9_776et")]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="SelectedStampBox" type="Control" parent="ArtSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/SelectedStampBox"]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_20g40")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/SelectedStampBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="StampTexture" type="TextureRect" parent="ArtSettings/SelectedStampBox"]
+layout_mode = 1
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 46.0
+texture = ExtResource("8_le1wt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="ArtSettings/SelectedStampBox"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="SizeBox" parent="ArtSettings" instance=ExtResource("11_feflp")]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="SizeBox2" type="Control" parent="ArtSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/SizeBox2"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/SizeBox2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="SizeLabel" type="RichTextLabel" parent="ArtSettings/SizeBox2"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SizeText" type="RichTextLabel" parent="ArtSettings/SizeBox2"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="ArtSettings/SizeBox2"]
+self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="AlphaBox" parent="ArtSettings" instance=ExtResource("11_feflp")]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="AlphaBox2" type="Control" parent="ArtSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/AlphaBox2"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/AlphaBox2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="AlphaLabel" type="RichTextLabel" parent="ArtSettings/AlphaBox2"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Alpha"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AlphaText" type="RichTextLabel" parent="ArtSettings/AlphaBox2"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="ArtSettings/AlphaBox2"]
+self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="RotationBox" type="Control" parent="ArtSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 68.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="ArtSettings/RotationBox"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_xvrhh")
+
+[node name="ColorRect" type="ColorRect" parent="ArtSettings/RotationBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.031
+anchor_top = 0.031
+anchor_right = 0.031
+anchor_bottom = 0.031
+offset_left = 0.512
+offset_top = 0.512
+offset_right = 44.512
+offset_bottom = 44.512
+
+[node name="RotationLabel" type="RichTextLabel" parent="ArtSettings/RotationBox"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 46.0
+offset_bottom = 24.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Rot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RotationText" type="RichTextLabel" parent="ArtSettings/RotationBox"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 46.0
+offset_bottom = 46.0
+theme_override_font_sizes/normal_font_size = 16
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="ArtSettings/RotationBox"]
+self_modulate = Color(0.027451, 0.117647, 0.419608, 1)
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
+flat = true
+
+[node name="ArtPopup" type="Popup" parent="."]
+transparent_bg = true
+size = Vector2i(588, 588)
+transparent = true
+
+[node name="ArtPopupPanel" type="Panel" parent="ArtPopup"]
+offset_right = 88.0
+offset_bottom = 88.0
+
+[node name="LayerPanel" parent="." instance=ExtResource("8_vii2p")]
+position = Vector2(10, 754)

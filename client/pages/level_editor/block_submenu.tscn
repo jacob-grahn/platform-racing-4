@@ -1,10 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://2fx8rnu1jlwj"]
+[gd_scene load_steps=17 format=3 uid="uid://2fx8rnu1jlwj"]
 
 [ext_resource type="Script" uid="uid://b1ptlej0ruuk5" path="res://pages/level_editor/block_submenu.gd" id="1_17vj3"]
 [ext_resource type="Texture2D" uid="uid://cgrx5oouw1dry" path="res://mega_menu/icons/dragblock.png" id="1_dm6xf"]
 [ext_resource type="Texture2D" uid="uid://byg06nx8shih2" path="res://mega_menu/icons/eraseblock.png" id="2_17vj3"]
 [ext_resource type="Texture2D" uid="uid://b3laclpa364j2" path="res://mega_menu/icons/drawblock.png" id="3_u7n6r"]
 [ext_resource type="Texture2D" uid="uid://b4xw6uxgjpsri" path="res://tiles/tileatlas.png" id="5_17vj3"]
+[ext_resource type="PackedScene" uid="uid://b7le1iohdrfv2" path="res://ui/gotopage.tscn" id="6_u7n6r"]
+[ext_resource type="PackedScene" uid="uid://mcscxiumfayq" path="res://ui/navigation.tscn" id="7_20g40"]
+[ext_resource type="PackedScene" uid="uid://haxvxa6ljfv2" path="res://engine/layer_panel/new_layer_panel.tscn" id="8_xpnty"]
 
 [sub_resource type="Gradient" id="Gradient_u7n6r"]
 colors = PackedColorArray(0.247059, 0.247059, 0.247059, 1, 0.87451, 0.87451, 0.87451, 1)
@@ -38,19 +41,22 @@ atlas = ExtResource("5_17vj3")
 region = Rect2(0, 0, 128, 128)
 filter_clip = true
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpnty"]
+atlas = ExtResource("5_17vj3")
+region = Rect2(0, 0, 128, 128)
+
 [node name="BlockSubmenu" type="Control"]
 layout_mode = 3
-anchor_right = 0.47
-anchor_bottom = 0.669
-offset_right = -0.400085
-offset_bottom = -0.520081
+anchors_preset = 0
 script = ExtResource("1_17vj3")
 
 [node name="BlockMenu" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 0
-offset_right = 88.0
-offset_bottom = 322.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 108.0
+offset_bottom = 342.0
 
 [node name="Panel" type="Panel" parent="BlockMenu"]
 layout_mode = 1
@@ -101,6 +107,7 @@ self_modulate = Color(0.552941, 0.286275, 0.980392, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
+focus_mode = 1
 texture_normal = ExtResource("1_dm6xf")
 ignore_texture_size = true
 stretch_mode = 0
@@ -138,6 +145,7 @@ self_modulate = Color(1, 0.372549, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
+focus_mode = 1
 texture_normal = ExtResource("2_17vj3")
 ignore_texture_size = true
 stretch_mode = 0
@@ -175,6 +183,7 @@ self_modulate = Color(0, 0.752941, 0.372549, 1)
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
+focus_mode = 1
 texture_normal = ExtResource("3_u7n6r")
 ignore_texture_size = true
 stretch_mode = 0
@@ -202,22 +211,31 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.375, 0.375)
+focus_mode = 1
 texture_normal = SubResource("AtlasTexture_dm6xf")
+
+[node name="TeleportColorin" type="TextureRect" parent="BlockMenu/BlockDraw/TextureButton"]
+visible = false
+show_behind_parent = true
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("AtlasTexture_xpnty")
 
 [node name="BlockPicker" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 0
-offset_left = 98.0
-offset_top = 234.0
-offset_right = 824.0
-offset_bottom = 722.0
+offset_left = 108.0
+offset_top = 244.0
+offset_right = 844.0
+offset_bottom = 748.0
 focus_mode = 2
 
-[node name="Panel" type="Panel" parent="BlockPicker"]
+[node name="BlockPickerPanel" type="Panel" parent="BlockPicker"]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 726.0
-offset_bottom = 488.0
+offset_bottom = 222.0
 
 [node name="TabBar" type="TabBar" parent="BlockPicker"]
 layout_mode = 1
@@ -226,7 +244,7 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 706.0
 offset_bottom = 56.0
-focus_mode = 0
+focus_mode = 1
 theme_override_font_sizes/font_size = 22
 current_tab = 0
 tab_alignment = 1
@@ -242,35 +260,34 @@ tab_6/title = "Classic"
 tab_7/title = "Custom"
 
 [node name="NavagationButtons" type="Control" parent="BlockPicker"]
+visible = false
 layout_mode = 1
-anchors_preset = 0
-offset_left = 425.0
-offset_top = 76.0
-offset_right = 705.0
-offset_bottom = 124.0
+anchor_left = 0.577
+anchor_top = 0.131
+anchor_right = 0.577
+anchor_bottom = 0.131
+offset_left = -57.672
+offset_top = -0.0240097
+offset_right = 280.328
+offset_bottom = 47.976
 
 [node name="LeftButton" type="Button" parent="BlockPicker/NavagationButtons"]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.171
-anchor_bottom = 1.0
-offset_right = 0.119999
-focus_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+focus_mode = 1
 disabled = true
 text = "<"
 
 [node name="PageButton1" type="Button" parent="BlockPicker/NavagationButtons"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.207
-anchor_top = 0.104
-anchor_right = 0.379
-anchor_bottom = 0.896
-offset_left = 0.0399933
-offset_top = 0.0079999
-offset_right = -0.120003
-offset_bottom = -0.00800323
-focus_mode = 0
+offset_left = 58.0
+offset_top = 5.0
+offset_right = 106.0
+offset_bottom = 43.0
+focus_mode = 1
 theme_override_font_sizes/font_size = 22
 disabled = true
 text = "1"
@@ -278,15 +295,11 @@ text = "1"
 [node name="PageButton2" type="Button" parent="BlockPicker/NavagationButtons"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.414
-anchor_top = 0.104
-anchor_right = 0.586
-anchor_bottom = 0.896
-offset_left = 0.0799866
-offset_top = 0.0079999
-offset_right = -0.0800018
-offset_bottom = -0.00800323
-focus_mode = 0
+offset_left = 116.0
+offset_top = 5.0
+offset_right = 164.0
+offset_bottom = 43.0
+focus_mode = 1
 theme_override_font_sizes/font_size = 22
 disabled = true
 text = "2"
@@ -294,50 +307,87 @@ text = "2"
 [node name="PageButton3" type="Button" parent="BlockPicker/NavagationButtons"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.621
-anchor_top = 0.104
-anchor_right = 0.793
-anchor_bottom = 0.896
-offset_left = 0.11998
-offset_top = 0.0079999
-offset_right = -0.0400085
-offset_bottom = -0.00800323
-focus_mode = 0
+offset_left = 174.0
+offset_top = 5.0
+offset_right = 222.0
+offset_bottom = 43.0
+focus_mode = 1
 theme_override_font_sizes/font_size = 22
 disabled = true
 text = "3"
 
+[node name="PageButton4" type="Button" parent="BlockPicker/NavagationButtons"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 232.0
+offset_top = 5.0
+offset_right = 280.0
+offset_bottom = 43.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 22
+disabled = true
+text = ". . ."
+
 [node name="RightButton" type="Button" parent="BlockPicker/NavagationButtons"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.829
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -0.12001
-focus_mode = 0
+offset_left = 290.0
+offset_right = 338.0
+offset_bottom = 48.0
+focus_mode = 1
 disabled = true
 text = ">"
 
-[node name="ColorRect" type="ColorRect" parent="BlockPicker"]
+[node name="GoToPagePopup" type="PopupPanel" parent="BlockPicker/NavagationButtons"]
+size = Vector2i(353, 133)
+min_size = Vector2i(353, 133)
+
+[node name="GoToPage" parent="BlockPicker/NavagationButtons/GoToPagePopup" instance=ExtResource("6_u7n6r")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 349.0
+offset_bottom = 129.0
+
+[node name="Navigation" parent="BlockPicker" instance=ExtResource("7_20g40")]
+offset_left = 707.0
+offset_top = 71.0
+offset_right = 707.0
+offset_bottom = 71.0
+
+[node name="LightColorRect" type="ColorRect" parent="BlockPicker"]
 layout_mode = 0
 offset_left = 18.0
-offset_top = 133.0
+offset_top = 124.0
 offset_right = 708.0
-offset_bottom = 483.0
+offset_bottom = 202.0
 color = Color(0, 0, 0, 0.247059)
 
-[node name="ColorRect2" type="ColorRect" parent="BlockPicker"]
+[node name="DarkColorRect" type="ColorRect" parent="BlockPicker"]
 layout_mode = 0
 offset_left = 23.0
-offset_top = 138.0
+offset_top = 129.0
 offset_right = 703.0
-offset_bottom = 478.0
+offset_bottom = 197.0
 color = Color(0, 0, 0, 0.247059)
 
 [node name="BlockContainer" type="Control" parent="BlockPicker"]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 33.0
-offset_top = 148.0
+offset_top = 139.0
 offset_right = 693.0
-offset_bottom = 468.0
+offset_bottom = 187.0
+
+[node name="NoBlocksText" type="RichTextLabel" parent="BlockPicker"]
+layout_mode = 0
+offset_left = 263.0
+offset_top = 138.0
+offset_right = 463.0
+offset_bottom = 188.0
+pivot_offset = Vector2(100, 25)
+text = "No blocks... :("
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LayerPanel" parent="." instance=ExtResource("8_xpnty")]
+position = Vector2(10, 754)

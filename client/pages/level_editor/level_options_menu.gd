@@ -1,6 +1,7 @@
 extends Control
 
 signal control_event
+signal level_event
 
 @onready var selection_glow = $SelectionGlow
 @onready var button_list = $Buttons
@@ -11,10 +12,15 @@ signal control_event
 @onready var level_settings_dropdown_button = $Buttons/ExtraOptionsButton/LevelSettingsDropdownButton
 @onready var extra_options_button = $Buttons/ExtraOptionsButton/TextureButton
 @onready var test_level_button = $Buttons/TestLevelButton/TextureButton
-@onready var current_submenu = $CurrentSubmenu
-const BLOCK_SUBMENU = preload("res://pages/level_editor/block_submenu.tscn")
+@onready var submenus = $Submenus
+@onready var block_submenu = $Submenus/BlockSubmenu
+@onready var art_submenu = $Submenus/ArtSubmenu
+var current_submenu: Control
+var layers: Node2D
+var editor_events: EditorEvents
 var editor: Node2D
 var selected_button: TextureButton
+var old_selected_button: TextureButton
 var settings_list: Dictionary = {
 	"undo": {
 		"setting_name": "Undo (CTRL + Z)",
@@ -82,6 +88,23 @@ func _ready() -> void:
 			level_settings_dropdown_button.get_popup().add_separator()
 	test_level_button.pressed.connect(_on_test_pressed)
 	selected_button = block_menu_button
+	set_submenu()
+
+
+func init(new_layers: Node2D, new_editor_events: EditorEvents) -> void:
+	layers = new_layers
+	editor_events = new_editor_events
+	for child in submenus.get_children():
+		if "control_event" in child:
+			child.control_event.connect(_on_control_event)
+		if "level_event" in child:
+			child.level_event.connect(_on_level_event)
+		if "layers" in child or "editor_events" in child:
+			if "layers" in child:
+				child.layers = layers
+			if "editor_events" in child:
+				child.editor_events = editor_events
+			child.init()
 
 
 func _physics_process(delta: float) -> void:
@@ -102,23 +125,30 @@ func _physics_process(delta: float) -> void:
 				else:
 					node.self_modulate = Color("ffffff")
 					
-	if selected_button:
-		set_selection_glow()
-	set_submenu()
+	if old_selected_button != selected_button:
+		set_submenu()
+		old_selected_button = selected_button
+	set_selection_glow()
 
 
 func set_submenu():
-	var submenu: Control
-	if current_submenu.get_child_count() == 0:
-		if selected_button == block_menu_button:
-			submenu = BLOCK_SUBMENU.instantiate()
-			submenu.control_event.connect(_on_control_event)
-			current_submenu.add_child(submenu)
+	if current_submenu:
+		current_submenu.deactivate()
+	if selected_button == block_menu_button:
+		current_submenu = block_submenu
+	elif selected_button == art_menu_button:
+		current_submenu = art_submenu
+	current_submenu.activate()
 
 
 func _on_control_event(event: Dictionary) -> void:
-	print("EditorMenu::_on_control_event ", event)
+	print("LevelOptionsMenu::_on_control_event ", event)
 	control_event.emit(event)
+
+
+func _on_level_event(event: Dictionary) -> void:
+	print("LevelOptionsMenu::_on_level_event ", event)
+	level_event.emit(event)
 
 
 func _click_block_menu(button: TextureButton):
