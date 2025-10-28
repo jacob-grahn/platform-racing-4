@@ -1,0 +1,256 @@
+[gd_scene load_steps=9 format=3 uid="uid://haxvxa6ljfv2"]
+
+[ext_resource type="Script" uid="uid://dh44s6ecidjkp" path="res://engine/layer_panel/new_layer_panel.gd" id="1_o2ff3"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_qtvt1"]
+[ext_resource type="PackedScene" uid="uid://ddorp4msr7dho" path="res://engine/layer_panel/new_layer_row.tscn" id="3_o2ff3"]
+[ext_resource type="PackedScene" uid="uid://c6hg56c7sf73m" path="res://engine/layer_panel/number_picker.tscn" id="4_2n5yc"]
+[ext_resource type="PackedScene" uid="uid://bj5dlw7bcynua" path="res://engine/layer_panel/rename_layer_panel.tscn" id="5_hbcon"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtvt1"]
+bg_color = Color(0.2484, 0.2484, 0.2484, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2ff3"]
+bg_color = Color(0.498039, 0.498039, 0.498039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_se314"]
+
+[node name="LayerPanel" type="Node2D"]
+script = ExtResource("1_o2ff3")
+
+[node name="BigPanel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.023
+offset_right = 298.0
+offset_bottom = 316.0
+theme = ExtResource("2_qtvt1")
+
+[node name="SmallPanel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.853
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 288.0
+offset_bottom = 226.0
+theme = ExtResource("2_qtvt1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtvt1")
+
+[node name="ScrollPanel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.853
+offset_left = 275.0
+offset_top = 55.0
+offset_right = 283.0
+offset_bottom = 221.0
+theme = ExtResource("2_qtvt1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_o2ff3")
+
+[node name="LayerHolderPanel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.853
+offset_left = 15.0
+offset_top = 55.0
+offset_right = 275.0
+offset_bottom = 221.0
+theme = ExtResource("2_qtvt1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_se314")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.567
+offset_left = 15.0
+offset_top = 55.0
+offset_right = 275.0
+offset_bottom = 221.0
+horizontal_scroll_mode = 0
+
+[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(260, 166)
+layout_mode = 2
+
+[node name="LayerRow" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
+layout_mode = 2
+
+[node name="LayerRow2" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
+layout_mode = 2
+
+[node name="LayerRow3" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
+layout_mode = 2
+
+[node name="LayerRow4" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
+layout_mode = 2
+
+[node name="LayerRow5" parent="ScrollContainer/RowHolder" instance=ExtResource("3_o2ff3")]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_top = 0.885
+anchor_right = 0.211
+anchor_bottom = 0.991
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 135.0
+offset_bottom = 40.0
+focus_mode = 1
+theme = ExtResource("2_qtvt1")
+theme_override_font_sizes/font_size = 16
+text = "Add Layer"
+
+[node name="DeleteButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.789
+anchor_top = 0.885
+anchor_right = 0.951
+anchor_bottom = 1.0
+offset_left = 163.0
+offset_top = 10.0
+offset_right = 288.0
+offset_bottom = 40.0
+focus_mode = 1
+theme = ExtResource("2_qtvt1")
+theme_override_font_sizes/font_size = 16
+text = "Delete Layer"
+
+[node name="LayerSettingsPopup" type="PopupPanel" parent="."]
+size = Vector2i(308, 112)
+max_size = Vector2i(308, 112)
+
+[node name="RotationPicker" parent="LayerSettingsPopup" instance=ExtResource("4_2n5yc")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 304.0
+offset_bottom = 108.0
+
+[node name="DepthPicker" parent="LayerSettingsPopup" instance=ExtResource("4_2n5yc")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 304.0
+offset_bottom = 108.0
+
+[node name="NewLayerNamePopup" type="PopupPanel" parent="."]
+auto_translate_mode = 1
+size = Vector2i(276, 38)
+max_size = Vector2i(380, 64)
+
+[node name="RenameLayerPanel" parent="NewLayerNamePopup" instance=ExtResource("5_hbcon")]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 272.0
+offset_bottom = 34.0
+
+[node name="ZAxisContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 236.0
+offset_right = 133.0
+offset_bottom = 266.0
+
+[node name="ZAxisText" type="RichTextLabel" parent="ZAxisContainer"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 48.0
+offset_bottom = 26.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Z Axis:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ZAxisBox" type="LineEdit" parent="ZAxisContainer"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 148.0
+offset_bottom = 40.0
+scale = Vector2(0.75, 0.75)
+focus_mode = 1
+text = "1"
+max_length = 2
+
+[node name="DepthContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 143.0
+offset_top = 236.0
+offset_right = 268.0
+offset_bottom = 266.0
+
+[node name="DepthText" type="RichTextLabel" parent="DepthContainer"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 50.0
+offset_bottom = 26.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Depth:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DepthBox" type="LineEdit" parent="DepthContainer"]
+layout_mode = 0
+offset_left = 50.0
+offset_right = 150.0
+offset_bottom = 40.0
+scale = Vector2(0.75, 0.75)
+focus_mode = 1
+text = "1"
+max_length = 2
+
+[node name="RotationContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 276.0
+offset_right = 155.0
+offset_bottom = 306.0
+
+[node name="RotationText" type="RichTextLabel" parent="RotationContainer"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 70.0
+offset_bottom = 26.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Rotation:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="RotationBox" type="LineEdit" parent="RotationContainer"]
+layout_mode = 0
+offset_left = 70.0
+offset_right = 170.0
+offset_bottom = 40.0
+scale = Vector2(0.75, 0.75)
+focus_mode = 1
+text = "0"
+max_length = 3
+
+[node name="AlphaContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 165.0
+offset_top = 276.0
+offset_right = 288.0
+offset_bottom = 306.0
+
+[node name="AlphaText" type="RichTextLabel" parent="AlphaContainer"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 48.0
+offset_bottom = 26.0
+theme_override_font_sizes/normal_font_size = 16
+text = "Alpha:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AlphaBox" type="LineEdit" parent="AlphaContainer"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 148.0
+offset_bottom = 40.0
+scale = Vector2(0.75, 0.75)
+focus_mode = 1
+text = "100"
+max_length = 3

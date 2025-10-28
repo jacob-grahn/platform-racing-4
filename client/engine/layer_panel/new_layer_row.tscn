@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddorp4msr7dho"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_gv8tc"]
+[ext_resource type="ButtonGroup" uid="uid://6dt1bqvpamx1" path="res://engine/layer_panel/layer_button_group.tres" id="2_0pihu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0umvp"]
+bg_color = Color(0.498039, 0.498039, 0.498039, 0)
+
+[node name="LayerRow" type="Control"]
+custom_minimum_size = Vector2(260, 30)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 260.0
+offset_bottom = 30.0
+theme = ExtResource("1_gv8tc")
+
+[node name="LayerNameButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 347.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_0umvp")
+toggle_mode = true
+button_group = ExtResource("2_0pihu")
+text = "Layer Name"
+alignment = 0
+clip_text = true

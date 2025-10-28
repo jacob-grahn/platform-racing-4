@@ -7,6 +7,7 @@ const LAYER = preload("res://layers/layer.tscn")
 const LAYER_ROW = preload("res://engine/layer_panel/layer_row.tscn")
 
 var layers: Node2D
+var show_layer_type: String = "blocks"
 @onready var row_holder = $ScrollContainer/RowHolder
 @onready var new_button = $NewButton
 @onready var delete_button = $DeleteButton
@@ -43,9 +44,13 @@ func init(new_layers: Node2D) -> void:
 
 func render() -> void:
 	clear()
-	var layer_array = layers.get_children()
+	var layer_array
+	if show_layer_type == "blocks":
+		layer_array = layers.block_layers.get_children()
+	if show_layer_type == "art":
+		layer_array = layers.art_layers.get_children()
 	for layer in layer_array:
-		if not layer is Layer:
+		if not (layer is Layer or layer is BlockLayer or layer is ArtLayer):
 			continue
 		var row = LAYER_ROW.instantiate()
 		row.position.y = row_holder.get_child_count() * 50
@@ -65,10 +70,17 @@ func render() -> void:
 
 
 func update_pickers() -> void:
-	var layer = layers.get_node(layers.get_target_layer())
-	if layer and layer is Layer:
+	var layer
+	if show_layer_type == "blocks":
+		layer = layers.block_layers.get_node(layers.get_target_block_layer())
+	if show_layer_type == "art":
+		layer = layers.art_layers.get_node(layers.get_target_art_layer())
+	if layer and (layer is Layer or layer is BlockLayer or layer is ArtLayer):
 		depth_picker.set_value(layer.depth)
-		rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
+		if layer is BlockLayer:
+			rotation_picker.set_value(round(layer.get_node("TileMapLayer").rotation_degrees))
+		if layer is ArtLayer:
+			rotation_picker.set_value(round(layer.get_node("Lines").rotation_degrees))
 
 func clear() -> void:
 	for child in row_holder.get_children():
@@ -77,32 +89,58 @@ func clear() -> void:
 
 func _new_pressed():
 	print("LayerPanel::add layer")
-	var i = layers.get_child_count() + 1
-	var new_name = "Layer " + str(i)
-	while(layers.get_node(new_name)):
-		i += 1
-		new_name = "Layer " + str(i)
-	emit_signal("level_event", {
-		"type": EditorEvents.ADD_LAYER,
-		"name": new_name
-	})
-	call_deferred("render")
+	if show_layer_type == "blocks":
+		var i = layers.block_layers.get_child_count() + 1
+		var new_name = "Layer " + str(i)
+		while(layers.block_layers.get_node(new_name)):
+			i += 1
+			new_name = "Layer " + str(i)
+		emit_signal("level_event", {
+			"type": EditorEvents.ADD_BLOCK_LAYER,
+			"name": new_name
+		})
+		call_deferred("render")
+	if show_layer_type == "art":
+		var i = layers.art_layers.get_child_count() + 1
+		var new_name = "Layer " + str(i)
+		while(layers.art_layers.get_node(new_name)):
+			i += 1
+			new_name = "Layer " + str(i)
+		emit_signal("level_event", {
+			"type": EditorEvents.ADD_ART_LAYER,
+			"name": new_name
+		})
+		call_deferred("render")
 
 
 func _delete_pressed():
-	emit_signal("level_event", {
-		"type": EditorEvents.DELETE_LAYER,
-		"name": layers.get_target_layer()
-	})
-	call_deferred("render")
+	if show_layer_type == "blocks":
+		emit_signal("level_event", {
+			"type": EditorEvents.DELETE_BLOCK_LAYER,
+			"name": layers.get_target_block_layer()
+		})
+		call_deferred("render")
+	if show_layer_type == "art":
+		emit_signal("level_event", {
+			"type": EditorEvents.DELETE_ART_LAYER,
+			"name": layers.get_target_art_layer()
+		})
+		call_deferred("render")
 
 
 func _row_pressed(layer_name: String):
-	layers.set_target_layer(layer_name)
-	emit_signal("control_event", {
-		"type": EditorEvents.SELECT_LAYER,
-		"layer_name": layer_name
-	})
+	if show_layer_type == "blocks":
+		layers.set_target_block_layer(layer_name)
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_BLOCK_LAYER,
+			"layer_name": layer_name
+		})
+	if show_layer_type == "art":
+		layers.set_target_art_layer(layer_name)
+		emit_signal("control_event", {
+			"type": EditorEvents.SELECT_ART_LAYER,
+			"layer_name": layer_name
+		})
 
 
 func _row_layer_name_pressed(layer_name: String):
@@ -120,11 +158,12 @@ func _row_visible_pressed(layer_name: String, Button):
 		visibility = false
 	else:
 		Button.modulate.a = 1
-	emit_signal("level_event", {
-		"type": EditorEvents.VISIBLE_LAYER,
-		"layer_name": layer_name,
-		"visibility": visibility
-	})
+	if show_layer_type == "art":
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_ART_LAYER_ALPHA,
+			"layer_name": layer_name,
+			"visibility": visibility
+		})
 
 
 func _row_config_pressed(layer_name: String):
@@ -135,25 +174,42 @@ func _row_config_pressed(layer_name: String):
 
 
 func _rotation_change(rotation):
-	emit_signal("level_event", {
-		"type": EditorEvents.ROTATE_LAYER,
-		"layer_name": layers.get_target_layer(),
-		"rotation": rotation
-	})
+	if show_layer_type == "blocks":
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_BLOCK_LAYER_ROTATION,
+			"layer_name": layers.get_target_block_layer(),
+			"tile_map_rotation": rotation
+		})
+	if show_layer_type == "art":
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_ART_LAYER_ROTATION,
+			"layer_name": layers.get_target_art_layer(),
+			"rotation": rotation
+		})
 
 
 func _depth_change(depth):
-	emit_signal("level_event", {
-		"type": EditorEvents.LAYER_DEPTH,
-		"layer_name": layers.get_target_layer(),
-		"depth": depth
-	})
+	if show_layer_type == "art":
+		emit_signal("level_event", {
+			"type": EditorEvents.SET_ART_LAYER_DEPTH,
+			"layer_name": layers.get_target_art_layer(),
+			"depth": depth
+		})
 
 func _set_layer_name(new_layer_name):
-	emit_signal("level_event", {
-		"type": EditorEvents.RENAME_LAYER,
-		"layer_name": layers.get_target_layer(),
-		"new_layer_name": new_layer_name
-	})
-	new_layer_name_popup.visible = false
-	render()
+	if show_layer_type == "blocks":
+		emit_signal("level_event", {
+			"type": EditorEvents.RENAME_BLOCK_LAYER,
+			"layer_name": layers.get_target_block_layer(),
+			"new_layer_name": new_layer_name
+		})
+		new_layer_name_popup.visible = false
+		render()
+	if show_layer_type == "art":
+		emit_signal("level_event", {
+			"type": EditorEvents.RENAME_ART_LAYER,
+			"layer_name": layers.get_target_art_layer(),
+			"new_layer_name": new_layer_name
+		})
+		new_layer_name_popup.visible = false
+		render()

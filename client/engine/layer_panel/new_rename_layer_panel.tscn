@@ -1,28 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj5dlw7bcynua"]
+[gd_scene load_steps=3 format=3 uid="uid://doc0mtssd4xfp"]
 
-[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_fcy8e"]
-[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="1_q0sa4"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_1wisd"]
+[ext_resource type="Script" uid="uid://c53dtgnpvwsq0" path="res://engine/layer_panel/rename_layer_panel.gd" id="2_vfkgv"]
 
 [node name="RenameLayerPanel" type="Control"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 268.0
 offset_bottom = 30.0
-theme = ExtResource("1_fcy8e")
-script = ExtResource("1_q0sa4")
+theme = ExtResource("1_1wisd")
+script = ExtResource("2_vfkgv")
 
 [node name="NewLayerName" type="LineEdit" parent="."]
-layout_mode = 0
 offset_right = 240.0
 offset_bottom = 40.0
 scale = Vector2(0.75, 0.75)
 text = "Layer Name"
 
 [node name="OKButton" type="Button" parent="."]
-layout_mode = 0
 offset_left = 218.0
 offset_right = 268.0
 offset_bottom = 30.0
-focus_mode = 1
 theme_override_font_sizes/font_size = 16
 text = "OK"
