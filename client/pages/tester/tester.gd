@@ -6,6 +6,7 @@ extends Node2D
 @onready var update_stats_timer = $UI/Container/UpdateStatsPanelTimer
 @onready var level_manager: LevelManager = $LevelManager
 
+var show_debug_info: bool = false
 var current_player_layer: String = ""
 var used_rects: Dictionary = {}
 
@@ -38,6 +39,9 @@ func init(data: Dictionary):
 	level_manager.decode_level(level, false)
 	level_manager.activate_node()
 	
+	print(level.properties.get("music", ""))
+	Jukebox.play_song(level.properties.get("music", ""))
+	
 	var start_option = Start.get_next_start_option(level_manager.layers)
 	if start_option:
 		var player_manager: PlayerManager = get_node("PlayerManager")
@@ -48,6 +52,13 @@ func init(data: Dictionary):
 	level_manager.calc_used_rect()
 	update_stats_timer.connect("timeout", update_stats)
 	update_stats_timer.start()
+	
+	if show_debug_info:
+		#debug_text_node.visible = true
+		pass
+	else:
+		#debug_text_node.visible = false
+		pass
 
 func update_stats():
 	var player_manager: PlayerManager = get_node("PlayerManager")
