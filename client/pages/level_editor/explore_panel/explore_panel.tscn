@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv6v6vw5w7rts"]
+
+[ext_resource type="Script" uid="uid://cyt5hvbp5qyv0" path="res://pages/level_editor/explore_panel/explore_panel.gd" id="1_wkxf3"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_a8s5x"]
+
+[node name="NowEditingPanel" type="Node2D"]
+script = ExtResource("1_wkxf3")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.321569)
+offset_left = -5.0
+offset_top = 8.0
+offset_right = 1915.0
+offset_bottom = 1072.0
+
+[node name="MediumPanel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 778.0
+offset_top = 158.0
+offset_right = 1258.0
+offset_bottom = 734.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 820.0
+offset_top = 246.0
+offset_right = 1220.0
+offset_bottom = 715.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 820.0
+offset_top = 246.0
+offset_right = 1228.0
+offset_bottom = 646.0
+horizontal_scroll_mode = 0
+
+[node name="RowHolder" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="."]
+offset_left = 1023.0
+offset_top = 650.0
+offset_right = 1192.0
+offset_bottom = 702.0
+theme = ExtResource("3_a8s5x")
+theme_override_font_sizes/font_size = 16
+text = "Close"
+
+[node name="LoadButton" type="Button" parent="."]
+offset_left = 834.0
+offset_top = 651.0
+offset_right = 998.0
+offset_bottom = 703.0
+theme = ExtResource("3_a8s5x")
+theme_override_font_sizes/font_size = 16
+text = "Load"
+
+[node name="ExploreLabel" type="Label" parent="."]
+offset_left = 827.0
+offset_top = 183.0
+offset_right = 1213.0
+offset_bottom = 225.0
+theme_override_font_sizes/font_size = 30
+text = "-- Player-Created Levelsl --"
+horizontal_alignment = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

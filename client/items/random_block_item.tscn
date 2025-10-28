@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ilke57synspu"]
+
+[ext_resource type="Script" uid="uid://x6eglux2gfcn" path="res://items/random_block_item.gd" id="1_wdlih"]
+[ext_resource type="Texture2D" uid="uid://biychvjet5htu" path="res://tiles/tileatlas.png" id="2_35h6y"]
+
+[node name="RandomBlockItem" type="Node2D"]
+position = Vector2(50, 15)
+script = ExtResource("1_wdlih")
+
+[node name="TileAtlas" type="Sprite2D" parent="."]
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("2_35h6y")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 128)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true

@@ -1,4 +1,4 @@
-FROM golang:1.22-bookworm as build-env
+FROM golang:1.24-alpine AS build-env
 WORKDIR /go/src/app
 ADD . /go/src/app
 RUN go get -d -v ./...

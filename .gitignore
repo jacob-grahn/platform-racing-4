@@ -405,3 +405,4 @@ build/**
 servers/environments/*.rendered
 
 *.db
+client/build

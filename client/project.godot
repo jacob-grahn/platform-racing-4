@@ -17,10 +17,15 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Jukebox="*res://singletons/jukebox/Jukebox.tscn"
-Helpers="*res://singletons/helpers/Helpers.tscn"
-Session="*res://singletons/session/Session.tscn"
-BackgroundsLoader="*res://singletons/BackgroundsLoader.gd"
+GameConfig="*res://singletons/game_config.gd"
+ApiManager="*res://singletons/api_manager.gd"
+CoordinateUtils="*res://singletons/coordinate_utils.gd"
+FileManager="*res://singletons/file_manager.gd"
+Helpers="*res://singletons/helpers/helpers.gd"
+StringUtils="*res://singletons/string_utils.gd"
+Session="*res://singletons/session/session.gd"
+Jukebox="*res://singletons/jukebox/jukebox.tscn"
+CachingLoader="*res://singletons/caching_loader.gd"
 
 [display]
 
@@ -74,10 +79,15 @@ item={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"location":0,"echo":false,"script":null)
 ]
 }
+shift={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [physics]
 
-2d/default_gravity=2600.0
+2d/default_gravity=2250.0
 
 [rendering]
 

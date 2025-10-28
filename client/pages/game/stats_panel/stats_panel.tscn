@@ -1,0 +1,169 @@
+[gd_scene load_steps=2 format=3 uid="uid://bex50bhvo5njo"]
+
+[ext_resource type="Script" uid="uid://cmys5l606o8br" path="res://pages/game/stats_panel/stats_panel.gd" id="1_jvs4v"]
+
+[node name="StatsPanel" type="Control"]
+layout_mode = 3
+anchor_right = 0.13
+anchor_bottom = 0.139
+offset_right = 0.399979
+offset_bottom = -0.12001
+script = ExtResource("1_jvs4v")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpeedText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.067
+anchor_right = 0.5
+anchor_bottom = 0.273
+offset_top = -0.0500002
+offset_bottom = 0.0499992
+theme_override_font_sizes/normal_font_size = 15
+text = "Speed"
+
+[node name="AccelText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.273
+anchor_right = 0.5
+anchor_bottom = 0.48
+offset_top = 0.0499992
+theme_override_font_sizes/normal_font_size = 15
+text = "Acceleration"
+
+[node name="JumpText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.48
+anchor_right = 0.5
+anchor_bottom = 0.687
+offset_bottom = -0.0500031
+theme_override_font_sizes/normal_font_size = 15
+text = "Jump"
+
+[node name="SkillText" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.687
+anchor_right = 0.5
+anchor_bottom = 0.893
+offset_top = -0.0500031
+offset_bottom = 0.0499878
+theme_override_font_sizes/normal_font_size = 15
+text = "Skill"
+
+[node name="SpeedLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.067
+anchor_right = 0.9
+anchor_bottom = 0.273
+offset_top = -0.0500002
+offset_right = -1.52588e-05
+offset_bottom = 0.0499992
+theme_override_font_sizes/font_size = 15
+text = "100"
+horizontal_alignment = 2
+
+[node name="AccelLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.273
+anchor_right = 0.9
+anchor_bottom = 0.48
+offset_top = 0.0499992
+offset_right = -1.52588e-05
+theme_override_font_sizes/font_size = 15
+text = "100"
+horizontal_alignment = 2
+
+[node name="JumpLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.48
+anchor_right = 0.9
+anchor_bottom = 0.687
+offset_right = -1.52588e-05
+offset_bottom = -0.0500031
+theme_override_font_sizes/font_size = 15
+text = "100"
+horizontal_alignment = 2
+
+[node name="SkillLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.687
+anchor_right = 0.9
+anchor_bottom = 0.893
+offset_top = -0.0500031
+offset_right = -1.52588e-05
+offset_bottom = 0.0499878
+theme_override_font_sizes/font_size = 15
+text = "100"
+horizontal_alignment = 2
+
+[node name="SpeedSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.173
+anchor_right = 0.9
+anchor_bottom = 0.307
+offset_top = 0.0499992
+offset_right = -1.52588e-05
+offset_bottom = -0.0500031
+focus_mode = 0
+value = 50.0
+
+[node name="AccelSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.373
+anchor_right = 0.9
+anchor_bottom = 0.507
+offset_top = 0.0499954
+offset_right = -1.52588e-05
+offset_bottom = -0.0500031
+focus_mode = 0
+value = 50.0
+
+[node name="JumpSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.58
+anchor_right = 0.9
+anchor_bottom = 0.72
+offset_right = -1.52588e-05
+focus_mode = 0
+value = 50.0
+
+[node name="SkillSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.787
+anchor_right = 0.9
+anchor_bottom = 0.927
+offset_top = -0.0500107
+offset_right = -1.52588e-05
+offset_bottom = -0.0500031
+focus_mode = 0
+value = 50.0

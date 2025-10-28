@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsum6rbghs6q0"]
+
+[ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_k8ssp"]
+[ext_resource type="Script" uid="uid://bpedbqrro0w4d" path="res://mega_menu/save_button/save_button.gd" id="2_2mhsg"]
+
+[node name="SaveButton" instance=ExtResource("1_k8ssp")]
+script = ExtResource("2_2mhsg")

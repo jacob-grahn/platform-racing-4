@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5w5ac45k5g5s"]
+
+[ext_resource type="Script" uid="uid://dp0ndxb5xdyts" path="res://engine/level_manager.gd" id="1_w8xeb"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="2_w7x0e"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="3_q7g6s"]
+[ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://engine/level_encoder.tscn" id="4_q7g6s"]
+
+[node name="LevelManager" type="Node"]
+script = ExtResource("1_w8xeb")
+
+[node name="Layers" parent="." instance=ExtResource("2_w7x0e")]
+
+[node name="LevelDecoder" parent="." instance=ExtResource("3_q7g6s")]
+
+[node name="LevelEncoder" parent="." instance=ExtResource("4_q7g6s")]

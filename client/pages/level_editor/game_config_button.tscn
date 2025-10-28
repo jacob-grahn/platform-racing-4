@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5y5g5j5q5y5r"]
+
+[ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_abcde"]
+[ext_resource type="Script" path="res://pages/level_editor/game_config_button.gd" id="2_w8x5f"]
+
+[node name="GameConfigButton" instance=ExtResource("1_abcde")]
+script = ExtResource("2_w8x5f")

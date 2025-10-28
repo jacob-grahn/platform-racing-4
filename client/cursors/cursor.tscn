@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://joknjf6qnfx5"]
+
+[ext_resource type="Script" uid="uid://cpyq3gpxiuojd" path="res://cursors/cursor.gd" id="1_bnky5"]
+[ext_resource type="PackedScene" uid="uid://capwvms00utqf" path="res://cursors/block_cursor.tscn" id="2_7h2ej"]
+[ext_resource type="PackedScene" uid="uid://cauj7mmhr7tdc" path="res://cursors/draw_cursor.tscn" id="3_egyd5"]
+[ext_resource type="PackedScene" uid="uid://db753dcpsi48c" path="res://cursors/erase_cursor.tscn" id="4_1xtjb"]
+[ext_resource type="PackedScene" uid="uid://jjmfqdooq1yd" path="res://cursors/user_text_cursor.tscn" id="5_5xoxa"]
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("1_bnky5")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -2526.0
+offset_top = -1880.0
+offset_right = 4432.0
+offset_bottom = 3454.0
+
+[node name="BlockCursor" parent="." instance=ExtResource("2_7h2ej")]
+
+[node name="DrawCursor" parent="." instance=ExtResource("3_egyd5")]
+
+[node name="EraseCursor" parent="." instance=ExtResource("4_1xtjb")]
+
+[node name="UserTextCursor" parent="." instance=ExtResource("5_5xoxa")]

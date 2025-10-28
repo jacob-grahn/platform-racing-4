@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -13,7 +12,7 @@ type Hub struct {
 	clients map[*Client]bool
 
 	// Inbound messages from the clients.
-	broadcast chan *Update
+	broadcast chan *AuthenticatedClient
 
 	// Register requests from the clients.
 	register chan *Client
@@ -22,194 +21,89 @@ type Hub struct {
 	unregister chan *Client
 
 	// Rooms
-	rooms []*Room
+	rooms map[string]Room
+
+	// tickerDuration is the duration between ticks.
+	tickerDuration time.Duration
 }
 
 func newHub() *Hub {
+	return newHubWithTicker(30 * time.Second)
+}
+
+func newHubWithTicker(tickerDuration time.Duration) *Hub {
 	return &Hub{
-		broadcast:  make(chan *Update),
-		register:   make(chan *Client),
-		unregister: make(chan *Client),
-		clients:    make(map[*Client]bool),
-		rooms:      []*Room{},
+		broadcast:      make(chan *AuthenticatedClient),
+		register:       make(chan *Client),
+		unregister:     make(chan *Client),
+		clients:        make(map[*Client]bool),
+		rooms:          make(map[string]Room),
+		tickerDuration: tickerDuration,
 	}
 }
 
 func (h *Hub) run() {
+	ticker := time.NewTicker(h.tickerDuration)
+	defer ticker.Stop()
+
 	for {
 		select {
-
+		case <-ticker.C:
+			for roomName, room := range h.rooms {
+				if len(room.GetMembersID()) == 0 && time.Since(room.GetLastUpdateTime()) > 60*time.Second {
+					h.removeRoom(roomName)
+				}
+			}
 		case client := <-h.register:
 			h.clients[client] = true
 
 		case client := <-h.unregister:
 			if _, ok := h.clients[client]; ok {
+				room, found := h.findRoom(client.Room)
+				if found {
+					// This part needs to be updated to handle the new message format.
+					// For now, we'll just remove the client.
+					// A more robust solution would be to create a specific "quit" message.
+					room.RemoveMember(client.ID)
+				}
+
 				delete(h.clients, client)
 				close(client.send)
 			}
 
-		case update := <-h.broadcast:
+		case authenticatedClient := <-h.broadcast:
+			h.handleIncomingMessage(authenticatedClient)
+		}
+	}
+}
 
-			// skip updates if they do not have a room set
-			if update.Room == "" {
-				continue
-			}
-
-			// skip updates if they do not have a user id set
-			if update.ID == "" {
-				continue
-			}
-
-			// do room stuff
-			h.handleUpdate(update)
-
-			for client := range h.clients {
-				// skip this client if this is meant for a specific user and it is not this user
-				if update.TargetUserID != "" && update.TargetUserID != client.ID {
-					continue
-				}
-
-				// skip this client if it is not in the target room
-				if client.Room != update.Room {
-					continue
-				}
-
-				// do not send an update back to the same client it originated from unless ret=true
-				if client.ID == update.ID && !update.Ret {
-					continue
-				}
-
-				fmt.Println("Sending update: Module(", update.Module+"),  TargetUser("+client.ID+")")
-
-				// encode update into a byte array
-				jsonData, err := json.Marshal(update)
-				if err != nil {
-					fmt.Println(err)
-					continue
-				}
-
-				// write the update to the client
-				select {
-				case client.send <- jsonData:
-				default:
-					close(client.send)
-					delete(h.clients, client)
-				}
+func (h *Hub) broadcastUpdate(roomName string, message []byte, excludeClientID string) {
+	for client := range h.clients {
+		if client.Room == roomName && client.ID != excludeClientID {
+			select {
+			case client.send <- message:
+			default:
+				close(client.send)
+				delete(h.clients, client)
 			}
 		}
 	}
 }
 
-func (h *Hub) handleUpdate(update *Update) {
-	fmt.Println("Received update: Module(", update.Module+"),  From("+update.ID+")")
-
-	switch Module(update.Module) {
-	case JoinEditorModule:
-		h.handleJoinEditorModule(update)
-	case HostEditorModule:
-		h.handleHostEditorModule(update)
-		update.TargetUserID = update.ID
-	case RequestEditorModule:
-		h.handleRequestEditorModule(update)
-	case ResponseEditorModule:
-		h.handleResponseEditorModule(update)
-	case RequestRoomModule:
-		h.handleRequestRoomModule(update)
-	case EditorModule:
-		h.handleEditorModule(update)
-	}
-}
-
-func (h *Hub) handleJoinEditorModule(update *Update) {
-	room, found := h.findRoom(update.Room)
+func (h *Hub) handleIncomingMessage(authenticatedClient *AuthenticatedClient) {
+	room, found := h.findRoom(authenticatedClient.Client.Room)
 	if !found {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
+		fmt.Println("Room not found:", authenticatedClient.Client.Room)
 		return
 	}
-
-	room.MembersID = append(room.MembersID, update.ID)
-
-	update.Module = string(JoinSuccessModule)
-	update.MemberIDList = room.MembersID
-	update.HostID = room.HostID
+	room.HandleUpdate(authenticatedClient, h)
 }
 
-func (h *Hub) handleHostEditorModule(update *Update) {
-	if update.Room == "" {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-
-	if _, exists := h.findRoom(update.Room); exists {
-		h.setError(update, RoomExistsErrorMessage, update.ID)
-		return
-	}
-
-	h.rooms = append(h.rooms, &Room{
-		Name:      update.Room,
-		HostID:    update.ID,
-		MembersID: []string{update.ID},
-	})
-	update.Module = string(HostSuccessModule)
-	update.TargetUserID = update.ID
+func (h *Hub) findRoom(roomName string) (Room, bool) {
+	room, found := h.rooms[roomName]
+	return room, found
 }
 
-func (h *Hub) handleRequestEditorModule(update *Update) {
-	if update.Room == "" {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-
-	room, found := h.findRoom(update.Room)
-	if !found {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-
-	update.TargetUserID = room.HostID
-}
-
-func (h *Hub) handleResponseEditorModule(update *Update) {
-	if update.Room == "" {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-
-	_, found := h.findRoom(update.Room)
-	if !found {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-}
-
-func (h *Hub) handleRequestRoomModule(update *Update) {
-	room, found := h.findRoom(update.Room)
-	if !found {
-		h.setError(update, RoomNotFoundErrorMessage, update.ID)
-		return
-	}
-	update.Module = string(ResponseRoomModule)
-	update.MemberIDList = room.MembersID
-	update.HostID = room.HostID
-}
-
-func (h *Hub) handleEditorModule(update *Update) {
-	if update.Editor == nil {
-		update.Editor = &LevelEditorUpdate{}
-	}
-	update.Editor.Timestamp = time.Now().UnixMilli()
-}
-
-func (h *Hub) findRoom(roomName string) (*Room, bool) {
-	for i := range h.rooms {
-		if h.rooms[i].Name == roomName {
-			return h.rooms[i], true
-		}
-	}
-	return nil, false
-}
-
-func (h *Hub) setError(update *Update, errorMessage ErrorMessage, targetID string) {
-	update.ErrorMessage = string(errorMessage)
-	update.TargetUserID = targetID
+func (h *Hub) removeRoom(roomName string) {
+	delete(h.rooms, roomName)
 }

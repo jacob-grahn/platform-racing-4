@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://buc3eqhfknkqg"]
+
+[ext_resource type="Script" uid="uid://dq05so4e2fnxm" path="res://pages/level_editor/host_edit_panel/host_success_panel.gd" id="1_l7ruu"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="2_q0jy2"]
+
+[node name="HostSuccessPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = 21.0
+offset_right = 46.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l7ruu")
+
+[node name="BigPanel" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0.976471)
+layout_mode = 0
+offset_left = -125.0
+offset_top = -115.0
+offset_right = 2068.0
+offset_bottom = 1194.0
+
+[node name="SmallPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 655.0
+offset_top = 189.0
+offset_right = 1314.0
+offset_bottom = 576.0
+
+[node name="HostSuccessLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 689.0
+offset_top = 218.0
+offset_right = 1284.0
+offset_bottom = 332.0
+theme_override_font_sizes/font_size = 30
+text = "-- Host Success --
+Share the code below with your friends to edit the level together in real time!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 366.0
+offset_right = 816.0
+offset_bottom = 415.0
+theme_override_font_sizes/font_size = 30
+text = "Code"
+horizontal_alignment = 2
+
+[node name="TitleEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 356.0
+offset_right = 1235.0
+offset_bottom = 419.0
+theme = ExtResource("2_q0jy2")
+text = "long_code!!!"
+editable = false
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1015.0
+offset_top = 449.0
+offset_right = 1224.0
+offset_bottom = 520.0
+theme = ExtResource("2_q0jy2")
+text = "Close"

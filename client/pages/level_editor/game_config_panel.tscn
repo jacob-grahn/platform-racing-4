@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5w5c5j5q5y5r"]
+
+[ext_resource type="Script" path="res://pages/level_editor/game_config_panel.gd" id="1_w8x5f"]
+
+[node name="GameConfigPanel" type="PanelContainer"]
+offset_right = 400.0
+offset_bottom = 600.0
+script = ExtResource("1_w8x5f")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3

@@ -18,7 +18,7 @@ func parseLine(lineStr, color string, thickness int, mode string) Line {
 	values := strings.Split(lineStr, ";")
 	var startX, _ = strconv.Atoi(values[0])
 	var startY, _ = strconv.Atoi(values[1])
-	var polyline []Point
+	polyline := []Point{}
 	x := 0
 	y := 0
 

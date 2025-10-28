@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxcg4h4nj2njc"]
+
+[ext_resource type="Script" uid="uid://b4b8a10a21ks5" path="res://cursors/editor_cursors.gd" id="1_g4ett"]
+
+[node name="EditorCursors" type="Node2D"]
+script = ExtResource("1_g4ett")

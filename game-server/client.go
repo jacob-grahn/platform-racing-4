@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
+	"strings"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/websocket"
 )
 
@@ -21,7 +22,7 @@ const (
 	pingPeriod = (pongWait * 9) / 10
 
 	// Maximum message size allowed from peer.
-	maxMessageSize = 512
+	maxMessageSize = 64 * 1024
 )
 
 var upgrader = websocket.Upgrader{
@@ -66,34 +67,29 @@ func (c *Client) readPump() {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Printf("error: %v", err)
+				fmt.Printf("close error: %v\n", err)
 			}
+			fmt.Printf("other error: %v\n", err)
 			break
 		}
 
-		update := &Update{}
-		if err := json.Unmarshal(message, &update); err != nil {
+		var data map[string]interface{}
+		if err := json.Unmarshal(message, &data); err != nil {
 			fmt.Println("Invalid JSON received:", err)
-			break
+			continue
 		}
 
-		// persist room so it does not need to be sent with every request
-		if update.Room != "" {
-			c.Room = update.Room
-		} else {
-			update.Room = c.Room
+		data["room"] = c.Room
+		data["id"] = c.ID
+
+		// Re-marshal the message with the added fields
+		newMessage, err := json.Marshal(data)
+		if err != nil {
+			fmt.Println("Error re-marshalling message:", err)
+			continue
 		}
 
-		// perist user id so it does not need to be sent with every request
-		// todo: this field should not be set by the client, but fetched from session
-		if update.ID != "" {
-			c.ID = update.ID
-		} else {
-			update.ID = c.ID
-		}
-
-		update.ErrorMessage = string(EmptyErrorMessage)
-		c.hub.broadcast <- update
+		c.hub.broadcast <- &AuthenticatedClient{Client: c, Message: newMessage}
 	}
 }
 
@@ -144,13 +140,72 @@ func (c *Client) writePump() {
 
 // serveWs handles websocket requests from the peer.
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
+	roomID := strings.TrimPrefix(r.URL.Path, "/gameserver/")
+	if roomID == "" {
+		http.Error(w, "room is required", http.StatusBadRequest)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+
+	tokenString := r.URL.Query().Get("token")
+	if tokenString == "" {
+		http.Error(w, "token is required", http.StatusUnauthorized)
+		return
+	}
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		http.Error(w, "invalid token", http.StatusUnauthorized)
+		return
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		http.Error(w, "invalid token", http.StatusUnauthorized)
+		return
+	}
+
+	userID, ok := claims["user_id"].(string)
+	if !ok {
+		http.Error(w, "user_id not found in token", http.StatusUnauthorized)
+		return
+	}
+
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), ID: userID, Room: roomID}
 	client.hub.register <- client
+
+	room, exists := hub.findRoom(roomID)
+	if !exists {
+		parts := strings.SplitN(roomID, "/", 2)
+		if len(parts) != 2 {
+			// Handle invalid room format
+			return
+		}
+		roomType := parts[0]
+		roomName := parts[1]
+
+		switch roomType {
+		case "level-editor":
+			room = NewLevelEditorRoom(roomName)
+		case "game":
+			room = NewGameRoom(roomName)
+		default:
+			// Handle unknown room type error
+			return
+		}
+		hub.rooms[roomID] = room
+	}
+	room.AddMember(client.ID, hub)
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

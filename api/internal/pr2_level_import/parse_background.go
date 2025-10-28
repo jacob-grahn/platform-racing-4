@@ -23,5 +23,5 @@ func parseBackground(bg string) string {
 		return "skyscraper"
 	}
 
-	return "field"
+	return "blank"
 }

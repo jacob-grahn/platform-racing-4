@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bpxj57uuu7xc6"
+path="res://.godot/imported/PR2YeahSound.ogg-21552f47121616dba9eb56cd4141a849.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Currently unused but you can use these sounds if you want/PR2YeahSound.ogg"
+dest_files=["res://.godot/imported/PR2YeahSound.ogg-21552f47121616dba9eb56cd4141a849.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

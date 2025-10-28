@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
+
+[ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
+[ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
+[ext_resource type="PackedScene" uid="uid://b5w5ac45k5g5s" path="res://engine/level_manager.tscn" id="3_yuilv"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
+[ext_resource type="PackedScene" uid="uid://cwi7db32xkv2g" path="res://engine/player_manager.tscn" id="7_abcde"]
+[ext_resource type="PackedScene" uid="uid://c6gq7x1vjx1w" path="res://ui/minimap.tscn" id="7_yuilv"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_cq41v")
+
+[node name="BG" parent="." instance=ExtResource("2_drtex")]
+
+[node name="LevelManager" parent="." instance=ExtResource("3_yuilv")]
+
+[node name="PlayerManager" parent="." instance=ExtResource("7_abcde")]
+
+[node name="EditorEvents" parent="." instance=ExtResource("5_mko5n")]
+
+[node name="Penciler" parent="." instance=ExtResource("6_x1v3o")]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="Container" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BackgroundPanel" type="Panel" parent="UI/Container"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.861
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.119934
+grow_vertical = 2
+
+[node name="Minimap" parent="UI/Container" instance=ExtResource("7_yuilv")]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 124.0
+offset_right = -124.0
+offset_bottom = -884.0
+
+[node name="BackButton" type="Button" parent="UI/Container"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.937
+anchor_top = 0.935
+anchor_right = 0.99
+anchor_bottom = 0.981
+offset_left = 0.959961
+offset_top = 0.199951
+offset_right = -0.800171
+offset_bottom = 0.519897
+text = "Back"

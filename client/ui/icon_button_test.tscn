@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5rm6afhh1j57"]
+
+[ext_resource type="Script" uid="uid://usorxggwc2s2" path="res://ui/icon_button_test.gd" id="1_2kq7y"]
+[ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_j6ftc"]
+
+[node name="IconButtonTest" type="Node2D"]
+script = ExtResource("1_2kq7y")
+
+[node name="IconButton" parent="." instance=ExtResource("1_j6ftc")]
+position = Vector2(136, 133)
