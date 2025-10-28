@@ -71,7 +71,7 @@ static func _run_items_test(main_instance: Main):
 	for i in range(15):
 		character.set_item(i)
 		await main_instance.get_tree().create_timer(0.5).timeout
-		character.item_manager.use(main_instance.get_process_delta_time())
+		character.item_manager.try_to_use(main_instance.get_process_delta_time())
 		await main_instance.get_tree().create_timer(0.5).timeout
 
 

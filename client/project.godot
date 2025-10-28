@@ -26,7 +26,6 @@ StringUtils="*res://singletons/string_utils.gd"
 Session="*res://singletons/session/session.gd"
 Jukebox="*res://singletons/jukebox/jukebox.tscn"
 CachingLoader="*res://singletons/caching_loader.gd"
-AudioManager="*res://singletons/audio_manager.gd"
 
 [display]
 
