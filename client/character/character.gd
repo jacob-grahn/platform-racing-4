@@ -23,7 +23,6 @@ signal increase_time(new_timer: float)
 @onready var item_holder_display := $Display/ItemHolder
 @onready var sjaura := $SuperJumpAura
 @onready var animations: AnimationPlayer = $Display/Animations
-@onready var audioplayer: AudioStreamPlayer2D = $AudioPlayer
 
 var active := false
 var item: Node2D
@@ -45,9 +44,8 @@ var control_vector: Vector2
 
 
 func _ready() -> void:
-	item_manager.item_holder = $Display/ItemHolder
-	audioplayer.stream = AudioStreamPolyphonic.new()
-	audioplayer.max_polyphony = 32
+	item_manager.init(self)
+	item_manager.item_holder = item_holder_display
 	# Initialize all the controllers
 	camera_controller = CameraController.new(camera)
 	lightbreak = LightbreakController.new(light, sun_particles, moon_particles)
@@ -119,10 +117,28 @@ func _physics_process(delta: float) -> void:
 	tile_interaction.check_out_of_bounds(self)
 
 
+func _bump_tile_covering_high_area() -> void:
+	var tiles: Array = get_tiles_overlapping_area(high_area)
+	
+	if tiles.size() != 0:
+		var tile = tiles[0]
+		var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
+	
+		movement.attempting_bump = true
+		if tile != movement.last_bumped_block:
+			tile_interaction._tiles.on("bottom", tile_type, self, tile.tile_map_layer, tile.coords)
+			tile_interaction._tiles.on("any_side", tile_type, self, tile.tile_map_layer, tile.coords)
+			tile_interaction._tiles.on("bump", tile_type, self, tile.tile_map_layer, tile.coords)
+			movement.last_bumped_block = tile
+			Jukebox.play_sound("bump")
+	else:
+		push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
+
+
 func _process_item_forces(delta: float) -> void:
 	var item_force := Vector2.ZERO
 	if item_manager.item:
-		item_force = item_manager.get_item_force(delta)
+		item_force = item_manager.force
 	
 	if item_force != Vector2.ZERO:
 		var item_force_x: float = item_force.x * display.scale.x
@@ -133,7 +149,7 @@ func _process_item_forces(delta: float) -> void:
 func _process_items(delta: float) -> void:
 	# Use items
 	if not movement.hurt and Input.is_action_pressed("item"):
-		item_manager.use(delta)
+		item_manager.try_to_use(delta)
 	
 	# Check item state
 	if not movement.hurt and item:
@@ -141,10 +157,6 @@ func _process_items(delta: float) -> void:
 
 
 # Public methods maintained for compatibility with existing code
-
-func _bump_tile_covering_high_area() -> void:
-	tile_interaction.bump_tile_covering_high_area(self)
-
 
 func freeze() -> void:
 	movement.freeze(stats.get_skill_bonus())
@@ -168,18 +180,8 @@ func set_depth(depth: int) -> void:
 
 
 func set_item(new_item_id: int) -> void:
-	item_manager.set_item_id(new_item_id, self)
+	item_manager.set_item_id(new_item_id)
 
 
 func get_tiles_overlapping_area(area: Area2D) -> Array:
 	return tile_interaction.get_tiles_overlapping_area(area)
-
-
-func play_sound(audio_stream: AudioStream, volume) -> void:
-	var loaded_audio = audio_stream
-	audioplayer.play()
-	var polyphonicaudio = audioplayer.get_stream_playback()
-	if volume:
-		polyphonicaudio.play_stream(loaded_audio, 0, volume)
-	else:
-		polyphonicaudio.play_stream(loaded_audio)

@@ -89,7 +89,7 @@ func process(delta: float, character: Character, stats: Stats, gravity: Gravity,
 		elif character.is_on_floor() and velocity.rotated(-character.rotation).y > GameConfig.get_value("player_jump_velocity") * GameConfig.get_value("player_jump_velocity_multiplier"):
 			jumped = true
 			jump_timer = GameConfig.get_value("player_coyote_jump_time")
-			character.play_sound(AudioManager.JUMP, null)
+			Jukebox.play_sound("jump")
 	
 	# Reset wall sliding if on floor or swimming
 	if character.is_on_floor() or swimming:
@@ -248,6 +248,8 @@ func _cap_velocity(velocity: Vector2) -> Vector2:
 func _bump_tile_covering_high_area(character: Character):
 	# This needs to be implemented in the character class
 	# as it depends on game and tile interactions
+	# update: it's moved to character class i think,
+	# nothing bad happened so i think it works
 	character._bump_tile_covering_high_area()
 
 
@@ -263,3 +265,9 @@ func hitstun(duration: float, has_shield: bool):
 		frozen_timer = 0
 		frozen = false
 		hurt = true
+		if size.y >= 0.75 and size.y <= 1.25:
+			Jukebox.play_sound("ouch")
+		elif size.y < 0.75:
+			Jukebox.play_sound("ouchcute")
+		else:
+			Jukebox.play_sound("ouchmanlu")

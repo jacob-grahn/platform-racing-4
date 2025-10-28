@@ -2,8 +2,6 @@ class_name SuperJump
 ## Handles the super jump ability charging and execution.
 ## Manages charge timers and provides state information.
 
-const SUPER_JUMP_SOUND := preload("res://sounds/SuperJumpSound.ogg")
-
 var charge_timer: float = 0.0
 var sjanim_timer: float = 0.0
 
@@ -22,7 +20,7 @@ func run(character: Character, delta: float) -> void:
 					(charge_timer - GameConfig.get_value("super_jump_min_charge_threshold")) / 
 					(GameConfig.get_value("super_jump_charge_time") - GameConfig.get_value("super_jump_min_charge_threshold")))
 		if charge_timer >= GameConfig.get_value("super_jump_min_charge_threshold"):
-			character.play_sound(AudioManager.SUPERJUMP, linear_to_db(sjanim_timer))
+			Jukebox.play_sound("superjump") # linear_to_db(sjanim_timer)
 		charge_timer = 0
 		sjanim_timer = 0
 		return

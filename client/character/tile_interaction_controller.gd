@@ -2,8 +2,7 @@ class_name TileInteractionController
 ## Manages character interactions with tiles in the game world.
 ## Handles collision detection, tile effects, and character depth management.
 
-const OUT_OF_BOUNDS_BLOCK_COUNT = 10
-const BUMP_SOUND := preload("res://sounds/BumpSound.ogg")
+const OUT_OF_BOUNDS_BLOCK_COUNT = 15
 
 var game: Node2D
 var _tiles: Tiles
@@ -28,26 +27,7 @@ func get_tile_covering_high_area(character: Character) -> Dictionary:
 		return {}
 	
 	var tile = tiles[0]
-	var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
 	return tile
-
-func bump_tile_covering_high_area(character: Character) -> void:
-	var tiles: Array = get_tiles_overlapping_area(high_area)
-	
-	if tiles.size() == 0:
-		push_error("TileInteractionController::bump_tile_covering_high_area - No tile covering high area")
-		return
-	
-	var tile = tiles[0]
-	var tile_type = CoordinateUtils.to_block_id(tile.atlas_coords)
-	
-	character.movement.attempting_bump = true
-	if tile != character.movement.last_bumped_block:
-		_tiles.on("bottom", tile_type, character, tile.tile_map_layer, tile.coords)
-		_tiles.on("any_side", tile_type, character, tile.tile_map_layer, tile.coords)
-		_tiles.on("bump", tile_type, character, tile.tile_map_layer, tile.coords)
-		character.movement.last_bumped_block = tile
-		character.play_sound(AudioManager.BUMP, null)
 
 
 func should_crouch(character: Character) -> bool:
@@ -63,10 +43,14 @@ func should_crouch(character: Character) -> bool:
 func interact_with_incoporeal_tiles(character: Character):
 	character.movement.swimming = false
 	var tiles_overlapping: Array = get_tiles_overlapping_area(low_area)
-	for tile in tiles_overlapping:
-		if _tiles.is_liquid(tile.block_id):
-			character.movement.swimming = true
-		_tiles.on("area", tile.block_id, character, tile.tile_map_layer, tile.coords)
+	
+	if tiles_overlapping.size() == 0:
+		return
+	
+	var overlapping_tile = tiles_overlapping[0]
+	if _tiles.is_liquid(overlapping_tile.block_id):
+		character.movement.swimming = true
+	_tiles.on("area", overlapping_tile.block_id, character, overlapping_tile.tile_map_layer, overlapping_tile.coords)
 
 
 func interact_with_solid_tiles(character: Character, lightning: LightbreakController) -> bool:
@@ -106,7 +90,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 				_tiles.on("bottom", tile_type, character, tile_map_layer, coords)
 				_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
 				_tiles.on("bump", tile_type, character, tile_map_layer, coords)
-				character.play_sound(AudioManager.BUMP, null)
+				Jukebox.play_sound("bump")
 		else:
 			_tiles.on("top", tile_type, character, tile_map_layer, coords)
 			_tiles.on("any_side", tile_type, character, tile_map_layer, coords)
@@ -123,7 +107,7 @@ func interact_with_solid_tiles(character: Character, lightning: LightbreakContro
 				if Game.game:
 					var level_manager = Game.game.get_node("LevelManager")
 					if level_manager:
-						last_safe_layer = level_manager.layers.get_node(str(str(tile_map_layer.get_parent().name)))
+						last_safe_layer = level_manager.layers.block_layers.get_node(str(str(tile_map_layer.get_parent().name)))
 	
 	# Blow up tiles when sun lightbreaking
 	if lightning.direction.length() > 0 and lightning.fire_power > 0:
@@ -151,7 +135,7 @@ func check_out_of_bounds(character: Character) -> void:
 	var player_y_normalised = character.position.y / Settings.tile_size.y
 		
 	if player_x_normalised < min_x or player_x_normalised > max_x or \
-	   player_y_normalised < min_y or player_y_normalised > max_y:
+	   player_y_normalised > max_y:
 		character.position.x = last_safe_position.x
 		character.position.y = last_safe_position.y
 		character.velocity = Vector2(0, 0)

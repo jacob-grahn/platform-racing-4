@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ul8rfnnwv3p" path="res://character_display/character_display.tscn" id="9_ydu4f"]
 [ext_resource type="Material" uid="uid://b0kud4406o47w" path="res://particles/SpeedParticles.tres" id="10_orckd"]
 [ext_resource type="Texture2D" uid="uid://b1pcm6l0nv5w6" path="res://character/super_jump_aura.svg" id="11_r00fj"]
-[ext_resource type="Script" uid="uid://cho1gwvbolta2" path="res://items/item.gd" id="14_rudt7"]
+[ext_resource type="PackedScene" uid="uid://b4wwcnkcyxad" path="res://items/item.tscn" id="12_hq3og"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hdlk0"]
 
@@ -83,9 +83,11 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HighArea"]
 shape = SubResource("RectangleShape2D_ju3rb")
 
-[node name="ItemManager" type="Node2D" parent="."]
+[node name="oldItemManager" type="Node2D" parent="."]
 position = Vector2(-6, -128)
-script = ExtResource("14_rudt7")
+
+[node name="ItemManager" parent="." instance=ExtResource("12_hq3og")]
+position = Vector2(-6, -128)
 
 [node name="Invincibility" parent="." instance=ExtResource("6_rt6gv")]
 visible = false
@@ -106,6 +108,3 @@ position = Vector2(-4, 0)
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("7_l8eep")
 offset = Vector2(0, -180)
-
-[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
-visible = false

@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://lue0fopbycbd"]
+
+[ext_resource type="Script" uid="uid://b2wps3sqmg8l1" path="res://character/character_hitbox.gd" id="1_bq4nn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ohgwb"]
+size = Vector2(32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fmxg"]
+size = Vector2(64, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibj5s"]
+size = Vector2(32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euwns"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0eroj"]
+size = Vector2(32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4le2l"]
+size = Vector2(64, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwp2r"]
+size = Vector2(32, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq4nn"]
+size = Vector2(48, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dbltg"]
+size = Vector2(2, 88)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_amjrr"]
+size = Vector2(64, 180)
+
+[node name="CharacterHitbox" type="Node2D"]
+position = Vector2(0, -90)
+script = ExtResource("1_bq4nn")
+
+[node name="Hitbox1" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-16, -89.5)
+shape = SubResource("RectangleShape2D_ohgwb")
+
+[node name="Hitbox2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -89.5)
+shape = SubResource("RectangleShape2D_4fmxg")
+
+[node name="Hitbox3" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(16, -89.5)
+shape = SubResource("RectangleShape2D_ibj5s")
+
+[node name="Hitbox4" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_euwns")
+
+[node name="Hitbox5" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-16, 89.5)
+shape = SubResource("RectangleShape2D_0eroj")
+
+[node name="Hitbox6" type="CollisionShape2D" parent="."]
+position = Vector2(0, 89.5)
+shape = SubResource("RectangleShape2D_4le2l")
+
+[node name="Hitbox7" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(16, 89.5)
+shape = SubResource("RectangleShape2D_uwp2r")
+
+[node name="Hitbox8" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bq4nn")
+
+[node name="Hitbox9" type="CollisionShape2D" parent="."]
+position = Vector2(0, 45)
+shape = SubResource("RectangleShape2D_dbltg")
+
+[node name="Hitbox10" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_amjrr")
