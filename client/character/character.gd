@@ -29,7 +29,6 @@ var item: Node2D
 var game: Node2D
 var shielded: bool = false
 var tiles: Tiles
-var audio : AudioStreamPlaybackPolyphonic
 
 # Component controllers
 var stats: Stats = Stats.new()
