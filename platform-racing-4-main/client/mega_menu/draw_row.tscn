@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://81bgrq04dca7"]
-
-[ext_resource type="Script" uid="uid://cmh7i6uhcht0t" path="res://mega_menu/draw_row.gd" id="1_tev1b"]
-
-[node name="DrawRow" type="Node2D"]
-script = ExtResource("1_tev1b")

@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b2inflhh3ll2k"]
-
-[node name="ChatRow" type="RichTextLabel"]
-text = "Greg: Hello how are you? Very nice to meet you here!"
-fit_content = true
-scroll_active = false

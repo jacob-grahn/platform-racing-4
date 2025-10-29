@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjuk2b1pgmd6p"]
-
-[ext_resource type="PackedScene" uid="uid://djdcji4s5t1fr" path="res://ui/icon_button.tscn" id="1_e1s3c"]
-[ext_resource type="Script" uid="uid://mnisobhkf6od" path="res://mega_menu/block_button.gd" id="2_wqcke"]
-
-[node name="BlockButton" instance=ExtResource("1_e1s3c")]
-script = ExtResource("2_wqcke")

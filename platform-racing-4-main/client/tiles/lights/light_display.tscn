@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://vlw5jd0hffg2"]
-
-[ext_resource type="Texture2D" uid="uid://cehyy72i5ulc4" path="res://tiles/lights/simple_light.png" id="1_n1imr"]
-
-[node name="LightDisplay" type="Node2D"]
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 0.5
-texture = ExtResource("1_n1imr")
