@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://vlkc7ol0nrts"
+path="res://.godot/imported/pr1headbounce-sound.mp3-0f4b7fb8efad5588b0c8960d6b99c9c9.mp3str"
+
+[deps]
+
+source_file="res://sounds/currently unused but you can use these sounds if you want/pr1headbounce-sound.mp3"
+dest_files=["res://.godot/imported/pr1headbounce-sound.mp3-0f4b7fb8efad5588b0c8960d6b99c9c9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

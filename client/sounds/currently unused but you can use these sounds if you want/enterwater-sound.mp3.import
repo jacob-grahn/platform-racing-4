@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b180swvgi2xr7"
+path="res://.godot/imported/enterwater-sound.mp3-20850fe75de45635fd6ce82f4859e811.mp3str"
+
+[deps]
+
+source_file="res://sounds/currently unused but you can use these sounds if you want/enterwater-sound.mp3"
+dest_files=["res://.godot/imported/enterwater-sound.mp3-20850fe75de45635fd6ce82f4859e811.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
