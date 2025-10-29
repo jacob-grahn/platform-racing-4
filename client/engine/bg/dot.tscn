@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://0da42cuy01s4"]
-
-[ext_resource type="Texture2D" uid="uid://c18ud02u65ogu" path="res://engine/bg/pr2bg5-dots-dot.svg" id="1_f2wvw"]
-
-[node name="Dot" type="Sprite2D"]
-texture = ExtResource("1_f2wvw")
-offset = Vector2(12.5, 12.5)
