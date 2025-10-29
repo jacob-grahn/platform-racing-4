@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfq7acty6r4e5"]
 
 [ext_resource type="Script" uid="uid://coqpn2mf1ktda" path="res://ui/stats_display.gd" id="1_4lnmy"]
-[ext_resource type="FontFile" uid="uid://bwaf3qniidpel" path="res://fonts/Arial/Arial.ttf" id="1_agt1n"]
+[ext_resource type="FontFile" uid="uid://bt2lhc1in1ark" path="res://fonts/arial/arial.ttf" id="1_agt1n"]
 
 [node name="StatsDisplay" type="Control"]
 layout_mode = 3

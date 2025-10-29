@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b056qp8qe1oc1"]
 
 [ext_resource type="Script" uid="uid://bvmu0wc3va6bj" path="res://ui/game_timer.gd" id="1_icbrh"]
-[ext_resource type="FontFile" uid="uid://bwaf3qniidpel" path="res://fonts/Arial/Arial.ttf" id="2_4tne8"]
+[ext_resource type="FontFile" uid="uid://bt2lhc1in1ark" path="res://fonts/arial/arial.ttf" id="2_4tne8"]
 
 [node name="GameTimer" type="Control"]
 layout_mode = 3

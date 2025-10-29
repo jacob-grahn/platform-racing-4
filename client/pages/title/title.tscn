@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bhw1mbgjp7dby"]
 
 [ext_resource type="Script" uid="uid://dyjok55lmblxb" path="res://pages/title/title.gd" id="1_d2gdb"]
-[ext_resource type="FontFile" uid="uid://b8dxmqion7w1k" path="res://fonts/Gwibble/Gwibble.ttf" id="2_a4giu"]
+[ext_resource type="FontFile" uid="uid://bl2oollbyb0rj" path="res://fonts/gwibble/gwibble.ttf" id="2_a4giu"]
 [ext_resource type="PackedScene" uid="uid://5j8rklfmops0" path="res://pages/title/parallax_bg/parallax_bg.tscn" id="3_033iv"]
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_k3j40"]
 [ext_resource type="Texture2D" uid="uid://bteadegxvoxj1" path="res://pages/title/title_text_fill.png" id="5_giwdd"]
@@ -192,7 +192,7 @@ modulate = Color(1, 1, 1, 0.533333)
 offset_left = 1295.03
 offset_top = -422.36
 offset_right = 1414.03
-offset_bottom = 203.64
+offset_bottom = 203.64001
 rotation = 0.305433
 
 [node name="Title-text-fill2" type="Sprite2D" parent="Title0"]
@@ -223,7 +223,7 @@ theme = ExtResource("3_k3j40")
 text = "Settings"
 
 [node name="AwaitingLoginPanel" type="Panel" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_left = 822.0
 offset_top = 518.0
 offset_right = 1122.0
@@ -242,7 +242,7 @@ horizontal_alignment = 1
 
 [node name="NotLoggedInPanel" type="Panel" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 offset_left = 797.0
 offset_top = 518.0
 offset_right = 1147.0
@@ -283,7 +283,7 @@ text = "Credits"
 
 [node name="LoggedInPanel" type="Panel" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 offset_left = 797.0
 offset_top = 518.0
 offset_right = 1147.0

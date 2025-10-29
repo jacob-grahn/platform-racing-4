@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bd5s00pd0hnyw"]
+[gd_scene load_steps=15 format=3 uid="uid://vcgls8k08x15"]
 
 [ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_dx5gr"]
 [ext_resource type="Script" uid="uid://bsaxjhyjna6n4" path="res://pages/level_editor/join_edit_panel/join_edit_panel.gd" id="1_mrp5k"]
 [ext_resource type="Texture2D" uid="uid://d3tjjpdo6y7w" path="res://ui/button_bg.png" id="2_dx5gr"]
-[ext_resource type="FontFile" uid="uid://cj6s65k6vg5xn" path="res://fonts/Quicksand/static/Quicksand-Medium.ttf" id="4_c7vo2"]
+[ext_resource type="FontFile" uid="uid://dpmyxsdjp8lba" path="res://fonts/quicksand/static/quicksand-medium.ttf" id="4_c7vo2"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_88cch"]
 texture = ExtResource("2_dx5gr")
