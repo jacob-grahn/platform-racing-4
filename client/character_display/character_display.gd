@@ -49,8 +49,10 @@ const ANIMS := [
 
 var played_footstep = false
 
+
 func _process(delta: float) -> void:
 	played_footstep = false
+
 
 func set_style(character_config: Dictionary) -> void:
 	# colors

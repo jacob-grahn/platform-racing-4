@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://7g8hiylx676c"]
+
+[node name="ConfirmDeletePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.357
+anchor_top = 0.338
+anchor_right = 0.643
+anchor_bottom = 0.662
+offset_left = -0.440063
+offset_top = -0.0400391
+offset_right = 0.439941
+offset_bottom = 0.039917
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.422
+anchor_top = 0.356
+anchor_right = 0.578
+anchor_bottom = 0.416
+offset_left = -0.240051
+offset_top = -0.480011
+offset_right = 0.23999
+offset_bottom = -0.279999
+theme_override_font_sizes/font_size = 48
+text = "- WARNING! -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.382
+anchor_top = 0.425
+anchor_right = 0.618
+anchor_bottom = 0.575
+offset_left = -0.440063
+offset_right = 0.439941
+offset_bottom = -6.10352e-05
+text = "Deleting levels/blocks/stamps is like
+burning paper; once the paper has
+been burnt, the paper is gone FOREVER.
+
+Are you sure you want to do this?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YesButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.383
+anchor_top = 0.588
+anchor_right = 0.461
+anchor_bottom = 0.634
+offset_left = -0.360046
+offset_top = -0.039978
+offset_right = -0.120056
+offset_bottom = 0.279968
+text = "Yes"
+
+[node name="NoButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.539
+anchor_top = 0.588
+anchor_right = 0.617
+anchor_bottom = 0.634
+offset_left = 0.119873
+offset_top = -0.039978
+offset_right = 0.359863
+offset_bottom = 0.279968
+text = "No"

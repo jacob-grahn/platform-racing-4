@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://ro82b48ln0gj"]
+
+[ext_resource type="Script" uid="uid://budwhkljv22wv" path="res://pages/game/game.gd" id="1_cq41v"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="2_dbxag"]
+[ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="2_drtex"]
+[ext_resource type="PackedScene" uid="uid://cac2mip8v8fdu" path="res://pages/game/minimaps.tscn" id="5_bs0oa"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_m5d4g"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="5_mko5n"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="6_x1v3o"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_cq41v")
+
+[node name="BG" parent="." instance=ExtResource("2_drtex")]
+
+[node name="Layers" parent="." instance=ExtResource("5_m5d4g")]
+position = Vector2(268, 504)
+
+[node name="LevelDecoder" parent="." instance=ExtResource("2_dbxag")]
+position = Vector2(268, 504)
+
+[node name="EditorEvents" parent="." instance=ExtResource("5_mko5n")]
+
+[node name="Penciler" parent="." instance=ExtResource("6_x1v3o")]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="BackgroundPanel" type="Panel" parent="UI"]
+anchors_preset = -1
+anchor_top = 0.861
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.119934
+grow_vertical = 2
+
+[node name="Minimaps" parent="UI" instance=ExtResource("5_bs0oa")]
+anchor_top = 0.861
+anchor_bottom = 1.0
+offset_top = 0.119934
+offset_bottom = 0.0
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.937
+anchor_top = 0.935
+anchor_right = 0.99
+anchor_bottom = 0.981
+offset_left = 0.959961
+offset_top = 0.199951
+offset_right = -0.800171
+offset_bottom = 0.519897
+text = "Back"

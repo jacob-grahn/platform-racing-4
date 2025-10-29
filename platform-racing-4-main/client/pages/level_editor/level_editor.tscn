@@ -1,0 +1,177 @@
+[gd_scene load_steps=25 format=3 uid="uid://gotxkw71bwdq"]
+
+[ext_resource type="Script" uid="uid://dcgenyyaoaf2q" path="res://pages/level_editor/level_editor.gd" id="1_8rp7f"]
+[ext_resource type="PackedScene" uid="uid://b37txmrlmt0ae" path="res://engine/editor_camera.tscn" id="2_bfjim"]
+[ext_resource type="PackedScene" uid="uid://cl0yelhxpgf2k" path="res://engine/editor_events.tscn" id="3_snr4q"]
+[ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="4_fynqk"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="5_it2eq"]
+[ext_resource type="PackedScene" uid="uid://batk4yeogrp0r" path="res://engine/level_encoder.tscn" id="6_prs2r"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="7_rwsth"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="8_1a1os"]
+[ext_resource type="PackedScene" uid="uid://cxcg4h4nj2njc" path="res://cursors/editor_cursors.tscn" id="9_fdh4p"]
+[ext_resource type="PackedScene" uid="uid://joknjf6qnfx5" path="res://cursors/cursor.tscn" id="10_l66nm"]
+[ext_resource type="PackedScene" uid="uid://c1an2cgd34sv1" path="res://mega_menu/editor_menu.tscn" id="11_jwge3"]
+[ext_resource type="PackedScene" uid="uid://cntljr72fl7i0" path="res://engine/layer_panel/layer_panel.tscn" id="12_2r3w1"]
+[ext_resource type="PackedScene" uid="uid://byvkv77mar56f" path="res://pages/level_editor/load_panel/load_panel.tscn" id="14_vayf1"]
+[ext_resource type="PackedScene" uid="uid://dv6v6vw5w7rts" path="res://pages/level_editor/explore_panel/explore_panel.tscn" id="15_foj5b"]
+[ext_resource type="PackedScene" uid="uid://u216ejsni2bv" path="res://pages/level_editor/now_editing_panel/now_editing_panel.tscn" id="16_n6ic7"]
+[ext_resource type="PackedScene" uid="uid://bd5s00pd0hnyw" path="res://pages/level_editor/join_edit_panel/join_edit_panel.tscn" id="17_mixqj"]
+[ext_resource type="PackedScene" uid="uid://b5m28uva2sq6k" path="res://pages/level_editor/quit_edit_panel/quit_edit_panel.tscn" id="18_x1s68"]
+[ext_resource type="PackedScene" uid="uid://cjlp6cp6j6dmi" path="res://pages/level_editor/save_panel/save_panel.tscn" id="19_uv73h"]
+[ext_resource type="PackedScene" uid="uid://btvkl4bty00x8" path="res://pages/level_editor/host_success_panel/host_edit_panel.tscn" id="20_hb728"]
+[ext_resource type="PackedScene" uid="uid://buc3eqhfknkqg" path="res://pages/level_editor/host_edit_panel/host_success_panel.tscn" id="21_bphn5"]
+[ext_resource type="PackedScene" uid="uid://7g8hiylx676c" path="res://pages/level_editor/confirm_delete_panel/confirm_delete_panel.tscn" id="22_dncl7"]
+[ext_resource type="PackedScene" uid="uid://bxc2pu2q611e0" path="res://pages/level_editor/popup_panel/popup_panel.tscn" id="22_y0r4o"]
+[ext_resource type="Script" uid="uid://dmbg2bj6kpuvp" path="res://pages/level_editor/confirm_delete_panel/confirm_delete_panel.gd" id="23_8ccle"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="23_560jm"]
+
+[node name="LevelEditor" type="Node2D"]
+script = ExtResource("1_8rp7f")
+
+[node name="EditorCamera" parent="." instance=ExtResource("2_bfjim")]
+zoom = Vector2(0.5, 0.5)
+
+[node name="EditorEvents" parent="." instance=ExtResource("3_snr4q")]
+
+[node name="BG" parent="." instance=ExtResource("4_fynqk")]
+
+[node name="Layers" parent="." instance=ExtResource("5_it2eq")]
+
+[node name="LevelEncoder" parent="." instance=ExtResource("6_prs2r")]
+
+[node name="LevelDecoder" parent="." instance=ExtResource("7_rwsth")]
+
+[node name="Penciler" parent="." instance=ExtResource("8_1a1os")]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="EditorCursorLayer" type="CanvasLayer" parent="."]
+layer = 100
+follow_viewport_enabled = true
+
+[node name="EditorCursors" parent="EditorCursorLayer" instance=ExtResource("9_fdh4p")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="Cursor" parent="UI" instance=ExtResource("10_l66nm")]
+
+[node name="EditorMenu" parent="UI" instance=ExtResource("11_jwge3")]
+
+[node name="LayerPanel" parent="UI" instance=ExtResource("12_2r3w1")]
+
+[node name="LoadPanel" parent="UI" instance=ExtResource("14_vayf1")]
+visible = false
+
+[node name="ExplorePanel" parent="UI" instance=ExtResource("15_foj5b")]
+visible = false
+
+[node name="NowEditingPanel" parent="UI" instance=ExtResource("16_n6ic7")]
+visible = false
+
+[node name="JoinEditPanel" parent="UI" instance=ExtResource("17_mixqj")]
+visible = false
+
+[node name="QuitEditPanel" parent="UI" instance=ExtResource("18_x1s68")]
+visible = false
+
+[node name="SavePanel" parent="UI" instance=ExtResource("19_uv73h")]
+visible = false
+
+[node name="HostEditPanel" parent="UI" instance=ExtResource("20_hb728")]
+visible = false
+
+[node name="HostSuccessPanel" parent="UI" instance=ExtResource("21_bphn5")]
+visible = false
+
+[node name="PopupPanel" parent="UI" instance=ExtResource("22_y0r4o")]
+visible = false
+
+[node name="ConfirmDeletePanel" parent="UI" instance=ExtResource("22_dncl7")]
+visible = false
+script = ExtResource("23_8ccle")
+
+[node name="Explore" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.745
+anchor_top = 0.019
+anchor_right = 0.823
+anchor_bottom = 0.065
+offset_left = -0.400146
+offset_top = -0.52
+offset_right = -0.160034
+offset_bottom = -0.200005
+theme = ExtResource("23_560jm")
+text = "Explore"
+
+[node name="Load" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.83
+anchor_top = 0.074
+anchor_right = 0.908
+anchor_bottom = 0.12
+offset_left = -3.6001
+offset_top = 0.0800018
+offset_right = -3.36011
+offset_bottom = 0.399994
+theme = ExtResource("23_560jm")
+text = "Load"
+
+[node name="Save" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.828
+anchor_top = 0.019
+anchor_right = 0.906
+anchor_bottom = 0.065
+offset_left = 0.239868
+offset_top = -0.52
+offset_right = 0.47998
+offset_bottom = -0.200005
+theme = ExtResource("23_560jm")
+text = "Save"
+
+[node name="Test" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.911
+anchor_top = 0.019
+anchor_right = 0.99
+anchor_bottom = 0.065
+offset_left = 0.879883
+offset_top = -0.52
+offset_right = -0.800171
+offset_bottom = -0.200005
+theme = ExtResource("23_560jm")
+text = "Test!"
+
+[node name="Clear" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.661
+anchor_top = 0.019
+anchor_right = 0.74
+anchor_bottom = 0.065
+offset_left = 0.880005
+offset_top = -0.52
+offset_right = -0.800049
+offset_bottom = -0.200005
+theme = ExtResource("23_560jm")
+text = "Clear"
+
+[node name="Back" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.911
+anchor_top = 0.074
+anchor_right = 0.99
+anchor_bottom = 0.12
+offset_left = 0.879883
+offset_top = 0.0800018
+offset_right = -0.800171
+offset_bottom = 0.399994
+theme = ExtResource("23_560jm")
+text = "Back"
+
+[node name="BackgroundPanel" type="Panel" parent="UI"]
+visible = false
+offset_left = 8.0
+offset_top = -1.0
+offset_right = 1961.0
+offset_bottom = 234.0

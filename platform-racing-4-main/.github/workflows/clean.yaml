@@ -1,0 +1,21 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 5 5 * *"  # At 05:05 on day-of-month 5
+permissions:
+  packages: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    name: Delete old images
+    steps:
+      - uses: snok/container-retention-policy@v3.0.0
+        with:
+          account: user
+          token: ${{ secrets.GITHUB_TOKEN }}
+          image-names: "platform-racing-4-api platform-racing-4-client-web"
+          image-tags: "*main* *release*"
+          cut-off: 4w
+          keep-n-most-recent: 5
+          dry-run: false

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxox6butkxpwh"]
+
+[ext_resource type="Script" uid="uid://dhij341nha4j0" path="res://character/invincibility.gd" id="1_kfo0l"]
+
+[node name="Shield" type="Node2D"]
+script = ExtResource("1_kfo0l")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-624, -1016)
+polygon = PackedVector2Array(390, 365, 580, 257, 744, 281, 834, 425, 848, 669, 860, 881, 794, 1037, 620, 1055, 460, 1055, 456, 833, 434, 677, 402, 483)

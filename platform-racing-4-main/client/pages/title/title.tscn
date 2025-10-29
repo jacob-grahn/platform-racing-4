@@ -1,0 +1,250 @@
+[gd_scene load_steps=11 format=3 uid="uid://bhw1mbgjp7dby"]
+
+[ext_resource type="Script" uid="uid://dyjok55lmblxb" path="res://pages/title/title.gd" id="1_d2gdb"]
+[ext_resource type="FontFile" uid="uid://b8dxmqion7w1k" path="res://fonts/Gwibble/Gwibble.ttf" id="2_a4giu"]
+[ext_resource type="PackedScene" uid="uid://5j8rklfmops0" path="res://pages/title/parallax_bg/parallax_bg.tscn" id="3_033iv"]
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="3_k3j40"]
+[ext_resource type="Texture2D" uid="uid://bteadegxvoxj1" path="res://pages/title/title_text_fill.png" id="5_giwdd"]
+[ext_resource type="Texture2D" uid="uid://cof8kdg033oa4" path="res://pages/title/parallax_bg/hay_5.png" id="5_r1m53"]
+
+[sub_resource type="Theme" id="Theme_jjqe5"]
+default_font = ExtResource("2_a4giu")
+default_font_size = 128
+
+[sub_resource type="Animation" id="Animation_e1rso"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title0/Title-text-fill/Hay-5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(900, 100)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title0/Title-text-fill/Hay-5-duplicate:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4996, 100)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title0/Title-text-fill/ColorRect:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1295.03, -422.36)]
+}
+
+[sub_resource type="Animation" id="Animation_ht0b2"]
+resource_name = "scroll"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title0/Title-text-fill/Hay-5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(900, 200), Vector2(-3196, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title0/Title-text-fill/Hay-5-duplicate:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(4996, 200), Vector2(900, 200)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title0/Title-text-fill/ColorRect:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.66, 4.9999, 5, 5.66, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1295.03, -422.36), Vector2(-1200, -422.36), Vector2(-1200, -422.36), Vector2(1295.03, -422.36), Vector2(-1200, -422.36), Vector2(-1200, -422.36)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h14ik"]
+_data = {
+&"RESET": SubResource("Animation_e1rso"),
+&"scroll": SubResource("Animation_ht0b2")
+}
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d2gdb")
+
+[node name="ParallaxBg" parent="." instance=ExtResource("3_033iv")]
+position = Vector2(2048, 0)
+
+[node name="NicknameLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1853.0
+offset_bottom = 77.0
+grow_horizontal = 0
+theme = ExtResource("3_k3j40")
+text = "-- Nickname --"
+horizontal_alignment = 2
+
+[node name="GuestMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OnlineButton" type="Button" parent="GuestMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -103.0
+offset_top = 22.0
+offset_right = 106.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_k3j40")
+theme_override_font_sizes/font_size = 32
+text = "Play!"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[node name="Title1" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -445.0
+offset_right = 720.0
+offset_bottom = -275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jjqe5")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/font_size = 164
+text = "Platform Racing"
+horizontal_alignment = 1
+
+[node name="Title2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -285.0
+offset_right = 250.0
+offset_bottom = -89.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jjqe5")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/font_size = 164
+text = "-- 4 --"
+horizontal_alignment = 1
+
+[node name="Title0" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -720.0
+offset_top = -445.0
+offset_right = 720.0
+offset_bottom = -275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jjqe5")
+theme_override_colors/font_color = Color(0.0441237, 0.0675784, 0.105968, 1)
+theme_override_colors/font_shadow_color = Color(0.815686, 0.796078, 0.603922, 1)
+theme_override_constants/shadow_offset_x = -3
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 140
+horizontal_alignment = 1
+
+[node name="Title-text-fill" type="Sprite2D" parent="Title0"]
+clip_children = 1
+position = Vector2(721, 156)
+scale = Vector2(0.644, 0.644)
+texture = ExtResource("5_giwdd")
+
+[node name="Hay-5" type="Sprite2D" parent="Title0/Title-text-fill"]
+position = Vector2(900, 100)
+texture = ExtResource("5_r1m53")
+
+[node name="Hay-5-duplicate" type="Sprite2D" parent="Title0/Title-text-fill"]
+position = Vector2(4996, 100)
+texture = ExtResource("5_r1m53")
+
+[node name="ColorRect" type="ColorRect" parent="Title0/Title-text-fill"]
+modulate = Color(1, 1, 1, 0.533333)
+offset_left = 1295.03
+offset_top = -422.36
+offset_right = 1414.03
+offset_bottom = 203.64
+rotation = 0.305433
+
+[node name="Title-text-fill2" type="Sprite2D" parent="Title0"]
+modulate = Color(1, 1, 1, 0.466667)
+position = Vector2(721, 156)
+scale = Vector2(0.644, 0.644)
+texture = ExtResource("5_giwdd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_h14ik")
+}
+autoplay = "scroll"

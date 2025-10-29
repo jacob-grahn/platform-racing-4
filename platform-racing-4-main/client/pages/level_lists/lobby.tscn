@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://deiu5ka4ihdm5"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_4b3kv"]
+[ext_resource type="Script" uid="uid://yg6s26f5oax5" path="res://pages/level_lists/lobby.gd" id="1_aqp3w"]
+[ext_resource type="PackedScene" uid="uid://b7adgqavn0stv" path="res://pages/level_lists/level_panel/level_panel.tscn" id="3_oq36o"]
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aqp3w")
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 28.0
+offset_right = 239.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Back"
+
+[node name="SoloButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 28.0
+offset_right = 503.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Solo"
+
+[node name="LevelEditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 28.0
+offset_right = 761.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Level Editor"
+
+[node name="CharacterEditorButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 806.0
+offset_top = 28.0
+offset_right = 1011.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Character Editor"
+
+[node name="CreditsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1065.0
+offset_top = 28.0
+offset_right = 1270.0
+offset_bottom = 99.0
+theme = ExtResource("1_4b3kv")
+text = "Credits"
+
+[node name="LevelPanel" parent="." instance=ExtResource("3_oq36o")]
+position = Vector2(10, 43)

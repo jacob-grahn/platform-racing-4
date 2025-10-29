@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6hg56c7sf73m"]
+
+[ext_resource type="Theme" uid="uid://cf25w553mynfo" path="res://theme.tres" id="1_rlgcu"]
+[ext_resource type="Script" uid="uid://bppqj402keb0e" path="res://engine/layer_panel/number_picker.gd" id="1_shofn"]
+
+[node name="NumberPicker" type="Node2D"]
+script = ExtResource("1_shofn")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_right = 300.0
+offset_bottom = 50.0
+
+[node name="Panel2" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_right = 150.0
+offset_bottom = 50.0
+
+[node name="DownButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 150.0
+offset_right = 200.0
+offset_bottom = 50.0
+theme = ExtResource("1_rlgcu")
+theme_override_font_sizes/font_size = 24
+text = "-"
+text_overrun_behavior = 1
+
+[node name="UpButton" type="Button" parent="."]
+clip_contents = true
+offset_left = 250.0
+offset_right = 300.0
+offset_bottom = 50.0
+theme = ExtResource("1_rlgcu")
+theme_override_font_sizes/font_size = 24
+text = "+"
+text_overrun_behavior = 1
+
+[node name="Label" type="Label" parent="."]
+offset_top = 15.0
+offset_right = 150.0
+offset_bottom = 35.0
+theme = ExtResource("1_rlgcu")
+theme_override_font_sizes/font_size = 16
+text = "Number: 360"
+horizontal_alignment = 1

@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://j3rijd2nm4ek"]
+
+[ext_resource type="Script" uid="uid://dwp2jhr5cr8bc" path="res://engine/penciler/penciler_pr_2_test.gd" id="1_j7kml"]
+[ext_resource type="Texture2D" uid="uid://bi1640d2utua4" path="res://engine/penciler/Screenshot 2025-04-11 at 10.51.59 AM.png" id="2_sti2m"]
+[ext_resource type="PackedScene" uid="uid://5mtmnjtpkf4q" path="res://layers/layers.tscn" id="3_my3sq"]
+[ext_resource type="PackedScene" uid="uid://e6aydemh5yb1" path="res://engine/penciler/penciler.tscn" id="3_nrp08"]
+[ext_resource type="PackedScene" uid="uid://b58uyky8g3863" path="res://engine/level_decoder.tscn" id="4_a3ju5"]
+[ext_resource type="PackedScene" uid="uid://c2pluv27fc2bv" path="res://engine/bg/bg.tscn" id="4_d07bh"]
+
+[node name="PencilerPr2Test" type="Node2D"]
+script = ExtResource("1_j7kml")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Layers" parent="." instance=ExtResource("3_my3sq")]
+
+[node name="BG" parent="." instance=ExtResource("4_d07bh")]
+
+[node name="Penciler" parent="." instance=ExtResource("3_nrp08")]
+
+[node name="LevelDecoder" parent="." instance=ExtResource("4_a3ju5")]
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Screenshot2025-04-11At10_51_59 am" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(232, 244)
+texture = ExtResource("2_sti2m")

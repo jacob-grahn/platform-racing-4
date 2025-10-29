@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsadgdf5bo8pp"]
+
+[ext_resource type="Texture2D" uid="uid://ddutvp4w5bms7" path="res://items/black_hole_item.png" id="1_dgttc"]
+[ext_resource type="Script" uid="uid://bhelwg2b6qk0y" path="res://items/black_hole_item.gd" id="1_w82ww"]
+
+[node name="BlackHoleItem" type="Node2D"]
+script = ExtResource("1_w82ww")
+
+[node name="BlackHoleItem" type="Sprite2D" parent="."]
+position = Vector2(45, 15)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_dgttc")

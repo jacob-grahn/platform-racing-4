@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1an2cgd34sv1"]
+
+[ext_resource type="Script" uid="uid://dj40sxijqy56o" path="res://mega_menu/editor_menu.gd" id="1_nt1xp"]
+[ext_resource type="PackedScene" uid="uid://ckdgvyuraxydl" path="res://mega_menu/mega_row.tscn" id="2_dlvc8"]
+[ext_resource type="PackedScene" uid="uid://cil8qhe2uvm10" path="res://mega_menu/background_row.tscn" id="3_uqh71"]
+[ext_resource type="PackedScene" uid="uid://81bgrq04dca7" path="res://mega_menu/draw_row.tscn" id="4_y8fbw"]
+
+[node name="EditorMenu" type="Node2D"]
+script = ExtResource("1_nt1xp")
+
+[node name="BackgroundRow" parent="." instance=ExtResource("3_uqh71")]
+
+[node name="DrawRow" parent="." instance=ExtResource("4_y8fbw")]
+
+[node name="MegaRow" parent="." instance=ExtResource("2_dlvc8")]
