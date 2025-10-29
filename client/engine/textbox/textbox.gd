@@ -4,7 +4,7 @@ extends Control
 @export var arial_font = "res://fonts/arial/arial.ttf"
 @export var gwibble_font = "res://fonts/gwibble/gwibble.ttf"
 @export var poetsenone_font = "res://fonts/poetsenone/poetsenone-regular.ttf"
-@export var quicksand_font = "res://fonts/quicksand/quicksand-VariableFont_wght.ttf"
+@export var quicksand_font = "res://fonts/quicksand/quicksand-variablefont_wght.ttf"
 @export var verdana_font = "res://fonts/verdana/verdana.ttf"
 @export var text_font = poetsenone_font
 @onready var label_text = $LabelText
