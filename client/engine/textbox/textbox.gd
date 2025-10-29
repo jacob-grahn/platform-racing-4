@@ -1,11 +1,11 @@
 extends Control
 
-@export var action_man_font = "res://fonts/Action_Man/Action-Man.ttf"
-@export var arial_font = "res://fonts/Arial/Arial.ttf"
-@export var gwibble_font = "res://fonts/Gwibble/Gwibble.ttf"
-@export var poetsenone_font = "res://fonts/Poetsen_One/PoetsenOne-Regular.ttf"
-@export var quicksand_font = "res://fonts/Quicksand/Quicksand-VariableFont_wght.ttf"
-@export var verdana_font = "res://fonts/Verdana/Verdana.ttf"
+@export var action_man_font = "res://fonts/actionman/action-man.ttf"
+@export var arial_font = "res://fonts/arial/arial.ttf"
+@export var gwibble_font = "res://fonts/gwibble/gwibble.ttf"
+@export var poetsenone_font = "res://fonts/poetsenone/poetsenone-regular.ttf"
+@export var quicksand_font = "res://fonts/quicksand/quicksand-VariableFont_wght.ttf"
+@export var verdana_font = "res://fonts/verdana/verdana.ttf"
 @export var text_font = poetsenone_font
 @onready var label_text = $LabelText
 @onready var selected_text_rect = $SelectedTextRect
